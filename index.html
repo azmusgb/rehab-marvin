@@ -1208,6 +1208,65 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
+
+        /* Plan layout */
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: var(--space-4);
+        }
+
+        .plan-week {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+
+        .plan-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+        }
+
+        .plan-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--neutral-300);
+            font-size: 0.85rem;
+        }
+
+        .plan-list {
+            list-style: disc;
+            margin-left: var(--space-6);
+            color: var(--neutral-300);
+        }
+
+        .plan-list strong {
+            color: white;
+        }
+
+        .safety-callout {
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            background: rgba(56, 189, 248, 0.08);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+        }
+
+        .exercise-prescription {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-full);
+            color: var(--neutral-300);
+            font-size: 0.85rem;
+            margin-bottom: var(--space-3);
+        }
         
         /* =========================================================
            NEW FEATURE COMPONENTS
@@ -2137,6 +2196,186 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Progressive Plan -->
+            <section id="clinicalPlan" class="section">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 class="text-3xl font-black text-gradient">Progressive balance & leg strength plan</h2>
+                                <p class="text-neutral-400 mt-2">2–4 weeks · 10–15 minutes per day · calm, predictable progressions</p>
+                            </div>
+                            <div class="status-indicator">
+                                <div class="status-dot"></div>
+                                <span>Clinician issued</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="safety-callout">
+                            <div class="flex items-center justify-between flex-wrap gap-4">
+                                <div>
+                                    <p class="text-xl font-bold text-white">Safety baseline</p>
+                                    <p class="text-neutral-300 mt-2">Stand near a wall or counter. Move slowly. Breathe normally. Stop if dizzy, tired, or pain rises.</p>
+                                </div>
+                                <div class="plan-meta">
+                                    <span class="plan-tag"><i class="ri-timer-line"></i>10–15 minutes daily</span>
+                                    <span class="plan-tag"><i class="ri-shield-check-line"></i>No surprise balance challenges</span>
+                                    <span class="plan-tag"><i class="ri-repeat-line"></i>Progress by time + control only</span>
+                                </div>
+                            </div>
+                            <p class="text-sm text-neutral-400 mt-4">If you miss a day, resume where you left off. Week 4 is optional—advance only when Weeks 1–3 feel steady.</p>
+                        </div>
+
+                        <div class="plan-grid mt-6">
+                            <div class="card plan-week">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-xl font-bold">Week 1 — Learning & Safety</h3>
+                                        <p class="text-neutral-400">Learn the movements. Light wall contact is okay.</p>
+                                    </div>
+                                    <span class="badge">Holds: 5–10s</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Balance</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Single-Leg Stand:</strong> Stand on one leg, other foot lightly off the floor. Hold 5–10 seconds. 2× each leg.</li>
+                                        <li><strong>Feet in a Line (Tandem):</strong> Heel-to-toe stand, hold 10 seconds, switch lead foot. 2×.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Walking</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Side Stepping:</strong> 5 steps left, 5 steps right. 2 rounds.</li>
+                                        <li><strong>Backward Walking:</strong> 5 slow steps. 2 rounds.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Strength</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Calf Raises:</strong> Hold the counter. Rise onto toes. 10 each leg.</li>
+                                        <li><strong>Marching Knees:</strong> Lift one knee at a time. 10 total steps.</li>
+                                        <li><strong>Mini Squats:</strong> Small knee bend. 8–10 times.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="card plan-week">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-xl font-bold">Week 2 — Longer Holds</h3>
+                                        <p class="text-neutral-400">Stay steady longer. Try not to touch the wall.</p>
+                                    </div>
+                                    <span class="badge">Holds: 15s</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Balance</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Single-Leg Stand:</strong> Hold 15 seconds. 2× each leg.</li>
+                                        <li><strong>Tandem Stand:</strong> Hold 15 seconds, switch feet. 2×.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Walking</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Side Stepping:</strong> 8 steps each direction. 2 rounds.</li>
+                                        <li><strong>Backward Walking:</strong> 8 slow steps. 2 rounds.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Strength</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Calf Raises:</strong> 15 each leg.</li>
+                                        <li><strong>Side Kicks:</strong> Slightly back and to the side. 10 each leg.</li>
+                                        <li><strong>Marching Knees:</strong> 15 total steps.</li>
+                                        <li><strong>Mini Squats:</strong> 10–12 times.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="card plan-week">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-xl font-bold">Week 3 — Better Control</h3>
+                                        <p class="text-neutral-400">Balance without rushing. Reset if shaky.</p>
+                                    </div>
+                                    <span class="badge">Holds: 20s</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Balance</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Single-Leg Stand:</strong> Hold 20 seconds. 2× each leg.</li>
+                                        <li><strong>Heel-to-Toe Walk:</strong> 6–8 heel-to-toe steps forward. 2 rounds.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Walking</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Side Stepping:</strong> 10 steps each direction.</li>
+                                        <li><strong>Backward Walking:</strong> 10 slow steps.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Strength</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Calf Raises:</strong> 20 each leg.</li>
+                                        <li><strong>Back Kicks:</strong> Straight leg backward. 10 each leg.</li>
+                                        <li><strong>Marching Knees:</strong> 20 total steps.</li>
+                                        <li><strong>Mini Squats:</strong> 12–15 times.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="card plan-week">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-xl font-bold">Week 4 — Stability (Optional)</h3>
+                                        <p class="text-neutral-400">Use only if Weeks 1–3 feel safe. Keep movements slow.</p>
+                                    </div>
+                                    <span class="badge">Optional</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Balance</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Single-Leg Stand + Arms:</strong> Hold 20 seconds while slowly moving arms.</li>
+                                        <li><strong>Heel-to-Toe Walk:</strong> 10 steps. 2 rounds.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Walking</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Side Stepping:</strong> 10–12 steps each direction.</li>
+                                        <li><strong>Backward Walking:</strong> 10–12 steps.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Strength</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Calf Raises:</strong> 20 each leg.</li>
+                                        <li><strong>Side Kicks:</strong> 12 each leg.</li>
+                                        <li><strong>Butt Kicks:</strong> Heel toward bottom. 10–12 each leg.</li>
+                                        <li><strong>Mini Squats:</strong> 15–20 times.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mt-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold">Important safety reminders</h3>
+                                <span class="badge"><i class="ri-mental-health-line"></i> Patient-first</span>
+                            </div>
+                            <ul class="plan-list">
+                                <li>Move slowly and keep breaths even. Pause and reset if balance feels unsteady.</li>
+                                <li>Use the wall or counter for support when needed. Let go only when you feel steady.</li>
+                                <li>Stop if pain, dizziness, or fatigue increases. Rest and resume when ready.</li>
+                                <li>If you miss a day, pick up where you left off—consistency matters more than speed.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
             
             <!-- Phase 1: Authentication -->
             <section id="phaseAuth" class="section">
@@ -2374,11 +2613,11 @@
                                 </span>
                             </div>
                             <div class="space-y-4">
-                                <p>Operator <span id="briefOperator" class="font-bold text-teal">MARVIN</span>, your mission is to execute the Rehab RISING protocol.</p>
-                                <p class="font-medium">Primary Objective: Reclaim full mobility through progressive neuro-muscular reconditioning.</p>
-                                <p class="font-medium">Secondary Objective: Build foundational strength for long-term stability.</p>
+                                <p>Operator <span id="briefOperator" class="font-bold text-teal">MARVIN</span>, your plan is the Progressive Balance &amp; Leg Strength pathway—patient-first and predictable.</p>
+                                <p class="font-medium">Primary Objective: Complete 10–15 minutes of this week's tasks with smooth control and calm breathing.</p>
+                                <p class="font-medium">Secondary Objective: Progress by time and steadiness only; move to the next week when holds feel stable.</p>
                                 <div class="mt-6 p-4 bg-neutral-800/50 border border-yellow/20 rounded-xl">
-                                    <p class="text-sm"><span class="font-bold text-yellow"><i class="ri-alarm-warning-line"></i> SAFETY PLAN:</span> Always maintain proximity to support. Stop immediately if dizziness or severe pain (7+) occurs.</p>
+                                    <p class="text-sm"><span class="font-bold text-yellow"><i class="ri-alarm-warning-line"></i> SAFETY PLAN:</span> Stay near a wall or counter, move slowly, and pause if pain rises above 7/10, dizziness appears, or balance wobbles.</p>
                                 </div>
                             </div>
                         </div>
@@ -2404,14 +2643,14 @@
                         <div class="flex items-center justify-between">
                             <div>
                                 <h2 class="text-3xl font-black text-gradient" id="missionTitle">Active session</h2>
-                                <p class="text-neutral-400 mt-2" id="missionSubtitle">Phase 1: Warm-up</p>
+                                <p class="text-neutral-400 mt-2" id="missionSubtitle">Week 1 — Learning & Safety</p>
                             </div>
                             <div class="flex items-center gap-4">
                                 <div class="status-indicator">
                                     <div class="status-dot" style="background: var(--accent-green);"></div>
                                     <span id="missionStatus">In progress</span>
                                 </div>
-                                <div class="font-mono text-2xl font-bold text-teal" id="missionTimer">45:00</div>
+                                <div class="font-mono text-2xl font-bold text-teal" id="missionTimer">15:00</div>
                             </div>
                         </div>
                     </div>
@@ -2419,22 +2658,19 @@
                     <div class="panel-body">
                         <!-- Phase Navigation -->
                         <div class="card mb-8">
-                            <h3 class="text-xl font-bold mb-4">PHASE NAVIGATION</h3>
+                            <h3 class="text-xl font-bold mb-4">WEEK NAVIGATION</h3>
                             <div class="flex flex-wrap gap-3">
                                 <button class="btn btn-secondary" onclick="selectPhase(1)">
-                                    <i class="ri-number-1"></i> PHASE 1
+                                    <i class="ri-number-1"></i> WEEK 1
                                 </button>
                                 <button class="btn btn-secondary" onclick="selectPhase(2)">
-                                    <i class="ri-number-2"></i> PHASE 2
+                                    <i class="ri-number-2"></i> WEEK 2
                                 </button>
                                 <button class="btn btn-secondary" onclick="selectPhase(3)">
-                                    <i class="ri-number-3"></i> PHASE 3
+                                    <i class="ri-number-3"></i> WEEK 3
                                 </button>
                                 <button class="btn btn-secondary" onclick="selectPhase(4)">
-                                    <i class="ri-number-4"></i> PHASE 4
-                                </button>
-                                <button class="btn btn-outline" onclick="selectPhase(5)">
-                                    <i class="ri-flashlight-line"></i> ADVANCED
+                                    <i class="ri-number-4"></i> WEEK 4 (OPTIONAL)
                                 </button>
                             </div>
                         </div>
@@ -2998,7 +3234,7 @@
                 phase: 1,
                 startTime: null,
                 elapsedTime: 0,
-                totalTime: 45 * 60,
+                totalTime: 15 * 60,
                 paused: false,
                 completedExercises: [],
                 currentExercise: null,
@@ -3069,160 +3305,427 @@
         // Exercise protocols with AI adaptations
         const EXERCISE_PLANS = {
             1: {
-                title: 'Phase 1: Warm-up',
-                description: 'Establish baseline stability and form.',
-                duration: 1800,
+                title: 'Week 1 — Learning & Safety',
+                description: 'Learn each movement with light support and short holds.',
+                duration: 600,
                 exercises: [
                     {
-                        id: 'w1-leg',
-                        name: 'SINGLE-LEG STAND',
-                        description: 'Stand on one leg with support. Focus on hip alignment.',
-                        duration: 60,
+                        id: 'w1-single-leg',
+                        name: 'Single-Leg Stand',
+                        description: 'Stand on one leg with a wall or counter nearby. Keep the lifted foot just off the floor.',
+                        duration: 10,
+                        sets: 4,
+                        difficulty: 'BASIC',
+                        requirements: ['WALL OR COUNTER', 'CALM BREATHING'],
+                        progressMetrics: ['TIME', 'CONTROL'],
+                        prescription: '2× each leg · hold 5–10s',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w1-tandem',
+                        name: 'Feet in a Line (Tandem Stand)',
+                        description: 'Place one foot directly in front of the other and hold. Switch the lead foot after each hold.',
+                        duration: 10,
                         sets: 2,
                         difficulty: 'BASIC',
-                        requirements: ['NEAR SUPPORT', 'STABLE SURFACE'],
-                        progressMetrics: ['TIME', 'STABILITY'],
-                        mlAdaptive: true
+                        requirements: ['NEAR SUPPORT'],
+                        progressMetrics: ['TIME', 'STEADINESS'],
+                        prescription: '10s holds · 2 rounds',
+                        mlAdaptive: false
                     },
                     {
                         id: 'w1-side',
-                        name: 'SIDE STEPPING',
-                        description: 'Step sideways while maintaining balance.',
-                        duration: 90,
-                        sets: 3,
+                        name: 'Side Stepping',
+                        description: 'Step sideways with smooth control and minimal sway.',
+                        duration: 60,
+                        sets: 2,
+                        reps: 10,
                         difficulty: 'BASIC',
-                        requirements: ['WALL SUPPORT', 'CLEAR SPACE'],
+                        requirements: ['CLEAR PATH'],
                         progressMetrics: ['STEPS', 'CONTROL'],
-                        mlAdaptive: true
+                        prescription: '5 steps each way · 2 rounds',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w1-back',
+                        name: 'Backward Walking',
+                        description: 'Take slow, deliberate steps backward while staying close to support.',
+                        duration: 60,
+                        sets: 2,
+                        reps: 5,
+                        difficulty: 'BASIC',
+                        requirements: ['WALL GUIDANCE', 'SAFE AREA'],
+                        progressMetrics: ['STEPS', 'CONTROL'],
+                        prescription: '5 slow steps · 2 rounds',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w1-calf',
+                        name: 'Calf Raises',
+                        description: 'Rise onto toes and lower with control while holding the counter.',
+                        duration: 90,
+                        sets: 1,
+                        reps: 10,
+                        difficulty: 'BASIC',
+                        requirements: ['COUNTER SUPPORT'],
+                        progressMetrics: ['REPS', 'HEIGHT'],
+                        prescription: '10 each leg with light support',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w1-march',
+                        name: 'Marching Knees',
+                        description: 'Lift one knee at a time at a comfortable height.',
+                        duration: 60,
+                        sets: 1,
+                        reps: 10,
+                        difficulty: 'BASIC',
+                        requirements: ['STABLE SURFACE'],
+                        progressMetrics: ['STEPS', 'CONTROL'],
+                        prescription: '10 total steps',
+                        mlAdaptive: false
                     },
                     {
                         id: 'w1-squat',
-                        name: 'MINI SQUATS',
-                        description: 'Partial squats with support as needed.',
-                        duration: 120,
-                        sets: 3,
+                        name: 'Mini Squats',
+                        description: 'Small knee bend with hips back and chest tall.',
+                        duration: 60,
+                        sets: 1,
                         reps: 10,
                         difficulty: 'BASIC',
-                        requirements: ['CHAIR SUPPORT', 'STABLE SURFACE'],
+                        requirements: ['CHAIR NEARBY'],
                         progressMetrics: ['REPS', 'DEPTH'],
-                        mlAdaptive: true
+                        prescription: '8–10 repetitions',
+                        mlAdaptive: false
                     }
                 ]
             },
             2: {
-                title: 'PHASE 2: STABILITY',
-                description: 'Increase duration and reduce support.',
-                duration: 2100,
+                title: 'Week 2 — Longer Holds',
+                description: 'Stay steady for longer while relying less on support.',
+                duration: 720,
                 exercises: [
                     {
-                        id: 'w2-leg',
-                        name: 'SINGLE-LEG STAND (ADVANCED)',
-                        description: 'Longer holds with minimal support.',
-                        duration: 90,
+                        id: 'w2-single-leg',
+                        name: 'Single-Leg Stand',
+                        description: 'Hold balance without touching the wall unless needed.',
+                        duration: 15,
+                        sets: 4,
+                        difficulty: 'BASIC',
+                        requirements: ['SAFE SPACE'],
+                        progressMetrics: ['TIME', 'CONTROL'],
+                        prescription: '2× each leg · hold 15s',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w2-tandem',
+                        name: 'Tandem Stand',
+                        description: 'Heel-to-toe stand with steady breathing, switching the lead foot.',
+                        duration: 15,
                         sets: 2,
-                        difficulty: 'INTERMEDIATE',
-                        requirements: ['LIGHT SUPPORT', 'FOCUS'],
-                        progressMetrics: ['TIME', 'BALANCE'],
-                        mlAdaptive: true
+                        difficulty: 'BASIC',
+                        requirements: ['CALM BREATHING'],
+                        progressMetrics: ['TIME', 'STEADINESS'],
+                        prescription: '15s holds · 2 rounds',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w2-side',
+                        name: 'Side Stepping',
+                        description: 'Smooth lateral steps with hips level.',
+                        duration: 70,
+                        sets: 2,
+                        reps: 16,
+                        difficulty: 'BASIC',
+                        requirements: ['CLEAR PATH'],
+                        progressMetrics: ['STEPS', 'CONTROL'],
+                        prescription: '8 steps each way · 2 rounds',
+                        mlAdaptive: false
                     },
                     {
                         id: 'w2-back',
-                        name: 'BACKWARD WALKING',
-                        description: 'Walk backward with support.',
-                        duration: 120,
-                        sets: 3,
-                        difficulty: 'INTERMEDIATE',
-                        requirements: ['WALL GUIDANCE', 'SAFE AREA'],
+                        name: 'Backward Walking',
+                        description: 'Controlled backward steps, eyes forward, light contact available.',
+                        duration: 80,
+                        sets: 2,
+                        reps: 8,
+                        difficulty: 'BASIC',
+                        requirements: ['WALL GUIDANCE'],
                         progressMetrics: ['STEPS', 'CONTROL'],
-                        mlAdaptive: true
+                        prescription: '8 slow steps · 2 rounds',
+                        mlAdaptive: false
                     },
                     {
                         id: 'w2-calf',
-                        name: 'CALF RAISES',
-                        description: 'Raise onto toes and lower slowly.',
-                        duration: 90,
-                        sets: 3,
+                        name: 'Calf Raises',
+                        description: 'Rise and lower slowly, equal work on each leg.',
+                        duration: 100,
+                        sets: 1,
                         reps: 15,
-                        difficulty: 'INTERMEDIATE',
-                        requirements: ['WALL SUPPORT'],
+                        difficulty: 'BASIC',
+                        requirements: ['COUNTER SUPPORT'],
                         progressMetrics: ['REPS', 'HEIGHT'],
-                        mlAdaptive: true
+                        prescription: '15 each leg',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w2-side-kick',
+                        name: 'Side Kicks',
+                        description: 'Kick leg slightly back and to the side without leaning.',
+                        duration: 90,
+                        sets: 1,
+                        reps: 10,
+                        difficulty: 'BASIC',
+                        requirements: ['LIGHT SUPPORT'],
+                        progressMetrics: ['REPS', 'CONTROL'],
+                        prescription: '10 each leg',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w2-march',
+                        name: 'Marching Knees',
+                        description: 'Calm marching pace with even height.',
+                        duration: 80,
+                        sets: 1,
+                        reps: 15,
+                        difficulty: 'BASIC',
+                        requirements: ['STABLE SURFACE'],
+                        progressMetrics: ['STEPS', 'CONTROL'],
+                        prescription: '15 total steps',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w2-squat',
+                        name: 'Mini Squats',
+                        description: 'Maintain knee tracking and comfortable depth.',
+                        duration: 90,
+                        sets: 1,
+                        reps: 12,
+                        difficulty: 'BASIC',
+                        requirements: ['CHAIR NEARBY'],
+                        progressMetrics: ['REPS', 'DEPTH'],
+                        prescription: '10–12 repetitions',
+                        mlAdaptive: false
                     }
                 ]
             },
             3: {
-                title: 'PHASE 3: STRENGTH',
-                description: 'Build muscular endurance and control.',
-                duration: 2400,
+                title: 'Week 3 — Better Control',
+                description: 'Balance without rushing and reset if shaky.',
+                duration: 840,
                 exercises: [
                     {
-                        id: 'w3-leg',
-                        name: 'SINGLE-LEG STAND (STRENGTH)',
-                        description: 'Extended holds with arm challenges.',
-                        duration: 120,
-                        sets: 2,
-                        difficulty: 'ADVANCED',
-                        requirements: ['MINIMAL SUPPORT'],
+                        id: 'w3-single-leg',
+                        name: 'Single-Leg Stand',
+                        description: 'Extended holds with calm posture.',
+                        duration: 20,
+                        sets: 4,
+                        difficulty: 'INTERMEDIATE',
+                        requirements: ['SAFE SPACE'],
                         progressMetrics: ['TIME', 'CONTROL'],
-                        mlAdaptive: true
+                        prescription: '2× each leg · hold 20s',
+                        mlAdaptive: false
                     },
                     {
                         id: 'w3-heel',
-                        name: 'HEEL-TO-TOE WALK',
-                        description: 'Tandem walking for coordination.',
-                        duration: 150,
-                        sets: 3,
-                        difficulty: 'ADVANCED',
-                        requirements: ['WALL SUPPORT'],
+                        name: 'Heel-to-Toe Walk',
+                        description: 'Heel directly in front of toe for each step.',
+                        duration: 120,
+                        sets: 2,
+                        reps: 8,
+                        difficulty: 'INTERMEDIATE',
+                        requirements: ['NEAR SUPPORT'],
                         progressMetrics: ['STEPS', 'ACCURACY'],
-                        mlAdaptive: true
+                        prescription: '6–8 steps · 2 rounds',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w3-side',
+                        name: 'Side Stepping',
+                        description: 'Longer lateral sets with steady hips.',
+                        duration: 90,
+                        sets: 2,
+                        reps: 10,
+                        difficulty: 'INTERMEDIATE',
+                        requirements: ['CLEAR PATH'],
+                        progressMetrics: ['STEPS', 'CONTROL'],
+                        prescription: '10 steps each way',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w3-back',
+                        name: 'Backward Walking',
+                        description: 'Slow backward steps with a pause between each.',
+                        duration: 90,
+                        sets: 2,
+                        reps: 10,
+                        difficulty: 'INTERMEDIATE',
+                        requirements: ['WALL GUIDANCE'],
+                        progressMetrics: ['STEPS', 'CONTROL'],
+                        prescription: '10 slow steps',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w3-calf',
+                        name: 'Calf Raises',
+                        description: 'Smoother tempo and full height on each raise.',
+                        duration: 110,
+                        sets: 1,
+                        reps: 20,
+                        difficulty: 'INTERMEDIATE',
+                        requirements: ['COUNTER SUPPORT'],
+                        progressMetrics: ['REPS', 'HEIGHT'],
+                        prescription: '20 each leg',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w3-back-kick',
+                        name: 'Back Kicks',
+                        description: 'Straight leg backward without trunk lean.',
+                        duration: 100,
+                        sets: 1,
+                        reps: 10,
+                        difficulty: 'INTERMEDIATE',
+                        requirements: ['LIGHT SUPPORT'],
+                        progressMetrics: ['REPS', 'CONTROL'],
+                        prescription: '10 each leg',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w3-march',
+                        name: 'Marching Knees',
+                        description: 'March in place with steady tempo.',
+                        duration: 100,
+                        sets: 1,
+                        reps: 20,
+                        difficulty: 'INTERMEDIATE',
+                        requirements: ['STABLE SURFACE'],
+                        progressMetrics: ['STEPS', 'CONTROL'],
+                        prescription: '20 total steps',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w3-squat',
+                        name: 'Mini Squats',
+                        description: 'Comfortable depth, no rushing between reps.',
+                        duration: 110,
+                        sets: 1,
+                        reps: 15,
+                        difficulty: 'INTERMEDIATE',
+                        requirements: ['CHAIR NEARBY'],
+                        progressMetrics: ['REPS', 'DEPTH'],
+                        prescription: '12–15 repetitions',
+                        mlAdaptive: false
                     }
                 ]
             },
             4: {
-                title: 'PHASE 4: MASTERY',
-                description: 'Advanced movements and integration.',
-                duration: 2700,
+                title: 'Week 4 — Stability (Optional)',
+                description: 'Maintain balance with small, slow challenges only if earlier weeks feel safe.',
+                duration: 900,
                 exercises: [
                     {
-                        id: 'w4-leg',
-                        name: 'SINGLE-LEG + ARM RAISE',
-                        description: 'Balance with opposite arm movement.',
-                        duration: 120,
+                        id: 'w4-single-leg',
+                        name: 'Single-Leg Stand with Arm Movement',
+                        description: 'Hold balance while slowly moving arms for gentle challenge.',
+                        duration: 20,
                         sets: 2,
-                        difficulty: 'EXPERT',
-                        requirements: ['SAFE SPACE', 'FOCUS'],
+                        difficulty: 'CONTROLLED',
+                        requirements: ['SAFE SPACE', 'ARM ROOM'],
                         progressMetrics: ['TIME', 'COORDINATION'],
-                        mlAdaptive: true
+                        prescription: '20s holds with arm sweeps',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w4-heel',
+                        name: 'Heel-to-Toe Walk',
+                        description: 'Measured heel-to-toe steps with calm pacing.',
+                        duration: 140,
+                        sets: 2,
+                        reps: 10,
+                        difficulty: 'CONTROLLED',
+                        requirements: ['NEAR SUPPORT'],
+                        progressMetrics: ['STEPS', 'ACCURACY'],
+                        prescription: '10 steps · 2 rounds',
+                        mlAdaptive: false
                     },
                     {
                         id: 'w4-side',
-                        name: 'SIDEWAYS STEPPING + CROSSOVER',
-                        description: 'Complex lateral movement patterns.',
-                        duration: 180,
-                        sets: 3,
-                        difficulty: 'EXPERT',
-                        requirements: ['WALL GUIDANCE'],
-                        progressMetrics: ['STEPS', 'PATTERN'],
-                        mlAdaptive: true
-                    }
-                ]
-            },
-            5: {
-                title: 'AI ADAPTIVE PHASE',
-                description: 'Personalized exercises based on your performance',
-                duration: 3000,
-                exercises: [
+                        name: 'Side Stepping',
+                        description: 'Longer lateral sets while staying tall.',
+                        duration: 120,
+                        sets: 2,
+                        reps: 12,
+                        difficulty: 'CONTROLLED',
+                        requirements: ['CLEAR PATH'],
+                        progressMetrics: ['STEPS', 'CONTROL'],
+                        prescription: '10–12 steps each way',
+                        mlAdaptive: false
+                    },
                     {
-                        id: 'ai-adaptive',
-                        name: 'AI ADAPTIVE EXERCISE',
-                        description: 'Dynamic exercise adjusted in real-time based on your performance metrics.',
-                        duration: 180,
-                        sets: 3,
-                        difficulty: 'ADAPTIVE',
-                        requirements: ['AI MONITORING', 'FOCUS'],
-                        progressMetrics: ['ADAPTATION', 'PERFORMANCE'],
-                        mlAdaptive: true
+                        id: 'w4-back',
+                        name: 'Backward Walking',
+                        description: 'Steady backward steps with full foot contact.',
+                        duration: 120,
+                        sets: 2,
+                        reps: 12,
+                        difficulty: 'CONTROLLED',
+                        requirements: ['WALL GUIDANCE'],
+                        progressMetrics: ['STEPS', 'CONTROL'],
+                        prescription: '10–12 steps',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w4-calf',
+                        name: 'Calf Raises',
+                        description: 'Even tempo calf work with full height.',
+                        duration: 120,
+                        sets: 1,
+                        reps: 20,
+                        difficulty: 'CONTROLLED',
+                        requirements: ['COUNTER SUPPORT'],
+                        progressMetrics: ['REPS', 'HEIGHT'],
+                        prescription: '20 each leg',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w4-side-kick',
+                        name: 'Side Kicks',
+                        description: 'Gentle side kicks with upright posture.',
+                        duration: 110,
+                        sets: 1,
+                        reps: 12,
+                        difficulty: 'CONTROLLED',
+                        requirements: ['LIGHT SUPPORT'],
+                        progressMetrics: ['REPS', 'CONTROL'],
+                        prescription: '12 each leg',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w4-butt-kick',
+                        name: 'Butt Kicks',
+                        description: 'Heel toward glutes without impact.',
+                        duration: 110,
+                        sets: 1,
+                        reps: 12,
+                        difficulty: 'CONTROLLED',
+                        requirements: ['STABLE SURFACE'],
+                        progressMetrics: ['REPS', 'CONTROL'],
+                        prescription: '10–12 each leg',
+                        mlAdaptive: false
+                    },
+                    {
+                        id: 'w4-squat',
+                        name: 'Mini Squats',
+                        description: 'Smooth squats with steady breathing.',
+                        duration: 130,
+                        sets: 1,
+                        reps: 18,
+                        difficulty: 'CONTROLLED',
+                        requirements: ['CHAIR NEARBY'],
+                        progressMetrics: ['REPS', 'DEPTH'],
+                        prescription: '15–20 repetitions',
+                        mlAdaptive: false
                     }
                 ]
             }
@@ -3493,7 +3996,7 @@
                 recommendation = 'Focus on foundational exercises to build stability.';
                 confidence = 75;
             } else {
-                recommendation = 'Progressing well. Consider advancing to Phase 2 exercises.';
+                recommendation = 'Progressing well. Consider advancing to the next week\'s tasks.';
                 confidence = 80;
             }
             
@@ -3522,10 +4025,10 @@
                 document.getElementById('missionProfile').value = 'RECOVERY';
                 showNotification('AI Applied', 'Switched to recovery intensity', 'success');
             } else if (recommendation.includes('advancing')) {
-                // Advance to next phase
+                // Advance to next phase/week
                 if (AppState.session.phase < 4) {
                     selectPhase(AppState.session.phase + 1);
-                    showNotification('AI Applied', 'Advanced to next phase', 'success');
+                    showNotification('AI Applied', 'Advanced to next week', 'success');
                 }
             }
             
@@ -4069,6 +4572,8 @@
                             <span><i class="ri-repeat-line"></i> ${exercise.sets} sets</span>
                             ${exercise.reps ? `<span><i class="ri-number-1"></i> ${exercise.reps} reps</span>` : ''}
                         </div>
+
+                        ${exercise.prescription ? `<div class="exercise-prescription"><i class="ri-sticky-note-line"></i> ${exercise.prescription}</div>` : ''}
                         
                         <p class="text-neutral-400 mb-4">${exercise.description}</p>
                         
@@ -4613,7 +5118,7 @@
                 phase: 1,
                 startTime: null,
                 elapsedTime: 0,
-                totalTime: 45 * 60,
+                totalTime: 15 * 60,
                 paused: false,
                 completedExercises: [],
                 currentExercise: null,
