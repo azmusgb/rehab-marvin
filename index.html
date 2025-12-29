@@ -15,10 +15,10 @@
     
     <style>
         /* =========================================================
-           CRITICAL CSS (Above the fold)
+           COMPLETE CSS - ALL STYLES INCLUDED
         ========================================================= */
         :root {
-            /* Color Palette - Enhanced contrast */
+            /* Color Palette */
             --primary-50: #f0f9ff;
             --primary-100: #e0f2fe;
             --primary-200: #bae6fd;
@@ -31,7 +31,7 @@
             --primary-900: #111827;
             --primary-950: #0b1020;
 
-            /* Enhanced accent colors */
+            /* Accent colors */
             --accent-teal: #4df3c9;
             --accent-blue: #7cb7ff;
             --accent-purple: #b38bff;
@@ -155,29 +155,52 @@
         .grid { display: grid; }
         .items-center { align-items: center; }
         .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .flex-col { flex-direction: column; }
+        .flex-wrap { flex-wrap: wrap; }
+        
+        .gap-1 { gap: var(--space-1); }
         .gap-2 { gap: var(--space-2); }
         .gap-3 { gap: var(--space-3); }
         .gap-4 { gap: var(--space-4); }
         .gap-6 { gap: var(--space-6); }
         .gap-8 { gap: var(--space-8); }
         
+        .p-2 { padding: var(--space-2); }
         .p-3 { padding: var(--space-3); }
         .p-4 { padding: var(--space-4); }
         .p-6 { padding: var(--space-6); }
+        .p-8 { padding: var(--space-8); }
+        
+        .px-3 { padding-left: var(--space-3); padding-right: var(--space-3); }
         .px-4 { padding-left: var(--space-4); padding-right: var(--space-4); }
+        .px-6 { padding-left: var(--space-6); padding-right: var(--space-6); }
+        
+        .py-2 { padding-top: var(--space-2); padding-bottom: var(--space-2); }
         .py-3 { padding-top: var(--space-3); padding-bottom: var(--space-3); }
         .py-4 { padding-top: var(--space-4); padding-bottom: var(--space-4); }
         .py-6 { padding-top: var(--space-6); padding-bottom: var(--space-6); }
         
+        .mt-1 { margin-top: var(--space-1); }
         .mt-2 { margin-top: var(--space-2); }
         .mt-3 { margin-top: var(--space-3); }
         .mt-4 { margin-top: var(--space-4); }
         .mt-6 { margin-top: var(--space-6); }
+        .mt-8 { margin-top: var(--space-8); }
+        
+        .mb-1 { margin-bottom: var(--space-1); }
+        .mb-2 { margin-bottom: var(--space-2); }
         .mb-3 { margin-bottom: var(--space-3); }
         .mb-4 { margin-bottom: var(--space-4); }
         .mb-6 { margin-bottom: var(--space-6); }
+        .mb-8 { margin-bottom: var(--space-8); }
+        
+        .mx-auto { margin-left: auto; margin-right: auto; }
         
         .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        
         .text-gradient {
             background: var(--gradient-primary);
             -webkit-background-clip: text;
@@ -186,6 +209,7 @@
             -webkit-text-fill-color: transparent;
         }
         
+        .text-xs { font-size: 0.75rem; }
         .text-sm { font-size: 0.875rem; }
         .text-base { font-size: 1rem; }
         .text-lg { font-size: 1.125rem; }
@@ -194,26 +218,100 @@
         .text-3xl { font-size: 1.875rem; }
         .text-4xl { font-size: 2.25rem; }
         
+        .font-light { font-weight: 300; }
+        .font-normal { font-weight: 400; }
         .font-medium { font-weight: 500; }
         .font-semibold { font-weight: 600; }
         .font-bold { font-weight: 700; }
         .font-extrabold { font-weight: 800; }
+        .font-black { font-weight: 900; }
         
+        .rounded-sm { border-radius: var(--radius-sm); }
+        .rounded-md { border-radius: var(--radius-md); }
         .rounded-lg { border-radius: var(--radius-lg); }
         .rounded-xl { border-radius: var(--radius-xl); }
         .rounded-2xl { border-radius: var(--radius-2xl); }
         .rounded-full { border-radius: var(--radius-full); }
         
         .w-full { width: 100%; }
+        .h-full { height: 100%; }
+        .min-h-screen { min-height: 100vh; min-height: 100dvh; }
+        .max-w-full { max-width: 100%; }
+        
         .relative { position: relative; }
         .absolute { position: absolute; }
         .fixed { position: fixed; }
         .sticky { position: sticky; }
         
+        .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+        
+        .shadow-sm { box-shadow: var(--shadow-sm); }
+        .shadow-md { box-shadow: var(--shadow-md); }
+        .shadow-lg { box-shadow: var(--shadow-lg); }
+        .shadow-xl { box-shadow: var(--shadow-xl); }
+        
+        .z-0 { z-index: 0; }
         .z-10 { z-index: 10; }
         .z-20 { z-index: 20; }
         .z-30 { z-index: 30; }
         .z-40 { z-index: 40; }
+        .z-50 { z-index: 50; }
+        
+        .transition-all { transition: all var(--transition-base); }
+        .transition-transform { transition: transform var(--transition-base); }
+        .transition-opacity { transition: opacity var(--transition-base); }
+        
+        .duration-150 { transition-duration: 150ms; }
+        .duration-300 { transition-duration: 300ms; }
+        .duration-500 { transition-duration: 500ms; }
+        
+        .ease-in { transition-timing-function: cubic-bezier(0.4, 0, 1, 1); }
+        .ease-out { transition-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+        .ease-in-out { transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        /* =========================================================
+           SKIP TO CONTENT
+        ========================================================= */
+        .skip-to-content {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--gradient-primary);
+            color: var(--neutral-950);
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-weight: 600;
+            z-index: var(--z-max);
+            transition: top 0.3s ease;
+        }
+        
+        .skip-to-content:focus {
+            top: var(--space-3);
+        }
+        
+        /* =========================================================
+           FOCUS STYLES
+        ========================================================= */
+        :focus-visible {
+            outline: 3px solid var(--accent-teal);
+            outline-offset: 3px;
+            border-radius: var(--radius-sm);
+        }
+        
+        /* =========================================================
+           CONTAINER
+        ========================================================= */
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 clamp(1rem, 3vw, 1.5rem);
+        }
+        
+        .section {
+            padding: clamp(2.75rem, 6vw, 4.5rem) 0;
+        }
         
         /* =========================================================
            STATUS BAR
@@ -240,10 +338,29 @@
             z-index: var(--z-sticky);
         }
         
+        .nav-shell {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: var(--space-8);
+            align-items: center;
+        }
+        
+        .nav-brand h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .nav-brand p {
+            font-size: 0.875rem;
+            color: var(--neutral-400);
+            margin: 0;
+        }
+        
         .nav-links {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: var(--space-3);
+            list-style: none;
         }
         
         .nav-link {
@@ -260,11 +377,35 @@
             font-family: inherit;
             font-size: 0.875rem;
             font-weight: 500;
+            text-align: left;
+            border: none;
         }
         
         .nav-link:hover {
             background: rgba(255, 255, 255, 0.1);
             border-color: var(--accent-teal);
+        }
+        
+        .nav-cta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-6);
+        }
+        
+        .nav-state {
+            background: rgba(77, 243, 201, 0.1);
+            color: var(--accent-teal);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .nav-actions {
+            display: flex;
+            gap: var(--space-3);
         }
         
         /* =========================================================
@@ -285,9 +426,17 @@
             cursor: pointer;
             transition: all var(--transition-base);
             user-select: none;
+            position: relative;
+            overflow: hidden;
             min-height: 44px;
             min-width: 44px;
             outline: none;
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
         }
         
         .btn-primary {
@@ -297,9 +446,14 @@
             box-shadow: 0 10px 30px rgba(77, 243, 201, 0.35);
         }
         
-        .btn-primary:hover:not(:disabled) {
+        .btn-primary:hover:not(:disabled),
+        .btn-primary:focus:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: var(--shadow-glow);
+        }
+        
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(0);
         }
         
         .btn-secondary {
@@ -308,7 +462,8 @@
             color: var(--neutral-50);
         }
         
-        .btn-secondary:hover:not(:disabled) {
+        .btn-secondary:hover:not(:disabled),
+        .btn-secondary:focus:not(:disabled) {
             background: rgba(255, 255, 255, 0.12);
             border-color: var(--accent-teal);
         }
@@ -331,7 +486,8 @@
             color: var(--neutral-100);
         }
         
-        .btn-outline:hover:not(:disabled) {
+        .btn-outline:hover:not(:disabled),
+        .btn-outline:focus:not(:disabled) {
             border-color: var(--accent-teal);
             color: var(--accent-teal);
         }
@@ -349,11 +505,22 @@
             min-height: 60px;
         }
         
+        .btn-sm {
+            padding: var(--space-2) var(--space-4);
+            font-size: 0.875rem;
+            min-height: 36px;
+        }
+        
         .btn-icon {
             width: 44px;
             height: 44px;
             padding: 0;
             border-radius: var(--radius-full);
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: var(--space-3);
         }
         
         /* =========================================================
@@ -365,7 +532,9 @@
             border-radius: var(--radius-2xl);
             padding: clamp(1.25rem, 3vw, 2rem);
             transition: all var(--transition-base);
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
         
         .card:hover {
@@ -382,6 +551,7 @@
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: var(--radius-2xl);
             overflow: hidden;
+            transition: all var(--transition-base);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
         }
         
@@ -410,12 +580,93 @@
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
             border-radius: var(--radius-3xl);
             padding: clamp(1.5rem, 4vw, 2.5rem);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+            position: relative;
+            overflow: hidden;
             margin-bottom: var(--space-8);
         }
         
-        /* =========================================================
-           STEP CARDS
-        ========================================================= */
+        .session-banner__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: var(--space-4);
+        }
+        
+        .session-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: 0.5rem 1rem;
+            background: rgba(77, 243, 201, 0.1);
+            border: 1px solid rgba(77, 243, 201, 0.2);
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--accent-teal);
+        }
+        
+        .session-clock {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-full);
+            font-family: var(--font-mono);
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+        
+        .session-plan-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: 0.5rem 1rem;
+            background: rgba(179, 139, 255, 0.1);
+            border: 1px solid rgba(179, 139, 255, 0.2);
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+        }
+        
+        .session-banner__body {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            align-items: center;
+            gap: clamp(1.25rem, 3vw, 2rem);
+        }
+        
+        .session-persona {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+        
+        .session-persona .eyebrow {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--neutral-400);
+            font-weight: 600;
+        }
+        
+        .session-actions {
+            display: flex;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+        }
+        
+        .session-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: var(--space-4);
+        }
+        
         .step-card {
             display: grid;
             grid-template-columns: auto 1fr auto;
@@ -434,21 +685,233 @@
             font-family: inherit;
         }
         
-        .step-card:hover {
+        .step-card:hover,
+        .step-card:focus {
             border-color: var(--accent-teal);
             transform: translateY(-2px);
             box-shadow: var(--shadow-glow);
+            outline: none;
+        }
+        
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            font-size: 1.25rem;
+            color: var(--accent-teal);
+        }
+        
+        .step-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .step-copy .label {
+            font-weight: 600;
+            color: var(--neutral-50);
+        }
+        
+        .step-copy .hint {
+            font-size: 0.875rem;
+            color: var(--neutral-400);
         }
         
         /* =========================================================
-           EXERCISE CARDS
+           PILLS AND BADGES
         ========================================================= */
+        .pill-soft {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: 0.375rem 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--neutral-300);
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .pill-strong {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-teal);
+        }
+        
+        /* =========================================================
+           BADGE
+        ========================================================= */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1) var(--space-3);
+            background: rgba(0, 212, 170, 0.1);
+            color: var(--accent-teal);
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        /* =========================================================
+           STATUS INDICATOR
+        ========================================================= */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            background: rgba(0, 212, 170, 0.1);
+            border: 1px solid rgba(0, 212, 170, 0.2);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-teal);
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: var(--radius-full);
+            background: currentColor;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { 
+                opacity: 1; 
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 0.5; 
+                transform: scale(1.1);
+            }
+        }
+        
+        /* =========================================================
+           HERO GRID
+        ========================================================= */
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-8);
+        }
+        
+        .hero-panel {
+            background: linear-gradient(160deg, rgba(15, 23, 42, 0.9), rgba(24, 36, 58, 0.88));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-2xl);
+            padding: clamp(1.5rem, 3vw, 2.5rem);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+        }
+        
+        .hero-actions {
+            display: flex;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+        }
+        
+        .hero-pills {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-4);
+        }
+        
+        .pill {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-xl);
+            padding: var(--space-4);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .pill-label {
+            font-size: 0.875rem;
+            color: var(--neutral-400);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .meta-subtle {
+            font-size: 0.875rem;
+            color: var(--neutral-400);
+        }
+        
+        /* =========================================================
+           SNAPSHOT GRID
+        ========================================================= */
+        .snapshot-grid {
+            display: grid;
+            gap: var(--space-6);
+        }
+        
+        .snapshot-card {
+            background: linear-gradient(160deg, rgba(15, 23, 42, 0.9), rgba(24, 36, 58, 0.88));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-6);
+        }
+        
+        .meta-label {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--neutral-400);
+            margin-bottom: 0.25rem;
+        }
+        
+        .meta-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neutral-50);
+            margin-top: 0.25rem;
+        }
+        
+        /* =========================================================
+           EXERCISE COMPONENTS
+        ========================================================= */
+        .exercise-dock {
+            position: sticky;
+            top: 84px;
+            z-index: var(--z-above);
+            background: var(--neutral-900);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: var(--radius-xl);
+            padding: 1.25rem;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1.5rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 1.5rem;
+        }
+        
+        .dock-actions {
+            display: flex;
+            gap: var(--space-3);
+            flex-shrink: 0;
+        }
+        
         .exercise-card {
             background: var(--neutral-900);
             border-left: 6px solid var(--accent-teal);
             border-radius: var(--radius-lg);
             padding: var(--space-6);
             transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
             margin-bottom: var(--space-4);
         }
         
@@ -461,6 +924,71 @@
         .exercise-card.completed {
             border-left-color: var(--accent-green);
             background: rgba(6, 214, 160, 0.08);
+        }
+        
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-3);
+        }
+        
+        .exercise-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--neutral-50);
+        }
+        
+        .exercise-difficulty {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--neutral-300);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .exercise-meta {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-3);
+        }
+        
+        .exercise-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            font-size: 0.875rem;
+            color: var(--neutral-400);
+        }
+        
+        .exercise-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-3);
+            margin-top: var(--space-4);
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: var(--space-3);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-lg);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neutral-50);
+            font-family: var(--font-mono);
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--neutral-400);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
         
         /* =========================================================
@@ -524,6 +1052,23 @@
             z-index: var(--z-base);
         }
         
+        .pain-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--neutral-400);
+            margin-top: var(--space-2);
+        }
+        
+        .pain-warning {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            margin-top: var(--space-4);
+        }
+        
         /* =========================================================
            PROGRESS BAR
         ========================================================= */
@@ -542,49 +1087,40 @@
         }
         
         /* =========================================================
-           STATUS INDICATOR
+           PROGRESS RINGS
         ========================================================= */
-        .status-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-2);
-            padding: var(--space-2) var(--space-3);
-            background: rgba(0, 212, 170, 0.1);
-            border: 1px solid rgba(0, 212, 170, 0.2);
-            border-radius: var(--radius-full);
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--accent-teal);
+        .progress-ring {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto;
         }
         
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: var(--radius-full);
-            background: currentColor;
-            animation: pulse 2s infinite;
+        .progress-ring-circle {
+            fill: none;
+            stroke-width: 8;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
         }
         
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.1); }
+        .progress-ring-bg {
+            stroke: rgba(255, 255, 255, 0.1);
         }
         
-        /* =========================================================
-           BADGE
-        ========================================================= */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-1);
-            padding: var(--space-1) var(--space-3);
-            background: rgba(0, 212, 170, 0.1);
-            color: var(--accent-teal);
-            font-size: 0.75rem;
-            font-weight: 600;
-            border-radius: var(--radius-full);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+        .progress-ring-fill {
+            stroke: var(--accent-teal);
+            stroke-dasharray: 377;
+            stroke-dashoffset: 377;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+        
+        .progress-ring-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: 800;
+            color: var(--neutral-50);
         }
         
         /* =========================================================
@@ -638,6 +1174,48 @@
             border-radius: var(--radius-full);
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .form-range::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: var(--accent-teal);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* =========================================================
+           METRIC COMPONENTS
+        ========================================================= */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-4);
+        }
+        
+        .metric-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-xl);
+            padding: var(--space-4);
+            text-align: center;
+        }
+        
+        .metric-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--neutral-400);
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--neutral-50);
+            font-family: var(--font-mono);
         }
         
         /* =========================================================
@@ -711,6 +1289,26 @@
             box-shadow: var(--shadow-xl);
         }
         
+        .dock-status h3 {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--neutral-400);
+            margin-bottom: 0.25rem;
+        }
+        
+        .dock-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--neutral-50);
+            margin-bottom: 0.25rem;
+        }
+        
+        .dock-hint {
+            font-size: 0.875rem;
+            color: var(--neutral-400);
+        }
+        
         /* =========================================================
            VISUAL EFFECTS
         ========================================================= */
@@ -772,12 +1370,19 @@
             color: #0f172a !important;
         }
         
+        body.calm .status-indicator {
+            background: rgba(37, 99, 235, 0.1) !important;
+            border-color: rgba(37, 99, 235, 0.2) !important;
+            color: #2563eb !important;
+        }
+        
         body.calm .panel,
         body.calm .card,
         body.calm .notification {
             background: #ffffff !important;
             color: #0f172a !important;
             border-color: rgba(15, 23, 42, 0.15) !important;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1) !important;
         }
         
         body.calm .text-gradient {
@@ -792,6 +1397,11 @@
             border-color: rgba(15, 23, 42, 0.2) !important;
         }
         
+        body.calm .form-control:focus {
+            border-color: #2563eb !important;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
+        }
+        
         body.calm .btn-secondary {
             background: #f1f5f9 !important;
             border-color: rgba(15, 23, 42, 0.2) !important;
@@ -803,31 +1413,66 @@
             color: #0f172a !important;
         }
         
-        body.calm .btn-outline:hover {
+        body.calm .btn-outline:hover,
+        body.calm .btn-outline:focus {
             border-color: #2563eb !important;
             color: #2563eb !important;
         }
         
-        /* =========================================================
-           CONTAINER
-        ========================================================= */
-        .container {
-            width: 100%;
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 clamp(1rem, 3vw, 1.5rem);
+        body.calm .session-banner {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(77, 243, 201, 0.06)) !important;
+            border-color: rgba(15, 23, 42, 0.1) !important;
         }
         
-        .section {
-            padding: clamp(2.75rem, 6vw, 4.5rem) 0;
+        body.calm .step-card {
+            background: rgba(15, 23, 42, 0.05) !important;
+            border-color: rgba(15, 23, 42, 0.1) !important;
+        }
+        
+        body.calm .step-card:hover,
+        body.calm .step-card:focus {
+            border-color: #2563eb !important;
         }
         
         /* =========================================================
-           RESPONSIVE
+           RESPONSIVE DESIGN
         ========================================================= */
         @media (max-width: 1024px) {
+            .nav-shell {
+                grid-template-columns: 1fr;
+                gap: var(--space-4);
+            }
+            
+            .session-banner__body {
+                grid-template-columns: 1fr;
+            }
+            
             .nav-links {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            
+            .nav-cta {
+                justify-content: flex-start;
+                flex-wrap: wrap;
+            }
+            
+            .action-dock-shell {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .exercise-dock {
+                position: static;
+                flex-direction: column;
+                gap: var(--space-4);
+            }
+            
+            .dock-actions {
+                width: 100%;
+                justify-content: flex-start;
             }
         }
         
@@ -836,16 +1481,66 @@
                 padding: 0 var(--space-4);
             }
             
+            .grid-cols-2,
+            .grid-cols-3,
+            .grid-cols-4 {
+                grid-template-columns: 1fr;
+            }
+            
             .section {
                 padding: var(--space-12) 0;
             }
             
-            .session-banner {
+            .btn-group {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn-group .btn {
+                width: 100%;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .hero-actions .btn {
+                width: 100%;
+            }
+            
+            .session-steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .session-banner,
+            .hero-grid {
                 display: none;
+            }
+            
+            .status-bar {
+                position: sticky;
+                top: 0;
+                border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+                padding: var(--space-3) var(--space-4);
+            }
+            
+            .primary-nav {
+                position: static;
+                border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
             }
             
             .nav-links {
                 grid-template-columns: 1fr;
+            }
+            
+            .nav-actions {
+                width: 100%;
+            }
+            
+            .nav-actions .btn {
+                width: 100%;
             }
             
             .action-dock {
@@ -854,7 +1549,66 @@
             }
             
             .action-dock-shell {
-                grid-template-columns: 1fr;
+                border-radius: var(--radius-2xl);
+                padding: var(--space-4);
+                box-shadow: var(--shadow-xl);
+            }
+            
+            .exercise-dock {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .exercise-dock > div {
+                flex-direction: column;
+                align-items: stretch;
+                gap: var(--space-4);
+            }
+            
+            .dock-actions {
+                width: 100%;
+                justify-content: stretch;
+            }
+            
+            .dock-actions .btn {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .modal-content {
+                margin: var(--space-2);
+                max-height: calc(100vh - 2rem);
+            }
+            
+            .status-bar {
+                flex-direction: column;
+                gap: var(--space-2);
+                min-height: auto;
+            }
+            
+            .pain-marker {
+                width: 60px;
+                height: 60px;
+                top: -10px;
+                min-width: 60px;
+                min-height: 60px;
+                font-size: 0.875rem;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .btn {
+                padding: var(--space-2) var(--space-4);
+                font-size: 0.875rem;
+            }
+            
+            .btn-lg {
+                padding: var(--space-3) var(--space-6);
+            }
+            
+            .btn-xl {
+                padding: var(--space-4) var(--space-8);
             }
         }
         
@@ -868,7 +1622,8 @@
             .notification-container,
             .scanlines,
             .grid-overlay,
-            .btn {
+            .btn,
+            .nav-link {
                 display: none !important;
             }
             
@@ -876,12 +1631,27 @@
                 background: white !important;
                 color: black !important;
             }
+            
+            .card,
+            .panel {
+                border: 1px solid #ddd !important;
+                box-shadow: none !important;
+                background: white !important;
+                color: black !important;
+                break-inside: avoid;
+            }
+            
+            .text-gradient {
+                background: none !important;
+                color: black !important;
+                -webkit-text-fill-color: black !important;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Skip to main content -->
-    <a href="#main-content" class="skip-to-content" style="position: absolute; top: -40px; left: 0; background: var(--gradient-primary); color: var(--neutral-950); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); text-decoration: none; font-weight: 600; z-index: var(--z-max); transition: top 0.3s ease;">Skip to main content</a>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
     
     <!-- Visual Effects -->
     <div class="scanlines" aria-hidden="true"></div>
@@ -892,228 +1662,303 @@
         <div class="container flex items-center justify-between">
             <div class="flex items-center gap-4">
                 <div class="flex items-center gap-2">
-                    <div class="status-dot" id="systemStatus"></div>
+                    <div class="status-dot" id="systemStatus" aria-hidden="true"></div>
                     <span class="text-sm font-semibold" id="statusText">Ready</span>
                 </div>
-                <time class="font-mono text-lg" id="currentTime">00:00:00</time>
+                <time class="font-mono text-lg" id="currentTime" datetime="">00:00:00</time>
             </div>
             <div class="flex items-center gap-4">
                 <div class="text-right">
                     <div class="text-sm font-bold" id="missionName">Rehab Session</div>
-                    <div class="text-xs" style="color: var(--neutral-400)" id="operatorName">Patient: Not set</div>
+                    <div class="text-xs text-neutral-400" id="operatorName">Patient: Not set</div>
                 </div>
                 
                 <div class="flex items-center gap-3" style="margin-left: 12px;">
-                    <span class="text-xs" style="color: var(--neutral-400)" id="calmToggleLabel">Calm</span>
+                    <span class="text-xs text-neutral-400" id="calmToggleLabel">Calm</span>
                     <button class="btn btn-icon btn-secondary" id="calmToggleBtn" aria-pressed="true" 
                             aria-label="Toggle calm mode" title="Toggle Calm Mode">
-                        <i class="ri-moon-clear-line"></i>
+                        <i class="ri-moon-clear-line" aria-hidden="true"></i>
                     </button>
                 </div>
+                
+                <!-- Feature Buttons -->
+                <button class="btn btn-icon btn-secondary" aria-label="Voice control" title="Voice Control">
+                    <i class="ri-mic-line" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-icon btn-secondary" aria-label="Video call" title="Video Call">
+                    <i class="ri-video-line" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-icon btn-secondary" aria-label="Share progress" title="Share Progress">
+                    <i class="ri-share-line" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-icon btn-secondary" aria-label="Biometric authentication" title="Biometric Login">
+                    <i class="ri-fingerprint-line" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-icon btn-secondary" aria-label="Profile settings" title="Profile Settings">
+                    <i class="ri-user-line" aria-hidden="true"></i>
+                </button>
             </div>
         </div>
     </div>
 
     <!-- Guided Navigation -->
     <nav class="primary-nav" aria-label="Primary navigation">
-        <div class="container">
-            <div style="display: grid; grid-template-columns: auto 1fr auto; gap: var(--space-8); align-items: center;">
-                <div>
-                    <h1 style="font-size: 1.5rem; margin-bottom: 0.25rem;">Rehab Session Pro</h1>
-                    <p style="font-size: 0.875rem; color: var(--neutral-400); margin: 0;">Guided steps with calmer visuals and quick access.</p>
-                </div>
-                <div class="nav-links" role="list">
-                    <button class="nav-link" role="listitem" onclick="scrollToSection('phaseAuth')">
-                        <i class="ri-id-card-line"></i> Sign in
+        <div class="container nav-shell">
+            <div class="nav-brand">
+                <h1>Rehab Session Pro</h1>
+                <p>Guided steps with calmer visuals and quick access.</p>
+            </div>
+            <div class="nav-links" role="list">
+                <button class="nav-link" role="listitem" aria-label="Sign in to session" onclick="scrollToSection('phaseAuth')">
+                    <i class="ri-id-card-line" aria-hidden="true"></i> Sign in
+                </button>
+                <button class="nav-link" role="listitem" aria-label="Check readiness" onclick="scrollToSection('phaseBio')">
+                    <i class="ri-heart-pulse-line" aria-hidden="true"></i> Readiness
+                </button>
+                <button class="nav-link" role="listitem" aria-label="View exercises" onclick="scrollToSection('phaseMission')">
+                    <i class="ri-run-line" aria-hidden="true"></i> Exercises
+                </button>
+                <button class="nav-link" role="listitem" aria-label="View summary" onclick="scrollToSection('phaseDebrief')">
+                    <i class="ri-clipboard-line" aria-hidden="true"></i> Summary
+                </button>
+            </div>
+            <div class="nav-cta">
+                <span class="nav-state" id="navSessionState" aria-live="polite" data-tone="info">Prep</span>
+                <div class="nav-actions">
+                    <button class="btn btn-primary" id="navPrimaryAction" aria-label="Start session" onclick="handlePrimaryNavAction()">
+                        <i class="ri-play-line" aria-hidden="true"></i> Start session
                     </button>
-                    <button class="nav-link" role="listitem" onclick="scrollToSection('phaseBio')">
-                        <i class="ri-heart-pulse-line"></i> Readiness
+                    <button class="btn btn-outline" aria-label="Toggle calm visuals" onclick="toggleCalmMode()">
+                        <i class="ri-moon-clear-line" aria-hidden="true"></i> Calm visuals
                     </button>
-                    <button class="nav-link" role="listitem" onclick="scrollToSection('phaseMission')">
-                        <i class="ri-run-line"></i> Exercises
-                    </button>
-                    <button class="nav-link" role="listitem" onclick="scrollToSection('phaseDebrief')">
-                        <i class="ri-clipboard-line"></i> Summary
-                    </button>
-                </div>
-                <div style="display: flex; align-items: center; gap: var(--space-6);">
-                    <span style="background: rgba(77, 243, 201, 0.1); color: var(--accent-teal); padding: 0.5rem 1rem; border-radius: var(--radius-full); font-size: 0.875rem; font-weight: 700; text-transform: uppercase;" id="navSessionState">Prep</span>
-                    <div style="display: flex; gap: var(--space-3);">
-                        <button class="btn btn-primary" id="navPrimaryAction" onclick="handlePrimaryNavAction()">
-                            <i class="ri-play-line"></i> Start session
-                        </button>
-                        <button class="btn btn-outline" onclick="toggleCalmMode()">
-                            <i class="ri-moon-clear-line"></i> Calm visuals
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
     </nav>
     
     <!-- Notification Container -->
-    <div class="notification-container" id="notificationContainer"></div>
+    <div class="notification-container" id="notificationContainer" role="region" aria-label="Notifications"></div>
     
     <!-- Main Content -->
-    <main id="main-content" style="padding-top: 5rem;">
+    <main id="main-content" class="pt-20" role="main">
         <div class="container">
             <!-- Hero Section -->
-            <section class="section">
+            <section class="section" aria-labelledby="overviewTitle">
                 <!-- Desktop View -->
-                <div class="session-banner">
-                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-4); margin-bottom: var(--space-6);">
-                        <div class="status-indicator" id="sessionStateChip">
-                            <div class="status-dot"></div>
+                <div class="session-banner mb-6" aria-label="Session overview">
+                    <div class="session-banner__header">
+                        <div class="session-chip" id="sessionStateChip">
+                            <span class="status-dot" aria-hidden="true"></span>
                             <span id="sessionStateText">Ready</span>
                         </div>
-                        <div style="display: inline-flex; align-items: center; gap: var(--space-2); padding: 0.5rem 1rem; background: rgba(255, 255, 255, 0.08); border-radius: var(--radius-full); font-family: var(--font-mono); font-size: 1.125rem; font-weight: 600;">
-                            <i class="ri-time-line"></i>
-                            <time id="sessionClockValue">--:--:--</time>
+                        <div class="session-clock" id="sessionCountdown">
+                            <i class="ri-time-line" aria-hidden="true"></i>
+                            <time id="sessionClockValue" datetime="">--:--:--</time>
                         </div>
-                        <div style="display: inline-flex; align-items: center; gap: var(--space-2); padding: 0.5rem 1rem; background: rgba(179, 139, 255, 0.1); border: 1px solid rgba(179, 139, 255, 0.2); border-radius: var(--radius-full); font-size: 0.875rem; font-weight: 600; color: var(--accent-purple);">
-                            <i class="ri-shield-star-line"></i>
+                        <div class="session-plan-tag">
+                            <i class="ri-shield-star-line" aria-hidden="true"></i>
                             Rehab Session · Pro
                         </div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: clamp(1.25rem, 3vw, 2rem); margin-bottom: var(--space-6);">
-                        <div>
-                            <p style="font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--neutral-400);">Patient</p>
-                            <h3 style="font-size: 1.875rem; font-weight: 800; margin: 0.25rem 0;" id="sessionPatient">Marvin</h3>
-                            <p style="color: var(--neutral-300);" id="sessionPersonaCopy">Balance rehab · calm visuals on</p>
+                    <div class="session-banner__body">
+                        <div class="session-persona">
+                            <p class="eyebrow">Patient</p>
+                            <h3 id="sessionPatient">Marvin</h3>
+                            <p class="text-neutral-300" id="sessionPersonaCopy">Balance rehab · calm visuals on</p>
                         </div>
-                        <div style="display: flex; gap: var(--space-4); flex-wrap: wrap;">
-                            <button class="btn btn-primary btn-lg" id="heroPrimaryCta" onclick="handlePrimaryNavAction()">
-                                <i class="ri-play-line"></i> Start session
+                        <div class="session-actions">
+                            <button class="btn btn-primary btn-lg" type="button" id="heroPrimaryCta" aria-label="Start session" onclick="handlePrimaryNavAction()">
+                                <i class="ri-play-line" aria-hidden="true"></i> Start session
                             </button>
-                            <button class="btn btn-outline btn-lg" onclick="toggleCalmMode()">
-                                <i class="ri-moon-clear-line"></i> Calm visuals
+                            <button class="btn btn-outline btn-lg" type="button" aria-label="Toggle calm visuals" onclick="toggleCalmMode()">
+                                <i class="ri-moon-clear-line" aria-hidden="true"></i> Calm visuals
                             </button>
-                            <button class="btn btn-secondary btn-lg" onclick="scrollToSection('phaseMission')">
-                                <i class="ri-run-line"></i> Jump to exercises
+                            <button class="btn btn-secondary btn-lg" type="button" aria-label="Jump to exercises" onclick="scrollToSection('phaseMission')">
+                                <i class="ri-run-line" aria-hidden="true"></i> Jump to exercises
                             </button>
                         </div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4);" role="list">
-                        <button class="step-card" onclick="scrollToSection('phaseAuth')">
-                            <div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); font-size: 1.25rem; color: var(--accent-teal);">
-                                <i class="ri-id-card-line"></i>
+                    <div class="session-steps" role="list" aria-label="Session steps">
+                        <button class="step-card" type="button" role="listitem" aria-label="Sign in step" onclick="scrollToSection('phaseAuth')">
+                            <div class="step-icon">
+                                <i class="ri-id-card-line" aria-hidden="true"></i>
                             </div>
-                            <div>
-                                <div style="font-weight: 600; color: var(--neutral-50);">Sign in</div>
-                                <div style="font-size: 0.875rem; color: var(--neutral-400);">Patient ID & clearance</div>
+                            <div class="step-copy">
+                                <span class="label">Sign in</span>
+                                <span class="hint">Patient ID & clearance</span>
                             </div>
-                            <span style="display: inline-flex; align-items: center; gap: var(--space-1); padding: 0.375rem 0.75rem; background: rgba(255, 255, 255, 0.1); color: var(--neutral-300); font-size: 0.75rem; font-weight: 600; border-radius: var(--radius-full); text-transform: uppercase;" id="stepAuthState">Prep</span>
+                            <span class="pill-soft" id="stepAuthState">Prep</span>
                         </button>
-                        <button class="step-card" onclick="scrollToSection('phaseBio')">
-                            <div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); font-size: 1.25rem; color: var(--accent-teal);">
-                                <i class="ri-heart-pulse-line"></i>
+                        <button class="step-card" type="button" role="listitem" aria-label="Readiness step" onclick="scrollToSection('phaseBio')">
+                            <div class="step-icon">
+                                <i class="ri-heart-pulse-line" aria-hidden="true"></i>
                             </div>
-                            <div>
-                                <div style="font-weight: 600; color: var(--neutral-50);">Readiness</div>
-                                <div style="font-size: 0.875rem; color: var(--neutral-400);">Pain, fatigue, stability</div>
+                            <div class="step-copy">
+                                <span class="label">Readiness</span>
+                                <span class="hint">Pain, fatigue, stability</span>
                             </div>
-                            <span style="display: inline-flex; align-items: center; gap: var(--space-1); padding: 0.375rem 0.75rem; background: rgba(255, 255, 255, 0.1); color: var(--neutral-300); font-size: 0.75rem; font-weight: 600; border-radius: var(--radius-full); text-transform: uppercase;" id="stepBioState">Locked</span>
+                            <span class="pill-soft" id="stepBioState">Locked</span>
                         </button>
-                        <button class="step-card" onclick="scrollToSection('phaseMission')">
-                            <div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); font-size: 1.25rem; color: var(--accent-teal);">
-                                <i class="ri-run-line"></i>
+                        <button class="step-card" type="button" role="listitem" aria-label="Exercises step" onclick="scrollToSection('phaseMission')">
+                            <div class="step-icon">
+                                <i class="ri-run-line" aria-hidden="true"></i>
                             </div>
-                            <div>
-                                <div style="font-weight: 600; color: var(--neutral-50);">Exercises</div>
-                                <div style="font-size: 0.875rem; color: var(--neutral-400);">Timer + voice control</div>
+                            <div class="step-copy">
+                                <span class="label">Exercises</span>
+                                <span class="hint">Timer + voice control</span>
                             </div>
-                            <span style="display: inline-flex; align-items: center; gap: var(--space-1); padding: 0.375rem 0.75rem; background: rgba(255, 255, 255, 0.1); color: var(--neutral-300); font-size: 0.75rem; font-weight: 600; border-radius: var(--radius-full); text-transform: uppercase;" id="stepMissionState">Queued</span>
+                            <span class="pill-soft" id="stepMissionState">Queued</span>
                         </button>
-                        <button class="step-card" onclick="scrollToSection('phaseDebrief')">
-                            <div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); font-size: 1.25rem; color: var(--accent-teal);">
-                                <i class="ri-clipboard-line"></i>
+                        <button class="step-card" type="button" role="listitem" aria-label="Summary step" onclick="scrollToSection('phaseDebrief')">
+                            <div class="step-icon">
+                                <i class="ri-clipboard-line" aria-hidden="true"></i>
                             </div>
-                            <div>
-                                <div style="font-weight: 600; color: var(--neutral-50);">Summary</div>
-                                <div style="font-size: 0.875rem; color: var(--neutral-400);">Notes & export</div>
+                            <div class="step-copy">
+                                <span class="label">Summary</span>
+                                <span class="hint">Notes & export</span>
                             </div>
-                            <span style="display: inline-flex; align-items: center; gap: var(--space-1); padding: 0.375rem 0.75rem; background: rgba(255, 255, 255, 0.1); color: var(--neutral-300); font-size: 0.75rem; font-weight: 600; border-radius: var(--radius-full); text-transform: uppercase;" id="stepDebriefState">Later</span>
+                            <span class="pill-soft" id="stepDebriefState">Later</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- Hero Panel -->
-                <div class="card mt-8">
-                    <span class="badge">Patient-first layout</span>
-                    <h1 class="text-gradient mt-4" style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.2;">Calmer rehab. Clearer next steps.</h1>
-                    <p class="mt-4" style="color: var(--neutral-300);">Stay focused on what matters: safe movement, measurable progress, and fast access to the right phase.</p>
-                    
-                    <div style="display: flex; gap: var(--space-4); flex-wrap: wrap; margin-top: var(--space-6);">
-                        <button class="btn btn-primary btn-xl" onclick="handlePrimaryNavAction()">
-                            <i class="ri-flag-line"></i> Start today's plan
-                        </button>
-                        <button class="btn btn-secondary btn-lg" onclick="toggleCalmMode()">
-                            <i class="ri-moon-clear-line"></i> Toggle Calm / Pro
-                        </button>
-                        <button class="btn btn-outline btn-lg" onclick="scrollToSection('phaseBio')">
-                            <i class="ri-focus-line"></i> Jump to readiness
-                        </button>
+                <div class="hero-grid">
+                    <div class="hero-panel">
+                        <span class="badge">Patient-first layout</span>
+                        <h1 id="overviewTitle" class="text-gradient">Calmer rehab. Clearer next steps.</h1>
+                        <p class="text-neutral-300">Stay focused on what matters: safe movement, measurable progress, and fast access to the right phase. The experience now leads with clarity, not noise.</p>
+                        
+                        <div class="hero-actions">
+                            <button class="btn btn-primary btn-xl" aria-label="Start today's plan" onclick="handlePrimaryNavAction()">
+                                <i class="ri-flag-line" aria-hidden="true"></i> Start today's plan
+                            </button>
+                            <button class="btn btn-secondary btn-lg" aria-label="Toggle between calm and pro modes" onclick="toggleCalmMode()">
+                                <i class="ri-moon-clear-line" aria-hidden="true"></i> Toggle Calm / Pro
+                            </button>
+                            <button class="btn btn-outline btn-lg" aria-label="Jump to readiness assessment" onclick="scrollToSection('phaseBio')">
+                                <i class="ri-focus-line" aria-hidden="true"></i> Jump to readiness
+                            </button>
+                        </div>
+                        
+                        <div class="hero-pills">
+                            <div class="pill">
+                                <span class="pill-label">Profile</span>
+                                <span class="pill-strong" id="summaryProfile">—</span>
+                                <div class="meta-subtle" id="summarySupport">Injury focus · Intensity</div>
+                            </div>
+                            <div class="pill">
+                                <span class="pill-label">Streak</span>
+                                <span class="pill-strong" id="summaryStreak">0 days</span>
+                                <div class="meta-subtle">Total sessions <span id="summarySessions">0</span></div>
+                            </div>
+                            <div class="pill">
+                                <span class="pill-label">Pain ceiling</span>
+                                <span class="pill-strong" id="summaryPainLimit">7 / 10</span>
+                                <div class="meta-subtle">Current baseline <span id="summaryPainBaseline">0 / 10</span></div>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-top: var(--space-6);">
-                        <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-xl); padding: var(--space-4);">
-                            <div style="font-size: 0.875rem; color: var(--neutral-400); text-transform: uppercase;">Profile</div>
-                            <div style="font-size: 1.5rem; font-weight: 800; color: var(--accent-teal);" id="summaryProfile">—</div>
-                            <div style="font-size: 0.875rem; color: var(--neutral-400);" id="summarySupport">Injury focus · Intensity</div>
+                    <div class="snapshot-grid">
+                        <div class="snapshot-card">
+                            <div class="flex items-center justify-between mb-6">
+                                <div>
+                                    <p class="meta-label">Session readiness</p>
+                                    <p class="text-xl font-bold text-white">Live signal</p>
+                                </div>
+                                <span class="status-chip" id="summarySessionChip" data-tone="ready">Ready</span>
+                            </div>
+                            <div class="progress-ring" id="summaryReadinessDial" style="--value: 100" aria-label="Readiness dial at 100%">
+                                <svg width="160" height="160">
+                                    <circle class="progress-ring-circle progress-ring-bg" cx="80" cy="80" r="70"></circle>
+                                    <circle class="progress-ring-circle progress-ring-fill" cx="80" cy="80" r="70"></circle>
+                                </svg>
+                                <div class="progress-ring-text text-4xl" id="summaryReadinessValue">100%</div>
+                            </div>
+                            <div class="snapshot-meta mt-6">
+                                <div>
+                                    <div class="meta-label">Current pain</div>
+                                    <div class="meta-value" id="summaryPainBadge">0.0 / 10</div>
+                                    <div class="meta-subtle">Live drag or slider</div>
+                                </div>
+                                <div>
+                                    <div class="meta-label">Fatigue</div>
+                                    <div class="meta-value" id="summaryFatigue">0%</div>
+                                    <div class="meta-subtle">Auto-adjusted</div>
+                                </div>
+                            </div>
                         </div>
-                        <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-xl); padding: var(--space-4);">
-                            <div style="font-size: 0.875rem; color: var(--neutral-400); text-transform: uppercase;">Streak</div>
-                            <div style="font-size: 1.5rem; font-weight: 800; color: var(--accent-teal);" id="summaryStreak">0 days</div>
-                            <div style="font-size: 0.875rem; color: var(--neutral-400);">Total sessions <span id="summarySessions">0</span></div>
+                    </div>
+
+                    <div class="exercise-spotlight card" aria-live="polite" style="grid-column: span 2;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-6); margin-bottom: var(--space-6);">
+                            <div>
+                                <p class="meta-label">Exercises, front and center</p>
+                                <h3 class="text-2xl font-bold" id="quickExerciseName">Single-Leg Stand</h3>
+                                <p class="text-neutral-300" id="quickExerciseMeta">00:10 · 4 sets · basic</p>
+                                <div class="spotlight-tags mt-3">
+                                    <span class="badge" id="quickExercisePhase">Week 1 — Learning &amp; Safety</span>
+                                    <span class="pill-soft" id="quickExerciseCount">0/0 done</span>
+                                </div>
+                            </div>
+                            <div class="spotlight-actions">
+                                <button class="btn btn-primary btn-lg" id="quickExerciseStart" aria-label="Start next exercise" onclick="quickStartExercise()">
+                                    <i class="ri-play-line" aria-hidden="true"></i> Start next exercise
+                                </button>
+                                <button class="btn btn-secondary" aria-label="Open exercise list" onclick="scrollToSection('phaseMission')">
+                                    <i class="ri-run-line" aria-hidden="true"></i> Open exercise list
+                                </button>
+                            </div>
                         </div>
-                        <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-xl); padding: var(--space-4);">
-                            <div style="font-size: 0.875rem; color: var(--neutral-400); text-transform: uppercase;">Pain ceiling</div>
-                            <div style="font-size: 1.5rem; font-weight: 800; color: var(--accent-teal);" id="summaryPainLimit">7 / 10</div>
-                            <div style="font-size: 0.875rem; color: var(--neutral-400);">Current baseline <span id="summaryPainBaseline">0 / 10</span></div>
+                        <div class="spotlight-list" id="exercisePeek" aria-label="Preview of upcoming exercises">
+                            <!-- Filled dynamically -->
                         </div>
                     </div>
                 </div>
             </section>
 
             <!-- Phase 1: Authentication -->
-            <section id="phaseAuth" class="section">
+            <section id="phaseAuth" class="section" aria-labelledby="authTitle">
                 <div class="panel">
                     <div class="panel-header">
                         <div class="flex items-center justify-between">
                             <div>
-                                <h1 class="text-4xl font-extrabold text-gradient">Rehab Session Pro</h1>
-                                <p class="mt-2" style="color: var(--neutral-400);">AI-powered rehabilitation with voice control & telehealth</p>
+                                <h1 id="authTitle" class="text-4xl font-black text-gradient">Rehab Session Pro</h1>
+                                <p class="text-neutral-400 mt-2">AI-powered rehabilitation with voice control & telehealth</p>
                             </div>
                             <div class="status-indicator">
-                                <div class="status-dot"></div>
+                                <div class="status-dot" aria-hidden="true"></div>
                                 <span>Start here</span>
                             </div>
                         </div>
                     </div>
                     
                     <div class="panel-body">
-                        <form id="authForm" style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+                        <form id="authForm" class="grid grid-cols-2 gap-12">
                             <!-- Operator Info -->
                             <div>
                                 <div class="form-group">
                                     <label for="operatorId" class="form-label">Your name</label>
                                     <input type="text" class="form-control" id="operatorId" 
-                                           placeholder="Enter your name" value="MARVIN" required>
-                                    <div class="text-sm mt-1" style="color: var(--neutral-400);">Enter your full name or patient ID</div>
+                                           placeholder="Enter your name" value="MARVIN" required
+                                           aria-required="true">
+                                    <div class="text-xs text-neutral-400 mt-1">Enter your full name or patient ID</div>
                                 </div>
                                 
                                 <div class="form-group">
                                     <label for="securityCode" class="form-label">SECURITY CLEARANCE</label>
                                     <input type="password" class="form-control" id="securityCode" 
-                                           placeholder="Optional" value="Rehab_RISING">
-                                    <div class="text-sm mt-1" style="color: var(--neutral-400);">Optional security code for additional protection</div>
+                                           placeholder="Optional" value="Rehab_RISING"
+                                           aria-describedby="securityHint">
+                                    <div id="securityHint" class="text-xs text-neutral-400 mt-1">Optional security code for additional protection</div>
                                 </div>
                                 
                                 <div class="form-group">
                                     <label for="missionProfile" class="form-label">SESSION PROFILE</label>
-                                    <select class="form-control" id="missionProfile" required>
+                                    <select class="form-control" id="missionProfile" required
+                                            aria-required="true">
                                         <option value="HARDCORE">HARDCORE: NO RETREAT</option>
                                         <option value="AGGRESSIVE">AGGRESSIVE: MAXIMUM FORCE</option>
                                         <option value="STANDARD" selected>STANDARD: STEADY PROGRESS</option>
@@ -1127,55 +1972,83 @@
                             <div>
                                 <div class="form-group">
                                     <label for="baselinePain" class="form-label">BASELINE PAIN INDEX (0-10)</label>
-                                    <input type="range" class="form-range" id="baselinePain" min="0" max="10" value="0">
+                                    <input type="range" class="form-range" id="baselinePain" min="0" max="10" value="0"
+                                           aria-valuetext="Pain level 0 out of 10">
                                     <div class="flex justify-between mt-3">
-                                        <span class="text-sm" style="color: var(--neutral-400);">NO PAIN</span>
-                                        <output class="text-sm font-bold" id="painValue" for="baselinePain">0</output>
-                                        <span class="text-sm" style="color: var(--neutral-400);">MAXIMUM</span>
+                                        <span class="text-sm text-neutral-400">NO PAIN</span>
+                                        <output class="text-sm font-bold text-teal" id="painValue" for="baselinePain">0</output>
+                                        <span class="text-sm text-neutral-400">MAXIMUM</span>
                                     </div>
                                 </div>
                                 
                                 <div class="form-group">
                                     <label class="form-label">FATIGUE LEVEL</label>
                                     <div class="progress-bar">
-                                        <div class="progress-bar-fill" id="fatigueBar" style="width: 0%"></div>
+                                        <div class="progress-bar-fill" id="fatigueBar" style="width: 0%" 
+                                             role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
                                     </div>
                                     <div class="flex justify-between mt-3">
-                                        <span class="text-sm" style="color: var(--neutral-400);">RESTED</span>
-                                        <output class="text-sm font-bold" id="fatigueValue">0%</output>
-                                        <span class="text-sm" style="color: var(--neutral-400);">EXHAUSTED</span>
+                                        <span class="text-sm text-neutral-400">RESTED</span>
+                                        <output class="text-sm font-bold text-teal" id="fatigueValue">0%</output>
+                                        <span class="text-sm text-neutral-400">EXHAUSTED</span>
                                     </div>
                                 </div>
                                 
                                 <div class="form-group">
                                     <label class="form-label">READINESS ASSESSMENT</label>
-                                    <div style="display: flex; flex-direction: column; align-items: center; margin-top: 1.5rem;">
-                                        <div style="position: relative; width: 140px; height: 140px; margin: 0 auto;">
-                                            <svg width="140" height="140" style="transform: rotate(-90deg);">
-                                                <circle cx="70" cy="70" r="60" fill="none" stroke="rgba(255, 255, 255, 0.1)" stroke-width="8"></circle>
-                                                <circle cx="70" cy="70" r="60" fill="none" stroke="var(--accent-teal)" stroke-width="8" id="readinessRing" 
-                                                        stroke-dasharray="377" stroke-dashoffset="377"></circle>
+                                    <div class="flex flex-col items-center mt-6">
+                                        <div class="progress-ring" role="img" aria-label="Readiness score">
+                                            <svg width="140" height="140" aria-hidden="true">
+                                                <circle class="progress-ring-circle progress-ring-bg" cx="70" cy="70" r="60"></circle>
+                                                <circle class="progress-ring-circle progress-ring-fill" cx="70" cy="70" r="60" id="readinessRing"></circle>
                                             </svg>
-                                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1.875rem; font-weight: 800; color: var(--neutral-50);" id="readinessScore">100%</div>
+                                            <div class="progress-ring-text text-3xl" id="readinessScore">100%</div>
                                         </div>
-                                        <p class="text-sm mt-4" style="color: var(--neutral-400);">System calibrated and ready for protocol initiation</p>
+                                        <p class="text-sm text-neutral-400 mt-4">System calibrated and ready for protocol initiation</p>
                                     </div>
                                 </div>
                             </div>
                         </form>
+                        
+                        <!-- Voice Control Instructions -->
+                        <div class="card mt-12">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-xl font-bold">VOICE COMMANDS</h3>
+                                <span class="badge">
+                                    <i class="ri-mic-line" aria-hidden="true"></i> ACTIVE
+                                </span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-8">
+                                <div class="text-center">
+                                    <div class="text-4xl text-teal mb-3" aria-hidden="true">🎤</div>
+                                    <h4 class="font-bold mb-2">"START EXERCISE"</h4>
+                                    <p class="text-sm text-neutral-400">Begins current exercise timer</p>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-4xl text-blue mb-3" aria-hidden="true">⏸️</div>
+                                    <h4 class="font-bold mb-2">"STOP TIMER"</h4>
+                                    <p class="text-sm text-neutral-400">Pauses active exercise</p>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-4xl text-purple mb-3" aria-hidden="true">📊</div>
+                                    <h4 class="font-bold mb-2">"NEXT EXERCISE"</h4>
+                                    <p class="text-sm text-neutral-400">Moves to next exercise</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="panel-footer">
                         <div class="flex items-center justify-between">
-                            <button class="btn btn-secondary" type="button">
-                                <i class="ri-fingerprint-line"></i> BIOMETRIC LOGIN
+                            <button class="btn btn-secondary" aria-label="Biometric login">
+                                <i class="ri-fingerprint-line" aria-hidden="true"></i> BIOMETRIC LOGIN
                             </button>
                             <div class="flex gap-4">
-                                <button class="btn btn-danger" type="button" onclick="emergencyStop()">
-                                    <i class="ri-error-warning-line"></i> END
+                                <button type="button" class="btn btn-danger" aria-label="End session" onclick="emergencyStop()">
+                                    <i class="ri-error-warning-line" aria-hidden="true"></i> END
                                 </button>
-                                <button class="btn btn-primary btn-lg" type="submit" form="authForm">
-                                    <i class="ri-fire-line"></i> INITIATE PLAN
+                                <button type="submit" form="authForm" class="btn btn-primary btn-lg" aria-label="Initiate plan">
+                                    <i class="ri-fire-line" aria-hidden="true"></i> INITIATE PLAN
                                 </button>
                             </div>
                         </div>
@@ -1184,16 +2057,16 @@
             </section>
             
             <!-- Phase 2: Bio-Readiness -->
-            <section id="phaseBio" class="section hidden">
+            <section id="phaseBio" class="section hidden" aria-labelledby="bioTitle">
                 <div class="panel">
                     <div class="panel-header">
                         <div class="flex items-center justify-between">
                             <div>
-                                <h2 class="text-3xl font-extrabold text-gradient">Readiness check</h2>
-                                <p class="mt-2" style="color: var(--neutral-400);">A quick check-in before you begin</p>
+                                <h2 id="bioTitle" class="text-3xl font-black text-gradient">Readiness check</h2>
+                                <p class="text-neutral-400 mt-2">A quick check-in before you begin</p>
                             </div>
                             <div class="status-indicator">
-                                <div class="status-dot"></div>
+                                <div class="status-dot" aria-hidden="true"></div>
                                 <span>CALIBRATING</span>
                             </div>
                         </div>
@@ -1201,26 +2074,26 @@
                     
                     <div class="panel-body">
                         <!-- Real-time Metrics -->
-                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); margin-bottom: 3rem;">
-                            <div class="card">
-                                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--neutral-400); margin-bottom: 0.5rem;">PAIN INDEX</div>
-                                <div style="font-size: 2rem; font-weight: 800; color: var(--neutral-50); font-family: var(--font-mono);" id="realTimePain">0.0</div>
+                        <div class="metric-grid mb-12">
+                            <div class="metric-card">
+                                <div class="metric-label">PAIN INDEX</div>
+                                <div class="metric-value" id="realTimePain">0.0</div>
                             </div>
                             
-                            <div class="card">
-                                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--neutral-400); margin-bottom: 0.5rem;">HEART RATE ZONE</div>
-                                <div style="font-size: 2rem; font-weight: 800; color: var(--neutral-50); font-family: var(--font-mono);" id="heartRate">--</div>
-                                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--neutral-400);">BPM</div>
+                            <div class="metric-card">
+                                <div class="metric-label">HEART RATE ZONE</div>
+                                <div class="metric-value" id="heartRate">--</div>
+                                <div class="metric-label">BPM</div>
                             </div>
                             
-                            <div class="card">
-                                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--neutral-400); margin-bottom: 0.5rem;">STABILITY SCORE</div>
-                                <div style="font-size: 2rem; font-weight: 800; color: var(--neutral-50); font-family: var(--font-mono);" id="stabilityScore">100%</div>
+                            <div class="metric-card">
+                                <div class="metric-label">STABILITY SCORE</div>
+                                <div class="metric-value" id="stabilityScore">100%</div>
                             </div>
                             
-                            <div class="card">
-                                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--neutral-400); margin-bottom: 0.5rem;">READINESS</div>
-                                <div style="font-size: 2rem; font-weight: 800; color: var(--neutral-50); font-family: var(--font-mono);" id="bioReadiness">100%</div>
+                            <div class="metric-card">
+                                <div class="metric-label">READINESS</div>
+                                <div class="metric-value" id="bioReadiness">100%</div>
                                 <div class="progress-bar mt-4">
                                     <div class="progress-bar-fill" id="readinessBar" style="width: 100%"></div>
                                 </div>
@@ -1228,25 +2101,45 @@
                         </div>
                         
                         <!-- Pain Monitor -->
-                        <div class="pain-monitor">
+                        <div class="pain-monitor" role="region" aria-label="Pain monitoring">
                             <h3 class="text-xl font-bold mb-6">Pain check</h3>
                             <div class="pain-scale" id="painScale">
-                                <div class="pain-marker" id="painMarker" style="left: 0%;">0</div>
-                                <div class="pain-threshold" id="painThreshold" style="left: 70%;"></div>
+                                <div class="pain-marker" id="painMarker" style="left: 0%;" role="slider" 
+                                     aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" 
+                                     aria-label="Pain level slider">0</div>
+                                <div class="pain-threshold" id="painThreshold" style="left: 70%;" aria-hidden="true"></div>
                             </div>
-                            <div style="display: flex; justify-content: space-between; font-size: 0.875rem; font-weight: 600; color: var(--neutral-400); margin-top: var(--space-2);">
+                            <div class="pain-labels">
                                 <span>GREEN ZONE</span>
                                 <span>YELLOW ZONE</span>
                                 <span>RED ZONE</span>
                             </div>
                             
-                            <div id="painWarning" class="hidden" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: var(--radius-lg); padding: var(--space-4); margin-top: var(--space-4);">
+                            <div id="painWarning" class="pain-warning hidden" role="alert">
                                 <div class="flex items-center gap-4">
-                                    <div class="status-dot" style="background: var(--accent-red); animation: blink 1s infinite;"></div>
+                                    <div class="status-dot" style="animation: blink 1s infinite;" aria-hidden="true"></div>
                                     <div>
-                                        <h4 class="font-bold">Pain above your limit</h4>
-                                        <p class="text-sm mt-1" style="color: var(--neutral-400);">Reduce intensity or pause protocol. Consult if pain persists.</p>
+                                        <h4 class="font-bold text-red">Pain above your limit</h4>
+                                        <p class="text-sm text-neutral-400 mt-1">Reduce intensity or pause protocol. Consult if pain persists.</p>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Mission Brief -->
+                        <div class="card mt-12">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-xl font-bold">SESSION BRIEFING</h3>
+                                <span class="badge">
+                                    <i class="ri-shield-keyhole-line" aria-hidden="true"></i> CLASSIFIED
+                                </span>
+                            </div>
+                            <div class="space-y-4">
+                                <p>Operator <span id="briefOperator" class="font-bold text-teal">MARVIN</span>, your plan is the Progressive Balance &amp; Leg Strength pathway—patient-first and predictable.</p>
+                                <p class="font-medium">Primary Objective: Complete 10–15 minutes of this week's tasks with smooth control and calm breathing.</p>
+                                <p class="font-medium">Secondary Objective: Progress by time and steadiness only; move to the next week when holds feel stable.</p>
+                                <div class="mt-6 p-4 bg-neutral-800/50 border border-yellow/20 rounded-xl">
+                                    <p class="text-sm"><span class="font-bold text-yellow"><i class="ri-alarm-warning-line" aria-hidden="true"></i> SAFETY PLAN:</span> Stay near a wall or counter, move slowly, and pause if pain rises above 7/10, dizziness appears, or balance wobbles.</p>
                                 </div>
                             </div>
                         </div>
@@ -1254,11 +2147,11 @@
                     
                     <div class="panel-footer">
                         <div class="flex justify-between">
-                            <button class="btn btn-secondary" onclick="scrollToSection('phaseAuth')">
-                                <i class="ri-arrow-left-line"></i> BACK
+                            <button class="btn btn-secondary" aria-label="Go back to authentication" onclick="scrollToSection('phaseAuth')">
+                                <i class="ri-arrow-left-line" aria-hidden="true"></i> BACK
                             </button>
-                            <button class="btn btn-success btn-lg" onclick="beginMission()">
-                                <i class="ri-rocket-line"></i> Begin session
+                            <button class="btn btn-success btn-lg" aria-label="Begin session" onclick="beginMission()">
+                                <i class="ri-rocket-line" aria-hidden="true"></i> Begin session
                             </button>
                         </div>
                     </div>
@@ -1266,46 +2159,67 @@
             </section>
             
             <!-- Phase 3: Active Mission -->
-            <section id="phaseMission" class="section hidden">
+            <section id="phaseMission" class="section hidden" aria-labelledby="missionTitle">
                 <div class="panel">
                     <div class="panel-header">
                         <div class="flex items-center justify-between">
                             <div>
-                                <h2 class="text-3xl font-extrabold text-gradient">Active session</h2>
-                                <p class="mt-2" style="color: var(--neutral-400);" id="missionSubtitle">Week 1 — Learning & Safety</p>
+                                <h2 id="missionTitle" class="text-3xl font-black text-gradient">Active session</h2>
+                                <p class="text-neutral-400 mt-2" id="missionSubtitle">Week 1 — Learning & Safety</p>
                             </div>
                             <div class="flex items-center gap-4">
                                 <div class="status-indicator">
-                                    <div class="status-dot" style="background: var(--accent-green);"></div>
+                                    <div class="status-dot" style="background: var(--accent-green);" aria-hidden="true"></div>
                                     <span id="missionStatus">In progress</span>
                                 </div>
-                                <time class="font-mono text-2xl font-bold" id="missionTimer">15:00</time>
+                                <time class="font-mono text-2xl font-bold text-teal" id="missionTimer" datetime="">15:00</time>
                             </div>
                         </div>
                     </div>
                     
                     <div class="panel-body">
-                        <!-- Exercise Dock -->
-                        <div style="position: sticky; top: 84px; z-index: var(--z-above); background: var(--neutral-900); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: var(--radius-xl); padding: 1.25rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem; box-shadow: var(--shadow-md); margin-bottom: 1.5rem;">
+                        <div class="exercise-dock" aria-live="polite">
                             <div>
-                                <p style="font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--neutral-400);">Quick exercise access</p>
-                                <h3 style="font-size: 1.25rem; font-weight: 700;" id="dockExerciseName">Single-Leg Stand</h3>
-                                <p style="color: var(--neutral-400);" id="dockExerciseMeta">00:10 · 4 sets · basic</p>
-                                <div style="display: flex; gap: var(--space-3); margin-top: var(--space-3);">
-                                    <span style="display: inline-flex; align-items: center; gap: var(--space-1); padding: 0.375rem 0.75rem; background: rgba(255, 255, 255, 0.1); color: var(--neutral-300); font-size: 0.75rem; font-weight: 600; border-radius: var(--radius-full); text-transform: uppercase;" id="dockExerciseCount">0/0 done</span>
+                                <p class="meta-label">Quick exercise access</p>
+                                <h3 class="text-xl font-bold" id="dockExerciseName">Single-Leg Stand</h3>
+                                <p class="text-neutral-400" id="dockExerciseMeta">00:10 · 4 sets · basic</p>
+                                <div class="spotlight-tags">
+                                    <span class="pill-soft" id="dockExerciseCount">0/0 done</span>
                                     <span class="badge" id="dockExercisePhase">Week 1 — Learning &amp; Safety</span>
                                 </div>
                             </div>
-                            <div style="display: flex; gap: var(--space-3);">
-                                <button class="btn btn-primary" onclick="quickStartExercise()">
-                                    <i class="ri-play-line"></i> Start / Resume
+                            <div class="dock-actions">
+                                <button class="btn btn-primary" aria-label="Start or resume exercise" onclick="quickStartExercise()">
+                                    <i class="ri-play-line" aria-hidden="true"></i> Start / Resume
                                 </button>
-                                <button class="btn btn-secondary">
-                                    <i class="ri-run-line"></i> Exercise list
+                                <button class="btn btn-secondary" aria-label="View exercise list">
+                                    <i class="ri-run-line" aria-hidden="true"></i> Exercise list
+                                </button>
+                                <button class="btn btn-outline" aria-label="Scroll to exercise stack">
+                                    <i class="ri-focus-line" aria-hidden="true"></i> Scroll to stack
                                 </button>
                             </div>
                         </div>
 
+                        <!-- Phase Navigation -->
+                        <div class="card mb-8">
+                            <h3 class="text-xl font-bold mb-4">WEEK NAVIGATION</h3>
+                            <div class="flex flex-wrap gap-3">
+                                <button class="btn btn-secondary" aria-label="Select week 1">
+                                    <i class="ri-number-1" aria-hidden="true"></i> WEEK 1
+                                </button>
+                                <button class="btn btn-secondary" aria-label="Select week 2">
+                                    <i class="ri-number-2" aria-hidden="true"></i> WEEK 2
+                                </button>
+                                <button class="btn btn-secondary" aria-label="Select week 3">
+                                    <i class="ri-number-3" aria-hidden="true"></i> WEEK 3
+                                </button>
+                                <button class="btn btn-secondary" aria-label="Select week 4 (optional)">
+                                    <i class="ri-number-4" aria-hidden="true"></i> WEEK 4 (OPTIONAL)
+                                </button>
+                            </div>
+                        </div>
+                        
                         <!-- Exercise Container -->
                         <div id="exerciseContainer" class="mb-8">
                             <!-- Exercises loaded dynamically -->
@@ -1316,25 +2230,25 @@
                             <div class="flex items-center justify-between mb-6">
                                 <h3 class="text-xl font-bold">LIVE METRICS</h3>
                                 <span class="badge">
-                                    <i class="ri-pulse-line"></i> Real-time
+                                    <i class="ri-pulse-line" aria-hidden="true"></i> Real-time
                                 </span>
                             </div>
-                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4);">
-                                <div style="text-align: center; padding: var(--space-4); background: rgba(255, 255, 255, 0.05); border-radius: var(--radius-xl);">
-                                    <div class="text-2xl font-bold font-mono" id="livePain">0.0</div>
-                                    <div class="text-xs uppercase mt-1" style="color: var(--neutral-400);">CURRENT PAIN</div>
+                            <div class="grid grid-cols-4 gap-4">
+                                <div class="text-center p-4 bg-neutral-800/50 rounded-xl">
+                                    <div class="text-2xl font-bold text-teal font-mono" id="livePain">0.0</div>
+                                    <div class="text-xs text-neutral-400 uppercase mt-1">CURRENT PAIN</div>
                                 </div>
-                                <div style="text-align: center; padding: var(--space-4); background: rgba(255, 255, 255, 0.05); border-radius: var(--radius-xl);">
-                                    <div class="text-2xl font-bold font-mono" id="completedExercises">0</div>
-                                    <div class="text-xs uppercase mt-1" style="color: var(--neutral-400);">EXERCISES DONE</div>
+                                <div class="text-center p-4 bg-neutral-800/50 rounded-xl">
+                                    <div class="text-2xl font-bold text-teal font-mono" id="completedExercises">0</div>
+                                    <div class="text-xs text-neutral-400 uppercase mt-1">EXERCISES DONE</div>
                                 </div>
-                                <div style="text-align: center; padding: var(--space-4); background: rgba(255, 255, 255, 0.05); border-radius: var(--radius-xl);">
-                                    <div class="text-2xl font-bold font-mono" id="timeElapsed">00:00</div>
-                                    <div class="text-xs uppercase mt-1" style="color: var(--neutral-400);">TIME ELAPSED</div>
+                                <div class="text-center p-4 bg-neutral-800/50 rounded-xl">
+                                    <div class="text-2xl font-bold text-teal font-mono" id="timeElapsed">00:00</div>
+                                    <div class="text-xs text-neutral-400 uppercase mt-1">TIME ELAPSED</div>
                                 </div>
-                                <div style="text-align: center; padding: var(--space-4); background: rgba(255, 255, 255, 0.05); border-radius: var(--radius-xl);">
-                                    <div class="text-2xl font-bold font-mono" id="successRate">100%</div>
-                                    <div class="text-xs uppercase mt-1" style="color: var(--neutral-400);">SUCCESS RATE</div>
+                                <div class="text-center p-4 bg-neutral-800/50 rounded-xl">
+                                    <div class="text-2xl font-bold text-teal font-mono" id="successRate">100%</div>
+                                    <div class="text-xs text-neutral-400 uppercase mt-1">SUCCESS RATE</div>
                                 </div>
                             </div>
                         </div>
@@ -1342,14 +2256,17 @@
                     
                     <div class="panel-footer">
                         <div class="flex justify-center gap-4">
-                            <button class="btn btn-danger" onclick="emergencyStop()">
-                                <i class="ri-alarm-line"></i> Pause for safety
+                            <button class="btn btn-danger" aria-label="Pause for safety" onclick="emergencyStop()">
+                                <i class="ri-alarm-line" aria-hidden="true"></i> Pause for safety
                             </button>
-                            <button class="btn btn-secondary" onclick="pauseMission()" id="pauseBtn">
-                                <i class="ri-pause-line"></i> PAUSE
+                            <button class="btn btn-secondary" aria-label="Share progress">
+                                <i class="ri-share-line" aria-hidden="true"></i> SHARE
                             </button>
-                            <button class="btn btn-success" onclick="completeMission()">
-                                <i class="ri-check-double-line"></i> COMPLETE
+                            <button class="btn btn-secondary" id="pauseBtn" aria-label="Pause session" onclick="pauseMission()">
+                                <i class="ri-pause-line" aria-hidden="true"></i> PAUSE
+                            </button>
+                            <button class="btn btn-success" aria-label="Complete session" onclick="completeMission()">
+                                <i class="ri-check-double-line" aria-hidden="true"></i> COMPLETE
                             </button>
                         </div>
                     </div>
@@ -1357,16 +2274,16 @@
             </section>
             
             <!-- Phase 4: Debrief -->
-            <section id="phaseDebrief" class="section hidden">
+            <section id="phaseDebrief" class="section hidden" aria-labelledby="debriefTitle">
                 <div class="panel">
                     <div class="panel-header">
                         <div class="flex items-center justify-between">
                             <div>
-                                <h2 class="text-3xl font-extrabold text-gradient">Session summary</h2>
-                                <p class="mt-2" style="color: var(--neutral-400);">Notes and session record</p>
+                                <h2 id="debriefTitle" class="text-3xl font-black text-gradient">Session summary</h2>
+                                <p class="text-neutral-400 mt-2">Notes and session record</p>
                             </div>
                             <div class="status-indicator">
-                                <div class="status-dot" style="background: var(--accent-green);"></div>
+                                <div class="status-dot" style="background: var(--accent-green);" aria-hidden="true"></div>
                                 <span>SESSION SUCCESS</span>
                             </div>
                         </div>
@@ -1374,23 +2291,23 @@
                     
                     <div class="panel-body">
                         <!-- Performance Summary -->
-                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); margin-bottom: 3rem;">
-                            <div class="card">
-                                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--neutral-400);">TOTAL TIME</div>
-                                <div style="font-size: 2rem; font-weight: 800; color: var(--neutral-50); font-family: var(--font-mono);" id="debriefTime">00:00</div>
+                        <div class="metric-grid mb-12">
+                            <div class="metric-card">
+                                <div class="metric-label">TOTAL TIME</div>
+                                <div class="metric-value" id="debriefTime">00:00</div>
                             </div>
-                            <div class="card">
-                                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--neutral-400);">EXERCISES COMPLETED</div>
-                                <div style="font-size: 2rem; font-weight: 800; color: var(--neutral-50); font-family: var(--font-mono);" id="debriefExercises">0</div>
-                                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--neutral-400);">/ 12 TOTAL</div>
+                            <div class="metric-card">
+                                <div class="metric-label">EXERCISES COMPLETED</div>
+                                <div class="metric-value" id="debriefExercises">0</div>
+                                <div class="metric-label">/ 12 TOTAL</div>
                             </div>
-                            <div class="card">
-                                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--neutral-400);">AVG PAIN INDEX</div>
-                                <div style="font-size: 2rem; font-weight: 800; color: var(--neutral-50); font-family: var(--font-mono);" id="debriefPain">0.0</div>
+                            <div class="metric-card">
+                                <div class="metric-label">AVG PAIN INDEX</div>
+                                <div class="metric-value" id="debriefPain">0.0</div>
                             </div>
-                            <div class="card">
-                                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--neutral-400);">SUCCESS RATE</div>
-                                <div style="font-size: 2rem; font-weight: 800; color: var(--neutral-50); font-family: var(--font-mono);" id="debriefSuccess">100%</div>
+                            <div class="metric-card">
+                                <div class="metric-label">SUCCESS RATE</div>
+                                <div class="metric-value" id="debriefSuccess">100%</div>
                             </div>
                         </div>
                         
@@ -1400,18 +2317,34 @@
                             <textarea class="form-control" id="postMissionNotes" rows="4" 
                                       placeholder="Record observations, challenges, victories..."></textarea>
                         </div>
+                        
+                        <!-- Pain History -->
+                        <div class="card">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-xl font-bold">PAIN HISTORY</h3>
+                                <span class="badge">
+                                    <i class="ri-line-chart-line" aria-hidden="true"></i> ANALYSIS
+                                </span>
+                            </div>
+                            <div id="painHistoryChart">
+                                <div class="text-center py-12">
+                                    <div class="inline-block w-16 h-16 border-4 border-teal border-t-transparent rounded-full animate-spin" aria-hidden="true"></div>
+                                    <div class="text-neutral-400 mt-4">GENERATING PERFORMANCE ANALYSIS</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="panel-footer">
                         <div class="flex justify-center gap-4">
-                            <button class="btn btn-secondary">
-                                <i class="ri-save-line"></i> Save
+                            <button class="btn btn-secondary" aria-label="Save session">
+                                <i class="ri-save-line" aria-hidden="true"></i> Save
                             </button>
-                            <button class="btn btn-primary">
-                                <i class="ri-download-line"></i> Export
+                            <button class="btn btn-primary" aria-label="Export data">
+                                <i class="ri-download-line" aria-hidden="true"></i> Export
                             </button>
-                            <button class="btn btn-success" onclick="window.location.reload()">
-                                <i class="ri-refresh-line"></i> New session
+                            <button class="btn btn-success" aria-label="Start new session" onclick="window.location.reload()">
+                                <i class="ri-refresh-line" aria-hidden="true"></i> New session
                             </button>
                         </div>
                     </div>
@@ -1419,22 +2352,22 @@
             </section>
             
             <!-- Action Dock -->
-            <div class="action-dock">
+            <div class="action-dock" aria-label="Session quick controls">
                 <div class="action-dock-shell">
-                    <div>
-                        <h3 style="font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--neutral-400); margin-bottom: 0.25rem;">Live status</h3>
-                        <div style="font-size: 1.5rem; font-weight: 800; color: var(--neutral-50); margin-bottom: 0.25rem;" id="dockStatusLabel">Prep</div>
-                        <p style="font-size: 0.875rem; color: var(--neutral-400);" id="dockStatusHint">Authenticate to unlock your plan.</p>
+                    <div class="dock-status">
+                        <h3>Live status</h3>
+                        <div class="dock-value" id="dockStatusLabel">Prep</div>
+                        <p class="dock-hint" id="dockStatusHint">Authenticate to unlock your plan.</p>
                     </div>
-                    <div style="display: flex; gap: var(--space-3);">
-                        <button class="btn btn-primary" id="dockPrimaryAction" onclick="handlePrimaryNavAction()">
-                            <i class="ri-play-line"></i> Start session
+                    <div class="dock-actions">
+                        <button class="btn btn-primary" id="dockPrimaryAction" aria-label="Start session" onclick="handlePrimaryNavAction()">
+                            <i class="ri-play-line" aria-hidden="true"></i> Start session
                         </button>
-                        <button class="btn btn-secondary" onclick="scrollToSection('phaseMission')">
-                            <i class="ri-run-line"></i> Jump to exercises
+                        <button class="btn btn-secondary" aria-label="Jump to exercises" onclick="scrollToSection('phaseMission')">
+                            <i class="ri-run-line" aria-hidden="true"></i> Jump to exercises
                         </button>
-                        <button class="btn btn-danger" onclick="emergencyStop()">
-                            <i class="ri-alarm-line"></i> Emergency stop
+                        <button class="btn btn-danger" aria-label="Emergency stop" onclick="emergencyStop()">
+                            <i class="ri-alarm-line" aria-hidden="true"></i> Emergency stop
                         </button>
                     </div>
                 </div>
@@ -1444,10 +2377,14 @@
 
     <script>
     // =========================================================
+    // COMPLETE JAVASCRIPT - ALL FUNCTIONALITY INCLUDED
+    // =========================================================
+    
+    // =========================================================
     // APPLICATION STATE
     // =========================================================
     const AppState = {
-        version: '4.3',
+        version: '5.0',
         operator: {
             id: 'MARVIN',
             clearance: 'Rehab_RISING',
@@ -1483,7 +2420,7 @@
     // STATE MANAGEMENT
     // =========================================================
     const StateManager = {
-        KEY: 'RehabSessionPro_State',
+        KEY: 'RehabSessionPro_State_v5',
         
         save() {
             try {
@@ -1507,6 +2444,16 @@
                 console.error('Failed to load state:', error);
             }
             return false;
+        },
+        
+        clear() {
+            try {
+                localStorage.removeItem(this.KEY);
+                return true;
+            } catch (error) {
+                console.error('Failed to clear state:', error);
+                return false;
+            }
         }
     };
 
@@ -1519,6 +2466,8 @@
         
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
+        notification.setAttribute('role', 'alert');
+        notification.setAttribute('aria-live', 'polite');
         
         notification.innerHTML = `
             <div class="notification-title">${title}</div>
@@ -1535,6 +2484,15 @@
                 }
             }, duration);
         }
+        
+        // Announce to screen readers
+        const announcement = document.createElement('div');
+        announcement.setAttribute('aria-live', 'assertive');
+        announcement.setAttribute('aria-atomic', 'true');
+        announcement.className = 'sr-only';
+        announcement.textContent = `${title}: ${message}`;
+        document.body.appendChild(announcement);
+        setTimeout(() => announcement.remove(), 1000);
     }
 
     // =========================================================
@@ -1556,7 +2514,10 @@
         });
         
         // Update all clock elements
-        const clocks = ['currentTime', 'sessionClockValue'];
+        const clocks = [
+            'currentTime',
+            'sessionClockValue'
+        ];
         
         clocks.forEach(id => {
             const el = document.getElementById(id);
@@ -1628,6 +2589,7 @@
             e.preventDefault();
             this.isDragging = true;
             this.marker.style.cursor = 'grabbing';
+            this.marker.setAttribute('aria-grabbed', 'true');
         }
         
         drag(e) {
@@ -1648,6 +2610,7 @@
         stopDrag() {
             this.isDragging = false;
             this.marker.style.cursor = 'grab';
+            this.marker.setAttribute('aria-grabbed', 'false');
         }
         
         setValue(value) {
@@ -1657,6 +2620,7 @@
             // Update UI
             this.marker.style.left = `${percentage}%`;
             this.marker.textContent = this.currentValue.toFixed(1);
+            this.marker.setAttribute('aria-valuenow', this.currentValue.toFixed(1));
             
             // Update app state and displays
             AppState.session.metrics.painIndex = this.currentValue;
@@ -1666,6 +2630,7 @@
                 'painValue',
                 'realTimePain',
                 'livePain',
+                'summaryPainBadge',
                 'summaryPainBaseline'
             ];
             
@@ -1674,6 +2639,8 @@
                 if (el) {
                     if (id === 'summaryPainBaseline') {
                         el.textContent = `${this.currentValue.toFixed(1)}/10`;
+                    } else if (id === 'summaryPainBadge') {
+                        el.textContent = `${this.currentValue.toFixed(1)} / 10`;
                     } else {
                         el.textContent = this.currentValue.toFixed(1);
                     }
@@ -1686,16 +2653,26 @@
             
             const fatigueBar = document.getElementById('fatigueBar');
             const fatigueValue = document.getElementById('fatigueValue');
+            const summaryFatigue = document.getElementById('summaryFatigue');
             
-            if (fatigueBar) fatigueBar.style.width = `${fatigue}%`;
+            if (fatigueBar) {
+                fatigueBar.style.width = `${fatigue}%`;
+                fatigueBar.setAttribute('aria-valuenow', fatigue);
+            }
             if (fatigueValue) fatigueValue.textContent = `${fatigue}%`;
+            if (summaryFatigue) summaryFatigue.textContent = `${fatigue}%`;
             
             // Update readiness
             const readiness = Math.max(0, 100 - (this.currentValue * 10) - (fatigue * 0.5));
             AppState.session.metrics.readiness = readiness;
             
-            document.getElementById('readinessScore').textContent = `${Math.round(readiness)}%`;
-            document.getElementById('bioReadiness').textContent = `${Math.round(readiness)}%`;
+            const readinessScore = document.getElementById('readinessScore');
+            const summaryReadiness = document.getElementById('summaryReadinessValue');
+            const bioReadiness = document.getElementById('bioReadiness');
+            
+            if (readinessScore) readinessScore.textContent = `${Math.round(readiness)}%`;
+            if (summaryReadiness) summaryReadiness.textContent = `${Math.round(readiness)}%`;
+            if (bioReadiness) bioReadiness.textContent = `${Math.round(readiness)}%`;
             
             // Update readiness ring
             const readinessRing = document.getElementById('readinessRing');
@@ -1709,6 +2686,7 @@
             const readinessBar = document.getElementById('readinessBar');
             if (readinessBar) {
                 readinessBar.style.width = `${readiness}%`;
+                readinessBar.setAttribute('aria-valuenow', readiness);
             }
             
             // Check pain threshold
@@ -1723,20 +2701,26 @@
             const warning = document.getElementById('painWarning');
             
             if (this.currentValue >= threshold) {
-                if (warning) warning.classList.remove('hidden');
+                if (warning) {
+                    warning.classList.remove('hidden');
+                    warning.setAttribute('aria-hidden', 'false');
+                }
                 if (this.currentValue >= 8) {
                     showNotification('Severe Pain Alert', 
                         `Pain level ${this.currentValue.toFixed(1)}/10 detected. Consider stopping.`, 
                         'error');
                 }
             } else {
-                if (warning) warning.classList.add('hidden');
+                if (warning) {
+                    warning.classList.add('hidden');
+                    warning.setAttribute('aria-hidden', 'true');
+                }
             }
         }
     }
 
     // =========================================================
-    // CALM MODE
+    // CALM MODE MANAGER
     // =========================================================
     class CalmModeManager {
         constructor() {
@@ -1770,8 +2754,8 @@
             if (btn) {
                 btn.setAttribute("aria-pressed", enabled.toString());
                 btn.innerHTML = enabled ? 
-                    '<i class="ri-moon-clear-line"></i>' : 
-                    '<i class="ri-sun-line"></i>';
+                    '<i class="ri-moon-clear-line" aria-hidden="true"></i>' : 
+                    '<i class="ri-sun-line" aria-hidden="true"></i>';
             }
             
             if (label) {
@@ -1818,6 +2802,7 @@
         
         // Update UI
         document.getElementById('operatorName').textContent = `Patient: ${operatorId}`;
+        document.getElementById('briefOperator').textContent = operatorId;
         document.getElementById('missionName').textContent = `Rehab Session - ${missionProfile}`;
         document.getElementById('sessionPatient').textContent = operatorId;
         
@@ -1901,10 +2886,9 @@
     }
 
     function emergencyStop() {
-        if (!AppState.session.active) return;
-        
         AppState.session.active = false;
         AppState.session.paused = false;
+        AppState.session.authenticated = false;
         
         // Show emergency notification
         showNotification('EMERGENCY STOP', 'Session terminated for safety. Check pain levels.', 'error', 10000);
@@ -1912,6 +2896,18 @@
         // Update UI
         updateSystemStatus();
         refreshExperienceSummary();
+        
+        // Reset UI state
+        document.getElementById('phaseAuth').classList.remove('hidden');
+        document.getElementById('phaseBio').classList.add('hidden');
+        document.getElementById('phaseMission').classList.add('hidden');
+        document.getElementById('phaseDebrief').classList.add('hidden');
+        
+        // Reset state indicators
+        document.getElementById('stepAuthState').textContent = 'Prep';
+        document.getElementById('stepBioState').textContent = 'Locked';
+        document.getElementById('stepMissionState').textContent = 'Queued';
+        document.getElementById('stepDebriefState').textContent = 'Later';
         
         // Save state
         StateManager.save();
@@ -1966,6 +2962,7 @@
     // =========================================================
     function loadExercises() {
         const exerciseContainer = document.getElementById('exerciseContainer');
+        const exercisePeek = document.getElementById('exercisePeek');
         
         if (!exerciseContainer) return;
         
@@ -2036,11 +3033,12 @@
             }
         ];
         
-        // Clear container
+        // Clear containers
         exerciseContainer.innerHTML = '';
+        if (exercisePeek) exercisePeek.innerHTML = '';
         
-        // Load exercise list
-        exercises.forEach((exercise) => {
+        // Load main exercise list
+        exercises.forEach((exercise, index) => {
             const isCompleted = AppState.session.completedExercises.includes(exercise.id);
             
             const exerciseCard = document.createElement('div');
@@ -2048,50 +3046,71 @@
             exerciseCard.id = `exercise-${exercise.id}`;
             
             exerciseCard.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                    <div style="font-size: 1.25rem; font-weight: 700; color: var(--neutral-50);">${exercise.name}</div>
-                    <span style="background: rgba(255, 255, 255, 0.1); color: var(--neutral-300); padding: 0.25rem 0.75rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">${exercise.difficulty}</span>
+                <div class="exercise-header">
+                    <div class="exercise-title">${exercise.name}</div>
+                    <span class="exercise-difficulty">${exercise.difficulty}</span>
                 </div>
-                <div style="display: flex; gap: 1rem; margin-bottom: 0.75rem;">
-                    <span style="display: inline-flex; align-items: center; gap: 0.375rem; font-size: 0.875rem; color: var(--neutral-400);">
-                        <i class="ri-time-line"></i> ${exercise.duration}s
-                    </span>
-                    <span style="display: inline-flex; align-items: center; gap: 0.375rem; font-size: 0.875rem; color: var(--neutral-400);">
-                        <i class="ri-repeat-line"></i> ${exercise.sets} sets
-                    </span>
-                    <span style="display: inline-flex; align-items: center; gap: 0.375rem; font-size: 0.875rem; color: var(--neutral-400);">
-                        <i class="ri-run-line"></i> ${exercise.reps}
-                    </span>
+                <div class="exercise-meta">
+                    <span><i class="ri-time-line"></i> ${exercise.duration}s</span>
+                    <span><i class="ri-repeat-line"></i> ${exercise.sets} sets</span>
+                    <span><i class="ri-run-line"></i> ${exercise.reps}</span>
                 </div>
-                <p style="color: var(--neutral-300); margin-bottom: 1rem;">${exercise.description}</p>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 1rem;">
-                    <div style="text-align: center; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: var(--radius-lg);">
-                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--neutral-50); font-family: var(--font-mono);">${exercise.duration}</div>
-                        <div style="font-size: 0.75rem; color: var(--neutral-400); text-transform: uppercase;">Seconds</div>
+                <p>${exercise.description}</p>
+                <div class="exercise-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">${exercise.duration}</div>
+                        <div class="stat-label">Seconds</div>
                     </div>
-                    <div style="text-align: center; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: var(--radius-lg);">
-                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--neutral-50); font-family: var(--font-mono);">${exercise.sets}</div>
-                        <div style="font-size: 0.75rem; color: var(--neutral-400); text-transform: uppercase;">Sets</div>
+                    <div class="stat-item">
+                        <div class="stat-value">${exercise.sets}</div>
+                        <div class="stat-label">Sets</div>
                     </div>
-                    <div style="text-align: center; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: var(--radius-lg);">
-                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--neutral-50); font-family: var(--font-mono);">${isCompleted ? '✓' : '○'}</div>
-                        <div style="font-size: 0.75rem; color: var(--neutral-400); text-transform: uppercase;">Status</div>
+                    <div class="stat-item">
+                        <div class="stat-value">${isCompleted ? '✓' : '○'}</div>
+                        <div class="stat-label">Status</div>
                     </div>
                 </div>
-                <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
-                    <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;" onclick="startExercise('${exercise.id}')">
+                <div class="flex gap-3 mt-4">
+                    <button class="btn btn-primary btn-sm" onclick="startExercise('${exercise.id}')">
                         <i class="ri-play-line"></i> Start
                     </button>
-                    <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;" onclick="completeExercise('${exercise.id}')">
+                    <button class="btn btn-secondary btn-sm" onclick="completeExercise('${exercise.id}')">
                         <i class="ri-check-line"></i> Mark Done
                     </button>
-                    <button class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.875rem;" onclick="skipExercise('${exercise.id}')">
+                    <button class="btn btn-outline btn-sm" onclick="skipExercise('${exercise.id}')">
                         <i class="ri-skip-forward-line"></i> Skip
                     </button>
                 </div>
             `;
             
             exerciseContainer.appendChild(exerciseCard);
+            
+            // Add to peek view (first 3 exercises)
+            if (exercisePeek && index < 3) {
+                const peekCard = document.createElement('div');
+                peekCard.className = `peek-card ${isCompleted ? 'done' : ''}`;
+                peekCard.style.cssText = 'background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); padding: var(--space-4); display: grid; grid-template-columns: 1fr auto; gap: var(--space-3);';
+                
+                peekCard.innerHTML = `
+                    <div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.25rem;">
+                            <div style="font-weight: 600; color: var(--neutral-50);">${exercise.name}</div>
+                            <span style="background: rgba(77, 243, 201, 0.1); color: var(--accent-teal); padding: 0.25rem 0.5rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 600;">${exercise.duration}s</span>
+                        </div>
+                        <div style="font-size: 0.875rem; color: var(--neutral-400); grid-column: span 2;">${exercise.sets} sets · ${exercise.reps}</div>
+                    </div>
+                    <div style="display: flex; gap: var(--space-2); align-self: center;">
+                        <button class="btn btn-primary btn-sm" onclick="startExercise('${exercise.id}')">
+                            <i class="ri-play-line"></i>
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="completeExercise('${exercise.id}')">
+                            <i class="ri-check-line"></i>
+                        </button>
+                    </div>
+                `;
+                
+                exercisePeek.appendChild(peekCard);
+            }
         });
         
         // Update quick exercise display
@@ -2100,6 +3119,8 @@
             const isFirstCompleted = AppState.session.completedExercises.includes(firstExercise.id);
             
             if (!isFirstCompleted) {
+                document.getElementById('quickExerciseName').textContent = firstExercise.name;
+                document.getElementById('quickExerciseMeta').textContent = `${firstExercise.duration}s · ${firstExercise.sets} sets · ${firstExercise.difficulty}`;
                 document.getElementById('dockExerciseName').textContent = firstExercise.name;
                 document.getElementById('dockExerciseMeta').textContent = `${firstExercise.duration}s · ${firstExercise.sets} sets · ${firstExercise.difficulty}`;
             }
@@ -2110,10 +3131,14 @@
     }
 
     function startExercise(exerciseId) {
-        const exerciseName = document.querySelector(`#exercise-${exerciseId} div:first-child`).textContent;
+        const exerciseCard = document.getElementById(`exercise-${exerciseId}`);
+        if (!exerciseCard) return;
+        
+        const exerciseName = exerciseCard.querySelector('.exercise-title').textContent;
         
         // Update UI
         document.getElementById('dockExerciseName').textContent = exerciseName;
+        document.getElementById('quickExerciseName').textContent = exerciseName;
         
         // Show notification
         showNotification('Exercise Started', `Starting ${exerciseName}. Focus on form and breathing.`, 'info');
@@ -2169,6 +3194,14 @@
         
         document.getElementById('completedExercises').textContent = completedCount;
         document.getElementById('dockExerciseCount').textContent = `${completedCount}/7 done`;
+        document.getElementById('quickExerciseCount').textContent = `${completedCount}/7 done`;
+        
+        // Update quick exercise to next uncompleted exercise
+        const nextExercise = document.querySelector('.exercise-card:not(.completed)');
+        if (nextExercise) {
+            const nextName = nextExercise.querySelector('.exercise-title').textContent;
+            document.getElementById('quickExerciseName').textContent = nextName;
+        }
     }
 
     function quickStartExercise() {
@@ -2224,7 +3257,14 @@
     function scrollToSection(sectionId) {
         const section = document.getElementById(sectionId);
         if (section) {
-            section.scrollIntoView({ behavior: 'smooth' });
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            // Update focus for accessibility
+            setTimeout(() => {
+                section.setAttribute('tabindex', '-1');
+                section.focus();
+                section.removeAttribute('tabindex');
+            }, 300);
         }
     }
 
@@ -2248,6 +3288,8 @@
         document.getElementById('summarySessions').textContent = AppState.progress.totalSessions;
         document.getElementById('summaryPainLimit').textContent = `${AppState.operator.profile.painThreshold}/10`;
         document.getElementById('summaryPainBaseline').textContent = `${AppState.session.metrics.painIndex.toFixed(1)}/10`;
+        document.getElementById('summaryReadinessValue').textContent = `${Math.round(AppState.session.metrics.readiness)}%`;
+        document.getElementById('summaryFatigue').textContent = `${Math.round(AppState.session.metrics.fatigue)}%`;
         
         // Update session state
         const sessionState = AppState.session.active ? 
@@ -2304,6 +3346,31 @@
         // Load saved state
         if (StateManager.load()) {
             showNotification('System Ready', 'Previous session loaded successfully', 'success', 3000);
+            
+            // Restore UI based on loaded state
+            if (AppState.session.authenticated) {
+                document.getElementById('operatorName').textContent = `Patient: ${AppState.operator.id}`;
+                document.getElementById('missionName').textContent = `Rehab Session - ${AppState.operator.profile.intensity}`;
+                document.getElementById('sessionPatient').textContent = AppState.operator.id;
+                document.getElementById('stepAuthState').textContent = 'Done';
+                document.getElementById('stepBioState').textContent = 'Ready';
+                
+                if (AppState.session.phase >= 2) {
+                    document.getElementById('phaseAuth').classList.add('hidden');
+                    document.getElementById('phaseBio').classList.remove('hidden');
+                }
+                
+                if (AppState.session.phase >= 3) {
+                    document.getElementById('phaseBio').classList.add('hidden');
+                    document.getElementById('phaseMission').classList.remove('hidden');
+                    loadExercises();
+                }
+                
+                if (AppState.session.phase >= 4) {
+                    document.getElementById('phaseMission').classList.add('hidden');
+                    document.getElementById('phaseDebrief').classList.remove('hidden');
+                }
+            }
         }
         
         // Update initial displays
@@ -2348,16 +3415,24 @@
             if (e.code === 'Escape' && AppState.session.active) {
                 emergencyStop();
             }
+            
+            // Ctrl/Cmd + S to save
+            if ((e.ctrlKey || e.metaKey) && e.code === 'KeyS') {
+                e.preventDefault();
+                if (StateManager.save()) {
+                    showNotification('Session Saved', 'Progress saved successfully', 'success', 2000);
+                }
+            }
         });
         
         // Initialize clock
         setInterval(updateSystemTime, 1000);
         
-        console.log('🚀 Rehab Session Pro v4.3 - Fully Functional');
+        console.log('🚀 Rehab Session Pro v5.0 - Complete & Fully Functional');
     });
 
     // =========================================================
-    // GLOBAL FUNCTIONS
+    // GLOBAL EXPORTS
     // =========================================================
     window.authenticateOperator = authenticateOperator;
     window.beginMission = beginMission;
