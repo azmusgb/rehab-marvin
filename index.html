@@ -355,6 +355,13 @@
             color: var(--neutral-400);
             margin: 0;
         }
+
+        .nav-helper {
+            color: var(--neutral-300);
+            font-size: 0.95rem;
+            margin-top: 0.35rem;
+            max-width: 32rem;
+        }
         
         .nav-links {
             display: grid;
@@ -665,6 +672,54 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: var(--space-4);
+        }
+
+        .micro-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: var(--space-3);
+            margin-top: var(--space-3);
+        }
+
+        .micro-step {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-xl);
+            padding: var(--space-4);
+            display: flex;
+            gap: var(--space-3);
+            align-items: flex-start;
+            min-height: 100%;
+        }
+
+        .micro-step__icon {
+            width: 38px;
+            height: 38px;
+            border-radius: var(--radius-lg);
+            background: rgba(77, 243, 201, 0.12);
+            color: var(--accent-teal);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.95rem;
+        }
+
+        .micro-step__body {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .micro-step__title {
+            font-weight: 700;
+            color: var(--neutral-50);
+        }
+
+        .micro-step__hint {
+            color: var(--neutral-300);
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
         
         .step-card {
@@ -1707,6 +1762,7 @@
             <div class="nav-brand">
                 <h1>Rehab Session Pro</h1>
                 <p>Guided steps with calmer visuals and quick access.</p>
+                <p class="nav-helper" id="navHelperText">Start here: enter your name, slide the pain dial, then press “Start session”.</p>
             </div>
             <div class="nav-links" role="list">
                 <button class="nav-link" role="listitem" aria-label="Sign in to session" onclick="scrollToSection('phaseAuth')">
@@ -1841,6 +1897,30 @@
                                 <i class="ri-focus-line" aria-hidden="true"></i> Jump to readiness
                             </button>
                         </div>
+
+                        <div class="micro-steps" aria-label="3 quick steps to get started">
+                            <div class="micro-step">
+                                <span class="micro-step__icon" aria-hidden="true">1</span>
+                                <div class="micro-step__body">
+                                    <div class="micro-step__title">Sign in with your name</div>
+                                    <div class="micro-step__hint">Keep it simple: enter your name, pick a profile, and we fill the rest.</div>
+                                </div>
+                            </div>
+                            <div class="micro-step">
+                                <span class="micro-step__icon" aria-hidden="true">2</span>
+                                <div class="micro-step__body">
+                                    <div class="micro-step__title">Set how you feel today</div>
+                                    <div class="micro-step__hint">Slide the pain dial and glance at fatigue. The readiness ring updates instantly.</div>
+                                </div>
+                            </div>
+                            <div class="micro-step">
+                                <span class="micro-step__icon" aria-hidden="true">3</span>
+                                <div class="micro-step__body">
+                                    <div class="micro-step__title">Press start and follow the list</div>
+                                    <div class="micro-step__hint">The timer, exercise list, and quick dock keep the next action obvious.</div>
+                                </div>
+                            </div>
+                        </div>
                         
                         <div class="hero-pills">
                             <div class="pill">
@@ -1900,7 +1980,7 @@
                                 <p class="text-neutral-300" id="quickExerciseMeta">00:10 · 4 sets · basic</p>
                                 <div class="spotlight-tags mt-3">
                                     <span class="badge" id="quickExercisePhase">Week 1 — Learning &amp; Safety</span>
-                                    <span class="pill-soft" id="quickExerciseCount">0/0 done</span>
+                                    <span class="pill-soft" id="quickExerciseCount">0/7 done</span>
                                 </div>
                             </div>
                             <div class="spotlight-actions">
@@ -2415,6 +2495,72 @@
             streak: 0
         }
     };
+
+    const EXERCISES = [
+        {
+            id: 'single-leg-stand',
+            name: 'Single-Leg Stand',
+            description: 'Stand on one leg, other foot lightly off the floor',
+            duration: 10,
+            sets: 4,
+            reps: '2× each leg',
+            difficulty: 'basic'
+        },
+        {
+            id: 'tandem-stand',
+            name: 'Feet in a Line (Tandem)',
+            description: 'Heel-to-toe stand',
+            duration: 10,
+            sets: 2,
+            reps: 'Switch lead foot',
+            difficulty: 'basic'
+        },
+        {
+            id: 'side-stepping',
+            name: 'Side Stepping',
+            description: 'Side steps with balance',
+            duration: 30,
+            sets: 2,
+            reps: '5 steps each direction',
+            difficulty: 'basic'
+        },
+        {
+            id: 'backward-walking',
+            name: 'Backward Walking',
+            description: 'Slow backward steps',
+            duration: 20,
+            sets: 2,
+            reps: '5 steps',
+            difficulty: 'basic'
+        },
+        {
+            id: 'calf-raises',
+            name: 'Calf Raises',
+            description: 'Rise onto toes holding counter',
+            duration: 30,
+            sets: 1,
+            reps: '10 each leg',
+            difficulty: 'basic'
+        },
+        {
+            id: 'marching-knees',
+            name: 'Marching Knees',
+            description: 'Lift one knee at a time',
+            duration: 30,
+            sets: 1,
+            reps: '10 total steps',
+            difficulty: 'basic'
+        },
+        {
+            id: 'mini-squats',
+            name: 'Mini Squats',
+            description: 'Small knee bends',
+            duration: 30,
+            sets: 1,
+            reps: '8-10 times',
+            difficulty: 'basic'
+        }
+    ];
     const MarvinDefaults = {
         id: 'MARVIN',
         clearance: 'Rehab_RISING',
@@ -2978,7 +3124,7 @@
         document.getElementById('debriefTime').textContent = formatTime(duration);
         document.getElementById('debriefExercises').textContent = AppState.session.completedExercises.length;
         document.getElementById('debriefPain').textContent = AppState.session.metrics.painIndex.toFixed(1);
-        document.getElementById('debriefSuccess').textContent = `${Math.min(100, Math.floor((AppState.session.completedExercises.length / 7) * 100))}%`;
+        document.getElementById('debriefSuccess').textContent = `${Math.min(100, Math.floor((AppState.session.completedExercises.length / EXERCISES.length) * 100))}%`;
         
         // Show success notification
         showNotification('Session Complete', `Great work! ${AppState.session.completedExercises.length} exercises completed.`, 'success');
@@ -3002,80 +3148,13 @@
         const exercisePeek = document.getElementById('exercisePeek');
         
         if (!exerciseContainer) return;
-        
-        // Week 1 exercises
-        const exercises = [
-            {
-                id: 'single-leg-stand',
-                name: 'Single-Leg Stand',
-                description: 'Stand on one leg, other foot lightly off the floor',
-                duration: 10,
-                sets: 4,
-                reps: '2× each leg',
-                difficulty: 'basic'
-            },
-            {
-                id: 'tandem-stand',
-                name: 'Feet in a Line (Tandem)',
-                description: 'Heel-to-toe stand',
-                duration: 10,
-                sets: 2,
-                reps: 'Switch lead foot',
-                difficulty: 'basic'
-            },
-            {
-                id: 'side-stepping',
-                name: 'Side Stepping',
-                description: 'Side steps with balance',
-                duration: 30,
-                sets: 2,
-                reps: '5 steps each direction',
-                difficulty: 'basic'
-            },
-            {
-                id: 'backward-walking',
-                name: 'Backward Walking',
-                description: 'Slow backward steps',
-                duration: 20,
-                sets: 2,
-                reps: '5 steps',
-                difficulty: 'basic'
-            },
-            {
-                id: 'calf-raises',
-                name: 'Calf Raises',
-                description: 'Rise onto toes holding counter',
-                duration: 30,
-                sets: 1,
-                reps: '10 each leg',
-                difficulty: 'basic'
-            },
-            {
-                id: 'marching-knees',
-                name: 'Marching Knees',
-                description: 'Lift one knee at a time',
-                duration: 30,
-                sets: 1,
-                reps: '10 total steps',
-                difficulty: 'basic'
-            },
-            {
-                id: 'mini-squats',
-                name: 'Mini Squats',
-                description: 'Small knee bends',
-                duration: 30,
-                sets: 1,
-                reps: '8-10 times',
-                difficulty: 'basic'
-            }
-        ];
-        
+
         // Clear containers
         exerciseContainer.innerHTML = '';
         if (exercisePeek) exercisePeek.innerHTML = '';
         
         // Load main exercise list
-        exercises.forEach((exercise, index) => {
+        EXERCISES.forEach((exercise, index) => {
             const isCompleted = AppState.session.completedExercises.includes(exercise.id);
             
             const exerciseCard = document.createElement('div');
@@ -3151,8 +3230,8 @@
         });
         
         // Update quick exercise display
-        if (exercises.length > 0) {
-            const firstExercise = exercises[0];
+        if (EXERCISES.length > 0) {
+            const firstExercise = EXERCISES[0];
             const isFirstCompleted = AppState.session.completedExercises.includes(firstExercise.id);
             
             if (!isFirstCompleted) {
@@ -3207,7 +3286,7 @@
         StateManager.save();
         
         // Check if all exercises are done
-        if (AppState.session.completedExercises.length >= 7) {
+        if (AppState.session.completedExercises.length >= EXERCISES.length) {
             setTimeout(() => {
                 showNotification('All Exercises Complete', 'All Week 1 exercises completed! Ready for session summary.', 'success');
             }, 1000);
@@ -3230,8 +3309,8 @@
         const completedCount = AppState.session.completedExercises.length;
         
         document.getElementById('completedExercises').textContent = completedCount;
-        document.getElementById('dockExerciseCount').textContent = `${completedCount}/7 done`;
-        document.getElementById('quickExerciseCount').textContent = `${completedCount}/7 done`;
+        document.getElementById('dockExerciseCount').textContent = `${completedCount}/${EXERCISES.length} done`;
+        document.getElementById('quickExerciseCount').textContent = `${completedCount}/${EXERCISES.length} done`;
         
         // Update quick exercise to next uncompleted exercise
         const nextExercise = document.querySelector('.exercise-card:not(.completed)');
@@ -3242,6 +3321,18 @@
     }
 
     function quickStartExercise() {
+        if (!AppState.session.authenticated) {
+            showNotification('Sign in first', 'Enter your name to unlock exercises.', 'info');
+            scrollToSection('phaseAuth');
+            return;
+        }
+
+        if (!AppState.session.active) {
+            beginMission();
+            setTimeout(() => quickStartExercise(), 200);
+            return;
+        }
+
         // Find first uncompleted exercise
         const firstExercise = document.querySelector('.exercise-card:not(.completed)');
         if (firstExercise) {
@@ -3318,6 +3409,50 @@
         }
     }
 
+    function computeSessionHint() {
+        if (!AppState.session.authenticated) {
+            return {
+                nav: 'Enter your name, pick a profile, slide the pain dial, then press “Start session”.',
+                dock: 'Sign in to unlock readiness and the exercise list.'
+            };
+        }
+
+        if (AppState.session.phase >= 4) {
+            return {
+                nav: 'Session complete. Review the summary, jot notes, or export.',
+                dock: 'All exercises logged. Save, export, or start a new session.'
+            };
+        }
+
+        if (!AppState.session.active) {
+            return {
+                nav: 'You are signed in. Confirm how you feel, then tap Begin session.',
+                dock: 'Run the readiness check, then hit Begin session.'
+            };
+        }
+
+        if (AppState.session.active && AppState.session.paused) {
+            return {
+                nav: 'Session is paused. Press Resume to continue or Complete to finish.',
+                dock: 'Resume when steady, or end the session if you are done.'
+            };
+        }
+
+        return {
+            nav: 'Stay with the timer and follow the highlighted exercise.',
+            dock: 'Keep the dock visible; next action is always on the left.'
+        };
+    }
+
+    function updateSessionHints() {
+        const { nav, dock } = computeSessionHint();
+        const navHelper = document.getElementById('navHelperText');
+        const dockHint = document.getElementById('dockStatusHint');
+
+        if (navHelper) navHelper.textContent = nav;
+        if (dockHint) dockHint.textContent = dock;
+    }
+
     function refreshExperienceSummary() {
         // Update all summary displays
         document.getElementById('summaryProfile').textContent = AppState.operator.profile.intensity;
@@ -3343,6 +3478,8 @@
             const el = document.getElementById(id);
             if (el) el.textContent = sessionState;
         });
+
+        updateSessionHints();
         
         // Update action button text
         const primaryActionBtn = document.getElementById('navPrimaryAction');
@@ -3464,6 +3601,8 @@
         });
         
         autoAuthenticateMarvin();
+        loadExercises();
+        updateExerciseCount();
 
         // Initialize clock
         setInterval(updateSystemTime, 1000);
