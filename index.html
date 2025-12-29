@@ -2,6 +2,3416 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Rehab Session Pro | Advanced Neuro-Muscular Rehabilitation</title>
+    <meta name="description" content="Next-generation rehabilitation platform with AI-driven protocols and real-time biofeedback">
+    <meta name="theme-color" content="#0b1020">
+    
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <style>
+        /* =========================================================
+           CRITICAL CSS (Above the fold)
+        ========================================================= */
+        :root {
+            /* Color Palette - Enhanced contrast */
+            --primary-50: #f0f9ff;
+            --primary-100: #e0f2fe;
+            --primary-200: #bae6fd;
+            --primary-300: #7dd3fc;
+            --primary-400: #38bdf8;
+            --primary-500: #2dd4bf;
+            --primary-600: #22c55e;
+            --primary-700: #06b6d4;
+            --primary-800: #2563eb;
+            --primary-900: #111827;
+            --primary-950: #0b1020;
+
+            /* Enhanced accent colors for better accessibility */
+            --accent-teal: #4df3c9;
+            --accent-teal-dark: #00c9a5;
+            --accent-blue: #7cb7ff;
+            --accent-blue-dark: #4a90e2;
+            --accent-purple: #b38bff;
+            --accent-orange: #ffb36b;
+            --accent-green: #8ef4c5;
+            --accent-green-dark: #2ecc71;
+            --accent-yellow: #ffe082;
+            --accent-red: #ff6b81;
+            --accent-red-dark: #e74c3c;
+            --accent-pink: #ff8ad8;
+
+            /* Neutral colors with better contrast */
+            --neutral-50: #f8fafc;
+            --neutral-100: #f1f5f9;
+            --neutral-200: #e2e8f0;
+            --neutral-300: #cbd5e1;
+            --neutral-400: #94a3b8;
+            --neutral-500: #64748b;
+            --neutral-600: #465672;
+            --neutral-700: #2e3a55;
+            --neutral-800: #1a2538;
+            --neutral-900: #0f172a;
+            --neutral-950: #070c16;
+
+            /* Status colors with better contrast */
+            --status-success: #10b981;
+            --status-warning: #f59e0b;
+            --status-error: #ef4444;
+            --status-info: #3b82f6;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #4df3c9 0%, #6fb8ff 40%, #b38bff 100%);
+            --gradient-secondary: linear-gradient(135deg, #8bfce0 0%, #7cb7ff 45%, #ff8ad8 100%);
+            --gradient-warning: linear-gradient(135deg, var(--accent-yellow) 0%, var(--accent-orange) 100%);
+            --gradient-success: linear-gradient(135deg, #7cf8c4 0%, #4df3c9 100%);
+            --gradient-danger: linear-gradient(135deg, #ff6b81 0%, #ff9f66 100%);
+            --gradient-dark: linear-gradient(135deg, #0b1224 0%, #0f172a 100%);
+            --gradient-glass: linear-gradient(145deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.04) 100%);
+            
+            /* Typography */
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', 'Roboto Mono', 'Courier New', monospace;
+            
+            /* Spacing - Enhanced for touch */
+            --space-unit: 0.25rem;
+            --space-0: 0;
+            --space-1: calc(1 * var(--space-unit));
+            --space-2: calc(2 * var(--space-unit));
+            --space-3: calc(3 * var(--space-unit));
+            --space-4: calc(4 * var(--space-unit));
+            --space-6: calc(6 * var(--space-unit));
+            --space-8: calc(8 * var(--space-unit));
+            --space-12: calc(12 * var(--space-unit));
+            --space-16: calc(16 * var(--space-unit));
+            --space-20: calc(20 * var(--space-unit));
+            --space-24: calc(24 * var(--space-unit));
+            
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            --radius-3xl: 2rem;
+            --radius-full: 9999px;
+            
+            /* Shadows - Enhanced for better visibility */
+            --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.15), 0 2px 4px -1px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+            --shadow-glow: 0 0 50px rgba(0, 212, 170, 0.4);
+            --shadow-glow-blue: 0 0 50px rgba(58, 134, 255, 0.4);
+            --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+            
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            
+            /* Z-index - Organized */
+            --z-below: -1;
+            --z-base: 1;
+            --z-above: 10;
+            --z-docked: 100;
+            --z-sticky: 200;
+            --z-fixed: 300;
+            --z-modal: 400;
+            --z-popover: 500;
+            --z-toast: 600;
+            --z-tooltip: 700;
+            --z-max: 9999;
+
+            /* Surfaces & Focus - Enhanced contrast */
+            --surface-muted: rgba(255, 255, 255, 0.06);
+            --surface-strong: rgba(255, 255, 255, 0.12);
+            --border-strong: rgba(255, 255, 255, 0.18);
+            --focus-ring: 0 0 0 3px rgba(77, 243, 201, 0.5);
+            --focus-ring-error: 0 0 0 3px rgba(239, 68, 68, 0.5);
+        }
+
+        /* =========================================================
+           CRITICAL RESETS & BASE STYLES
+        ========================================================= */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: radial-gradient(circle at 20% 20%, rgba(77, 243, 201, 0.08), transparent 30%), 
+                        radial-gradient(circle at 80% 10%, rgba(115, 179, 255, 0.08), transparent 30%), 
+                        radial-gradient(circle at 50% 80%, rgba(255, 138, 216, 0.08), transparent 28%), 
+                        var(--neutral-950);
+            color: var(--neutral-50);
+            line-height: 1.6;
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Screen reader only */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Skip to main content */
+        .skip-to-content {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--gradient-primary);
+            color: var(--neutral-950);
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-weight: 600;
+            z-index: var(--z-max);
+            transition: top 0.3s ease;
+        }
+
+        .skip-to-content:focus {
+            top: var(--space-3);
+        }
+
+        /* Enhanced focus styles */
+        :focus-visible {
+            outline: 3px solid var(--accent-teal);
+            outline-offset: 3px;
+            border-radius: var(--radius-sm);
+        }
+
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible {
+            outline: 3px solid var(--accent-teal);
+            outline-offset: 2px;
+            box-shadow: var(--focus-ring);
+        }
+
+        /* Remove focus for mouse users */
+        :focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        /* =========================================================
+           LAYOUT & CONTAINERS - Enhanced for mobile
+        ========================================================= */
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 clamp(1rem, 3vw, 1.5rem);
+        }
+
+        .section {
+            padding: clamp(2.75rem, 6vw, 4.5rem) 0;
+        }
+
+        /* Grid system enhancements */
+        .grid {
+            display: grid;
+            gap: var(--space-6);
+        }
+        
+        .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        
+        /* Flex system enhancements */
+        .flex { display: flex; }
+        .inline-flex { display: inline-flex; }
+        .flex-col { flex-direction: column; }
+        .flex-row { flex-direction: row; }
+        .items-center { align-items: center; }
+        .items-start { align-items: flex-start; }
+        .items-end { align-items: flex-end; }
+        .items-stretch { align-items: stretch; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-around { justify-content: space-around; }
+        .justify-evenly { justify-content: space-evenly; }
+        .flex-wrap { flex-wrap: wrap; }
+        .flex-nowrap { flex-wrap: nowrap; }
+        .flex-1 { flex: 1 1 0%; }
+        
+        /* Gap utilities */
+        .gap-1 { gap: var(--space-1); }
+        .gap-2 { gap: var(--space-2); }
+        .gap-3 { gap: var(--space-3); }
+        .gap-4 { gap: var(--space-4); }
+        .gap-6 { gap: var(--space-6); }
+        .gap-8 { gap: var(--space-8); }
+        
+        /* Spacing utilities */
+        .p-0 { padding: 0; }
+        .p-1 { padding: var(--space-1); }
+        .p-2 { padding: var(--space-2); }
+        .p-3 { padding: var(--space-3); }
+        .p-4 { padding: var(--space-4); }
+        .p-6 { padding: var(--space-6); }
+        .p-8 { padding: var(--space-8); }
+        
+        .px-3 { padding-left: var(--space-3); padding-right: var(--space-3); }
+        .px-4 { padding-left: var(--space-4); padding-right: var(--space-4); }
+        .px-6 { padding-left: var(--space-6); padding-right: var(--space-6); }
+        
+        .py-2 { padding-top: var(--space-2); padding-bottom: var(--space-2); }
+        .py-3 { padding-top: var(--space-3); padding-bottom: var(--space-3); }
+        .py-4 { padding-top: var(--space-4); padding-bottom: var(--space-4); }
+        .py-6 { padding-top: var(--space-6); padding-bottom: var(--space-6); }
+        
+        .mt-1 { margin-top: var(--space-1); }
+        .mt-2 { margin-top: var(--space-2); }
+        .mt-3 { margin-top: var(--space-3); }
+        .mt-4 { margin-top: var(--space-4); }
+        .mt-6 { margin-top: var(--space-6); }
+        .mt-8 { margin-top: var(--space-8); }
+        
+        .mb-1 { margin-bottom: var(--space-1); }
+        .mb-2 { margin-bottom: var(--space-2); }
+        .mb-3 { margin-bottom: var(--space-3); }
+        .mb-4 { margin-bottom: var(--space-4); }
+        .mb-6 { margin-bottom: var(--space-6); }
+        .mb-8 { margin-bottom: var(--space-8); }
+        
+        .mx-auto { margin-left: auto; margin-right: auto; }
+
+        /* =========================================================
+           TYPOGRAPHY - Enhanced readability
+        ========================================================= */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+            color: var(--neutral-50);
+        }
+
+        h1 { font-size: clamp(2rem, 5vw, 3rem); }
+        h2 { font-size: clamp(1.75rem, 4vw, 2.5rem); }
+        h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
+        h4 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); }
+        h5 { font-size: clamp(1.125rem, 2vw, 1.5rem); }
+        h6 { font-size: clamp(1rem, 1.5vw, 1.25rem); }
+
+        p {
+            margin-bottom: var(--space-4);
+            color: var(--neutral-300);
+        }
+
+        .text-gradient {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-xs { font-size: 0.75rem; }
+        .text-sm { font-size: 0.875rem; }
+        .text-base { font-size: 1rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .text-4xl { font-size: 2.25rem; }
+        .text-5xl { font-size: 3rem; }
+
+        .font-light { font-weight: 300; }
+        .font-normal { font-weight: 400; }
+        .font-medium { font-weight: 500; }
+        .font-semibold { font-weight: 600; }
+        .font-bold { font-weight: 700; }
+        .font-extrabold { font-weight: 800; }
+        .font-black { font-weight: 900; }
+
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+
+        /* =========================================================
+           COMPONENTS - Enhanced accessibility
+        ========================================================= */
+        
+        /* Button System - Enhanced for touch */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-6);
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-decoration: none;
+            border: 2px solid transparent;
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+            min-height: 44px;
+            min-width: 44px;
+            outline: none;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: var(--neutral-950);
+            border: none;
+            box-shadow: 0 10px 30px rgba(77, 243, 201, 0.35);
+        }
+
+        .btn-primary:hover:not(:disabled),
+        .btn-primary:focus:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.16);
+            color: var(--neutral-50);
+        }
+
+        .btn-secondary:hover:not(:disabled),
+        .btn-secondary:focus:not(:disabled) {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--accent-teal);
+        }
+
+        .btn-success {
+            background: var(--gradient-success);
+            color: var(--neutral-950);
+            border: none;
+        }
+
+        .btn-danger {
+            background: var(--gradient-danger);
+            color: white;
+            border: none;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border-color: rgba(255, 255, 255, 0.3);
+            color: var(--neutral-100);
+        }
+
+        .btn-outline:hover:not(:disabled),
+        .btn-outline:focus:not(:disabled) {
+            border-color: var(--accent-teal);
+            color: var(--accent-teal);
+        }
+
+        .btn-lg {
+            padding: var(--space-4) var(--space-8);
+            font-size: 1.1rem;
+            min-height: 52px;
+        }
+
+        .btn-xl {
+            padding: var(--space-6) var(--space-12);
+            font-size: 1.25rem;
+            border-radius: var(--radius-2xl);
+            min-height: 60px;
+        }
+
+        .btn-icon {
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border-radius: var(--radius-full);
+        }
+
+        /* Card Components */
+        .card {
+            background: linear-gradient(160deg, rgba(15, 23, 42, 0.9), rgba(24, 36, 58, 0.88));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-2xl);
+            padding: clamp(1.25rem, 3vw, 2rem);
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .card:hover {
+            border-color: var(--accent-teal);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* Panel Components */
+        .panel {
+            background: linear-gradient(180deg, rgba(12, 18, 35, 0.9), rgba(16, 26, 48, 0.92));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            transition: all var(--transition-base);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+        }
+
+        .panel-header {
+            padding: var(--space-6);
+            background: radial-gradient(circle at 0% 0%, rgba(77, 243, 201, 0.12), transparent 40%), rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .panel-body {
+            padding: var(--space-6);
+        }
+
+        .panel-footer {
+            padding: var(--space-6);
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        /* Form Components */
+        .form-group {
+            margin-bottom: var(--space-6);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-2);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--neutral-200);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            background: var(--surface-muted);
+            border: 2px solid var(--border-strong);
+            border-radius: var(--radius-lg);
+            color: var(--neutral-50);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all var(--transition-base);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-teal);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: var(--focus-ring);
+        }
+
+        .form-control:invalid {
+            border-color: var(--accent-red);
+        }
+
+        .form-control:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Status Indicators */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            background: rgba(0, 212, 170, 0.1);
+            border: 1px solid rgba(0, 212, 170, 0.2);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-teal);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: var(--radius-full);
+            background: currentColor;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                opacity: 1; 
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 0.5; 
+                transform: scale(1.1);
+            }
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1) var(--space-3);
+            background: rgba(0, 212, 170, 0.1);
+            color: var(--accent-teal);
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Progress Components */
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-full);
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* =========================================================
+           VISUAL EFFECTS - Performance optimized
+        ========================================================= */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                to bottom,
+                transparent 50%,
+                rgba(0, 212, 170, 0.03) 50%
+            );
+            background-size: 100% 8px;
+            pointer-events: none;
+            z-index: var(--z-docked);
+            animation: scan 10s linear infinite;
+            opacity: 0.18;
+            will-change: transform;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 120px 120px;
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: var(--z-below);
+            mask-image: radial-gradient(circle at 50% 50%, black 60%, transparent 90%);
+            will-change: opacity;
+        }
+
+        /* =========================================================
+           NOTIFICATION SYSTEM - Enhanced
+        ========================================================= */
+        .notification-container {
+            position: fixed;
+            top: 80px;
+            right: var(--space-6);
+            z-index: var(--z-toast);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+            max-width: min(400px, calc(100vw - 2rem));
+        }
+
+        .notification {
+            background: var(--neutral-900);
+            border-left: 4px solid var(--accent-teal);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            box-shadow: var(--shadow-xl);
+            animation: notification-slide-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            max-width: 100%;
+        }
+
+        @keyframes notification-slide-in {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .notification.success { border-color: var(--status-success); }
+        .notification.warning { border-color: var(--status-warning); }
+        .notification.error { border-color: var(--status-error); }
+        .notification.info { border-color: var(--status-info); }
+
+        .notification-title {
+            font-weight: 700;
+            color: white;
+            margin-bottom: var(--space-1);
+        }
+
+        .notification-message {
+            color: var(--neutral-400);
+            font-size: 0.875rem;
+        }
+
+        .notification-close {
+            position: absolute;
+            top: var(--space-2);
+            right: var(--space-2);
+            background: none;
+            border: none;
+            color: var(--neutral-400);
+            cursor: pointer;
+            font-size: 1.25rem;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-full);
+            transition: all var(--transition-fast);
+            padding: 0;
+        }
+
+        .notification-close:hover,
+        .notification-close:focus {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+        }
+
+        /* =========================================================
+           MODAL SYSTEM - Enhanced accessibility
+        ========================================================= */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(20px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: var(--z-modal);
+            padding: var(--space-6);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: modal-fade-in 0.3s ease;
+        }
+
+        @keyframes modal-fade-in {
+            from {
+                opacity: 0;
+                backdrop-filter: blur(0);
+            }
+            to {
+                opacity: 1;
+                backdrop-filter: blur(20px);
+            }
+        }
+
+        .modal-content {
+            background: var(--neutral-900);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-2xl);
+            max-width: 600px;
+            width: 100%;
+            max-height: min(90vh, 800px);
+            overflow-y: auto;
+            animation: modal-slide-up 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-2xl);
+        }
+
+        @keyframes modal-slide-up {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: var(--space-6);
+            background: var(--gradient-primary);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neutral-950);
+        }
+
+        .modal-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--neutral-950);
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-full);
+            transition: all var(--transition-fast);
+            padding: 0;
+        }
+
+        .modal-close:hover,
+        .modal-close:focus {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+            outline: none;
+        }
+
+        .modal-body {
+            padding: var(--space-6);
+        }
+
+        .modal-footer {
+            padding: var(--space-6);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--space-4);
+            position: sticky;
+            bottom: 0;
+        }
+
+        /* =========================================================
+           HERO SECTION - Enhanced
+        ========================================================= */
+        .hero-shell {
+            margin-top: var(--space-8);
+        }
+
+        .session-banner {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(77, 243, 201, 0.18));
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            border-radius: var(--radius-3xl);
+            padding: clamp(1.5rem, 4vw, 2.5rem);
+            display: grid;
+            gap: var(--space-4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .session-banner__body {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            align-items: center;
+            gap: clamp(1.25rem, 3vw, 2rem);
+        }
+
+        .session-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: var(--space-3);
+        }
+
+        .step-card {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-4);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-base);
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+        }
+
+        .step-card:hover,
+        .step-card:focus {
+            border-color: var(--accent-teal);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+            outline: none;
+        }
+
+        /* =========================================================
+           MOBILE-FIRST ENHANCEMENTS
+        ========================================================= */
+        .mobile-shell {
+            display: none;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+
+        .mobile-card {
+            background: linear-gradient(160deg, rgba(12, 18, 35, 0.92), rgba(22, 34, 56, 0.9));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-5);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+
+        .mobile-metric {
+            padding: var(--space-3);
+            border-radius: var(--radius-xl);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* =========================================================
+           EXERCISE COMPONENTS
+        ========================================================= */
+        .exercise-dock {
+            position: sticky;
+            top: 84px;
+            z-index: var(--z-above);
+            background: var(--neutral-900);
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: var(--space-6);
+            box-shadow: var(--shadow-md);
+            margin-bottom: var(--space-6);
+        }
+
+        .exercise-card {
+            background: var(--neutral-900);
+            border-left: 6px solid var(--accent-teal);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .exercise-card:hover {
+            transform: translateX(8px);
+            border-left-color: var(--accent-teal);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .exercise-card.completed {
+            border-left-color: var(--accent-green);
+            background: rgba(6, 214, 160, 0.08);
+        }
+
+        /* =========================================================
+           PAIN MONITOR
+        ========================================================= */
+        .pain-monitor {
+            background: rgba(26, 10, 10, 0.3);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-6);
+            margin: var(--space-8) 0;
+        }
+
+        .pain-scale {
+            height: 48px;
+            background: var(--gradient-warning);
+            border-radius: var(--radius-full);
+            position: relative;
+            margin: var(--space-6) 0;
+            box-shadow: var(--shadow-inner);
+            touch-action: none;
+        }
+
+        .pain-marker {
+            position: absolute;
+            top: -12px;
+            width: 72px;
+            height: 72px;
+            background: white;
+            border: 4px solid var(--neutral-950);
+            border-radius: var(--radius-full);
+            transform: translateX(-50%);
+            cursor: grab;
+            box-shadow: var(--shadow-2xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--neutral-950);
+            transition: all var(--transition-base);
+            user-select: none;
+            z-index: var(--z-above);
+            touch-action: none;
+            min-width: 72px;
+            min-height: 72px;
+        }
+
+        .pain-marker:active {
+            cursor: grabbing;
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .pain-threshold {
+            position: absolute;
+            top: -10px;
+            bottom: -10px;
+            width: 3px;
+            background: white;
+            transform: translateX(-50%);
+            box-shadow: 0 0 15px white;
+            z-index: var(--z-base);
+        }
+
+        /* =========================================================
+           CALM MODE OVERRIDES - Enhanced
+        ========================================================= */
+        body.calm {
+            background: #f8fafc !important;
+            color: #0f172a !important;
+        }
+
+        body.calm::before { display: none !important; }
+        body.calm .scanlines,
+        body.calm .grid-overlay,
+        body.calm .particles { 
+            display: none !important;
+            animation: none !important;
+        }
+
+        body.calm .status-bar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            border-bottom: 1px solid rgba(15, 23, 42, 0.15) !important;
+            backdrop-filter: blur(10px) !important;
+        }
+
+        body.calm .status-bar * { 
+            color: #0f172a !important;
+        }
+
+        body.calm .status-indicator {
+            background: rgba(37, 99, 235, 0.1) !important;
+            border-color: rgba(37, 99, 235, 0.2) !important;
+            color: #2563eb !important;
+        }
+
+        body.calm .panel,
+        body.calm .card,
+        body.calm .modal-content,
+        body.calm .notification {
+            background: #ffffff !important;
+            color: #0f172a !important;
+            border-color: rgba(15, 23, 42, 0.15) !important;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1) !important;
+        }
+
+        body.calm .text-gradient {
+            background: linear-gradient(135deg, #2563eb 0%, #16a34a 100%) !important;
+            -webkit-background-clip: text !important;
+            background-clip: text !important;
+        }
+
+        body.calm .form-control {
+            background: #ffffff !important;
+            color: #0f172a !important;
+            border-color: rgba(15, 23, 42, 0.2) !important;
+        }
+
+        body.calm .form-control:focus {
+            border-color: #2563eb !important;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
+        }
+
+        body.calm .btn-secondary {
+            background: #f1f5f9 !important;
+            border-color: rgba(15, 23, 42, 0.2) !important;
+            color: #0f172a !important;
+        }
+
+        body.calm .btn-outline {
+            border-color: rgba(15, 23, 42, 0.25) !important;
+            color: #0f172a !important;
+        }
+
+        body.calm .btn-outline:hover,
+        body.calm .btn-outline:focus {
+            border-color: #2563eb !important;
+            color: #2563eb !important;
+        }
+
+        body.calm .session-banner {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(77, 243, 201, 0.06)) !important;
+            border-color: rgba(15, 23, 42, 0.1) !important;
+        }
+
+        body.calm .step-card {
+            background: rgba(15, 23, 42, 0.05) !important;
+            border-color: rgba(15, 23, 42, 0.1) !important;
+        }
+
+        body.calm .step-card:hover,
+        body.calm .step-card:focus {
+            border-color: #2563eb !important;
+        }
+
+        /* =========================================================
+           REDUCED MOTION SUPPORT - Enhanced
+        ========================================================= */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            
+            .scanlines,
+            .grid-overlay,
+            .particles {
+                display: none !important;
+            }
+            
+            .status-dot {
+                animation: none !important;
+            }
+        }
+
+        body.reduced-motion * {
+            animation: none !important;
+            transition: none !important;
+        }
+
+        /* =========================================================
+           RESPONSIVE DESIGN - Enhanced mobile support
+        ========================================================= */
+        @media (max-width: 1024px) {
+            .nav-shell {
+                grid-template-columns: 1fr;
+                gap: var(--space-4);
+            }
+            
+            .session-banner__body {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            
+            .nav-cta {
+                justify-content: flex-start;
+                flex-wrap: wrap;
+            }
+            
+            .action-dock-shell {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .exercise-dock {
+                position: static;
+                flex-direction: column;
+                gap: var(--space-4);
+            }
+            
+            .dock-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 var(--space-4);
+            }
+            
+            .grid-cols-2,
+            .grid-cols-3,
+            .grid-cols-4 {
+                grid-template-columns: 1fr;
+            }
+            
+            .section {
+                padding: var(--space-12) 0;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn-group .btn {
+                width: 100%;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .hero-actions .btn {
+                width: 100%;
+            }
+            
+            .session-steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .mobile-shell {
+                display: grid;
+            }
+            
+            .session-banner,
+            .hero-grid {
+                display: none;
+            }
+            
+            .status-bar {
+                position: sticky;
+                top: 0;
+                border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+                padding: var(--space-3) var(--space-4);
+            }
+            
+            .primary-nav {
+                position: static;
+                border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+            }
+            
+            .nav-links {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-actions {
+                width: 100%;
+            }
+            
+            .nav-actions .btn {
+                width: 100%;
+            }
+            
+            .action-dock {
+                position: static;
+                margin-top: var(--space-6);
+            }
+            
+            .action-dock-shell {
+                border-radius: var(--radius-2xl);
+                padding: var(--space-4);
+                box-shadow: var(--shadow-xl);
+            }
+            
+            .exercise-dock {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .spotlight-top,
+            .exercise-dock > div {
+                flex-direction: column;
+                align-items: stretch;
+                gap: var(--space-4);
+            }
+            
+            .spotlight-actions,
+            .dock-actions {
+                width: 100%;
+                justify-content: stretch;
+            }
+            
+            .spotlight-actions .btn,
+            .dock-actions .btn {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .timer-display {
+                font-size: 2rem;
+            }
+            
+            .modal-content {
+                margin: var(--space-2);
+                max-height: calc(100vh - 2rem);
+            }
+            
+            .status-bar {
+                flex-direction: column;
+                gap: var(--space-2);
+                min-height: auto;
+            }
+            
+            .video-call-container {
+                position: relative;
+                width: 100%;
+                height: 200px;
+                bottom: 0;
+                left: 0;
+                margin-bottom: var(--space-6);
+            }
+            
+            .voice-control-indicator {
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .pain-marker {
+                width: 60px;
+                height: 60px;
+                top: -10px;
+                min-width: 60px;
+                min-height: 60px;
+                font-size: 0.875rem;
+            }
+            
+            .mobile-metrics {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .mobile-step {
+                padding: var(--space-2);
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .mobile-metrics {
+                grid-template-columns: 1fr;
+            }
+            
+            .mobile-steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn {
+                padding: var(--space-2) var(--space-4);
+                font-size: 0.875rem;
+            }
+            
+            .btn-lg {
+                padding: var(--space-3) var(--space-6);
+            }
+            
+            .btn-xl {
+                padding: var(--space-4) var(--space-8);
+            }
+        }
+
+        /* =========================================================
+           PRINT STYLES
+        ========================================================= */
+        @media print {
+            .status-bar,
+            .primary-nav,
+            .action-dock,
+            .voice-control-indicator,
+            .video-call-container,
+            .notification-container,
+            .scanlines,
+            .grid-overlay,
+            .particles,
+            .btn,
+            .nav-link,
+            .modal-overlay {
+                display: none !important;
+            }
+            
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            
+            .card,
+            .panel {
+                border: 1px solid #ddd !important;
+                box-shadow: none !important;
+                background: white !important;
+                color: black !important;
+                break-inside: avoid;
+            }
+            
+            .text-gradient {
+                background: none !important;
+                color: black !important;
+                -webkit-text-fill-color: black !important;
+            }
+            
+            a::after {
+                content: " (" attr(href) ")";
+            }
+        }
+
+        /* =========================================================
+           DARK MODE AUTO DETECTION
+        ========================================================= */
+        @media (prefers-color-scheme: dark) {
+            /* Already dark by default, but ensure consistency */
+        }
+
+        @media (prefers-color-scheme: light) {
+            /* Light mode auto-switch if not using calm mode */
+            body:not(.calm) {
+                background: #f8fafc !important;
+                color: #0f172a !important;
+            }
+            
+            body:not(.calm) .status-bar {
+                background: rgba(255, 255, 255, 0.95) !important;
+                border-bottom: 1px solid rgba(15, 23, 42, 0.1) !important;
+            }
+        }
+
+        /* =========================================================
+           HIGH CONTRAST MODE SUPPORT
+        ========================================================= */
+        @media (prefers-contrast: high) {
+            :root {
+                --accent-teal: #00ffcc;
+                --accent-red: #ff0000;
+                --accent-green: #00ff00;
+                --accent-blue: #0066ff;
+            }
+            
+            .btn {
+                border-width: 3px;
+            }
+            
+            .form-control {
+                border-width: 3px;
+            }
+            
+            .card,
+            .panel {
+                border-width: 2px;
+            }
+        }
+
+        /* =========================================================
+           TOUCH DEVICE OPTIMIZATIONS
+        ========================================================= */
+        @media (hover: none) and (pointer: coarse) {
+            .btn:hover,
+            .card:hover,
+            .step-card:hover,
+            .exercise-card:hover {
+                transform: none;
+            }
+            
+            .btn:active,
+            .card:active,
+            .step-card:active,
+            .exercise-card:active {
+                transform: scale(0.98);
+            }
+            
+            .pain-marker {
+                width: 80px;
+                height: 80px;
+                top: -16px;
+                min-width: 80px;
+                min-height: 80px;
+            }
+        }
+
+        /* =========================================================
+           UTILITY CLASSES
+        ========================================================= */
+        .hidden { 
+            display: none !important; 
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+        
+        .visible { 
+            display: block !important; 
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .opacity-0 { opacity: 0; }
+        .opacity-50 { opacity: 0.5; }
+        .opacity-75 { opacity: 0.75; }
+        .opacity-100 { opacity: 1; }
+        
+        .pointer-events-none { pointer-events: none; }
+        .pointer-events-auto { pointer-events: auto; }
+        
+        .cursor-pointer { cursor: pointer; }
+        .cursor-not-allowed { cursor: not-allowed; }
+        .cursor-default { cursor: default; }
+        
+        .select-none { user-select: none; }
+        .select-text { user-select: text; }
+        
+        .overflow-hidden { overflow: hidden; }
+        .overflow-auto { overflow: auto; }
+        .overflow-y-auto { overflow-y: auto; }
+        .overflow-x-hidden { overflow-x: hidden; }
+        
+        .w-full { width: 100%; }
+        .h-full { height: 100%; }
+        .min-h-screen { min-height: 100vh; min-height: 100dvh; }
+        .max-w-full { max-width: 100%; }
+        
+        .relative { position: relative; }
+        .absolute { position: absolute; }
+        .fixed { position: fixed; }
+        .sticky { position: sticky; }
+        
+        .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+        
+        .rounded-lg { border-radius: var(--radius-lg); }
+        .rounded-xl { border-radius: var(--radius-xl); }
+        .rounded-2xl { border-radius: var(--radius-2xl); }
+        .rounded-full { border-radius: var(--radius-full); }
+        
+        .shadow-sm { box-shadow: var(--shadow-sm); }
+        .shadow-md { box-shadow: var(--shadow-md); }
+        .shadow-lg { box-shadow: var(--shadow-lg); }
+        .shadow-xl { box-shadow: var(--shadow-xl); }
+        
+        .z-0 { z-index: 0; }
+        .z-10 { z-index: 10; }
+        .z-20 { z-index: 20; }
+        .z-30 { z-index: 30; }
+        .z-40 { z-index: 40; }
+        .z-50 { z-index: 50; }
+        
+        .transition-all { transition: all var(--transition-base); }
+        .transition-transform { transition: transform var(--transition-base); }
+        .transition-opacity { transition: opacity var(--transition-base); }
+        
+        .duration-150 { transition-duration: 150ms; }
+        .duration-300 { transition-duration: 300ms; }
+        .duration-500 { transition-duration: 500ms; }
+        
+        .ease-in { transition-timing-function: cubic-bezier(0.4, 0, 1, 1); }
+        .ease-out { transition-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+        .ease-in-out { transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+    </style>
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+    
+    <!-- Visual Effects -->
+    <div class="scanlines" aria-hidden="true"></div>
+    <div class="grid-overlay" aria-hidden="true"></div>
+    
+    <!-- Status Bar -->
+    <div class="status-bar" role="status" aria-live="polite">
+        <div class="container flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <div class="status-dot" id="systemStatus" aria-hidden="true"></div>
+                    <span class="text-sm font-semibold text-teal" id="statusText">Ready</span>
+                </div>
+                <time class="font-mono text-lg text-blue" id="currentTime" datetime="">00:00:00</time>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="text-right">
+                    <div class="text-sm font-bold text-yellow" id="missionName">Rehab Session</div>
+                    <div class="text-xs text-neutral-400" id="operatorName">Patient: Not set</div>
+                </div>
+                
+                <div class="flex items-center gap-3" style="margin-left: 12px;">
+                    <span class="text-xs text-neutral-400" id="calmToggleLabel">Calm</span>
+                    <button class="btn btn-icon btn-secondary" id="calmToggleBtn" aria-pressed="true" 
+                            aria-label="Toggle calm mode" title="Toggle Calm Mode">
+                        <i class="ri-moon-clear-line" aria-hidden="true"></i>
+                    </button>
+                </div>
+                
+                <!-- New Feature Buttons -->
+                <button class="btn btn-icon btn-secondary" aria-label="Voice control" title="Voice Control">
+                    <i class="ri-mic-line" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-icon btn-secondary" aria-label="Video call" title="Video Call">
+                    <i class="ri-video-line" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-icon btn-secondary" aria-label="Share progress" title="Share Progress">
+                    <i class="ri-share-line" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-icon btn-secondary" aria-label="Biometric authentication" title="Biometric Login">
+                    <i class="ri-fingerprint-line" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-icon btn-secondary" aria-label="Profile settings" title="Profile Settings">
+                    <i class="ri-user-line" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Guided Navigation -->
+    <nav class="primary-nav" aria-label="Primary navigation">
+        <div class="container nav-shell">
+            <div class="nav-brand">
+                <h1>Rehab Session Pro</h1>
+                <p>Guided steps with calmer visuals and quick access.</p>
+            </div>
+            <div class="nav-links" role="list">
+                <button class="nav-link" role="listitem" aria-label="Sign in to session">
+                    <i class="ri-id-card-line" aria-hidden="true"></i> Sign in
+                </button>
+                <button class="nav-link" role="listitem" aria-label="Check readiness">
+                    <i class="ri-heart-pulse-line" aria-hidden="true"></i> Readiness
+                </button>
+                <button class="nav-link" role="listitem" aria-label="View exercises">
+                    <i class="ri-run-line" aria-hidden="true"></i> Exercises
+                </button>
+                <button class="nav-link" role="listitem" aria-label="View summary">
+                    <i class="ri-clipboard-line" aria-hidden="true"></i> Summary
+                </button>
+            </div>
+            <div class="nav-cta">
+                <span class="nav-state" id="navSessionState" aria-live="polite" data-tone="info">Prep</span>
+                <div class="nav-actions">
+                    <button class="btn btn-primary" id="navPrimaryAction" aria-label="Start session">
+                        <i class="ri-play-line" aria-hidden="true"></i> Start session
+                    </button>
+                    <button class="btn btn-outline" aria-label="Toggle calm visuals">
+                        <i class="ri-moon-clear-line" aria-hidden="true"></i> Calm visuals
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer" role="region" aria-label="Notifications"></div>
+    
+    <!-- Main Content -->
+    <main id="main-content" class="pt-20" role="main">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="section hero-shell" aria-labelledby="overviewTitle">
+                <!-- Mobile View -->
+                <div class="mobile-shell" aria-label="Mobile session snapshot">
+                    <div class="mobile-card">
+                        <div class="mobile-topline">
+                            <span class="mobile-pill" id="mobileStatusPill">Prep</span>
+                            <time class="mobile-clock" id="mobileClockValue" datetime="">--:--</time>
+                        </div>
+                        <div class="mobile-title">Rehab session, calmer view</div>
+                        <p class="mobile-subtle" id="mobileStatusHint">Authenticate to unlock your plan.</p>
+                        <div class="mobile-metrics">
+                            <div class="mobile-metric">
+                                <div class="label">Readiness</div>
+                                <div class="value" id="mobileReadinessValue">100%</div>
+                            </div>
+                            <div class="mobile-metric">
+                                <div class="label">Pain today</div>
+                                <div class="value" id="mobilePainValue">0 / 10</div>
+                            </div>
+                            <div class="mobile-metric">
+                                <div class="label">Fatigue</div>
+                                <div class="value" id="mobileFatigueValue">0%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-card">
+                        <div class="mobile-steps">
+                            <div class="mobile-step">
+                                <div class="step-title">Sign in</div>
+                                <div class="step-hint">Patient ID & clearance</div>
+                                <span class="mobile-chip" id="mobileAuthState">Prep</span>
+                            </div>
+                            <div class="mobile-step">
+                                <div class="step-title">Readiness</div>
+                                <div class="step-hint">Pain, fatigue, stability</div>
+                                <span class="mobile-chip" id="mobileReadinessState">Locked</span>
+                            </div>
+                            <div class="mobile-step">
+                                <div class="step-title">Exercises</div>
+                                <div class="step-hint">Timers + pacing</div>
+                                <span class="mobile-chip" id="mobileExerciseState">Queued</span>
+                            </div>
+                            <div class="mobile-step">
+                                <div class="step-title">Summary</div>
+                                <div class="step-hint">Notes & export</div>
+                                <span class="mobile-chip" id="mobileSummaryState">Later</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-card">
+                        <div class="mobile-actions">
+                            <button class="btn btn-primary btn-lg" type="button" id="mobilePrimaryAction" aria-label="Start session">
+                                <i class="ri-play-line" aria-hidden="true"></i> Start session
+                            </button>
+                            <button class="btn btn-secondary btn-lg" type="button" aria-label="Toggle calm visuals">
+                                <i class="ri-moon-clear-line" aria-hidden="true"></i> Calm visuals
+                            </button>
+                            <button class="btn btn-outline btn-lg" type="button" aria-label="Jump to exercises">
+                                <i class="ri-run-line" aria-hidden="true"></i> Jump to exercises
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop View -->
+                <div class="session-banner mb-6" aria-label="Session overview">
+                    <div class="session-banner__header">
+                        <div class="session-chip" id="sessionStateChip">
+                            <span class="status-dot" aria-hidden="true"></span>
+                            <span id="sessionStateText">Ready</span>
+                        </div>
+                        <div class="session-clock" id="sessionCountdown">
+                            <i class="ri-time-line" aria-hidden="true"></i>
+                            <time id="sessionClockValue" datetime="">--:--:--</time>
+                        </div>
+                        <div class="session-plan-tag">
+                            <i class="ri-shield-star-line" aria-hidden="true"></i>
+                            Rehab Session · Pro
+                        </div>
+                    </div>
+
+                    <div class="session-banner__body">
+                        <div class="session-persona">
+                            <p class="eyebrow">Patient</p>
+                            <h3 id="sessionPatient">Marvin</h3>
+                            <p class="text-neutral-300" id="sessionPersonaCopy">Balance rehab · calm visuals on</p>
+                        </div>
+                        <div class="session-actions">
+                            <button class="btn btn-primary btn-lg" type="button" id="heroPrimaryCta" aria-label="Start session">
+                                <i class="ri-play-line" aria-hidden="true"></i> Start session
+                            </button>
+                            <button class="btn btn-outline btn-lg" type="button" aria-label="Toggle calm visuals">
+                                <i class="ri-moon-clear-line" aria-hidden="true"></i> Calm visuals
+                            </button>
+                            <button class="btn btn-secondary btn-lg" type="button" aria-label="Jump to exercises">
+                                <i class="ri-run-line" aria-hidden="true"></i> Jump to exercises
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="session-steps" role="list" aria-label="Session steps">
+                        <button class="step-card" type="button" role="listitem" aria-label="Sign in step">
+                            <div class="step-icon">
+                                <i class="ri-id-card-line" aria-hidden="true"></i>
+                            </div>
+                            <div class="step-copy">
+                                <span class="label">Sign in</span>
+                                <span class="hint">Patient ID & clearance</span>
+                            </div>
+                            <span class="pill-soft" id="stepAuthState">Prep</span>
+                        </button>
+                        <button class="step-card" type="button" role="listitem" aria-label="Readiness step">
+                            <div class="step-icon">
+                                <i class="ri-heart-pulse-line" aria-hidden="true"></i>
+                            </div>
+                            <div class="step-copy">
+                                <span class="label">Readiness</span>
+                                <span class="hint">Pain, fatigue, stability</span>
+                            </div>
+                            <span class="pill-soft" id="stepBioState">Locked</span>
+                        </button>
+                        <button class="step-card" type="button" role="listitem" aria-label="Exercises step">
+                            <div class="step-icon">
+                                <i class="ri-run-line" aria-hidden="true"></i>
+                            </div>
+                            <div class="step-copy">
+                                <span class="label">Exercises</span>
+                                <span class="hint">Timer + voice control</span>
+                            </div>
+                            <span class="pill-soft" id="stepMissionState">Queued</span>
+                        </button>
+                        <button class="step-card" type="button" role="listitem" aria-label="Summary step">
+                            <div class="step-icon">
+                                <i class="ri-clipboard-line" aria-hidden="true"></i>
+                            </div>
+                            <div class="step-copy">
+                                <span class="label">Summary</span>
+                                <span class="hint">Notes & export</span>
+                            </div>
+                            <span class="pill-soft" id="stepDebriefState">Later</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="hero-grid">
+                    <div class="hero-panel">
+                        <span class="badge">Patient-first layout</span>
+                        <h1 id="overviewTitle" class="text-gradient">Calmer rehab. Clearer next steps.</h1>
+                        <p>Stay focused on what matters: safe movement, measurable progress, and fast access to the right phase. The experience now leads with clarity, not noise.</p>
+                        
+                        <div class="hero-actions">
+                            <button class="btn btn-primary btn-xl" aria-label="Start today's plan">
+                                <i class="ri-flag-line" aria-hidden="true"></i> Start today's plan
+                            </button>
+                            <button class="btn btn-secondary btn-lg" aria-label="Toggle between calm and pro modes">
+                                <i class="ri-moon-clear-line" aria-hidden="true"></i> Toggle Calm / Pro
+                            </button>
+                            <button class="btn btn-outline btn-lg" aria-label="Jump to readiness assessment">
+                                <i class="ri-focus-line" aria-hidden="true"></i> Jump to readiness
+                            </button>
+                        </div>
+                        
+                        <div class="hero-pills">
+                            <div class="pill">
+                                <span class="pill-label">Profile</span>
+                                <span class="pill-strong" id="summaryProfile">—</span>
+                                <div class="meta-subtle" id="summarySupport">Injury focus · Intensity</div>
+                            </div>
+                            <div class="pill">
+                                <span class="pill-label">Streak</span>
+                                <span class="pill-strong" id="summaryStreak">0 days</span>
+                                <div class="meta-subtle">Total sessions <span id="summarySessions">0</span></div>
+                            </div>
+                            <div class="pill">
+                                <span class="pill-label">Pain ceiling</span>
+                                <span class="pill-strong" id="summaryPainLimit">7 / 10</span>
+                                <div class="meta-subtle">Current baseline <span id="summaryPainBaseline">0 / 10</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="snapshot-grid">
+                        <div class="snapshot-card">
+                            <div class="flex items-center justify-between mb-6">
+                                <div>
+                                    <p class="meta-label">Session readiness</p>
+                                    <p class="text-xl font-bold text-white">Live signal</p>
+                                </div>
+                                <span class="status-chip" id="summarySessionChip" data-tone="ready">Ready</span>
+                            </div>
+                            <div class="readiness-dial" id="summaryReadinessDial" style="--value: 100" aria-label="Readiness dial at 100%">
+                                <div class="readiness-value" id="summaryReadinessValue">100%</div>
+                                <div class="readiness-subtext" id="summaryPhaseCopy">Auth required</div>
+                            </div>
+                            <div class="snapshot-meta">
+                                <div>
+                                    <div class="meta-label">Current pain</div>
+                                    <div class="meta-value" id="summaryPainBadge">0.0 / 10</div>
+                                    <div class="meta-subtle">Live drag or slider</div>
+                                </div>
+                                <div>
+                                    <div class="meta-label">Fatigue</div>
+                                    <div class="meta-value" id="summaryFatigue">0%</div>
+                                    <div class="meta-subtle">Auto-adjusted</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="micro-grid">
+                            <div class="micro-card">
+                                <div class="meta-label">Now</div>
+                                <div class="timeline-label" id="summaryPhaseChip">Authenticate</div>
+                                <div class="timeline-hint">Verify, set baseline, then advance.</div>
+                            </div>
+                            <div class="micro-card">
+                                <div class="meta-label">Flow</div>
+                                <div class="progress-timeline" role="list" aria-label="Session progress">
+                                    <div class="timeline-step" role="listitem">
+                                        <div class="timeline-dot" id="timelineAuthDot"></div>
+                                        <div class="timeline-body">
+                                            <div class="timeline-label">Authenticate</div>
+                                            <div class="timeline-hint">ID + clearance</div>
+                                        </div>
+                                        <div class="timeline-state" id="timelineAuthState">Ready</div>
+                                    </div>
+                                    <div class="timeline-step" role="listitem">
+                                        <div class="timeline-dot" id="timelineReadyDot"></div>
+                                        <div class="timeline-body">
+                                            <div class="timeline-label">Readiness</div>
+                                            <div class="timeline-hint">Baseline & thresholds</div>
+                                        </div>
+                                        <div class="timeline-state" id="timelineReadyState">Waiting</div>
+                                    </div>
+                                    <div class="timeline-step" role="listitem">
+                                        <div class="timeline-dot" id="timelineWorkDot"></div>
+                                        <div class="timeline-body">
+                                            <div class="timeline-label">Exercise stack</div>
+                                            <div class="timeline-hint">Timer + voice control</div>
+                                        </div>
+                                        <div class="timeline-state" id="timelineWorkState">Queued</div>
+                                    </div>
+                                    <div class="timeline-step" role="listitem">
+                                        <div class="timeline-dot" id="timelineDebriefDot"></div>
+                                        <div class="timeline-body">
+                                            <div class="timeline-label">Recovery</div>
+                                            <div class="timeline-hint">Debrief & share</div>
+                                        </div>
+                                        <div class="timeline-state" id="timelineDebriefState">Queued</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="exercise-spotlight card" aria-live="polite">
+                        <div class="spotlight-top">
+                            <div>
+                                <p class="meta-label">Exercises, front and center</p>
+                                <h3 class="text-2xl font-bold" id="quickExerciseName">Single-Leg Stand</h3>
+                                <p class="text-neutral-300" id="quickExerciseMeta">00:10 · 4 sets · basic</p>
+                                <div class="spotlight-tags">
+                                    <span class="badge" id="quickExercisePhase">Week 1 — Learning &amp; Safety</span>
+                                    <span class="pill-soft" id="quickExerciseCount">0/0 done</span>
+                                </div>
+                            </div>
+                            <div class="spotlight-actions">
+                                <button class="btn btn-primary btn-lg" id="quickExerciseStart" aria-label="Start next exercise">
+                                    <i class="ri-play-line" aria-hidden="true"></i> Start next exercise
+                                </button>
+                                <button class="btn btn-secondary" aria-label="Open exercise list">
+                                    <i class="ri-run-line" aria-hidden="true"></i> Open exercise list
+                                </button>
+                            </div>
+                        </div>
+                        <div class="spotlight-list" id="exercisePeek" aria-label="Preview of upcoming exercises">
+                            <!-- Filled dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progressive Plan -->
+            <section id="clinicalPlan" class="section" aria-labelledby="planTitle">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 id="planTitle" class="text-3xl font-black text-gradient">Progressive balance & leg strength plan</h2>
+                                <p class="text-neutral-400 mt-2">2–4 weeks · 10–15 minutes per day · calm, predictable progressions</p>
+                            </div>
+                            <div class="status-indicator">
+                                <div class="status-dot" aria-hidden="true"></div>
+                                <span>Clinician issued</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="safety-callout" role="alert" aria-label="Safety instructions">
+                            <div class="flex items-center justify-between flex-wrap gap-4">
+                                <div>
+                                    <p class="text-xl font-bold text-white">Safety baseline</p>
+                                    <p class="text-neutral-300 mt-2">Stand near a wall or counter. Move slowly. Breathe normally. Stop if dizzy, tired, or pain rises.</p>
+                                </div>
+                                <div class="plan-meta">
+                                    <span class="plan-tag"><i class="ri-timer-line" aria-hidden="true"></i>10–15 minutes daily</span>
+                                    <span class="plan-tag"><i class="ri-shield-check-line" aria-hidden="true"></i>No surprise balance challenges</span>
+                                    <span class="plan-tag"><i class="ri-repeat-line" aria-hidden="true"></i>Progress by time + control only</span>
+                                </div>
+                            </div>
+                            <p class="text-sm text-neutral-400 mt-4">If you miss a day, resume where you left off. Week 4 is optional—advance only when Weeks 1–3 feel steady.</p>
+                        </div>
+
+                        <div class="plan-grid mt-6">
+                            <!-- Week 1 -->
+                            <div class="card plan-week">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-xl font-bold">Week 1 — Learning & Safety</h3>
+                                        <p class="text-neutral-400">Learn the movements. Light wall contact is okay.</p>
+                                    </div>
+                                    <span class="badge">Holds: 5–10s</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Balance</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Single-Leg Stand:</strong> Stand on one leg, other foot lightly off the floor. Hold 5–10 seconds. 2× each leg.</li>
+                                        <li><strong>Feet in a Line (Tandem):</strong> Heel-to-toe stand, hold 10 seconds, switch lead foot. 2×.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Walking</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Side Stepping:</strong> 5 steps left, 5 steps right. 2 rounds.</li>
+                                        <li><strong>Backward Walking:</strong> 5 slow steps. 2 rounds.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Strength</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Calf Raises:</strong> Hold the counter. Rise onto toes. 10 each leg.</li>
+                                        <li><strong>Marching Knees:</strong> Lift one knee at a time. 10 total steps.</li>
+                                        <li><strong>Mini Squats:</strong> Small knee bend. 8–10 times.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Week 2 -->
+                            <div class="card plan-week">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-xl font-bold">Week 2 — Longer Holds</h3>
+                                        <p class="text-neutral-400">Stay steady longer. Try not to touch the wall.</p>
+                                    </div>
+                                    <span class="badge">Holds: 15s</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Balance</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Single-Leg Stand:</strong> Hold 15 seconds. 2× each leg.</li>
+                                        <li><strong>Tandem Stand:</strong> Hold 15 seconds, switch feet. 2×.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Walking</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Side Stepping:</strong> 8 steps each direction. 2 rounds.</li>
+                                        <li><strong>Backward Walking:</strong> 8 slow steps. 2 rounds.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Strength</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Calf Raises:</strong> 15 each leg.</li>
+                                        <li><strong>Side Kicks:</strong> Slightly back and to the side. 10 each leg.</li>
+                                        <li><strong>Marching Knees:</strong> 15 total steps.</li>
+                                        <li><strong>Mini Squats:</strong> 10–12 times.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Week 3 -->
+                            <div class="card plan-week">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-xl font-bold">Week 3 — Better Control</h3>
+                                        <p class="text-neutral-400">Balance without rushing. Reset if shaky.</p>
+                                    </div>
+                                    <span class="badge">Holds: 20s</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Balance</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Single-Leg Stand:</strong> Hold 20 seconds. 2× each leg.</li>
+                                        <li><strong>Heel-to-Toe Walk:</strong> 6–8 heel-to-toe steps forward. 2 rounds.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Walking</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Side Stepping:</strong> 10 steps each direction.</li>
+                                        <li><strong>Backward Walking:</strong> 10 slow steps.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Strength</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Calf Raises:</strong> 20 each leg.</li>
+                                        <li><strong>Back Kicks:</strong> Straight leg backward. 10 each leg.</li>
+                                        <li><strong>Marching Knees:</strong> 20 total steps.</li>
+                                        <li><strong>Mini Squats:</strong> 12–15 times.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Week 4 -->
+                            <div class="card plan-week">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-xl font-bold">Week 4 — Stability (Optional)</h3>
+                                        <p class="text-neutral-400">Use only if Weeks 1–3 feel safe. Keep movements slow.</p>
+                                    </div>
+                                    <span class="badge">Optional</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Balance</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Single-Leg Stand + Arms:</strong> Hold 20 seconds while slowly moving arms.</li>
+                                        <li><strong>Heel-to-Toe Walk:</strong> 10 steps. 2 rounds.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Walking</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Side Stepping:</strong> 10–12 steps each direction.</li>
+                                        <li><strong>Backward Walking:</strong> 10–12 steps.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Strength</h4>
+                                    <ul class="plan-list">
+                                        <li><strong>Calf Raises:</strong> 20 each leg.</li>
+                                        <li><strong>Side Kicks:</strong> 12 each leg.</li>
+                                        <li><strong>Butt Kicks:</strong> Heel toward bottom. 10–12 each leg.</li>
+                                        <li><strong>Mini Squats:</strong> 15–20 times.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mt-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold">Important safety reminders</h3>
+                                <span class="badge"><i class="ri-mental-health-line" aria-hidden="true"></i> Patient-first</span>
+                            </div>
+                            <ul class="plan-list">
+                                <li>Move slowly and keep breaths even. Pause and reset if balance feels unsteady.</li>
+                                <li>Use the wall or counter for support when needed. Let go only when you feel steady.</li>
+                                <li>Stop if pain, dizziness, or fatigue increases. Rest and resume when ready.</li>
+                                <li>If you miss a day, pick up where you left off—consistency matters more than speed.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Phase 1: Authentication -->
+            <section id="phaseAuth" class="section" aria-labelledby="authTitle">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h1 id="authTitle" class="text-4xl font-black text-gradient">Rehab Session Pro</h1>
+                                <p class="text-neutral-400 mt-2">AI-powered rehabilitation with voice control & telehealth</p>
+                            </div>
+                            <div class="status-indicator">
+                                <div class="status-dot" aria-hidden="true"></div>
+                                <span>Start here</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel-body">
+                        <form id="authForm" class="grid grid-cols-2 gap-12">
+                            <!-- Operator Info -->
+                            <div>
+                                <div class="form-group">
+                                    <label for="operatorId" class="form-label">Your name</label>
+                                    <input type="text" class="form-control" id="operatorId" 
+                                           placeholder="Enter your name" value="MARVIN" required
+                                           aria-required="true">
+                                    <div class="text-xs text-neutral-400 mt-1">Enter your full name or patient ID</div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="securityCode" class="form-label">SECURITY CLEARANCE</label>
+                                    <input type="password" class="form-control" id="securityCode" 
+                                           placeholder="Optional" value="Rehab_RISING"
+                                           aria-describedby="securityHint">
+                                    <div id="securityHint" class="text-xs text-neutral-400 mt-1">Optional security code for additional protection</div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="missionProfile" class="form-label">SESSION PROFILE</label>
+                                    <select class="form-control form-select" id="missionProfile" required
+                                            aria-required="true">
+                                        <option value="HARDCORE">HARDCORE: NO RETREAT</option>
+                                        <option value="AGGRESSIVE">AGGRESSIVE: MAXIMUM FORCE</option>
+                                        <option value="STANDARD" selected>STANDARD: STEADY PROGRESS</option>
+                                        <option value="RECOVERY">RECOVERY: TACTICAL REHAB</option>
+                                        <option value="AI_ADAPTIVE">AI ADAPTIVE: SMART PROGRESS</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Bio Metrics -->
+                            <div>
+                                <div class="form-group">
+                                    <label for="baselinePain" class="form-label">BASELINE PAIN INDEX (0-10)</label>
+                                    <input type="range" class="form-range" id="baselinePain" min="0" max="10" value="0"
+                                           aria-valuetext="Pain level 0 out of 10">
+                                    <div class="flex justify-between mt-3">
+                                        <span class="text-sm text-neutral-400">NO PAIN</span>
+                                        <output class="text-sm font-bold text-teal" id="painValue" for="baselinePain">0</output>
+                                        <span class="text-sm text-neutral-400">MAXIMUM</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="fatigueBar" class="form-label">FATIGUE LEVEL</label>
+                                    <div class="progress-bar">
+                                        <div class="progress-bar-fill" id="fatigueBar" style="width: 0%" 
+                                             role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+                                    </div>
+                                    <div class="flex justify-between mt-3">
+                                        <span class="text-sm text-neutral-400">RESTED</span>
+                                        <output class="text-sm font-bold text-teal" id="fatigueValue" for="baselinePain">0%</output>
+                                        <span class="text-sm text-neutral-400">EXHAUSTED</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">READINESS ASSESSMENT</label>
+                                    <div class="flex flex-col items-center mt-6">
+                                        <div class="progress-ring" role="img" aria-label="Readiness score">
+                                            <svg width="140" height="140" aria-hidden="true">
+                                                <circle class="progress-ring-circle progress-ring-bg" cx="70" cy="70" r="60"></circle>
+                                                <circle class="progress-ring-circle progress-ring-fill" cx="70" cy="70" r="60" id="readinessRing"></circle>
+                                            </svg>
+                                            <div class="progress-ring-text text-3xl" id="readinessScore">100%</div>
+                                        </div>
+                                        <p class="text-sm text-neutral-400 mt-4">System calibrated and ready for protocol initiation</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <!-- Voice Control Instructions -->
+                        <div class="card mt-12">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-xl font-bold">VOICE COMMANDS</h3>
+                                <span class="badge">
+                                    <i class="ri-mic-line" aria-hidden="true"></i> ACTIVE
+                                </span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-8">
+                                <div class="text-center">
+                                    <div class="text-4xl text-teal mb-3" aria-hidden="true">🎤</div>
+                                    <h4 class="font-bold mb-2">"START EXERCISE"</h4>
+                                    <p class="text-sm text-neutral-400">Begins current exercise timer</p>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-4xl text-blue mb-3" aria-hidden="true">⏸️</div>
+                                    <h4 class="font-bold mb-2">"STOP TIMER"</h4>
+                                    <p class="text-sm text-neutral-400">Pauses active exercise</p>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-4xl text-purple mb-3" aria-hidden="true">📊</div>
+                                    <h4 class="font-bold mb-2">"NEXT EXERCISE"</h4>
+                                    <p class="text-sm text-neutral-400">Moves to next exercise</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel-footer">
+                        <div class="flex items-center justify-between">
+                            <button class="btn btn-secondary" aria-label="Biometric login">
+                                <i class="ri-fingerprint-line" aria-hidden="true"></i> BIOMETRIC LOGIN
+                            </button>
+                            <div class="flex gap-4">
+                                <button type="button" class="btn btn-danger" aria-label="End session">
+                                    <i class="ri-error-warning-line" aria-hidden="true"></i> END
+                                </button>
+                                <button type="submit" form="authForm" class="btn btn-primary btn-lg" aria-label="Initiate plan">
+                                    <i class="ri-fire-line" aria-hidden="true"></i> INITIATE PLAN
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Phase 2: Bio-Readiness -->
+            <section id="phaseBio" class="section hidden" aria-labelledby="bioTitle">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 id="bioTitle" class="text-3xl font-black text-gradient">Readiness check</h2>
+                                <p class="text-neutral-400 mt-2">A quick check-in before you begin</p>
+                            </div>
+                            <div class="status-indicator">
+                                <div class="status-dot" aria-hidden="true"></div>
+                                <span>CALIBRATING</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel-body">
+                        <!-- Real-time Metrics -->
+                        <div class="metric-grid mb-12">
+                            <div class="metric-card">
+                                <div class="metric-label">PAIN INDEX</div>
+                                <div class="metric-value" id="realTimePain">0.0</div>
+                                <div class="metric-change positive">+0.0</div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-label">HEART RATE ZONE</div>
+                                <div class="metric-value" id="heartRate">--</div>
+                                <div class="metric-label">BPM</div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-label">STABILITY SCORE</div>
+                                <div class="metric-value" id="stabilityScore">100%</div>
+                                <div class="flex justify-center mt-4">
+                                    <div class="progress-ring" style="width: 80px; height: 80px;" role="img" aria-label="Stability score">
+                                        <svg width="80" height="80" aria-hidden="true">
+                                            <circle class="progress-ring-circle progress-ring-bg" cx="40" cy="40" r="35"></circle>
+                                            <circle class="progress-ring-circle progress-ring-fill" cx="40" cy="40" r="35"></circle>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-label">READINESS</div>
+                                <div class="metric-value" id="bioReadiness">100%</div>
+                                <div class="progress-bar mt-4">
+                                    <div class="progress-bar-fill" id="readinessBar" style="width: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Pain Monitor -->
+                        <div class="pain-monitor" role="region" aria-label="Pain monitoring">
+                            <h3 class="text-xl font-bold mb-6">Pain check</h3>
+                            <div class="pain-scale" id="painScale">
+                                <div class="pain-marker" id="painMarker" style="left: 0%;" role="slider" 
+                                     aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" 
+                                     aria-label="Pain level slider">0</div>
+                                <div class="pain-threshold" id="painThreshold" style="left: 70%;" aria-hidden="true"></div>
+                            </div>
+                            <div class="pain-labels">
+                                <span>GREEN ZONE</span>
+                                <span>YELLOW ZONE</span>
+                                <span>RED ZONE</span>
+                            </div>
+                            
+                            <div id="painWarning" class="pain-warning hidden" role="alert">
+                                <div class="flex items-center gap-4">
+                                    <div class="status-dot" style="background: var(--accent-red); animation: blink 1s infinite;" aria-hidden="true"></div>
+                                    <div>
+                                        <h4 class="font-bold text-red">Pain above your limit</h4>
+                                        <p class="text-sm text-neutral-400 mt-1">Reduce intensity or pause protocol. Consult if pain persists.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Mission Brief -->
+                        <div class="card mt-12">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-xl font-bold">SESSION BRIEFING</h3>
+                                <span class="badge">
+                                    <i class="ri-shield-keyhole-line" aria-hidden="true"></i> CLASSIFIED
+                                </span>
+                            </div>
+                            <div class="space-y-4">
+                                <p>Operator <span id="briefOperator" class="font-bold text-teal">MARVIN</span>, your plan is the Progressive Balance &amp; Leg Strength pathway—patient-first and predictable.</p>
+                                <p class="font-medium">Primary Objective: Complete 10–15 minutes of this week's tasks with smooth control and calm breathing.</p>
+                                <p class="font-medium">Secondary Objective: Progress by time and steadiness only; move to the next week when holds feel stable.</p>
+                                <div class="mt-6 p-4 bg-neutral-800/50 border border-yellow/20 rounded-xl">
+                                    <p class="text-sm"><span class="font-bold text-yellow"><i class="ri-alarm-warning-line" aria-hidden="true"></i> SAFETY PLAN:</span> Stay near a wall or counter, move slowly, and pause if pain rises above 7/10, dizziness appears, or balance wobbles.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel-footer">
+                        <div class="flex justify-between">
+                            <button class="btn btn-secondary" aria-label="Go back to authentication">
+                                <i class="ri-arrow-left-line" aria-hidden="true"></i> BACK
+                            </button>
+                            <button class="btn btn-success btn-lg" aria-label="Begin session">
+                                <i class="ri-rocket-line" aria-hidden="true"></i> Begin session
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Phase 3: Active Mission -->
+            <section id="phaseMission" class="section hidden" aria-labelledby="missionTitle">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 id="missionTitle" class="text-3xl font-black text-gradient">Active session</h2>
+                                <p class="text-neutral-400 mt-2" id="missionSubtitle">Week 1 — Learning & Safety</p>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="status-indicator">
+                                    <div class="status-dot" style="background: var(--accent-green);" aria-hidden="true"></div>
+                                    <span id="missionStatus">In progress</span>
+                                </div>
+                                <time class="font-mono text-2xl font-bold text-teal" id="missionTimer" datetime="">15:00</time>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel-body">
+                        <div class="exercise-dock" aria-live="polite">
+                            <div>
+                                <p class="meta-label">Quick exercise access</p>
+                                <h3 class="text-xl font-bold" id="dockExerciseName">Single-Leg Stand</h3>
+                                <p class="text-neutral-400" id="dockExerciseMeta">00:10 · 4 sets · basic</p>
+                                <div class="spotlight-tags">
+                                    <span class="pill-soft" id="dockExerciseCount">0/0 done</span>
+                                    <span class="badge" id="dockExercisePhase">Week 1 — Learning &amp; Safety</span>
+                                </div>
+                            </div>
+                            <div class="dock-actions">
+                                <button class="btn btn-primary" aria-label="Start or resume exercise">
+                                    <i class="ri-play-line" aria-hidden="true"></i> Start / Resume
+                                </button>
+                                <button class="btn btn-secondary" aria-label="View exercise list">
+                                    <i class="ri-run-line" aria-hidden="true"></i> Exercise list
+                                </button>
+                                <button class="btn btn-outline" aria-label="Scroll to exercise stack">
+                                    <i class="ri-focus-line" aria-hidden="true"></i> Scroll to stack
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Phase Navigation -->
+                        <div class="card mb-8">
+                            <h3 class="text-xl font-bold mb-4">WEEK NAVIGATION</h3>
+                            <div class="flex flex-wrap gap-3">
+                                <button class="btn btn-secondary" aria-label="Select week 1">
+                                    <i class="ri-number-1" aria-hidden="true"></i> WEEK 1
+                                </button>
+                                <button class="btn btn-secondary" aria-label="Select week 2">
+                                    <i class="ri-number-2" aria-hidden="true"></i> WEEK 2
+                                </button>
+                                <button class="btn btn-secondary" aria-label="Select week 3">
+                                    <i class="ri-number-3" aria-hidden="true"></i> WEEK 3
+                                </button>
+                                <button class="btn btn-secondary" aria-label="Select week 4 (optional)">
+                                    <i class="ri-number-4" aria-hidden="true"></i> WEEK 4 (OPTIONAL)
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Exercise Container -->
+                        <div id="exerciseContainer" class="mb-8">
+                            <!-- Exercises loaded dynamically -->
+                        </div>
+                        
+                        <!-- Live Metrics -->
+                        <div class="card">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-xl font-bold">LIVE METRICS</h3>
+                                <span class="badge">
+                                    <i class="ri-pulse-line" aria-hidden="true"></i> Real-time
+                                </span>
+                            </div>
+                            <div class="grid grid-cols-4 gap-4">
+                                <div class="text-center p-4 bg-neutral-800/50 rounded-xl">
+                                    <div class="text-2xl font-bold text-teal font-mono" id="livePain">0.0</div>
+                                    <div class="text-xs text-neutral-400 uppercase mt-1">CURRENT PAIN</div>
+                                </div>
+                                <div class="text-center p-4 bg-neutral-800/50 rounded-xl">
+                                    <div class="text-2xl font-bold text-teal font-mono" id="completedExercises">0</div>
+                                    <div class="text-xs text-neutral-400 uppercase mt-1">EXERCISES DONE</div>
+                                </div>
+                                <div class="text-center p-4 bg-neutral-800/50 rounded-xl">
+                                    <div class="text-2xl font-bold text-teal font-mono" id="timeElapsed">00:00</div>
+                                    <div class="text-xs text-neutral-400 uppercase mt-1">TIME ELAPSED</div>
+                                </div>
+                                <div class="text-center p-4 bg-neutral-800/50 rounded-xl">
+                                    <div class="text-2xl font-bold text-teal font-mono" id="successRate">100%</div>
+                                    <div class="text-xs text-neutral-400 uppercase mt-1">SUCCESS RATE</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel-footer">
+                        <div class="flex justify-center gap-4">
+                            <button class="btn btn-danger" aria-label="Pause for safety">
+                                <i class="ri-alarm-line" aria-hidden="true"></i> Pause for safety
+                            </button>
+                            <button class="btn btn-secondary" aria-label="Share progress">
+                                <i class="ri-share-line" aria-hidden="true"></i> SHARE
+                            </button>
+                            <button class="btn btn-secondary" id="pauseBtn" aria-label="Pause session">
+                                <i class="ri-pause-line" aria-hidden="true"></i> PAUSE
+                            </button>
+                            <button class="btn btn-success" aria-label="Complete session">
+                                <i class="ri-check-double-line" aria-hidden="true"></i> COMPLETE
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Phase 4: Debrief -->
+            <section id="phaseDebrief" class="section hidden" aria-labelledby="debriefTitle">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 id="debriefTitle" class="text-3xl font-black text-gradient">Session summary</h2>
+                                <p class="text-neutral-400 mt-2">Notes and session record</p>
+                            </div>
+                            <div class="status-indicator">
+                                <div class="status-dot" style="background: var(--accent-green);" aria-hidden="true"></div>
+                                <span>SESSION SUCCESS</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel-body">
+                        <!-- Performance Summary -->
+                        <div class="metric-grid mb-12">
+                            <div class="metric-card">
+                                <div class="metric-label">TOTAL TIME</div>
+                                <div class="metric-value" id="debriefTime">00:00</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">EXERCISES COMPLETED</div>
+                                <div class="metric-value" id="debriefExercises">0</div>
+                                <div class="metric-label">/ 12 TOTAL</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">AVG PAIN INDEX</div>
+                                <div class="metric-value" id="debriefPain">0.0</div>
+                                <div class="metric-change positive">-0.0</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">SUCCESS RATE</div>
+                                <div class="metric-value" id="debriefSuccess">100%</div>
+                                <div class="flex justify-center mt-4">
+                                    <div class="progress-ring" style="width: 80px; height: 80px;" role="img" aria-label="Success rate">
+                                        <svg width="80" height="80" aria-hidden="true">
+                                            <circle class="progress-ring-circle progress-ring-bg" cx="40" cy="40" r="35"></circle>
+                                            <circle class="progress-ring-circle progress-ring-fill" cx="40" cy="40" r="35"></circle>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Session Notes -->
+                        <div class="form-group mb-8">
+                            <label for="postMissionNotes" class="form-label">Notes (optional)</label>
+                            <textarea class="form-control" id="postMissionNotes" rows="4" 
+                                      placeholder="Record observations, challenges, victories..."></textarea>
+                        </div>
+                        
+                        <!-- Pain History -->
+                        <div class="card">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-xl font-bold">PAIN HISTORY</h3>
+                                <span class="badge">
+                                    <i class="ri-line-chart-line" aria-hidden="true"></i> ANALYSIS
+                                </span>
+                            </div>
+                            <div id="painHistoryChart">
+                                <div class="text-center py-12">
+                                    <div class="inline-block w-16 h-16 border-4 border-teal border-t-transparent rounded-full animate-spin" aria-hidden="true"></div>
+                                    <div class="text-neutral-400 mt-4">GENERATING PERFORMANCE ANALYSIS</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel-footer">
+                        <div class="flex justify-center gap-4">
+                            <button class="btn btn-secondary" aria-label="Save session">
+                                <i class="ri-save-line" aria-hidden="true"></i> Save
+                            </button>
+                            <button class="btn btn-primary" aria-label="Export data">
+                                <i class="ri-download-line" aria-hidden="true"></i> Export
+                            </button>
+                            <button class="btn btn-success" aria-label="Start new session">
+                                <i class="ri-refresh-line" aria-hidden="true"></i> New session
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Action Dock -->
+            <div class="action-dock" aria-label="Session quick controls">
+                <div class="action-dock-shell">
+                    <div class="dock-status">
+                        <h3>Live status</h3>
+                        <div class="dock-value" id="dockStatusLabel">Prep</div>
+                        <p class="dock-hint" id="dockStatusHint">Authenticate to unlock your plan.</p>
+                    </div>
+                    <div class="dock-actions">
+                        <button class="btn btn-primary" id="dockPrimaryAction" aria-label="Start session">
+                            <i class="ri-play-line" aria-hidden="true"></i> Start session
+                        </button>
+                        <button class="btn btn-secondary" aria-label="Jump to exercises">
+                            <i class="ri-run-line" aria-hidden="true"></i> Jump to exercises
+                        </button>
+                        <button class="btn btn-danger" aria-label="Emergency stop">
+                            <i class="ri-alarm-line" aria-hidden="true"></i> Emergency stop
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Modals (kept minimal for now) -->
+    <div class="modal-overlay" id="profileModal" aria-hidden="true" aria-label="Profile editor modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">PATIENT PROFILE EDITOR</div>
+                <button class="modal-close" aria-label="Close modal">
+                    <i class="ri-close-line" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Profile form content -->
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // =========================================================
+        // ENHANCED APPLICATION STATE WITH ERROR HANDLING
+        // =========================================================
+        const AppState = {
+            version: '4.1',
+            operator: {
+                id: 'MARVIN',
+                clearance: 'Rehab_RISING',
+                biometrics: {
+                    faceRegistered: true,
+                    voiceRegistered: true,
+                    motionRegistered: false
+                },
+                profile: {
+                    name: 'MARVIN',
+                    injury: 'BALANCE',
+                    intensity: 'STANDARD',
+                    support: 'MINIMAL',
+                    sessionsPerWeek: 5,
+                    painThreshold: 7,
+                    motivation: 'I WILL RECLAIM MY MOBILITY. I WILL NOT BE DEFEATED.',
+                    customExercises: [],
+                    privacy: {
+                        shareTherapist: true,
+                        allowAI: true,
+                        anonymousResearch: false
+                    }
+                }
+            },
+            session: {
+                active: false,
+                phase: 1,
+                startTime: null,
+                elapsedTime: 0,
+                totalTime: 15 * 60,
+                paused: false,
+                authenticated: false,
+                completedExercises: [],
+                currentExercise: null,
+                painHistory: [],
+                notes: '',
+                metrics: {
+                    painIndex: 0,
+                    fatigue: 0,
+                    readiness: 100,
+                    stability: 100,
+                    startPain: 0,
+                    avgPain: 0,
+                    maxPain: 0
+                }
+            },
+            progress: {
+                totalSessions: 0,
+                streak: 0,
+                longestStreak: 0,
+                lastSession: null,
+                phasesCompleted: [],
+                bestTimes: {},
+                achievements: []
+            },
+            emergency: {
+                triggered: false,
+                lastStop: null,
+                stopCount: 0
+            }
+        };
+
+        // =========================================================
+        // ENHANCED ERROR HANDLING
+        // =========================================================
+        class RehabError extends Error {
+            constructor(message, context = 'Unknown') {
+                super(message);
+                this.name = 'RehabError';
+                this.context = context;
+                this.timestamp = new Date().toISOString();
+            }
+            
+            log() {
+                console.error(`[${this.timestamp}] RehabError in ${this.context}:`, this.message);
+                return this;
+            }
+        }
+
+        function withErrorHandling(fn, context = 'Unknown') {
+            return function(...args) {
+                try {
+                    return fn.apply(this, args);
+                } catch (error) {
+                    const rehabError = new RehabError(
+                        error.message || 'Unknown error occurred',
+                        context
+                    ).log();
+                    
+                    showNotification(
+                        'Application Error',
+                        `Something went wrong in ${context}. Please try again.`,
+                        'error'
+                    );
+                    
+                    // Return safe fallback
+                    return null;
+                }
+            };
+        }
+
+        // =========================================================
+        // ENHANCED STATE MANAGEMENT
+        // =========================================================
+        const StateManager = {
+            KEY: 'RehabSessionPro_State_v4',
+            
+            save() {
+                try {
+                    const state = {
+                        ...AppState,
+                        lastSaved: new Date().toISOString()
+                    };
+                    localStorage.setItem(this.KEY, JSON.stringify(state));
+                    return true;
+                } catch (error) {
+                    console.error('Failed to save state:', error);
+                    return false;
+                }
+            },
+            
+            load() {
+                try {
+                    const saved = localStorage.getItem(this.KEY);
+                    if (saved) {
+                        const parsed = JSON.parse(saved);
+                        
+                        // Merge with defaults, preserving important state
+                        AppState.operator = { ...AppState.operator, ...parsed.operator };
+                        AppState.session = { 
+                            ...AppState.session, 
+                            ...parsed.session,
+                            // Don't restore active session on load for safety
+                            active: false,
+                            paused: false,
+                            emergency: { triggered: false, lastStop: null, stopCount: 0 }
+                        };
+                        AppState.progress = { ...AppState.progress, ...parsed.progress };
+                        
+                        return true;
+                    }
+                } catch (error) {
+                    console.error('Failed to load state:', error);
+                    // Clear corrupted state
+                    localStorage.removeItem(this.KEY);
+                }
+                return false;
+            },
+            
+            clear() {
+                try {
+                    localStorage.removeItem(this.KEY);
+                    return true;
+                } catch (error) {
+                    console.error('Failed to clear state:', error);
+                    return false;
+                }
+            }
+        };
+
+        // =========================================================
+        // ENHANCED NOTIFICATION SYSTEM
+        // =========================================================
+        function showNotification(title, message, type = 'info', duration = 5000) {
+            const safeShow = withErrorHandling(function(title, message, type, duration) {
+                const container = document.getElementById('notificationContainer');
+                if (!container) return null;
+                
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.setAttribute('role', 'alert');
+                notification.setAttribute('aria-live', type === 'error' ? 'assertive' : 'polite');
+                
+                notification.innerHTML = `
+                    <button class="notification-close" aria-label="Close notification">
+                        <i class="ri-close-line" aria-hidden="true"></i>
+                    </button>
+                    <div class="notification-title">${this.escapeHtml(title)}</div>
+                    <div class="notification-message">${this.escapeHtml(message)}</div>
+                `;
+                
+                container.appendChild(notification);
+                
+                // Add close functionality
+                const closeBtn = notification.querySelector('.notification-close');
+                closeBtn.addEventListener('click', () => this.removeNotification(notification));
+                
+                // Auto-remove after duration
+                if (duration > 0) {
+                    setTimeout(() => this.removeNotification(notification), duration);
+                }
+                
+                return notification;
+            }, 'Notification System');
+            
+            return safeShow(title, message, type, duration);
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function removeNotification(notification) {
+            if (notification && notification.parentElement) {
+                notification.style.animation = 'notification-slide-in 0.3s cubic-bezier(0.4, 0, 0.2, 1) reverse forwards';
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.remove();
+                    }
+                }, 300);
+            }
+        }
+
+        // =========================================================
+        // ENHANCED TIME FORMATTING
+        // =========================================================
+        function formatTime(seconds) {
+            if (typeof seconds !== 'number' || isNaN(seconds)) {
+                return '00:00';
+            }
+            
+            const secs = Math.max(0, Math.floor(seconds));
+            const mins = Math.floor(secs / 60);
+            const remainingSecs = secs % 60;
+            
+            return `${mins.toString().padStart(2, '0')}:${remainingSecs.toString().padStart(2, '0')}`;
+        }
+
+        // =========================================================
+        // ENHANCED SYSTEM STATUS UPDATES
+        // =========================================================
+        function updateSystemStatus() {
+            const statusDot = document.getElementById('systemStatus');
+            const statusText = document.getElementById('statusText');
+            
+            if (!statusDot || !statusText) return;
+            
+            let status = 'Ready';
+            let color = 'var(--accent-yellow)';
+            let animation = 'pulse 2s infinite';
+            
+            if (AppState.emergency.triggered) {
+                status = 'EMERGENCY';
+                color = 'var(--accent-red)';
+                animation = 'blink 1s infinite';
+            } else if (AppState.session.active) {
+                if (AppState.session.paused) {
+                    status = 'Paused';
+                    color = 'var(--accent-yellow)';
+                } else {
+                    status = 'Active';
+                    color = 'var(--accent-green)';
+                }
+            } else if (AppState.session.authenticated) {
+                status = 'Ready';
+                color = 'var(--accent-teal)';
+            }
+            
+            // Apply styles
+            statusDot.style.background = color;
+            statusText.textContent = status;
+            statusText.style.color = color;
+            
+            // Handle reduced motion
+            if (document.body.classList.contains('reduced-motion')) {
+                statusDot.style.animation = 'none';
+            } else {
+                statusDot.style.animation = animation;
+            }
+        }
+
+        // =========================================================
+        // ENHANCED PAIN MONITORING
+        // =========================================================
+        class PainMonitor {
+            constructor() {
+                this.marker = document.getElementById('painMarker');
+                this.scale = document.getElementById('painScale');
+                this.currentValue = 0;
+                this.isDragging = false;
+                
+                this.init();
+            }
+            
+            init() {
+                if (!this.marker || !this.scale) return;
+                
+                // Mouse events
+                this.marker.addEventListener('mousedown', this.startDrag.bind(this));
+                document.addEventListener('mousemove', this.drag.bind(this));
+                document.addEventListener('mouseup', this.stopDrag.bind(this));
+                
+                // Touch events
+                this.marker.addEventListener('touchstart', this.startDrag.bind(this));
+                document.addEventListener('touchmove', this.drag.bind(this));
+                document.addEventListener('touchend', this.stopDrag.bind(this));
+                
+                // Keyboard support
+                this.marker.addEventListener('keydown', this.handleKeydown.bind(this));
+                this.marker.setAttribute('tabindex', '0');
+            }
+            
+            startDrag(e) {
+                e.preventDefault();
+                this.isDragging = true;
+                this.marker.classList.add('cursor-grabbing');
+            }
+            
+            drag(e) {
+                if (!this.isDragging) return;
+                
+                e.preventDefault();
+                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                if (!clientX) return;
+                
+                const rect = this.scale.getBoundingClientRect();
+                let x = clientX - rect.left;
+                x = Math.max(0, Math.min(x, rect.width));
+                
+                const percentage = (x / rect.width) * 100;
+                this.setValue(percentage / 10);
+            }
+            
+            stopDrag() {
+                this.isDragging = false;
+                this.marker.classList.remove('cursor-grabbing');
+            }
+            
+            handleKeydown(e) {
+                const step = 0.5; // Half point increments
+                
+                switch(e.key) {
+                    case 'ArrowLeft':
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        this.setValue(Math.max(0, this.currentValue - step));
+                        break;
+                    case 'ArrowRight':
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        this.setValue(Math.min(10, this.currentValue + step));
+                        break;
+                    case 'Home':
+                        e.preventDefault();
+                        this.setValue(0);
+                        break;
+                    case 'End':
+                        e.preventDefault();
+                        this.setValue(10);
+                        break;
+                }
+            }
+            
+            setValue(value) {
+                this.currentValue = Math.round(value * 2) / 2; // Round to nearest 0.5
+                const percentage = this.currentValue * 10;
+                
+                // Update UI
+                this.marker.style.left = `${percentage}%`;
+                this.marker.textContent = this.currentValue.toFixed(1);
+                this.marker.setAttribute('aria-valuenow', this.currentValue);
+                
+                // Update app state
+                AppState.session.metrics.painIndex = this.currentValue;
+                
+                // Update other pain displays
+                document.getElementById('painValue').textContent = this.currentValue.toFixed(1);
+                document.getElementById('realTimePain').textContent = this.currentValue.toFixed(1);
+                document.getElementById('livePain').textContent = this.currentValue.toFixed(1);
+                
+                // Check pain threshold
+                this.checkThreshold();
+                
+                // Save state
+                StateManager.save();
+            }
+            
+            checkThreshold() {
+                const threshold = AppState.operator.profile.painThreshold;
+                const warning = document.getElementById('painWarning');
+                
+                if (this.currentValue >= threshold) {
+                    warning.classList.remove('hidden');
+                    if (this.currentValue >= 8) {
+                        showNotification('Severe Pain Alert', 
+                            `Pain level ${this.currentValue.toFixed(1)}/10 detected. Consider stopping.`, 
+                            'error');
+                    }
+                } else {
+                    warning.classList.add('hidden');
+                }
+            }
+        }
+
+        // =========================================================
+        // ENHANCED FORM VALIDATION
+        // =========================================================
+        class FormValidator {
+            static validateAuthentication(formData) {
+                const errors = [];
+                
+                if (!formData.operatorId?.trim()) {
+                    errors.push('Operator ID is required');
+                } else if (formData.operatorId.length < 2) {
+                    errors.push('Operator ID must be at least 2 characters');
+                }
+                
+                if (formData.securityCode && formData.securityCode.length < 3) {
+                    errors.push('Security code must be at least 3 characters if provided');
+                }
+                
+                return {
+                    isValid: errors.length === 0,
+                    errors
+                };
+            }
+        }
+
+        // =========================================================
+        // ENHANCED EVENT HANDLING
+        // =========================================================
+        class EventManager {
+            constructor() {
+                this.handlers = new Map();
+            }
+            
+            add(element, event, handler, options = {}) {
+                if (!element || !event || !handler) return;
+                
+                const wrappedHandler = withErrorHandling(handler, `Event: ${event}`);
+                element.addEventListener(event, wrappedHandler, options);
+                
+                const key = `${element.id || element.className}-${event}`;
+                this.handlers.set(key, { element, event, handler: wrappedHandler });
+            }
+            
+            remove(element, event) {
+                const key = `${element.id || element.className}-${event}`;
+                const handler = this.handlers.get(key);
+                
+                if (handler) {
+                    handler.element.removeEventListener(handler.event, handler.handler);
+                    this.handlers.delete(key);
+                }
+            }
+            
+            clear() {
+                this.handlers.forEach(({ element, event, handler }) => {
+                    element.removeEventListener(event, handler);
+                });
+                this.handlers.clear();
+            }
+        }
+
+        // =========================================================
+        // ENHANCED CALM MODE TOGGLE
+        // =========================================================
+        class CalmModeManager {
+            constructor() {
+                this.KEY = "RehabCalmMode";
+                this.mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+                this.hasStoredPreference = false;
+                
+                this.init();
+            }
+            
+            init() {
+                this.loadPreference();
+                this.setupMediaQueryListener();
+                this.setupToggleButton();
+            }
+            
+            loadPreference() {
+                try {
+                    const saved = localStorage.getItem(this.KEY);
+                    if (saved !== null) {
+                        this.hasStoredPreference = true;
+                        this.apply(saved === "1");
+                    } else {
+                        // No stored preference, use system preference
+                        this.apply(this.mediaQuery.matches, false);
+                    }
+                } catch (e) {
+                    console.error('Failed to load calm mode preference:', e);
+                }
+            }
+            
+            apply(enabled, persist = true) {
+                const shouldReduce = enabled || this.mediaQuery.matches;
+                
+                document.body.classList.toggle("calm", enabled);
+                document.body.classList.toggle("reduced-motion", shouldReduce);
+                
+                // Update button state
+                const btn = document.getElementById("calmToggleBtn");
+                const label = document.getElementById("calmToggleLabel");
+                
+                if (btn) {
+                    btn.setAttribute("aria-pressed", enabled.toString());
+                    btn.setAttribute("aria-label", enabled ? 
+                        "Calm mode on - reduced visuals and motion" : 
+                        "Pro mode on - full visuals and motion");
+                    
+                    btn.innerHTML = enabled ? 
+                        '<i class="ri-moon-clear-line" aria-hidden="true"></i>' : 
+                        '<i class="ri-sun-line" aria-hidden="true"></i>';
+                }
+                
+                if (label) {
+                    label.textContent = enabled ? "Calm" : "Pro";
+                }
+                
+                // Persist if requested
+                if (persist && this.hasStoredPreference) {
+                    try {
+                        localStorage.setItem(this.KEY, enabled ? "1" : "0");
+                    } catch (e) {
+                        console.error('Failed to save calm mode preference:', e);
+                    }
+                }
+                
+                // Update animations
+                this.updateAnimations(shouldReduce);
+            }
+            
+            toggle() {
+                const isCalm = document.body.classList.contains("calm");
+                this.apply(!isCalm);
+            }
+            
+            setupMediaQueryListener() {
+                this.mediaQuery.addEventListener('change', (e) => {
+                    if (!this.hasStoredPreference) {
+                        this.apply(e.matches, false);
+                    }
+                });
+            }
+            
+            setupToggleButton() {
+                const btn = document.getElementById("calmToggleBtn");
+                if (btn) {
+                    btn.addEventListener('click', () => this.toggle());
+                }
+                
+                // Also connect other calm mode buttons
+                const calmButtons = document.querySelectorAll('[aria-label*="calm"], [title*="Calm"]');
+                calmButtons.forEach(button => {
+                    if (button !== btn) {
+                        button.addEventListener('click', () => this.toggle());
+                    }
+                });
+            }
+            
+            updateAnimations(shouldReduce) {
+                const elements = document.querySelectorAll('[style*="animation"], .status-dot');
+                elements.forEach(el => {
+                    if (shouldReduce) {
+                        el.style.animationPlayState = 'paused';
+                    } else {
+                        el.style.animationPlayState = 'running';
+                    }
+                });
+            }
+        }
+
+        // =========================================================
+        // ENHANCED INITIALIZATION
+        // =========================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize managers
+            const calmModeManager = new CalmModeManager();
+            const eventManager = new EventManager();
+            const painMonitor = new PainMonitor();
+            
+            // Load saved state
+            if (StateManager.load()) {
+                showNotification('System Ready', 'Previous session loaded successfully', 'success', 3000);
+            }
+            
+            // Update initial displays
+            updateSystemTime();
+            updateSystemStatus();
+            refreshExperienceSummary();
+            
+            // Setup authentication form
+            const authForm = document.getElementById('authForm');
+            if (authForm) {
+                authForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    authenticateOperator();
+                });
+            }
+            
+            // Setup baseline pain slider
+            const baselinePain = document.getElementById('baselinePain');
+            if (baselinePain) {
+                baselinePain.addEventListener('input', function() {
+                    const value = parseInt(this.value);
+                    document.getElementById('painValue').textContent = value;
+                    
+                    // Update fatigue based on pain
+                    const fatigue = Math.min(100, value * 15);
+                    document.getElementById('fatigueBar').style.width = `${fatigue}%`;
+                    document.getElementById('fatigueValue').textContent = `${fatigue}%`;
+                    
+                    // Update readiness
+                    const readiness = Math.max(0, 100 - (value * 10) - (fatigue * 0.5));
+                    document.getElementById('readinessScore').textContent = `${Math.round(readiness)}%`;
+                    
+                    // Update pain marker
+                    if (painMonitor.marker) {
+                        painMonitor.setValue(value);
+                    }
+                });
+            }
+            
+            // Setup keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                // Space to pause/resume
+                if (e.code === 'Space' && AppState.session.active) {
+                    e.preventDefault();
+                    pauseMission();
+                }
+                
+                // Escape for emergency stop
+                if (e.code === 'Escape' && AppState.session.active) {
+                    emergencyStop();
+                }
+                
+                // Ctrl/Cmd + S to save
+                if ((e.ctrlKey || e.metaKey) && e.code === 'KeyS') {
+                    e.preventDefault();
+                    if (StateManager.save()) {
+                        showNotification('Auto-Save', 'Progress saved successfully', 'success', 2000);
+                    }
+                }
+            });
+            
+            // Handle page visibility changes
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    // Page is hidden, pause intensive operations
+                    if (AppState.session.active && !AppState.session.paused) {
+                        showNotification('Session Paused', 'Session auto-paused while tab is hidden', 'warning');
+                        AppState.session.paused = true;
+                        updateSystemStatus();
+                    }
+                }
+            });
+            
+            // Initialize clock
+            setInterval(updateSystemTime, 1000);
+            
+            console.log('🚀 Rehab Session Pro v4.1 - Enhanced & Accessible');
+            console.log('Features: Enhanced accessibility, error handling, state management');
+        });
+
+        // =========================================================
+        // CORE FUNCTIONS (Enhanced versions)
+        // =========================================================
+        function updateSystemTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            
+            const timeElements = [
+                document.getElementById('currentTime'),
+                document.getElementById('sessionClockValue'),
+                document.getElementById('mobileClockValue')
+            ];
+            
+            timeElements.forEach(el => {
+                if (el) {
+                    el.textContent = timeString;
+                    el.setAttribute('datetime', now.toISOString());
+                }
+            });
+        }
+
+        function authenticateOperator() {
+            const formData = {
+                operatorId: document.getElementById('operatorId').value.trim(),
+                securityCode: document.getElementById('securityCode').value.trim(),
+                missionProfile: document.getElementById('missionProfile').value
+            };
+            
+            const validation = FormValidator.validateAuthentication(formData);
+            if (!validation.isValid) {
+                showNotification('Authentication Failed', validation.errors.join('\n'), 'error');
+                return;
+            }
+            
+            // Update app state
+            AppState.operator.id = formData.operatorId.toUpperCase();
+            AppState.operator.clearance = formData.securityCode;
+            AppState.operator.profile.intensity = formData.missionProfile;
+            AppState.session.authenticated = true;
+            
+            // Update UI
+            document.getElementById('operatorName').textContent = `Patient: ${formData.operatorId}`;
+            document.getElementById('briefOperator').textContent = formData.operatorId;
+            document.getElementById('missionName').textContent = `Rehab Session - ${formData.missionProfile}`;
+            
+            // Show next phase
+            document.getElementById('phaseAuth').classList.add('hidden');
+            document.getElementById('phaseBio').classList.remove('hidden');
+            
+            // Update status and save
+            updateSystemStatus();
+            refreshExperienceSummary();
+            StateManager.save();
+            
+            showNotification('Authentication Successful', 
+                `Welcome back, ${formData.operatorId}. Ready for readiness check.`, 
+                'success');
+        }
+
+        function refreshExperienceSummary() {
+            // Update all summary displays based on current state
+            const elements = {
+                summaryProfile: AppState.operator.profile.intensity,
+                summaryStreak: `${AppState.progress.streak} days`,
+                summarySessions: AppState.progress.totalSessions,
+                summaryPainLimit: `${AppState.operator.profile.painThreshold}/10`,
+                summaryPainBaseline: `${AppState.session.metrics.painIndex.toFixed(1)}/10`,
+                summaryReadinessValue: `${Math.round(AppState.session.metrics.readiness)}%`,
+                summaryPainBadge: `${AppState.session.metrics.painIndex.toFixed(1)}/10`,
+                summaryFatigue: `${Math.round(AppState.session.metrics.fatigue)}%`
+            };
+            
+            Object.entries(elements).forEach(([id, value]) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = value;
+            });
+            
+            // Update mobile displays
+            const mobileElements = {
+                mobileReadinessValue: `${Math.round(AppState.session.metrics.readiness)}%`,
+                mobilePainValue: `${AppState.session.metrics.painIndex.toFixed(1)}/10`,
+                mobileFatigueValue: `${Math.round(AppState.session.metrics.fatigue)}%`
+            };
+            
+            Object.entries(mobileElements).forEach(([id, value]) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = value;
+            });
+            
+            // Update session state
+            const sessionState = AppState.session.active ? 
+                (AppState.session.paused ? 'Paused' : 'Active') : 
+                (AppState.session.authenticated ? 'Ready' : 'Prep');
+            
+            const stateElements = [
+                'navSessionState',
+                'sessionStateText',
+                'mobileStatusPill',
+                'dockStatusLabel'
+            ];
+            
+            stateElements.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = sessionState;
+            });
+        }
+
+        // =========================================================
+        // SAFE WRAPPERS FOR EXISTING FUNCTIONS
+        // =========================================================
+        const safeBeginMission = withErrorHandling(beginMission, 'Begin Mission');
+        const safePauseMission = withErrorHandling(pauseMission, 'Pause Mission');
+        const safeEmergencyStop = withErrorHandling(emergencyStop, 'Emergency Stop');
+        const safeCompleteMission = withErrorHandling(completeMission, 'Complete Mission');
+        
+        // Export functions to global scope
+        window.authenticateOperator = withErrorHandling(authenticateOperator, 'Authentication');
+        window.beginMission = safeBeginMission;
+        window.pauseMission = safePauseMission;
+        window.emergencyStop = safeEmergencyStop;
+        window.completeMission = safeCompleteMission;
+        window.showNotification = showNotification;
+        
+        // Initialize calm mode
+        window.toggleCalmMode = () => {
+            // Will be set by CalmModeManager
+        };
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rehab Session Pro | Advanced Neuro-Muscular Rehabilitation</title>
     <meta name="description" content="Next-generation rehabilitation platform with AI-driven protocols and real-time biofeedback">
