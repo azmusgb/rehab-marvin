@@ -1,4 +1,4 @@
-needs to be complete/amazing <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -2415,6 +2415,7 @@ needs to be complete/amazing <!DOCTYPE html>
             streak: 0
         }
     };
+    let painMonitor = null;
 
     // =========================================================
     // STATE MANAGEMENT
@@ -3341,7 +3342,7 @@ needs to be complete/amazing <!DOCTYPE html>
     document.addEventListener('DOMContentLoaded', () => {
         // Initialize managers
         new CalmModeManager();
-        new PainMonitor();
+        painMonitor = new PainMonitor();
         
         // Load saved state
         if (StateManager.load()) {
@@ -3395,8 +3396,9 @@ needs to be complete/amazing <!DOCTYPE html>
                 document.getElementById('painValue').textContent = value;
                 
                 // Update pain monitor
-                const painMonitor = new PainMonitor();
-                painMonitor.setValue(value);
+                if (painMonitor) {
+                    painMonitor.setValue(value);
+                }
             });
             
             // Set initial value
