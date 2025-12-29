@@ -1470,7 +1470,36 @@
         .z-30 { z-index: 30; }
         .z-40 { z-index: 40; }
         .z-50 { z-index: 50; }
-        
+
+        /* =========================================================
+           REDUCED MOTION SUPPORT
+        ========================================================= */
+        body.reduced-motion {
+            scroll-behavior: auto;
+        }
+        body.reduced-motion *, 
+        body.calm.reduced-motion * {
+            animation: none !important;
+            transition: none !important;
+        }
+        body.reduced-motion .scanlines,
+        body.reduced-motion .particles,
+        body.reduced-motion::before {
+            display: none !important;
+        }
+        body.reduced-motion .status-dot {
+            animation: none !important;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .scanlines,
+            .particles,
+            body::before {
+                display: none !important;
+            }
+        }
+
         /* =========================================================
            CALM MODE OVERRIDES
         ========================================================= */
@@ -1661,7 +1690,7 @@
                 
                 <div class="flex items-center gap-3" style="margin-left: 12px;">
                     <span class="text-xs text-neutral-400" id="calmToggleLabel">Calm</span>
-                    <button class="btn btn-icon btn-secondary" id="calmToggleBtn" aria-pressed="true"
+                    <button class="btn btn-icon btn-secondary" id="calmToggleBtn" aria-pressed="true" aria-label="Toggle calm mode"
                             onclick="toggleCalmMode()" title="Toggle Calm Mode" style="width:40px;height:40px;">
                         <i class="ri-moon-clear-line"></i>
                     </button>
@@ -3303,9 +3332,18 @@
         }
 
         function updateSystemTime() {
+            if (document.hidden) return;
             const now = new Date();
             document.getElementById('currentTime').textContent = 
                 now.toLocaleTimeString('en-US', { hour12: false });
+        }
+
+        function alignStatusAnimationWithMotion() {
+            const statusDot = document.getElementById('systemStatus');
+            if (!statusDot) return;
+            if (document.body.classList.contains('reduced-motion')) {
+                statusDot.style.animation = 'none';
+            }
         }
 
         function updateSystemStatus() {
@@ -3345,6 +3383,8 @@
                 statusText.textContent = 'Ready';
                 statusText.className = 'text-sm font-semibold text-yellow';
             }
+            
+            alignStatusAnimationWithMotion();
         }
 
         function saveState() {
@@ -3372,8 +3412,32 @@
             return false;
         }
 
+        function clearDecorativeLayers() {
+            const container = document.getElementById('particles');
+            if (container) {
+                container.innerHTML = '';
+            }
+        }
+
+        function refreshDecorativeLayers() {
+            const container = document.getElementById('particles');
+            const shouldReduce = document.body.classList.contains('reduced-motion') || document.body.classList.contains('calm');
+            if (!container) return;
+            if (shouldReduce) {
+                clearDecorativeLayers();
+                return;
+            }
+            if (container.childElementCount === 0) {
+                createParticles();
+            }
+        }
+
         function createParticles() {
             const container = document.getElementById('particles');
+            if (!container || document.body.classList.contains('reduced-motion') || document.body.classList.contains('calm')) {
+                clearDecorativeLayers();
+                return;
+            }
             const particleCount = 30;
             
             for (let i = 0; i < particleCount; i++) {
@@ -4138,7 +4202,7 @@
             }
             
             window.metricsInterval = setInterval(() => {
-                if (!AppState.session.active || AppState.session.paused || AppState.emergency.triggered) {
+                if (document.hidden || !AppState.session.active || AppState.session.paused || AppState.emergency.triggered) {
                     return;
                 }
                 
@@ -4168,20 +4232,62 @@
         // =========================================================
         (function(){
             const KEY = "RehabCalmMode";
-            function apply(on){
+            const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+            let hasStoredPreference = false;
+
+            function apply(on, { persist = true } = {}){
+                const shouldReduce = !!on || media.matches;
                 document.body.classList.toggle("calm", !!on);
-                try{ localStorage.setItem(KEY, on ? "1" : "0"); }catch(e){}
+                document.body.classList.toggle("reduced-motion", shouldReduce);
+                if (persist) {
+                    try{ 
+                        localStorage.setItem(KEY, on ? "1" : "0");
+                        hasStoredPreference = true;
+                    }catch(e){}
+                }
                 const btn = document.getElementById("calmToggleBtn");
                 if(btn) btn.setAttribute("aria-pressed", on ? "true" : "false");
+                if(btn) btn.setAttribute("aria-label", on ? "Calm mode on - reduced motion" : "Pro mode on - full visuals");
                 if(btn) btn.innerHTML = on ? '<i class="ri-moon-clear-line"></i>' : '<i class="ri-sun-line"></i>';
                 const label = document.getElementById("calmToggleLabel");
                 if(label) label.textContent = on ? "Calm" : "Pro";
+                if (shouldReduce) {
+                    clearDecorativeLayers();
+                } else {
+                    refreshDecorativeLayers();
+                }
+                alignStatusAnimationWithMotion();
             }
             function init(){
-                let on = true;
-                try{ on = (localStorage.getItem(KEY) ?? "1") === "1"; }catch(e){}
-                apply(on);
+                let storedPreference = null;
+                try{ 
+                    const saved = localStorage.getItem(KEY);
+                    if (saved !== null) {
+                        storedPreference = saved === "1";
+                        hasStoredPreference = true;
+                    }
+                }catch(e){}
+                const on = storedPreference !== null ? storedPreference : media.matches;
+                apply(on, { persist: storedPreference !== null });
                 window.toggleCalmMode = () => apply(!document.body.classList.contains("calm"));
+                const onMediaChange = (event) => {
+                    if (!hasStoredPreference) {
+                        apply(event.matches, { persist: false });
+                    } else {
+                        document.body.classList.toggle("reduced-motion", document.body.classList.contains("calm") || event.matches);
+                        if (document.body.classList.contains("reduced-motion")) {
+                            clearDecorativeLayers();
+                            alignStatusAnimationWithMotion();
+                        } else {
+                            refreshDecorativeLayers();
+                        }
+                    }
+                };
+                if (typeof media.addEventListener === "function") {
+                    media.addEventListener("change", onMediaChange);
+                } else if (typeof media.addListener === "function") {
+                    media.addListener(onMediaChange);
+                }
             }
             if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
             else init();
@@ -4195,7 +4301,7 @@
                 showNotification('System Ready', 'Previous session loaded successfully', 'success');
             }
             
-            createParticles();
+            refreshDecorativeLayers();
             
             updateSystemTime();
             setInterval(updateSystemTime, 1000);
