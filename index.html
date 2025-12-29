@@ -637,6 +637,132 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
         
+        /* Mobile-first shell */
+        .mobile-shell {
+            display: none;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+
+        .mobile-card {
+            background: linear-gradient(160deg, rgba(12, 18, 35, 0.92), rgba(22, 34, 56, 0.9));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-5);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+
+        .mobile-topline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-3);
+            margin-bottom: var(--space-3);
+        }
+
+        .mobile-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            background: rgba(77, 243, 201, 0.12);
+            border: 1px solid rgba(77, 243, 201, 0.24);
+            font-weight: 800;
+            color: var(--accent-teal);
+            letter-spacing: 0.02em;
+        }
+
+        .mobile-clock {
+            font-family: var(--font-mono);
+            color: var(--accent-blue);
+            font-weight: 700;
+        }
+
+        .mobile-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: var(--space-2);
+        }
+
+        .mobile-subtle {
+            color: var(--neutral-300);
+            font-size: 0.95rem;
+        }
+
+        .mobile-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: var(--space-3);
+            margin-top: var(--space-4);
+        }
+
+        .mobile-metric {
+            padding: var(--space-3);
+            border-radius: var(--radius-xl);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .mobile-metric .label {
+            font-size: 0.8rem;
+            color: var(--neutral-400);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .mobile-metric .value {
+            font-weight: 800;
+            color: white;
+            font-size: 1.4rem;
+            margin-top: var(--space-1);
+        }
+
+        .mobile-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-3);
+        }
+
+        .mobile-step {
+            padding: var(--space-3);
+            border-radius: var(--radius-xl);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .mobile-step .step-title {
+            font-weight: 800;
+            color: white;
+            margin-bottom: var(--space-1);
+        }
+
+        .mobile-step .step-hint {
+            color: var(--neutral-400);
+            font-size: 0.9rem;
+            margin-bottom: var(--space-2);
+        }
+
+        .mobile-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.06);
+            font-weight: 700;
+            color: var(--neutral-50);
+        }
+
+        .mobile-actions {
+            display: grid;
+            gap: var(--space-3);
+        }
+
+        .mobile-actions .btn {
+            width: 100%;
+        }
+
         /* Grid System */
         .grid {
             display: grid;
@@ -1017,6 +1143,27 @@
             .grid-overlay,
             .particles { display: none; }
 
+            .status-bar {
+                position: sticky;
+                top: 0;
+                border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+            }
+
+            .primary-nav {
+                position: static;
+                border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+                border-top: 1px solid rgba(255, 255, 255, 0.06);
+            }
+
+            .mobile-shell {
+                display: grid;
+            }
+
+            .session-banner,
+            .hero-grid {
+                display: none;
+            }
+
             .nav-links {
                 grid-template-columns: 1fr;
             }
@@ -1048,15 +1195,15 @@
             }
 
             .action-dock {
-                position: sticky;
-                bottom: 0;
-                padding-bottom: env(safe-area-inset-bottom);
+                position: static;
+                padding-bottom: 0;
+                margin-top: var(--space-6);
             }
 
             .action-dock-shell {
-                border-radius: var(--radius-xl);
+                border-radius: var(--radius-2xl);
                 padding: var(--space-4);
-                box-shadow: 0 -10px 30px rgba(0,0,0,0.6);
+                box-shadow: var(--shadow-xl);
             }
         }
         
@@ -2580,6 +2727,70 @@
     <main class="pt-20">
         <div class="container">
             <section class="section hero-shell" aria-labelledby="overviewTitle">
+                <div class="mobile-shell" aria-label="Mobile session snapshot">
+                    <div class="mobile-card">
+                        <div class="mobile-topline">
+                            <span class="mobile-pill" id="mobileStatusPill">Prep</span>
+                            <span class="mobile-clock" id="mobileClockValue">--:--</span>
+                        </div>
+                        <div class="mobile-title">Rehab session, calmer view</div>
+                        <p class="mobile-subtle" id="mobileStatusHint">Authenticate to unlock your plan.</p>
+                        <div class="mobile-metrics">
+                            <div class="mobile-metric">
+                                <div class="label">Readiness</div>
+                                <div class="value" id="mobileReadinessValue">100%</div>
+                            </div>
+                            <div class="mobile-metric">
+                                <div class="label">Pain today</div>
+                                <div class="value" id="mobilePainValue">0 / 10</div>
+                            </div>
+                            <div class="mobile-metric">
+                                <div class="label">Fatigue</div>
+                                <div class="value" id="mobileFatigueValue">0%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-card">
+                        <div class="mobile-steps">
+                            <div class="mobile-step">
+                                <div class="step-title">Sign in</div>
+                                <div class="step-hint">Patient ID & clearance</div>
+                                <span class="mobile-chip" id="mobileAuthState">Prep</span>
+                            </div>
+                            <div class="mobile-step">
+                                <div class="step-title">Readiness</div>
+                                <div class="step-hint">Pain, fatigue, stability</div>
+                                <span class="mobile-chip" id="mobileReadinessState">Locked</span>
+                            </div>
+                            <div class="mobile-step">
+                                <div class="step-title">Exercises</div>
+                                <div class="step-hint">Timers + pacing</div>
+                                <span class="mobile-chip" id="mobileExerciseState">Queued</span>
+                            </div>
+                            <div class="mobile-step">
+                                <div class="step-title">Summary</div>
+                                <div class="step-hint">Notes & export</div>
+                                <span class="mobile-chip" id="mobileSummaryState">Later</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-card">
+                        <div class="mobile-actions">
+                            <button class="btn btn-primary btn-lg" type="button" id="mobilePrimaryAction" onclick="handlePrimaryNavAction()">
+                                <i class="ri-play-line"></i> Start session
+                            </button>
+                            <button class="btn btn-secondary btn-lg" type="button" onclick="toggleCalmMode()">
+                                <i class="ri-moon-clear-line"></i> Calm visuals
+                            </button>
+                            <button class="btn btn-outline btn-lg" type="button" onclick="scrollToSection('phaseMission')">
+                                <i class="ri-run-line"></i> Jump to exercises
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="session-banner mb-6">
                     <div class="session-banner__header">
                         <div class="session-chip" id="sessionStateChip">
@@ -4832,11 +5043,13 @@
             if (document.hidden) return;
             const timeEl = document.getElementById('currentTime');
             const heroClock = document.getElementById('sessionClockValue');
+            const mobileClock = document.getElementById('mobileClockValue');
             if (!timeEl) return;
             const now = new Date();
             const formatted = now.toLocaleTimeString('en-US', { hour12: false });
             timeEl.textContent = formatted;
             if (heroClock) heroClock.textContent = formatted;
+            if (mobileClock) mobileClock.textContent = formatted;
         }
 
         function startClock() {
@@ -4880,6 +5093,7 @@
             const sessionChip = document.getElementById('sessionStateChip');
             const sessionStateText = document.getElementById('sessionStateText');
             const chipDot = sessionChip?.querySelector('.status-dot');
+            const mobilePill = document.getElementById('mobileStatusPill');
             let toneColor = 'var(--accent-yellow)';
             let labelCopy = 'Ready';
             
@@ -4935,6 +5149,12 @@
                 sessionChip.style.borderColor = toneColor;
                 sessionChip.style.color = toneColor;
             }
+            if (mobilePill) {
+                mobilePill.textContent = labelCopy;
+                mobilePill.style.color = toneColor;
+                mobilePill.style.borderColor = toneColor;
+                mobilePill.style.background = 'rgba(255,255,255,0.05)';
+            }
             
             alignStatusAnimationWithMotion();
         }
@@ -4955,6 +5175,9 @@
             
             const readinessValue = document.getElementById('summaryReadinessValue');
             if (readinessValue) readinessValue.textContent = `${readiness}%`;
+
+            const mobileReadiness = document.getElementById('mobileReadinessValue');
+            if (mobileReadiness) mobileReadiness.textContent = `${readiness}%`;
             
             const readinessCopy = document.getElementById('summaryPhaseCopy');
             if (readinessCopy) {
@@ -4994,9 +5217,15 @@
 
             const painBadge = document.getElementById('summaryPainBadge');
             if (painBadge) painBadge.textContent = `${pain} / 10`;
+
+            const mobilePain = document.getElementById('mobilePainValue');
+            if (mobilePain) mobilePain.textContent = `${pain} / 10`;
             
             const fatigueEl = document.getElementById('summaryFatigue');
             if (fatigueEl) fatigueEl.textContent = `${fatigue}%`;
+
+            const mobileFatigue = document.getElementById('mobileFatigueValue');
+            if (mobileFatigue) mobileFatigue.textContent = `${fatigue}%`;
             
             const sessionChip = document.getElementById('summarySessionChip');
             if (sessionChip) {
@@ -5041,6 +5270,20 @@
 
             const stepDebrief = document.getElementById('stepDebriefState');
             if (stepDebrief) stepDebrief.textContent = AppState.session.elapsedTime > 0 ? 'Review' : 'Later';
+
+            const mobileAuth = document.getElementById('mobileAuthState');
+            if (mobileAuth) mobileAuth.textContent = AppState.session.authenticated ? 'Done' : 'Prep';
+
+            const mobileReadyState = document.getElementById('mobileReadinessState');
+            if (mobileReadyState) {
+                mobileReadyState.textContent = AppState.session.authenticated ? (AppState.session.active ? 'Done' : 'Next') : 'Locked';
+            }
+
+            const mobileExerciseState = document.getElementById('mobileExerciseState');
+            if (mobileExerciseState) mobileExerciseState.textContent = AppState.session.active ? 'Active' : 'Queued';
+
+            const mobileSummaryState = document.getElementById('mobileSummaryState');
+            if (mobileSummaryState) mobileSummaryState.textContent = AppState.session.elapsedTime > 0 ? 'Review' : 'Later';
 
             updateNavigationAffordances();
         }
@@ -5121,6 +5364,11 @@
                 heroPrimary.innerHTML = `<i class="${icon}"></i> ${label}`;
             }
 
+            const mobilePrimary = document.getElementById('mobilePrimaryAction');
+            if (mobilePrimary) {
+                mobilePrimary.innerHTML = `<i class="${icon}"></i> ${label}`;
+            }
+
             const dockStatus = document.getElementById('dockStatusLabel');
             if (dockStatus) {
                 dockStatus.textContent = statusLabel;
@@ -5134,6 +5382,25 @@
             const dockPrimary = document.getElementById('dockPrimaryAction');
             if (dockPrimary) {
                 dockPrimary.innerHTML = `<i class="${icon}"></i> ${label}`;
+            }
+
+            const mobileHint = document.getElementById('mobileStatusHint');
+            if (mobileHint) {
+                mobileHint.textContent = hint || '';
+            }
+
+            const mobileStatus = document.getElementById('mobileStatusPill');
+            if (mobileStatus) {
+                const toneColorMap = {
+                    danger: 'var(--accent-red)',
+                    warning: 'var(--accent-yellow)',
+                    success: 'var(--accent-green)',
+                    info: 'var(--accent-blue)'
+                };
+                const color = toneColorMap[tone] || 'var(--accent-blue)';
+                mobileStatus.textContent = statusLabel;
+                mobileStatus.style.color = color;
+                mobileStatus.style.borderColor = color;
             }
         }
 
