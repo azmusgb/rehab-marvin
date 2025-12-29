@@ -245,6 +245,168 @@
             margin-top: var(--space-8);
         }
 
+        .session-banner {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.24), rgba(77, 243, 201, 0.24));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+            border-radius: var(--radius-3xl);
+            padding: var(--space-6);
+            display: grid;
+            gap: var(--space-4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .session-banner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 20% 20%, rgba(141, 244, 197, 0.16), transparent 40%),
+                        radial-gradient(circle at 80% 0%, rgba(124, 183, 255, 0.14), transparent 45%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .session-banner > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .session-banner__header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: var(--space-3);
+            justify-content: space-between;
+        }
+
+        .session-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--neutral-50);
+        }
+
+        .session-chip .status-dot {
+            width: 10px;
+            height: 10px;
+        }
+
+        .session-clock {
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--accent-blue);
+        }
+
+        .session-plan-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-full);
+            background: rgba(0, 0, 0, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            color: var(--neutral-50);
+            font-weight: 700;
+        }
+
+        .session-banner__body {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            align-items: center;
+            gap: var(--space-6);
+        }
+
+        .session-persona h3 {
+            font-size: clamp(1.6rem, 3vw, 2rem);
+            font-weight: 900;
+            margin-bottom: var(--space-2);
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.8rem;
+            color: var(--neutral-300);
+        }
+
+        .session-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: var(--space-3);
+        }
+
+        .session-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: var(--space-3);
+        }
+
+        .step-card {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-4);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-base);
+        }
+
+        .step-card:hover {
+            border-color: var(--accent-teal);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .step-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--accent-teal);
+            font-size: 1.25rem;
+        }
+
+        .step-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .step-copy .label {
+            font-weight: 800;
+            color: white;
+        }
+
+        .step-copy .hint {
+            color: var(--neutral-300);
+            font-size: 0.9rem;
+        }
+
+        .pill-soft {
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-full);
+            background: rgba(0, 0, 0, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-weight: 700;
+            color: var(--neutral-100);
+        }
+
         .hero-grid {
             display: grid;
             gap: var(--space-8);
@@ -827,6 +989,10 @@
                 grid-template-columns: 1fr;
             }
 
+            .session-banner__body {
+                grid-template-columns: 1fr;
+            }
+
             .nav-links {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
@@ -844,6 +1010,14 @@
         @media (max-width: 640px) {
             .nav-links {
                 grid-template-columns: 1fr;
+            }
+
+            .session-banner {
+                padding: var(--space-4);
+            }
+
+            .session-steps {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             }
 
             .nav-actions {
@@ -2380,6 +2554,85 @@
     <main class="pt-20">
         <div class="container">
             <section class="section hero-shell" aria-labelledby="overviewTitle">
+                <div class="session-banner mb-6">
+                    <div class="session-banner__header">
+                        <div class="session-chip" id="sessionStateChip">
+                            <span class="status-dot"></span>
+                            <span id="sessionStateText">Ready</span>
+                        </div>
+                        <div class="session-clock" id="sessionCountdown">
+                            <i class="ri-time-line"></i>
+                            <span id="sessionClockValue">--:--:--</span>
+                        </div>
+                        <div class="session-plan-tag">
+                            <i class="ri-shield-star-line"></i>
+                            Rehab Session · Pro
+                        </div>
+                    </div>
+
+                    <div class="session-banner__body">
+                        <div class="session-persona">
+                            <p class="eyebrow">Patient</p>
+                            <h3 id="sessionPatient">Marvin</h3>
+                            <p class="text-neutral-300" id="sessionPersonaCopy">Balance rehab · calm visuals on</p>
+                        </div>
+                        <div class="session-actions">
+                            <button class="btn btn-primary btn-lg" type="button" id="heroPrimaryCta" onclick="handlePrimaryNavAction()">
+                                <i class="ri-play-line"></i> Start session
+                            </button>
+                            <button class="btn btn-outline btn-lg" type="button" onclick="toggleCalmMode()">
+                                <i class="ri-moon-clear-line"></i> Calm visuals
+                            </button>
+                            <button class="btn btn-secondary btn-lg" type="button" onclick="scrollToSection('phaseMission')">
+                                <i class="ri-run-line"></i> Jump to exercises
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="session-steps">
+                        <button class="step-card" type="button" onclick="scrollToSection('phaseAuth')">
+                            <div class="step-icon">
+                                <i class="ri-id-card-line"></i>
+                            </div>
+                            <div class="step-copy">
+                                <span class="label">Sign in</span>
+                                <span class="hint">Patient ID & clearance</span>
+                            </div>
+                            <span class="pill-soft" id="stepAuthState">Prep</span>
+                        </button>
+                        <button class="step-card" type="button" onclick="scrollToSection('phaseBio')">
+                            <div class="step-icon">
+                                <i class="ri-heart-pulse-line"></i>
+                            </div>
+                            <div class="step-copy">
+                                <span class="label">Readiness</span>
+                                <span class="hint">Pain, fatigue, stability</span>
+                            </div>
+                            <span class="pill-soft" id="stepBioState">Locked</span>
+                        </button>
+                        <button class="step-card" type="button" onclick="scrollToSection('phaseMission')">
+                            <div class="step-icon">
+                                <i class="ri-run-line"></i>
+                            </div>
+                            <div class="step-copy">
+                                <span class="label">Exercises</span>
+                                <span class="hint">Timer + voice control</span>
+                            </div>
+                            <span class="pill-soft" id="stepMissionState">Queued</span>
+                        </button>
+                        <button class="step-card" type="button" onclick="scrollToSection('phaseDebrief')">
+                            <div class="step-icon">
+                                <i class="ri-clipboard-line"></i>
+                            </div>
+                            <div class="step-copy">
+                                <span class="label">Summary</span>
+                                <span class="hint">Notes & export</span>
+                            </div>
+                            <span class="pill-soft" id="stepDebriefState">Later</span>
+                        </button>
+                    </div>
+                </div>
+
                 <div class="hero-grid">
                     <div class="hero-panel">
                         <span class="badge">Patient-first layout</span>
@@ -4552,10 +4805,12 @@
         function updateSystemTime() {
             if (document.hidden) return;
             const timeEl = document.getElementById('currentTime');
+            const heroClock = document.getElementById('sessionClockValue');
             if (!timeEl) return;
             const now = new Date();
-            timeEl.textContent = 
-                now.toLocaleTimeString('en-US', { hour12: false });
+            const formatted = now.toLocaleTimeString('en-US', { hour12: false });
+            timeEl.textContent = formatted;
+            if (heroClock) heroClock.textContent = formatted;
         }
 
         function startClock() {
@@ -4596,39 +4851,63 @@
         function updateSystemStatus() {
             const statusDot = document.getElementById('systemStatus');
             const statusText = document.getElementById('statusText');
+            const sessionChip = document.getElementById('sessionStateChip');
+            const sessionStateText = document.getElementById('sessionStateText');
+            const chipDot = sessionChip?.querySelector('.status-dot');
+            let toneColor = 'var(--accent-yellow)';
+            let labelCopy = 'Ready';
             
             if (AppState.emergency.triggered) {
-                statusDot.style.background = 'var(--accent-red)';
+                toneColor = 'var(--accent-red)';
+                labelCopy = 'EMERGENCY';
+                statusDot.style.background = toneColor;
                 statusDot.style.animation = 'blink 1s infinite';
                 statusText.textContent = ' EMERGENCY';
                 statusText.className = 'text-sm font-semibold text-red';
             } else if (AppState.session.active) {
                 if (AppState.session.paused) {
-                    statusDot.style.background = 'var(--accent-yellow)';
+                    toneColor = 'var(--accent-yellow)';
+                    labelCopy = 'Paused';
+                    statusDot.style.background = toneColor;
                     statusDot.style.animation = 'pulse 2s infinite';
                     statusText.textContent = 'Paused';
                     statusText.className = 'text-sm font-semibold text-yellow';
                 } else {
-                    statusDot.style.background = 'var(--accent-green)';
+                    toneColor = 'var(--accent-green)';
+                    labelCopy = 'Active';
+                    statusDot.style.background = toneColor;
                     statusDot.style.animation = 'pulse 2s infinite';
                     statusText.textContent = 'Active';
                     statusText.className = 'text-sm font-semibold text-green';
                 }
             } else if (AppState.voiceControl.active) {
-                statusDot.style.background = 'var(--accent-purple)';
+                toneColor = 'var(--accent-purple)';
+                labelCopy = 'Voice Active';
+                statusDot.style.background = toneColor;
                 statusDot.style.animation = 'pulse 1s infinite';
                 statusText.textContent = 'Voice Active';
                 statusText.className = 'text-sm font-semibold text-purple';
             } else if (AppState.videoCall.active) {
-                statusDot.style.background = 'var(--accent-blue)';
+                toneColor = 'var(--accent-blue)';
+                labelCopy = 'Video Call';
+                statusDot.style.background = toneColor;
                 statusDot.style.animation = 'pulse 1.5s infinite';
                 statusText.textContent = 'Video Call';
                 statusText.className = 'text-sm font-semibold text-blue';
             } else {
-                statusDot.style.background = 'var(--accent-yellow)';
+                toneColor = 'var(--accent-yellow)';
+                labelCopy = AppState.session.authenticated ? 'Ready' : 'Prep';
+                statusDot.style.background = toneColor;
                 statusDot.style.animation = 'pulse 2s infinite';
                 statusText.textContent = 'Ready';
                 statusText.className = 'text-sm font-semibold text-yellow';
+            }
+
+            if (sessionStateText) sessionStateText.textContent = labelCopy;
+            if (chipDot) chipDot.style.background = toneColor;
+            if (sessionChip) {
+                sessionChip.style.borderColor = toneColor;
+                sessionChip.style.color = toneColor;
             }
             
             alignStatusAnimationWithMotion();
@@ -4643,6 +4922,7 @@
             const threshold = AppState.operator.profile?.painThreshold ?? 7;
             const intensity = (AppState.operator.profile?.intensity || 'STANDARD').replace('_', ' ');
             const injury = (AppState.operator.profile?.injury || 'BALANCE').replace('_', ' ');
+            const patientName = AppState.operator.profile?.name || AppState.operator.id || 'Patient';
             
             const dial = document.getElementById('summaryReadinessDial');
             if (dial) dial.style.setProperty('--value', readiness);
@@ -4678,6 +4958,14 @@
             const painBaselineEl = document.getElementById('summaryPainBaseline');
             if (painBaselineEl) painBaselineEl.textContent = `${pain} / 10`;
             
+            const sessionPatient = document.getElementById('sessionPatient');
+            if (sessionPatient) sessionPatient.textContent = patientName;
+
+            const sessionPersonaCopy = document.getElementById('sessionPersonaCopy');
+            if (sessionPersonaCopy) {
+                sessionPersonaCopy.textContent = `${injury.toLowerCase()} · ${intensity.toLowerCase()}`;
+            }
+
             const painBadge = document.getElementById('summaryPainBadge');
             if (painBadge) painBadge.textContent = `${pain} / 10`;
             
@@ -4715,6 +5003,18 @@
                 if (stateEl) stateEl.textContent = step.state;
                 if (dotEl) dotEl.style.background = step.state === 'Done' || step.state === 'Active' ? 'var(--accent-teal)' : 'rgba(255,255,255,0.2)';
             });
+
+            const stepAuth = document.getElementById('stepAuthState');
+            if (stepAuth) stepAuth.textContent = AppState.session.authenticated ? 'Done' : 'Prep';
+
+            const stepBio = document.getElementById('stepBioState');
+            if (stepBio) stepBio.textContent = AppState.session.authenticated ? (AppState.session.active ? 'Done' : 'Next') : 'Locked';
+
+            const stepMission = document.getElementById('stepMissionState');
+            if (stepMission) stepMission.textContent = AppState.session.active ? 'Active' : 'Queued';
+
+            const stepDebrief = document.getElementById('stepDebriefState');
+            if (stepDebrief) stepDebrief.textContent = AppState.session.elapsedTime > 0 ? 'Review' : 'Later';
 
             updateNavigationAffordances();
         }
@@ -4788,6 +5088,11 @@
             const navPrimary = document.getElementById('navPrimaryAction');
             if (navPrimary) {
                 navPrimary.innerHTML = `<i class="${icon}"></i> ${label}`;
+            }
+
+            const heroPrimary = document.getElementById('heroPrimaryCta');
+            if (heroPrimary) {
+                heroPrimary.innerHTML = `<i class="${icon}"></i> ${label}`;
             }
 
             const dockStatus = document.getElementById('dockStatusLabel');
@@ -5616,6 +5921,7 @@
             
             hideProfileEditor();
             saveState();
+            refreshExperienceSummary();
             showNotification('Profile Saved', 'Operator profile updated successfully', 'success');
         }
 
