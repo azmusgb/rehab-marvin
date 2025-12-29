@@ -3613,11 +3613,14 @@
         // Timer management
         const Timers = {
             mission: null,
+            missionRemaining: 0,
             exercise: null,
             exerciseTimeLeft: 0,
             exerciseRunning: false,
             exerciseStartTime: null,
-            biometric: null
+            biometric: null,
+            metrics: null,
+            clock: null
         };
 
         // Exercise protocols with AI adaptations
@@ -4187,29 +4190,50 @@
             stopBiometricScan();
         }
 
-        function startBiometricScan() {
+        function startBiometricScan(resume = false) {
             let progress = 0;
             const progressBar = document.getElementById('biometricProgress');
+            if (!progressBar) return;
+
+            clearTimer('biometric');
+
+            if (resume) {
+                const stored = parseFloat(progressBar.dataset.progress || '0');
+                progress = isNaN(stored) ? 0 : stored;
+                progressBar.style.width = `${progress}%`;
+            } else {
+                progressBar.dataset.progress = '0';
+                progressBar.style.width = '0%';
+            }
             
             Timers.biometric = setInterval(() => {
-                progress += 5;
+                progress = Math.min(100, progress + 5);
                 progressBar.style.width = `${progress}%`;
+                progressBar.dataset.progress = progress;
                 
                 if (progress >= 100) {
-                    clearInterval(Timers.biometric);
+                    clearTimer('biometric');
                     simulateBiometricAuth();
                 }
             }, 200);
         }
 
         function stopBiometricScan() {
-            clearInterval(Timers.biometric);
-            document.getElementById('biometricProgress').style.width = '0%';
+            clearTimer('biometric');
+            const progressBar = document.getElementById('biometricProgress');
+            if (progressBar) {
+                progressBar.style.width = '0%';
+                progressBar.dataset.progress = '0';
+            }
         }
 
         function simulateBiometricAuth() {
-            clearInterval(Timers.biometric);
-            document.getElementById('biometricProgress').style.width = '100%';
+            clearTimer('biometric');
+            const progressBar = document.getElementById('biometricProgress');
+            if (progressBar) {
+                progressBar.style.width = '100%';
+                progressBar.dataset.progress = '100';
+            }
             
             setTimeout(() => {
                 // Simulate successful authentication
@@ -4527,9 +4551,36 @@
 
         function updateSystemTime() {
             if (document.hidden) return;
+            const timeEl = document.getElementById('currentTime');
+            if (!timeEl) return;
             const now = new Date();
-            document.getElementById('currentTime').textContent = 
+            timeEl.textContent = 
                 now.toLocaleTimeString('en-US', { hour12: false });
+        }
+
+        function startClock() {
+            clearTimer('clock');
+            updateSystemTime();
+            Timers.clock = setInterval(updateSystemTime, 1000);
+        }
+
+        function pauseIntervalsForVisibility() {
+            ['clock', 'metrics', 'mission', 'exercise', 'biometric'].forEach(clearTimer);
+        }
+
+        function resumeIntervalsAfterVisibility() {
+            startClock();
+            if (AppState.session.active && !AppState.emergency.triggered) {
+                startMissionTimer(true);
+                startMetricsSimulation();
+            }
+            if (Timers.exerciseRunning && AppState.session.currentExercise) {
+                runExerciseCountdown(AppState.session.currentExercise);
+            }
+            if (document.getElementById('biometricModal')?.classList.contains('active')) {
+                startBiometricScan(true);
+            }
+            alignStatusAnimationWithMotion();
         }
 
         function alignStatusAnimationWithMotion() {
@@ -4537,6 +4588,8 @@
             if (!statusDot) return;
             if (document.body.classList.contains('reduced-motion')) {
                 statusDot.style.animation = 'none';
+            } else {
+                statusDot.style.animation = '';
             }
         }
 
@@ -4940,6 +4993,7 @@
             AppState.session.active = true;
             AppState.session.startTime = new Date();
             AppState.session.paused = false;
+            AppState.session.elapsedTime = 0;
             AppState.session.metrics.painIndex = painValue;
             AppState.session.metrics.fatigue = fatigueValue;
             AppState.session.metrics.startPain = painValue;
@@ -4963,33 +5017,37 @@
             startMetricsSimulation();
         }
 
-        function startMissionTimer() {
+        function startMissionTimer(resume = false) {
             const protocol = EXERCISE_PLANS[AppState.session.phase];
-            let timeLeft = protocol.duration;
+            if (!protocol) return;
+
+            Timers.missionRemaining = resume && Timers.missionRemaining > 0 ? Timers.missionRemaining : protocol.duration;
             
-            clearInterval(Timers.mission);
+            clearTimer('mission');
             
             const updateTimer = () => {
                 if (!AppState.session.paused && AppState.session.active && !AppState.emergency.triggered) {
-                    timeLeft--;
+                    Timers.missionRemaining = Math.max(0, Timers.missionRemaining - 1);
                     AppState.session.elapsedTime++;
                     
-                    document.getElementById('missionTimer').textContent = formatTime(timeLeft);
+                    document.getElementById('missionTimer').textContent = formatTime(Timers.missionRemaining);
                     document.getElementById('timeElapsed').textContent = formatTime(AppState.session.elapsedTime);
                     
-                    if (timeLeft <= 300) {
+                    if (Timers.missionRemaining <= 300) {
                         document.getElementById('missionStatus').textContent = 'FINAL PHASE';
                         document.getElementById('missionStatus').style.color = 'var(--accent-orange)';
                     }
                     
-                    if (timeLeft <= 0) {
-                        clearInterval(Timers.mission);
+                    if (Timers.missionRemaining <= 0) {
+                        clearTimer('mission');
                         completeMission();
                     }
                 }
             };
             
-            updateTimer();
+            // Ensure UI shows the most recent countdown immediately.
+            document.getElementById('missionTimer').textContent = formatTime(Timers.missionRemaining);
+            document.getElementById('timeElapsed').textContent = formatTime(AppState.session.elapsedTime);
             Timers.mission = setInterval(updateTimer, 1000);
         }
 
@@ -5076,7 +5134,7 @@
             });
             
             if (AppState.session.active) {
-                clearInterval(Timers.mission);
+                clearTimer('mission');
                 startMissionTimer();
             }
             
@@ -5117,8 +5175,12 @@
             document.getElementById('timerModal').classList.add('active');
             
             document.getElementById('timerPauseBtn').innerHTML = '<i class="ri-pause-line"></i> PAUSE';
-            
-            clearInterval(Timers.exercise);
+            runExerciseCountdown(exercise);
+        }
+
+        function runExerciseCountdown(exercise) {
+            if (!exercise) return;
+            clearTimer('exercise');
             
             Timers.exercise = setInterval(() => {
                 if (Timers.exerciseRunning && !AppState.session.paused && !AppState.emergency.triggered) {
@@ -5135,7 +5197,7 @@
                     }
                     
                     if (Timers.exerciseTimeLeft <= 0) {
-                        clearInterval(Timers.exercise);
+                        clearTimer('exercise');
                         showNotification('Time Complete', 'Exercise finished! Great work.', 'success');
                         Timers.exerciseRunning = false;
                     }
@@ -5145,7 +5207,7 @@
 
         function hideTimer() {
             Timers.exerciseRunning = false;
-            clearInterval(Timers.exercise);
+            clearTimer('exercise');
             document.getElementById('timerModal').classList.remove('active');
         }
 
@@ -5162,7 +5224,7 @@
 
         function stopExerciseTimer() {
             Timers.exerciseRunning = false;
-            clearInterval(Timers.exercise);
+            clearTimer('exercise');
             document.getElementById('timerModal').classList.remove('active');
             showNotification('Exercise Stopped', 'Timer cancelled', 'warning');
         }
@@ -5327,8 +5389,8 @@
             AppState.emergency.lastStop = new Date();
             AppState.emergency.stopCount++;
             
-            clearInterval(Timers.mission);
-            clearInterval(Timers.exercise);
+            clearTimer('mission');
+            clearTimer('exercise');
             Timers.exerciseRunning = false;
             
             document.getElementById('emergencyModal').classList.add('active');
@@ -5350,7 +5412,7 @@
             if (proceed) {
                 AppState.session.paused = false;
                 AppState.emergency.triggered = false;
-                startMissionTimer();
+                startMissionTimer(true);
                 showNotification('Session resumed', 'Continue slowly and carefully', 'warning');
                 updateSystemStatus();
                 updateNavigationAffordances();
@@ -5375,9 +5437,10 @@
         }
 
         function completeMission(aborted = false) {
-            clearInterval(Timers.mission);
-            clearInterval(Timers.exercise);
-            clearInterval(window.metricsInterval);
+            clearTimer('mission');
+            clearTimer('exercise');
+            clearTimer('metrics');
+            clearTimer('biometric');
             
             const duration = AppState.session.elapsedTime;
             const completedCount = AppState.session.completedExercises.length;
@@ -5420,6 +5483,7 @@
             
             document.getElementById('phaseMission').classList.add('hidden');
             document.getElementById('phaseDebrief').classList.remove('hidden');
+            Timers.missionRemaining = 0;
             
             showNotification(
                 aborted ? 'Mission Aborted' : 'Mission Complete',
@@ -5584,6 +5648,9 @@
         }
 
         function startNewSession() {
+            ['mission', 'exercise', 'metrics', 'biometric'].forEach(clearTimer);
+            Timers.missionRemaining = 0;
+            Timers.exerciseRunning = false;
             AppState.session = {
                 active: false,
                 phase: 1,
@@ -5637,12 +5704,17 @@
             saveState();
         }
 
-        function startMetricsSimulation() {
-            if (window.metricsInterval) {
-                clearInterval(window.metricsInterval);
+        function clearTimer(timerName) {
+            if (Timers[timerName]) {
+                clearInterval(Timers[timerName]);
+                Timers[timerName] = null;
             }
+        }
+
+        function startMetricsSimulation() {
+            clearTimer('metrics');
             
-            window.metricsInterval = setInterval(() => {
+            Timers.metrics = setInterval(() => {
                 if (document.hidden || !AppState.session.active || AppState.session.paused || AppState.emergency.triggered) {
                     return;
                 }
@@ -5708,7 +5780,7 @@
                         hasStoredPreference = true;
                     }
                 }catch(e){}
-                const on = storedPreference !== null ? storedPreference : true;
+                const on = storedPreference !== null ? storedPreference : media.matches;
                 apply(on, { persist: storedPreference !== null });
                 window.toggleCalmMode = () => apply(!document.body.classList.contains("calm"));
                 const onMediaChange = (event) => {
@@ -5734,6 +5806,14 @@
             else init();
         })();
 
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                pauseIntervalsForVisibility();
+            } else {
+                resumeIntervalsAfterVisibility();
+            }
+        });
+
         // =========================================================
         // INITIALIZATION
         // =========================================================
@@ -5743,9 +5823,7 @@
             }
             
             refreshDecorativeLayers();
-            
-            updateSystemTime();
-            setInterval(updateSystemTime, 1000);
+            startClock();
             
             initializePainMonitoring();
             
