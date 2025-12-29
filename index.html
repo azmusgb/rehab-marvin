@@ -672,6 +672,193 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.3; }
         }
+
+        /* Primary Navigation */
+        .primary-nav {
+            position: sticky;
+            top: 64px;
+            z-index: var(--z-sticky);
+            backdrop-filter: blur(18px);
+            background: linear-gradient(90deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.8));
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .nav-shell {
+            display: grid;
+            grid-template-columns: 1.4fr 2fr 1.2fr;
+            align-items: center;
+            gap: var(--space-6);
+            padding: var(--space-4) var(--space-2);
+        }
+
+        .nav-brand h1 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: var(--space-1);
+        }
+
+        .nav-brand p {
+            color: var(--neutral-400);
+            font-size: 0.9rem;
+        }
+
+        .nav-links {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: var(--space-3);
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--neutral-100);
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .nav-link:hover,
+        .nav-link:focus-visible {
+            border-color: var(--accent-teal);
+            background: rgba(77, 243, 201, 0.08);
+            outline: none;
+            box-shadow: var(--focus-ring);
+        }
+
+        .nav-cta {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: var(--space-3);
+        }
+
+        .nav-state {
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-lg);
+            font-weight: 800;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--neutral-50);
+        }
+
+        .nav-state[data-tone="danger"] {
+            border-color: rgba(255, 107, 129, 0.6);
+            color: var(--accent-red);
+        }
+
+        .nav-state[data-tone="warning"] {
+            border-color: rgba(255, 224, 130, 0.6);
+            color: var(--accent-yellow);
+        }
+
+        .nav-state[data-tone="success"] {
+            border-color: rgba(141, 244, 197, 0.6);
+            color: var(--accent-green);
+        }
+
+        .nav-state[data-tone="info"] {
+            border-color: rgba(124, 183, 255, 0.6);
+            color: var(--accent-blue);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .nav-actions .btn {
+            padding: var(--space-3) var(--space-4);
+        }
+
+        /* Action Dock */
+        .action-dock {
+            position: sticky;
+            bottom: var(--space-6);
+            z-index: var(--z-fixed);
+            margin-top: var(--space-12);
+        }
+
+        .action-dock-shell {
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(16, 26, 48, 0.9));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-5);
+            display: grid;
+            grid-template-columns: 1.2fr 2fr;
+            gap: var(--space-6);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+        }
+
+        .dock-status h3 {
+            font-size: 1.1rem;
+            margin-bottom: var(--space-2);
+        }
+
+        .dock-status .dock-value {
+            font-size: 2rem;
+            font-weight: 900;
+        }
+
+        .dock-status .dock-hint {
+            color: var(--neutral-400);
+            margin-top: var(--space-2);
+        }
+
+        .dock-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: var(--space-3);
+            align-items: center;
+        }
+
+        .dock-actions .btn {
+            width: 100%;
+        }
+
+        @media (max-width: 1024px) {
+            .nav-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .nav-cta {
+                justify-content: flex-start;
+                flex-wrap: wrap;
+            }
+
+            .action-dock-shell {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav-links {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-actions {
+                width: 100%;
+            }
+
+            .nav-actions .btn {
+                width: 100%;
+            }
+
+            .action-dock {
+                position: relative;
+                bottom: auto;
+            }
+        }
         
         /* Card */
         .card {
@@ -2108,6 +2295,41 @@
             </div>
         </div>
     </div>
+
+    <!-- Guided Navigation -->
+    <nav class="primary-nav" aria-label="Primary navigation">
+        <div class="container nav-shell">
+            <div class="nav-brand">
+                <h1>Rehab Session Pro</h1>
+                <p>Guided steps with calmer visuals and quick access.</p>
+            </div>
+            <div class="nav-links" role="list">
+                <button class="nav-link" onclick="scrollToSection('phaseAuth')" role="listitem">
+                    <i class="ri-id-card-line"></i> Sign in
+                </button>
+                <button class="nav-link" onclick="scrollToSection('phaseBio')" role="listitem">
+                    <i class="ri-heart-pulse-line"></i> Readiness
+                </button>
+                <button class="nav-link" onclick="scrollToSection('phaseMission')" role="listitem">
+                    <i class="ri-run-line"></i> Exercises
+                </button>
+                <button class="nav-link" onclick="scrollToSection('phaseDebrief')" role="listitem">
+                    <i class="ri-clipboard-line"></i> Summary
+                </button>
+            </div>
+            <div class="nav-cta">
+                <span class="nav-state" id="navSessionState" aria-live="polite" data-tone="info">Prep</span>
+                <div class="nav-actions">
+                    <button class="btn btn-primary" id="navPrimaryAction" onclick="handlePrimaryNavAction()">
+                        <i class="ri-play-line"></i> Start session
+                    </button>
+                    <button class="btn btn-outline" onclick="toggleCalmMode()">
+                        <i class="ri-moon-clear-line"></i> Calm visuals
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
     
     <!-- Notification Container -->
     <div class="notification-container" id="notificationContainer"></div>
@@ -2937,6 +3159,28 @@
                     </div>
                 </div>
             </section>
+            
+            <!-- Action Dock -->
+            <div class="action-dock" aria-label="Session quick controls">
+                <div class="action-dock-shell">
+                    <div class="dock-status">
+                        <h3>Live status</h3>
+                        <div class="dock-value" id="dockStatusLabel">Prep</div>
+                        <p class="dock-hint" id="dockStatusHint">Authenticate to unlock your plan.</p>
+                    </div>
+                    <div class="dock-actions">
+                        <button class="btn btn-primary" id="dockPrimaryAction" onclick="handleDockPrimaryAction()">
+                            <i class="ri-play-line"></i> Start session
+                        </button>
+                        <button class="btn btn-secondary" onclick="scrollToSection('phaseMission')">
+                            <i class="ri-run-line"></i> Jump to exercises
+                        </button>
+                        <button class="btn btn-danger" onclick="emergencyStop()">
+                            <i class="ri-alarm-line"></i> Emergency stop
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
     
@@ -3309,6 +3553,7 @@
                 elapsedTime: 0,
                 totalTime: 15 * 60,
                 paused: false,
+                authenticated: false,
                 completedExercises: [],
                 currentExercise: null,
                 painHistory: [],
@@ -4417,6 +4662,140 @@
                 if (stateEl) stateEl.textContent = step.state;
                 if (dotEl) dotEl.style.background = step.state === 'Done' || step.state === 'Active' ? 'var(--accent-teal)' : 'rgba(255,255,255,0.2)';
             });
+
+            updateNavigationAffordances();
+        }
+
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (!section) return;
+            const behavior = document.body.classList.contains('reduced-motion') ? 'auto' : 'smooth';
+            section.scrollIntoView({ behavior, block: 'start' });
+        }
+
+        function deriveActionCopy() {
+            if (AppState.emergency.triggered) {
+                return {
+                    label: 'Resume safely',
+                    icon: 'ri-shield-cross-line',
+                    tone: 'danger',
+                    hint: 'Emergency stop is active. Confirm you feel stable before resuming.'
+                };
+            }
+
+            if (!AppState.session.authenticated) {
+                return {
+                    label: 'Authenticate now',
+                    icon: 'ri-id-card-line',
+                    tone: 'info',
+                    hint: 'Confirm your ID to unlock readiness and exercises.'
+                };
+            }
+
+            if (!AppState.session.active) {
+                return {
+                    label: 'Start mission',
+                    icon: 'ri-play-line',
+                    tone: 'success',
+                    hint: 'Set pain and fatigue, then begin today’s plan.'
+                };
+            }
+
+            if (AppState.session.paused) {
+                return {
+                    label: 'Resume mission',
+                    icon: 'ri-play-line',
+                    tone: 'warning',
+                    hint: 'Pick up right where you paused.'
+                };
+            }
+
+            return {
+                label: 'Pause mission',
+                icon: 'ri-pause-line',
+                tone: 'success',
+                hint: 'Need a breather? Pause safely and resume when ready.'
+            };
+        }
+
+        function updateNavigationAffordances() {
+            const { label, icon, tone, hint } = deriveActionCopy();
+            const statusLabel = AppState.emergency.triggered
+                ? 'Emergency stop'
+                : AppState.session.active
+                    ? (AppState.session.paused ? 'Paused' : 'In session')
+                    : (!AppState.session.authenticated ? 'Prep' : 'Ready to start');
+
+            const navState = document.getElementById('navSessionState');
+            if (navState) {
+                navState.textContent = statusLabel;
+                navState.dataset.tone = tone || 'info';
+            }
+
+            const navPrimary = document.getElementById('navPrimaryAction');
+            if (navPrimary) {
+                navPrimary.innerHTML = `<i class="${icon}"></i> ${label}`;
+            }
+
+            const dockStatus = document.getElementById('dockStatusLabel');
+            if (dockStatus) {
+                dockStatus.textContent = statusLabel;
+            }
+
+            const dockHint = document.getElementById('dockStatusHint');
+            if (dockHint) {
+                dockHint.textContent = hint || '';
+            }
+
+            const dockPrimary = document.getElementById('dockPrimaryAction');
+            if (dockPrimary) {
+                dockPrimary.innerHTML = `<i class="${icon}"></i> ${label}`;
+            }
+        }
+
+        function handlePrimaryNavAction() {
+            if (AppState.emergency.triggered) {
+                resumeFromEmergency();
+                updateNavigationAffordances();
+                return;
+            }
+
+            if (!AppState.session.authenticated) {
+                scrollToSection('phaseAuth');
+                showNotification('Authenticate', 'Confirm your ID to unlock readiness checks.', 'info');
+                return;
+            }
+
+            if (!AppState.session.active) {
+                scrollToSection('phaseBio');
+                showNotification('Check readiness', 'Set pain and fatigue, then start the mission.', 'info');
+                return;
+            }
+
+            pauseMission();
+            updateNavigationAffordances();
+        }
+
+        function handleDockPrimaryAction() {
+            handlePrimaryNavAction();
+        }
+
+        function mergeStateSection(defaults, incoming) {
+            if (Array.isArray(defaults)) {
+                return Array.isArray(incoming) ? incoming.slice() : defaults.slice();
+            }
+            if (!incoming || typeof incoming !== 'object') return defaults;
+            const merged = { ...defaults, ...incoming };
+            Object.keys(defaults).forEach((key) => {
+                if (
+                    defaults[key] &&
+                    typeof defaults[key] === 'object' &&
+                    !Array.isArray(defaults[key])
+                ) {
+                    merged[key] = mergeStateSection(defaults[key], incoming[key]);
+                }
+            });
+            return merged;
         }
 
         function saveState() {
@@ -4435,7 +4814,13 @@
                 const saved = localStorage.getItem('Rehab_state');
                 if (saved) {
                     const parsed = JSON.parse(saved);
-                    Object.assign(AppState, parsed);
+                    AppState.operator = mergeStateSection(AppState.operator, parsed.operator);
+                    AppState.session = mergeStateSection(AppState.session, parsed.session);
+                    AppState.progress = mergeStateSection(AppState.progress, parsed.progress);
+                    AppState.emergency = mergeStateSection(AppState.emergency, parsed.emergency);
+                    AppState.voiceControl = mergeStateSection(AppState.voiceControl, parsed.voiceControl);
+                    AppState.videoCall = mergeStateSection(AppState.videoCall, parsed.videoCall);
+                    AppState.social = mergeStateSection(AppState.social, parsed.social);
                     return true;
                 }
             } catch (e) {
@@ -4512,6 +4897,7 @@
             AppState.operator.id = operatorId.toUpperCase();
             AppState.operator.clearance = securityCode;
             AppState.operator.profile.intensity = missionProfile;
+            AppState.session.authenticated = true;
             
             document.getElementById('operatorName').textContent = `PATIENT: ${operatorId}`;
             document.getElementById('briefOperator').textContent = operatorId;
@@ -4534,12 +4920,20 @@
         }
 
         function returnToAuth() {
+            AppState.session.authenticated = false;
             document.getElementById('phaseBio').classList.add('hidden');
             document.getElementById('phaseAuth').classList.remove('hidden');
             updateSystemStatus();
+            updateNavigationAffordances();
         }
 
         function beginMission() {
+            if (!AppState.session.authenticated) {
+                showNotification('Authenticate first', 'Confirm your ID to unlock today’s protocol.', 'error');
+                scrollToSection('phaseAuth');
+                return;
+            }
+
             const painValue = parseInt(document.getElementById('baselinePain').value);
             const fatigueValue = parseInt(document.getElementById('fatigueBar').style.width);
             
@@ -4563,6 +4957,7 @@
             
             showNotification('Mission Started', 'Execute protocol with precision. Stay safe.', 'success');
             updateSystemStatus();
+            updateNavigationAffordances();
             saveState();
             
             startMetricsSimulation();
@@ -4611,6 +5006,7 @@
             }
             
             updateSystemStatus();
+            updateNavigationAffordances();
             saveState();
         }
 
@@ -4939,6 +5335,7 @@
             
             showNotification('Pause for safety', 'Session paused for safety', 'error');
             updateSystemStatus();
+            updateNavigationAffordances();
             saveState();
             
             if (navigator.vibrate) {
@@ -4956,6 +5353,7 @@
                 startMissionTimer();
                 showNotification('Session resumed', 'Continue slowly and carefully', 'warning');
                 updateSystemStatus();
+                updateNavigationAffordances();
             }
         }
 
@@ -5193,6 +5591,7 @@
                 elapsedTime: 0,
                 totalTime: 15 * 60,
                 paused: false,
+                authenticated: false,
                 completedExercises: [],
                 currentExercise: null,
                 painHistory: [],
@@ -5230,6 +5629,8 @@
             document.getElementById('readinessRing').style.strokeDashoffset = '283';
             
             updateMLRecommendations();
+            refreshExperienceSummary();
+            updateNavigationAffordances();
             
             showNotification('New session Ready', 'Begin new mission when ready', 'info');
             updateSystemStatus();
