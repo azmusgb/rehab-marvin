@@ -2415,6 +2415,11 @@
             streak: 0
         }
     };
+    const MarvinDefaults = {
+        id: 'MARVIN',
+        clearance: 'Rehab_RISING',
+        missionProfile: 'STANDARD'
+    };
     let painMonitor = null;
 
     // =========================================================
@@ -2787,6 +2792,37 @@
     // =========================================================
     // AUTHENTICATION
     // =========================================================
+    function applyMarvinDefaults() {
+        const { id, clearance, missionProfile } = MarvinDefaults;
+        const operatorInput = document.getElementById('operatorId');
+        const securityInput = document.getElementById('securityCode');
+        const missionSelect = document.getElementById('missionProfile');
+        
+        if (operatorInput) operatorInput.value = id;
+        if (securityInput) securityInput.value = clearance;
+        if (missionSelect) missionSelect.value = missionProfile;
+        
+        AppState.operator.id = id;
+        AppState.operator.clearance = clearance;
+        AppState.operator.profile.intensity = missionProfile;
+    }
+
+    function autoAuthenticateMarvin() {
+        applyMarvinDefaults();
+        
+        if (AppState.session.authenticated) {
+            document.getElementById('operatorName').textContent = `Patient: ${AppState.operator.id}`;
+            document.getElementById('briefOperator').textContent = AppState.operator.id;
+            document.getElementById('missionName').textContent = `Rehab Session - ${AppState.operator.profile.intensity}`;
+            document.getElementById('sessionPatient').textContent = AppState.operator.id;
+            refreshExperienceSummary();
+            updateSystemStatus();
+            return;
+        }
+
+        authenticateOperator();
+    }
+
     function authenticateOperator() {
         const operatorId = document.getElementById('operatorId').value.trim();
         const missionProfile = document.getElementById('missionProfile').value;
@@ -3427,6 +3463,8 @@
             }
         });
         
+        autoAuthenticateMarvin();
+
         // Initialize clock
         setInterval(updateSystemTime, 1000);
         
