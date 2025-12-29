@@ -359,10 +359,1167 @@
         .text-right { text-align: right; }
 
         /* =========================================================
-           COMPONENTS - Enhanced accessibility
+           STATUS BAR
         ========================================================= */
-        
-        /* Button System - Enhanced for touch */
+        .status-bar {
+            background: rgba(11, 16, 32, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.75rem 0;
+            position: sticky;
+            top: 0;
+            z-index: var(--z-fixed);
+        }
+
+        .status-bar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-4);
+        }
+
+        /* =========================================================
+           PRIMARY NAVIGATION
+        ========================================================= */
+        .primary-nav {
+            background: rgba(15, 23, 42, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.25rem 0;
+            position: sticky;
+            top: 3.5rem;
+            z-index: var(--z-sticky);
+        }
+
+        .nav-shell {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: var(--space-8);
+            align-items: center;
+        }
+
+        .nav-brand h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-brand p {
+            font-size: 0.875rem;
+            color: var(--neutral-400);
+            margin: 0;
+        }
+
+        .nav-links {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-3);
+            list-style: none;
+        }
+
+        .nav-link {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            padding: 0.75rem 1.25rem;
+            color: var(--neutral-200);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: inherit;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-align: left;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-teal);
+        }
+
+        .nav-cta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-6);
+        }
+
+        .nav-state {
+            background: rgba(77, 243, 201, 0.1);
+            color: var(--accent-teal);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: var(--space-3);
+        }
+
+        /* =========================================================
+           HERO SECTION COMPONENTS
+        ========================================================= */
+        .hero-shell {
+            margin-top: var(--space-8);
+        }
+
+        .session-banner {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(77, 243, 201, 0.18));
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            border-radius: var(--radius-3xl);
+            padding: clamp(1.5rem, 4vw, 2.5rem);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: var(--space-8);
+        }
+
+        .session-banner__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: var(--space-4);
+        }
+
+        .session-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: 0.5rem 1rem;
+            background: rgba(77, 243, 201, 0.1);
+            border: 1px solid rgba(77, 243, 201, 0.2);
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--accent-teal);
+        }
+
+        .session-clock {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-full);
+            font-family: var(--font-mono);
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .session-plan-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: 0.5rem 1rem;
+            background: rgba(179, 139, 255, 0.1);
+            border: 1px solid rgba(179, 139, 255, 0.2);
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+        }
+
+        .session-banner__body {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            align-items: center;
+            gap: clamp(1.25rem, 3vw, 2rem);
+        }
+
+        .session-persona {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+
+        .session-persona .eyebrow {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--neutral-400);
+            font-weight: 600;
+        }
+
+        .session-actions {
+            display: flex;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+        }
+
+        .session-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: var(--space-4);
+        }
+
+        .step-card {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-4);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-base);
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            border: none;
+            font-family: inherit;
+        }
+
+        .step-card:hover,
+        .step-card:focus {
+            border-color: var(--accent-teal);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+            outline: none;
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            font-size: 1.25rem;
+            color: var(--accent-teal);
+        }
+
+        .step-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .step-copy .label {
+            font-weight: 600;
+            color: var(--neutral-50);
+        }
+
+        .step-copy .hint {
+            font-size: 0.875rem;
+            color: var(--neutral-400);
+        }
+
+        /* =========================================================
+           PILLS AND BADGES
+        ========================================================= */
+        .pill-soft {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: 0.375rem 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--neutral-300);
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .pill-strong {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-teal);
+        }
+
+        /* =========================================================
+           HERO GRID COMPONENTS
+        ========================================================= */
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-8);
+        }
+
+        .hero-panel {
+            background: linear-gradient(160deg, rgba(15, 23, 42, 0.9), rgba(24, 36, 58, 0.88));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-2xl);
+            padding: clamp(1.5rem, 3vw, 2.5rem);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+        }
+
+        .hero-pills {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-4);
+        }
+
+        .pill {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-xl);
+            padding: var(--space-4);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .pill-label {
+            font-size: 0.875rem;
+            color: var(--neutral-400);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .meta-subtle {
+            font-size: 0.875rem;
+            color: var(--neutral-400);
+        }
+
+        /* =========================================================
+           SNAPSHOT GRID
+        ========================================================= */
+        .snapshot-grid {
+            display: grid;
+            gap: var(--space-6);
+        }
+
+        .snapshot-card {
+            background: linear-gradient(160deg, rgba(15, 23, 42, 0.9), rgba(24, 36, 58, 0.88));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-6);
+        }
+
+        .meta-label {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--neutral-400);
+            margin-bottom: 0.25rem;
+        }
+
+        .status-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: 0.375rem 0.75rem;
+            background: rgba(77, 243, 201, 0.1);
+            color: var(--accent-teal);
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .readiness-dial {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: var(--space-4) auto;
+        }
+
+        .readiness-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--neutral-50);
+        }
+
+        .readiness-subtext {
+            position: absolute;
+            top: calc(50% + 2rem);
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.875rem;
+            color: var(--neutral-400);
+            text-align: center;
+            width: 100%;
+        }
+
+        .snapshot-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+            margin-top: var(--space-6);
+        }
+
+        .meta-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neutral-50);
+            margin-top: 0.25rem;
+        }
+
+        /* =========================================================
+           MICRO GRID
+        ========================================================= */
+        .micro-grid {
+            display: grid;
+            gap: var(--space-4);
+        }
+
+        .micro-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-xl);
+            padding: var(--space-4);
+        }
+
+        .timeline-label {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--neutral-50);
+            margin-top: 0.25rem;
+        }
+
+        .timeline-hint {
+            font-size: 0.875rem;
+            color: var(--neutral-400);
+            margin-top: 0.25rem;
+        }
+
+        .progress-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+
+        .timeline-step {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-2);
+        }
+
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: var(--radius-full);
+            background: var(--neutral-600);
+        }
+
+        .timeline-body {
+            display: flex;
+            flex-direction: column;
+            gap: 0.125rem;
+        }
+
+        .timeline-state {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--neutral-400);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* =========================================================
+           EXERCISE SPOTLIGHT
+        ========================================================= */
+        .exercise-spotlight {
+            grid-column: span 2;
+        }
+
+        .spotlight-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: var(--space-6);
+            margin-bottom: var(--space-6);
+        }
+
+        .spotlight-tags {
+            display: flex;
+            gap: var(--space-3);
+            margin-top: var(--space-3);
+        }
+
+        .spotlight-actions {
+            display: flex;
+            gap: var(--space-3);
+            flex-shrink: 0;
+        }
+
+        .spotlight-list {
+            display: grid;
+            gap: var(--space-3);
+        }
+
+        .peek-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: var(--space-3);
+        }
+
+        .peek-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.25rem;
+        }
+
+        .peek-name {
+            font-weight: 600;
+            color: var(--neutral-50);
+        }
+
+        .peek-chip {
+            background: rgba(77, 243, 201, 0.1);
+            color: var(--accent-teal);
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .peek-meta {
+            font-size: 0.875rem;
+            color: var(--neutral-400);
+            grid-column: span 2;
+        }
+
+        .peek-actions {
+            display: flex;
+            gap: var(--space-2);
+            align-self: center;
+        }
+
+        /* =========================================================
+           PANEL COMPONENTS
+        ========================================================= */
+        .panel {
+            background: linear-gradient(180deg, rgba(12, 18, 35, 0.9), rgba(16, 26, 48, 0.92));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            transition: all var(--transition-base);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+        }
+
+        .panel-header {
+            padding: var(--space-6);
+            background: radial-gradient(circle at 0% 0%, rgba(77, 243, 201, 0.12), transparent 40%), rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .panel-body {
+            padding: var(--space-6);
+        }
+
+        .panel-footer {
+            padding: var(--space-6);
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        /* =========================================================
+           PLAN COMPONENTS
+        ========================================================= */
+        .safety-callout {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(245, 158, 11, 0.1));
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            margin-bottom: var(--space-6);
+        }
+
+        .plan-meta {
+            display: flex;
+            gap: var(--space-3);
+            flex-wrap: wrap;
+        }
+
+        .plan-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            color: var(--neutral-300);
+        }
+
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-6);
+        }
+
+        .plan-week {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .plan-list {
+            list-style: none;
+            padding-left: 0;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+
+        .plan-list li {
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--neutral-300);
+        }
+
+        .plan-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--accent-teal);
+        }
+
+        /* =========================================================
+           METRIC COMPONENTS
+        ========================================================= */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-4);
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-xl);
+            padding: var(--space-4);
+            text-align: center;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--neutral-400);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--neutral-50);
+            font-family: var(--font-mono);
+        }
+
+        .metric-change {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        .metric-change.positive {
+            color: var(--accent-green);
+        }
+
+        /* =========================================================
+           PROGRESS RINGS
+        ========================================================= */
+        .progress-ring {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto;
+        }
+
+        .progress-ring-circle {
+            fill: none;
+            stroke-width: 8;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .progress-ring-bg {
+            stroke: rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-ring-fill {
+            stroke: var(--accent-teal);
+            stroke-dasharray: 377;
+            stroke-dashoffset: 377;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+
+        .progress-ring-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: 800;
+            color: var(--neutral-50);
+        }
+
+        /* =========================================================
+           FORM COMPONENTS
+        ========================================================= */
+        .form-group {
+            margin-bottom: var(--space-6);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-2);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--neutral-200);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            background: var(--surface-muted);
+            border: 2px solid var(--border-strong);
+            border-radius: var(--radius-lg);
+            color: var(--neutral-50);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all var(--transition-base);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-teal);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: var(--focus-ring);
+        }
+
+        .form-control:invalid {
+            border-color: var(--accent-red);
+        }
+
+        .form-control:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .form-range {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-full);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .form-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-teal);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-range::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: var(--accent-teal);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* =========================================================
+           EXERCISE DOCK
+        ========================================================= */
+        .exercise-dock {
+            position: sticky;
+            top: 84px;
+            z-index: var(--z-above);
+            background: var(--neutral-900);
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: var(--space-6);
+            box-shadow: var(--shadow-md);
+            margin-bottom: var(--space-6);
+        }
+
+        .dock-actions {
+            display: flex;
+            gap: var(--space-3);
+            flex-shrink: 0;
+        }
+
+        /* =========================================================
+           EXERCISE CARDS
+        ========================================================= */
+        .exercise-card {
+            background: var(--neutral-900);
+            border-left: 6px solid var(--accent-teal);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: var(--space-4);
+        }
+
+        .exercise-card:hover {
+            transform: translateX(8px);
+            border-left-color: var(--accent-teal);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .exercise-card.completed {
+            border-left-color: var(--accent-green);
+            background: rgba(6, 214, 160, 0.08);
+        }
+
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-3);
+        }
+
+        .exercise-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--neutral-50);
+        }
+
+        .exercise-difficulty {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--neutral-300);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .exercise-meta {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-3);
+        }
+
+        .exercise-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            font-size: 0.875rem;
+            color: var(--neutral-400);
+        }
+
+        .exercise-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-3);
+            margin-top: var(--space-4);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: var(--space-3);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-lg);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neutral-50);
+            font-family: var(--font-mono);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--neutral-400);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* =========================================================
+           PAIN MONITOR
+        ========================================================= */
+        .pain-monitor {
+            background: rgba(26, 10, 10, 0.3);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-6);
+            margin: var(--space-8) 0;
+        }
+
+        .pain-scale {
+            height: 48px;
+            background: linear-gradient(90deg, 
+                #10b981 0%, 
+                #f59e0b 50%, 
+                #ef4444 100%);
+            border-radius: var(--radius-full);
+            position: relative;
+            margin: var(--space-6) 0;
+            box-shadow: var(--shadow-inner);
+            touch-action: none;
+        }
+
+        .pain-marker {
+            position: absolute;
+            top: -12px;
+            width: 72px;
+            height: 72px;
+            background: white;
+            border: 4px solid var(--neutral-950);
+            border-radius: var(--radius-full);
+            transform: translateX(-50%);
+            cursor: grab;
+            box-shadow: var(--shadow-2xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--neutral-950);
+            transition: all var(--transition-base);
+            user-select: none;
+            z-index: var(--z-above);
+            touch-action: none;
+            min-width: 72px;
+            min-height: 72px;
+        }
+
+        .pain-marker:active {
+            cursor: grabbing;
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .pain-threshold {
+            position: absolute;
+            top: -10px;
+            bottom: -10px;
+            width: 3px;
+            background: white;
+            transform: translateX(-50%);
+            box-shadow: 0 0 15px white;
+            z-index: var(--z-base);
+        }
+
+        .pain-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--neutral-400);
+            margin-top: var(--space-2);
+        }
+
+        .pain-warning {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            margin-top: var(--space-4);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* =========================================================
+           MOBILE SHELL
+        ========================================================= */
+        .mobile-shell {
+            display: none;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+
+        .mobile-card {
+            background: linear-gradient(160deg, rgba(12, 18, 35, 0.92), rgba(22, 34, 56, 0.9));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-5);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+
+        .mobile-topline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-3);
+        }
+
+        .mobile-pill {
+            background: rgba(77, 243, 201, 0.1);
+            color: var(--accent-teal);
+            padding: 0.375rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .mobile-clock {
+            font-family: var(--font-mono);
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--neutral-50);
+        }
+
+        .mobile-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--neutral-50);
+            margin-bottom: 0.25rem;
+        }
+
+        .mobile-subtle {
+            font-size: 0.875rem;
+            color: var(--neutral-400);
+            margin-bottom: var(--space-3);
+        }
+
+        .mobile-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-3);
+        }
+
+        .mobile-metric {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-xl);
+            padding: var(--space-3);
+            text-align: center;
+        }
+
+        .mobile-metric .label {
+            font-size: 0.75rem;
+            color: var(--neutral-400);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .mobile-metric .value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--neutral-50);
+            margin-top: 0.25rem;
+        }
+
+        .mobile-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-3);
+        }
+
+        .mobile-step {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: var(--neutral-50);
+            font-size: 0.875rem;
+        }
+
+        .step-hint {
+            font-size: 0.75rem;
+            color: var(--neutral-400);
+        }
+
+        .mobile-chip {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--neutral-300);
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            align-self: flex-start;
+            margin-top: 0.25rem;
+        }
+
+        .mobile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+
+        /* =========================================================
+           ACTION DOCK
+        ========================================================= */
+        .action-dock {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: var(--z-fixed);
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .action-dock-shell {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-2xl);
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 2rem;
+            align-items: center;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .dock-status h3 {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--neutral-400);
+            margin-bottom: 0.25rem;
+        }
+
+        .dock-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--neutral-50);
+            margin-bottom: 0.25rem;
+        }
+
+        .dock-hint {
+            font-size: 0.875rem;
+            color: var(--neutral-400);
+        }
+
+        /* =========================================================
+           BUTTON SYSTEM
+        ========================================================= */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -457,6 +1614,12 @@
             min-height: 60px;
         }
 
+        .btn-sm {
+            padding: var(--space-2) var(--space-4);
+            font-size: 0.875rem;
+            min-height: 36px;
+        }
+
         .btn-icon {
             width: 44px;
             height: 44px;
@@ -464,7 +1627,14 @@
             border-radius: var(--radius-full);
         }
 
-        /* Card Components */
+        .btn-group {
+            display: flex;
+            gap: var(--space-3);
+        }
+
+        /* =========================================================
+           CARD COMPONENTS
+        ========================================================= */
         .card {
             background: linear-gradient(160deg, rgba(15, 23, 42, 0.9), rgba(24, 36, 58, 0.88));
             border: 1px solid rgba(255, 255, 255, 0.12);
@@ -482,74 +1652,9 @@
             box-shadow: var(--shadow-glow);
         }
 
-        /* Panel Components */
-        .panel {
-            background: linear-gradient(180deg, rgba(12, 18, 35, 0.9), rgba(16, 26, 48, 0.92));
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: var(--radius-2xl);
-            overflow: hidden;
-            transition: all var(--transition-base);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
-        }
-
-        .panel-header {
-            padding: var(--space-6);
-            background: radial-gradient(circle at 0% 0%, rgba(77, 243, 201, 0.12), transparent 40%), rgba(255, 255, 255, 0.02);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-        }
-
-        .panel-body {
-            padding: var(--space-6);
-        }
-
-        .panel-footer {
-            padding: var(--space-6);
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
-            border-top: 1px solid rgba(255, 255, 255, 0.12);
-        }
-
-        /* Form Components */
-        .form-group {
-            margin-bottom: var(--space-6);
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: var(--space-2);
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--neutral-200);
-        }
-
-        .form-control {
-            width: 100%;
-            padding: var(--space-3) var(--space-4);
-            background: var(--surface-muted);
-            border: 2px solid var(--border-strong);
-            border-radius: var(--radius-lg);
-            color: var(--neutral-50);
-            font-family: inherit;
-            font-size: 1rem;
-            transition: all var(--transition-base);
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--accent-teal);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: var(--focus-ring);
-        }
-
-        .form-control:invalid {
-            border-color: var(--accent-red);
-        }
-
-        .form-control:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* Status Indicators */
+        /* =========================================================
+           STATUS INDICATORS
+        ========================================================= */
         .status-indicator {
             display: inline-flex;
             align-items: center;
@@ -843,187 +1948,6 @@
             gap: var(--space-4);
             position: sticky;
             bottom: 0;
-        }
-
-        /* =========================================================
-           HERO SECTION - Enhanced
-        ========================================================= */
-        .hero-shell {
-            margin-top: var(--space-8);
-        }
-
-        .session-banner {
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(77, 243, 201, 0.18));
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-            border-radius: var(--radius-3xl);
-            padding: clamp(1.5rem, 4vw, 2.5rem);
-            display: grid;
-            gap: var(--space-4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .session-banner__body {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            align-items: center;
-            gap: clamp(1.25rem, 3vw, 2rem);
-        }
-
-        .session-steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: var(--space-3);
-        }
-
-        .step-card {
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            align-items: center;
-            gap: var(--space-3);
-            padding: var(--space-4);
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: var(--radius-2xl);
-            box-shadow: var(--shadow-md);
-            transition: all var(--transition-base);
-            cursor: pointer;
-            text-align: left;
-            width: 100%;
-        }
-
-        .step-card:hover,
-        .step-card:focus {
-            border-color: var(--accent-teal);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-glow);
-            outline: none;
-        }
-
-        /* =========================================================
-           MOBILE-FIRST ENHANCEMENTS
-        ========================================================= */
-        .mobile-shell {
-            display: none;
-            gap: var(--space-3);
-            margin-bottom: var(--space-4);
-        }
-
-        .mobile-card {
-            background: linear-gradient(160deg, rgba(12, 18, 35, 0.92), rgba(22, 34, 56, 0.9));
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius-2xl);
-            padding: var(--space-5);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
-        }
-
-        .mobile-metric {
-            padding: var(--space-3);
-            border-radius: var(--radius-xl);
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        /* =========================================================
-           EXERCISE COMPONENTS
-        ========================================================= */
-        .exercise-dock {
-            position: sticky;
-            top: 84px;
-            z-index: var(--z-above);
-            background: var(--neutral-900);
-            border: 1px solid var(--border-strong);
-            border-radius: var(--radius-xl);
-            padding: var(--space-5);
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: var(--space-6);
-            box-shadow: var(--shadow-md);
-            margin-bottom: var(--space-6);
-        }
-
-        .exercise-card {
-            background: var(--neutral-900);
-            border-left: 6px solid var(--accent-teal);
-            border-radius: var(--radius-lg);
-            padding: var(--space-6);
-            transition: all var(--transition-base);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .exercise-card:hover {
-            transform: translateX(8px);
-            border-left-color: var(--accent-teal);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .exercise-card.completed {
-            border-left-color: var(--accent-green);
-            background: rgba(6, 214, 160, 0.08);
-        }
-
-        /* =========================================================
-           PAIN MONITOR
-        ========================================================= */
-        .pain-monitor {
-            background: rgba(26, 10, 10, 0.3);
-            border: 2px solid rgba(239, 68, 68, 0.3);
-            border-radius: var(--radius-2xl);
-            padding: var(--space-6);
-            margin: var(--space-8) 0;
-        }
-
-        .pain-scale {
-            height: 48px;
-            background: var(--gradient-warning);
-            border-radius: var(--radius-full);
-            position: relative;
-            margin: var(--space-6) 0;
-            box-shadow: var(--shadow-inner);
-            touch-action: none;
-        }
-
-        .pain-marker {
-            position: absolute;
-            top: -12px;
-            width: 72px;
-            height: 72px;
-            background: white;
-            border: 4px solid var(--neutral-950);
-            border-radius: var(--radius-full);
-            transform: translateX(-50%);
-            cursor: grab;
-            box-shadow: var(--shadow-2xl);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            color: var(--neutral-950);
-            transition: all var(--transition-base);
-            user-select: none;
-            z-index: var(--z-above);
-            touch-action: none;
-            min-width: 72px;
-            min-height: 72px;
-        }
-
-        .pain-marker:active {
-            cursor: grabbing;
-            transform: translateX(-50%) scale(1.05);
-        }
-
-        .pain-threshold {
-            position: absolute;
-            top: -10px;
-            bottom: -10px;
-            width: 3px;
-            background: white;
-            transform: translateX(-50%);
-            box-shadow: 0 0 15px white;
-            z-index: var(--z-base);
         }
 
         /* =========================================================
@@ -1573,13 +2497,13 @@
             <div class="flex items-center gap-4">
                 <div class="flex items-center gap-2">
                     <div class="status-dot" id="systemStatus" aria-hidden="true"></div>
-                    <span class="text-sm font-semibold text-teal" id="statusText">Ready</span>
+                    <span class="text-sm font-semibold" id="statusText">Ready</span>
                 </div>
-                <time class="font-mono text-lg text-blue" id="currentTime" datetime="">00:00:00</time>
+                <time class="font-mono text-lg" id="currentTime" datetime="">00:00:00</time>
             </div>
             <div class="flex items-center gap-4">
                 <div class="text-right">
-                    <div class="text-sm font-bold text-yellow" id="missionName">Rehab Session</div>
+                    <div class="text-sm font-bold" id="missionName">Rehab Session</div>
                     <div class="text-xs text-neutral-400" id="operatorName">Patient: Not set</div>
                 </div>
                 
@@ -1635,10 +2559,10 @@
             <div class="nav-cta">
                 <span class="nav-state" id="navSessionState" aria-live="polite" data-tone="info">Prep</span>
                 <div class="nav-actions">
-                    <button class="btn btn-primary" id="navPrimaryAction" aria-label="Start session">
+                    <button class="btn btn-primary" id="navPrimaryAction" aria-label="Start session" onclick="handlePrimaryNavAction()">
                         <i class="ri-play-line" aria-hidden="true"></i> Start session
                     </button>
-                    <button class="btn btn-outline" aria-label="Toggle calm visuals">
+                    <button class="btn btn-outline" aria-label="Toggle calm visuals" onclick="toggleCalmMode()">
                         <i class="ri-moon-clear-line" aria-hidden="true"></i> Calm visuals
                     </button>
                 </div>
@@ -1706,13 +2630,13 @@
 
                     <div class="mobile-card">
                         <div class="mobile-actions">
-                            <button class="btn btn-primary btn-lg" type="button" id="mobilePrimaryAction" aria-label="Start session">
+                            <button class="btn btn-primary btn-lg" type="button" id="mobilePrimaryAction" aria-label="Start session" onclick="handlePrimaryNavAction()">
                                 <i class="ri-play-line" aria-hidden="true"></i> Start session
                             </button>
-                            <button class="btn btn-secondary btn-lg" type="button" aria-label="Toggle calm visuals">
+                            <button class="btn btn-secondary btn-lg" type="button" aria-label="Toggle calm visuals" onclick="toggleCalmMode()">
                                 <i class="ri-moon-clear-line" aria-hidden="true"></i> Calm visuals
                             </button>
-                            <button class="btn btn-outline btn-lg" type="button" aria-label="Jump to exercises">
+                            <button class="btn btn-outline btn-lg" type="button" aria-label="Jump to exercises" onclick="scrollToSection('phaseMission')">
                                 <i class="ri-run-line" aria-hidden="true"></i> Jump to exercises
                             </button>
                         </div>
@@ -1743,20 +2667,20 @@
                             <p class="text-neutral-300" id="sessionPersonaCopy">Balance rehab · calm visuals on</p>
                         </div>
                         <div class="session-actions">
-                            <button class="btn btn-primary btn-lg" type="button" id="heroPrimaryCta" aria-label="Start session">
+                            <button class="btn btn-primary btn-lg" type="button" id="heroPrimaryCta" aria-label="Start session" onclick="handlePrimaryNavAction()">
                                 <i class="ri-play-line" aria-hidden="true"></i> Start session
                             </button>
-                            <button class="btn btn-outline btn-lg" type="button" aria-label="Toggle calm visuals">
+                            <button class="btn btn-outline btn-lg" type="button" aria-label="Toggle calm visuals" onclick="toggleCalmMode()">
                                 <i class="ri-moon-clear-line" aria-hidden="true"></i> Calm visuals
                             </button>
-                            <button class="btn btn-secondary btn-lg" type="button" aria-label="Jump to exercises">
+                            <button class="btn btn-secondary btn-lg" type="button" aria-label="Jump to exercises" onclick="scrollToSection('phaseMission')">
                                 <i class="ri-run-line" aria-hidden="true"></i> Jump to exercises
                             </button>
                         </div>
                     </div>
 
                     <div class="session-steps" role="list" aria-label="Session steps">
-                        <button class="step-card" type="button" role="listitem" aria-label="Sign in step">
+                        <button class="step-card" type="button" role="listitem" aria-label="Sign in step" onclick="scrollToSection('phaseAuth')">
                             <div class="step-icon">
                                 <i class="ri-id-card-line" aria-hidden="true"></i>
                             </div>
@@ -1766,7 +2690,7 @@
                             </div>
                             <span class="pill-soft" id="stepAuthState">Prep</span>
                         </button>
-                        <button class="step-card" type="button" role="listitem" aria-label="Readiness step">
+                        <button class="step-card" type="button" role="listitem" aria-label="Readiness step" onclick="scrollToSection('phaseBio')">
                             <div class="step-icon">
                                 <i class="ri-heart-pulse-line" aria-hidden="true"></i>
                             </div>
@@ -1776,7 +2700,7 @@
                             </div>
                             <span class="pill-soft" id="stepBioState">Locked</span>
                         </button>
-                        <button class="step-card" type="button" role="listitem" aria-label="Exercises step">
+                        <button class="step-card" type="button" role="listitem" aria-label="Exercises step" onclick="scrollToSection('phaseMission')">
                             <div class="step-icon">
                                 <i class="ri-run-line" aria-hidden="true"></i>
                             </div>
@@ -1786,7 +2710,7 @@
                             </div>
                             <span class="pill-soft" id="stepMissionState">Queued</span>
                         </button>
-                        <button class="step-card" type="button" role="listitem" aria-label="Summary step">
+                        <button class="step-card" type="button" role="listitem" aria-label="Summary step" onclick="scrollToSection('phaseDebrief')">
                             <div class="step-icon">
                                 <i class="ri-clipboard-line" aria-hidden="true"></i>
                             </div>
@@ -1806,13 +2730,13 @@
                         <p>Stay focused on what matters: safe movement, measurable progress, and fast access to the right phase. The experience now leads with clarity, not noise.</p>
                         
                         <div class="hero-actions">
-                            <button class="btn btn-primary btn-xl" aria-label="Start today's plan">
+                            <button class="btn btn-primary btn-xl" aria-label="Start today's plan" onclick="handlePrimaryNavAction()">
                                 <i class="ri-flag-line" aria-hidden="true"></i> Start today's plan
                             </button>
-                            <button class="btn btn-secondary btn-lg" aria-label="Toggle between calm and pro modes">
+                            <button class="btn btn-secondary btn-lg" aria-label="Toggle between calm and pro modes" onclick="toggleCalmMode()">
                                 <i class="ri-moon-clear-line" aria-hidden="true"></i> Toggle Calm / Pro
                             </button>
-                            <button class="btn btn-outline btn-lg" aria-label="Jump to readiness assessment">
+                            <button class="btn btn-outline btn-lg" aria-label="Jump to readiness assessment" onclick="scrollToSection('phaseBio')">
                                 <i class="ri-focus-line" aria-hidden="true"></i> Jump to readiness
                             </button>
                         </div>
@@ -1921,10 +2845,10 @@
                                 </div>
                             </div>
                             <div class="spotlight-actions">
-                                <button class="btn btn-primary btn-lg" id="quickExerciseStart" aria-label="Start next exercise">
+                                <button class="btn btn-primary btn-lg" id="quickExerciseStart" aria-label="Start next exercise" onclick="quickStartExercise()">
                                     <i class="ri-play-line" aria-hidden="true"></i> Start next exercise
                                 </button>
-                                <button class="btn btn-secondary" aria-label="Open exercise list">
+                                <button class="btn btn-secondary" aria-label="Open exercise list" onclick="scrollToSection('phaseMission')">
                                     <i class="ri-run-line" aria-hidden="true"></i> Open exercise list
                                 </button>
                             </div>
@@ -2177,7 +3101,7 @@
                                            aria-valuetext="Pain level 0 out of 10">
                                     <div class="flex justify-between mt-3">
                                         <span class="text-sm text-neutral-400">NO PAIN</span>
-                                        <output class="text-sm font-bold text-teal" id="painValue" for="baselinePain">0</output>
+                                        <output class="text-sm font-bold" id="painValue" for="baselinePain">0</output>
                                         <span class="text-sm text-neutral-400">MAXIMUM</span>
                                     </div>
                                 </div>
@@ -2190,7 +3114,7 @@
                                     </div>
                                     <div class="flex justify-between mt-3">
                                         <span class="text-sm text-neutral-400">RESTED</span>
-                                        <output class="text-sm font-bold text-teal" id="fatigueValue" for="baselinePain">0%</output>
+                                        <output class="text-sm font-bold" id="fatigueValue" for="baselinePain">0%</output>
                                         <span class="text-sm text-neutral-400">EXHAUSTED</span>
                                     </div>
                                 </div>
@@ -2221,17 +3145,17 @@
                             </div>
                             <div class="grid grid-cols-3 gap-8">
                                 <div class="text-center">
-                                    <div class="text-4xl text-teal mb-3" aria-hidden="true">🎤</div>
+                                    <div class="text-4xl mb-3" aria-hidden="true">🎤</div>
                                     <h4 class="font-bold mb-2">"START EXERCISE"</h4>
                                     <p class="text-sm text-neutral-400">Begins current exercise timer</p>
                                 </div>
                                 <div class="text-center">
-                                    <div class="text-4xl text-blue mb-3" aria-hidden="true">⏸️</div>
+                                    <div class="text-4xl mb-3" aria-hidden="true">⏸️</div>
                                     <h4 class="font-bold mb-2">"STOP TIMER"</h4>
                                     <p class="text-sm text-neutral-400">Pauses active exercise</p>
                                 </div>
                                 <div class="text-center">
-                                    <div class="text-4xl text-purple mb-3" aria-hidden="true">📊</div>
+                                    <div class="text-4xl mb-3" aria-hidden="true">📊</div>
                                     <h4 class="font-bold mb-2">"NEXT EXERCISE"</h4>
                                     <p class="text-sm text-neutral-400">Moves to next exercise</p>
                                 </div>
@@ -2245,7 +3169,7 @@
                                 <i class="ri-fingerprint-line" aria-hidden="true"></i> BIOMETRIC LOGIN
                             </button>
                             <div class="flex gap-4">
-                                <button type="button" class="btn btn-danger" aria-label="End session">
+                                <button type="button" class="btn btn-danger" aria-label="End session" onclick="emergencyStop()">
                                     <i class="ri-error-warning-line" aria-hidden="true"></i> END
                                 </button>
                                 <button type="submit" form="authForm" class="btn btn-primary btn-lg" aria-label="Initiate plan">
@@ -2327,9 +3251,9 @@
                             
                             <div id="painWarning" class="pain-warning hidden" role="alert">
                                 <div class="flex items-center gap-4">
-                                    <div class="status-dot" style="background: var(--accent-red); animation: blink 1s infinite;" aria-hidden="true"></div>
+                                    <div class="status-dot" style="animation: blink 1s infinite;" aria-hidden="true"></div>
                                     <div>
-                                        <h4 class="font-bold text-red">Pain above your limit</h4>
+                                        <h4 class="font-bold">Pain above your limit</h4>
                                         <p class="text-sm text-neutral-400 mt-1">Reduce intensity or pause protocol. Consult if pain persists.</p>
                                     </div>
                                 </div>
@@ -2345,11 +3269,11 @@
                                 </span>
                             </div>
                             <div class="space-y-4">
-                                <p>Operator <span id="briefOperator" class="font-bold text-teal">MARVIN</span>, your plan is the Progressive Balance &amp; Leg Strength pathway—patient-first and predictable.</p>
+                                <p>Operator <span id="briefOperator" class="font-bold">MARVIN</span>, your plan is the Progressive Balance &amp; Leg Strength pathway—patient-first and predictable.</p>
                                 <p class="font-medium">Primary Objective: Complete 10–15 minutes of this week's tasks with smooth control and calm breathing.</p>
                                 <p class="font-medium">Secondary Objective: Progress by time and steadiness only; move to the next week when holds feel stable.</p>
                                 <div class="mt-6 p-4 bg-neutral-800/50 border border-yellow/20 rounded-xl">
-                                    <p class="text-sm"><span class="font-bold text-yellow"><i class="ri-alarm-warning-line" aria-hidden="true"></i> SAFETY PLAN:</span> Stay near a wall or counter, move slowly, and pause if pain rises above 7/10, dizziness appears, or balance wobbles.</p>
+                                    <p class="text-sm"><span class="font-bold"><i class="ri-alarm-warning-line" aria-hidden="true"></i> SAFETY PLAN:</span> Stay near a wall or counter, move slowly, and pause if pain rises above 7/10, dizziness appears, or balance wobbles.</p>
                                 </div>
                             </div>
                         </div>
@@ -2357,10 +3281,10 @@
                     
                     <div class="panel-footer">
                         <div class="flex justify-between">
-                            <button class="btn btn-secondary" aria-label="Go back to authentication">
+                            <button class="btn btn-secondary" aria-label="Go back to authentication" onclick="scrollToSection('phaseAuth')">
                                 <i class="ri-arrow-left-line" aria-hidden="true"></i> BACK
                             </button>
-                            <button class="btn btn-success btn-lg" aria-label="Begin session">
+                            <button class="btn btn-success btn-lg" aria-label="Begin session" onclick="beginMission()">
                                 <i class="ri-rocket-line" aria-hidden="true"></i> Begin session
                             </button>
                         </div>
@@ -2382,7 +3306,7 @@
                                     <div class="status-dot" style="background: var(--accent-green);" aria-hidden="true"></div>
                                     <span id="missionStatus">In progress</span>
                                 </div>
-                                <time class="font-mono text-2xl font-bold text-teal" id="missionTimer" datetime="">15:00</time>
+                                <time class="font-mono text-2xl font-bold" id="missionTimer" datetime="">15:00</time>
                             </div>
                         </div>
                     </div>
@@ -2399,7 +3323,7 @@
                                 </div>
                             </div>
                             <div class="dock-actions">
-                                <button class="btn btn-primary" aria-label="Start or resume exercise">
+                                <button class="btn btn-primary" aria-label="Start or resume exercise" onclick="quickStartExercise()">
                                     <i class="ri-play-line" aria-hidden="true"></i> Start / Resume
                                 </button>
                                 <button class="btn btn-secondary" aria-label="View exercise list">
@@ -2445,19 +3369,19 @@
                             </div>
                             <div class="grid grid-cols-4 gap-4">
                                 <div class="text-center p-4 bg-neutral-800/50 rounded-xl">
-                                    <div class="text-2xl font-bold text-teal font-mono" id="livePain">0.0</div>
+                                    <div class="text-2xl font-bold font-mono" id="livePain">0.0</div>
                                     <div class="text-xs text-neutral-400 uppercase mt-1">CURRENT PAIN</div>
                                 </div>
                                 <div class="text-center p-4 bg-neutral-800/50 rounded-xl">
-                                    <div class="text-2xl font-bold text-teal font-mono" id="completedExercises">0</div>
+                                    <div class="text-2xl font-bold font-mono" id="completedExercises">0</div>
                                     <div class="text-xs text-neutral-400 uppercase mt-1">EXERCISES DONE</div>
                                 </div>
                                 <div class="text-center p-4 bg-neutral-800/50 rounded-xl">
-                                    <div class="text-2xl font-bold text-teal font-mono" id="timeElapsed">00:00</div>
+                                    <div class="text-2xl font-bold font-mono" id="timeElapsed">00:00</div>
                                     <div class="text-xs text-neutral-400 uppercase mt-1">TIME ELAPSED</div>
                                 </div>
                                 <div class="text-center p-4 bg-neutral-800/50 rounded-xl">
-                                    <div class="text-2xl font-bold text-teal font-mono" id="successRate">100%</div>
+                                    <div class="text-2xl font-bold font-mono" id="successRate">100%</div>
                                     <div class="text-xs text-neutral-400 uppercase mt-1">SUCCESS RATE</div>
                                 </div>
                             </div>
@@ -2466,16 +3390,16 @@
                     
                     <div class="panel-footer">
                         <div class="flex justify-center gap-4">
-                            <button class="btn btn-danger" aria-label="Pause for safety">
+                            <button class="btn btn-danger" aria-label="Pause for safety" onclick="emergencyStop()">
                                 <i class="ri-alarm-line" aria-hidden="true"></i> Pause for safety
                             </button>
                             <button class="btn btn-secondary" aria-label="Share progress">
                                 <i class="ri-share-line" aria-hidden="true"></i> SHARE
                             </button>
-                            <button class="btn btn-secondary" id="pauseBtn" aria-label="Pause session">
+                            <button class="btn btn-secondary" id="pauseBtn" aria-label="Pause session" onclick="pauseMission()">
                                 <i class="ri-pause-line" aria-hidden="true"></i> PAUSE
                             </button>
-                            <button class="btn btn-success" aria-label="Complete session">
+                            <button class="btn btn-success" aria-label="Complete session" onclick="completeMission()">
                                 <i class="ri-check-double-line" aria-hidden="true"></i> COMPLETE
                             </button>
                         </div>
@@ -2562,7 +3486,7 @@
                             <button class="btn btn-primary" aria-label="Export data">
                                 <i class="ri-download-line" aria-hidden="true"></i> Export
                             </button>
-                            <button class="btn btn-success" aria-label="Start new session">
+                            <button class="btn btn-success" aria-label="Start new session" onclick="window.location.reload()">
                                 <i class="ri-refresh-line" aria-hidden="true"></i> New session
                             </button>
                         </div>
@@ -2579,13 +3503,13 @@
                         <p class="dock-hint" id="dockStatusHint">Authenticate to unlock your plan.</p>
                     </div>
                     <div class="dock-actions">
-                        <button class="btn btn-primary" id="dockPrimaryAction" aria-label="Start session">
+                        <button class="btn btn-primary" id="dockPrimaryAction" aria-label="Start session" onclick="handlePrimaryNavAction()">
                             <i class="ri-play-line" aria-hidden="true"></i> Start session
                         </button>
-                        <button class="btn btn-secondary" aria-label="Jump to exercises">
+                        <button class="btn btn-secondary" aria-label="Jump to exercises" onclick="scrollToSection('phaseMission')">
                             <i class="ri-run-line" aria-hidden="true"></i> Jump to exercises
                         </button>
-                        <button class="btn btn-danger" aria-label="Emergency stop">
+                        <button class="btn btn-danger" aria-label="Emergency stop" onclick="emergencyStop()">
                             <i class="ri-alarm-line" aria-hidden="true"></i> Emergency stop
                         </button>
                     </div>
@@ -2613,7 +3537,7 @@
     // ENHANCED APPLICATION STATE
     // =========================================================
     const AppState = {
-        version: '4.1',
+        version: '4.2',
         operator: {
             id: 'MARVIN',
             clearance: 'Rehab_RISING',
@@ -3584,7 +4508,7 @@
         // Initialize clock
         setInterval(updateSystemTime, 1000);
         
-        console.log('🚀 Rehab Session Pro - Ready');
+        console.log('🚀 Rehab Session Pro v4.2 - Ready');
     });
 
     // =========================================================
