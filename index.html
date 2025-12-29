@@ -192,6 +192,239 @@
         .section {
             padding: var(--space-16) 0;
         }
+
+        /* Hero */
+        .hero-shell {
+            margin-top: var(--space-8);
+        }
+
+        .hero-grid {
+            display: grid;
+            gap: var(--space-8);
+            grid-template-columns: 1.25fr 1fr;
+            align-items: stretch;
+        }
+
+        .hero-panel {
+            position: relative;
+            overflow: hidden;
+            padding: var(--space-8);
+            border-radius: var(--radius-2xl);
+            background: radial-gradient(circle at 30% 20%, rgba(14, 165, 233, 0.18), transparent 35%), 
+                        radial-gradient(circle at 90% 20%, rgba(0, 212, 170, 0.18), transparent 40%),
+                        var(--neutral-900);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .hero-panel h1 {
+            font-size: clamp(2rem, 3vw, 2.75rem);
+            margin-bottom: var(--space-3);
+        }
+
+        .hero-panel p {
+            color: var(--neutral-300);
+            max-width: 720px;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-3);
+            margin: var(--space-6) 0 var(--space-4);
+        }
+
+        .hero-pills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: var(--space-3);
+        }
+
+        .pill {
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-lg);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .pill-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--neutral-400);
+            margin-bottom: var(--space-1);
+            display: block;
+        }
+
+        .pill-strong {
+            font-weight: 800;
+            color: white;
+        }
+
+        .snapshot-grid {
+            display: grid;
+            gap: var(--space-4);
+        }
+
+        .snapshot-card {
+            padding: var(--space-6);
+            border-radius: var(--radius-2xl);
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.16), rgba(0, 212, 170, 0.12));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .readiness-dial {
+            --value: 100;
+            width: 160px;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            background: conic-gradient(var(--accent-teal) calc(var(--value) * 1%), rgba(255, 255, 255, 0.08) 0);
+            display: grid;
+            place-items: center;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .readiness-dial::after {
+            content: '';
+            position: absolute;
+            inset: 14px;
+            background: rgba(2, 6, 23, 0.9);
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .readiness-dial .readiness-value {
+            position: relative;
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .readiness-dial .readiness-subtext {
+            position: relative;
+            color: var(--neutral-400);
+            font-size: 0.85rem;
+        }
+
+        .snapshot-meta {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: var(--space-3);
+            margin-top: var(--space-4);
+        }
+
+        .meta-label {
+            color: var(--neutral-400);
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        .meta-value {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .meta-subtle {
+            color: var(--neutral-400);
+            font-size: 0.85rem;
+        }
+
+        .micro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: var(--space-3);
+        }
+
+        .micro-card {
+            padding: var(--space-4);
+            border-radius: var(--radius-xl);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: grid;
+            gap: var(--space-2);
+        }
+
+        .status-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+
+        .status-chip[data-tone="ready"] {
+            background: rgba(14, 165, 233, 0.15);
+            color: var(--accent-blue);
+        }
+
+        .status-chip[data-tone="active"] {
+            background: rgba(0, 212, 170, 0.15);
+            color: var(--accent-teal);
+        }
+
+        .status-chip[data-tone="paused"] {
+            background: rgba(234, 179, 8, 0.15);
+            color: var(--accent-yellow);
+        }
+
+        .status-chip[data-tone="done"] {
+            background: rgba(6, 214, 160, 0.18);
+            color: var(--accent-green);
+        }
+
+        .progress-timeline {
+            display: grid;
+            gap: var(--space-3);
+        }
+
+        .timeline-step {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .timeline-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .timeline-dot::after {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+        }
+
+        .timeline-body {
+            flex: 1;
+        }
+
+        .timeline-label {
+            font-weight: 700;
+            color: white;
+        }
+
+        .timeline-hint {
+            color: var(--neutral-400);
+            font-size: 0.85rem;
+        }
+
+        .timeline-state {
+            font-size: 0.75rem;
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-full);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
         
         /* Grid System */
         .grid {
@@ -1562,6 +1795,22 @@
             border-color: rgba(15,23,42,0.22) !important;
             color:#0f172a !important;
         }
+        body.calm .hero-panel,
+        body.calm .snapshot-card,
+        body.calm .micro-card{
+            background:#ffffff !important;
+            color:#0f172a !important;
+            border-color: rgba(15,23,42,0.08) !important;
+            box-shadow: 0 10px 30px rgba(15,23,42,0.06) !important;
+        }
+        body.calm .timeline-state,
+        body.calm .pill,
+        body.calm .hero-panel p{
+            color:#0f172a !important;
+        }
+        body.calm .readiness-dial::after{
+            background:#f8fafc !important;
+        }
         body.calm .metric-card{
             background:#ffffff !important;
         }
@@ -1592,6 +1841,10 @@
             .video-call-container {
                 width: 250px;
                 height: 180px;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
             }
         }
         
@@ -1637,6 +1890,14 @@
             .voice-control-indicator {
                 bottom: 10px;
                 right: 10px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
             }
         }
         
@@ -1764,6 +2025,118 @@
     <!-- Main Content -->
     <main class="pt-20">
         <div class="container">
+            <section class="section hero-shell" aria-labelledby="overviewTitle">
+                <div class="hero-grid">
+                    <div class="hero-panel">
+                        <span class="badge">Patient-first layout</span>
+                        <h1 id="overviewTitle" class="text-gradient">Calmer rehab. Clearer next steps.</h1>
+                        <p>Stay focused on what matters: safe movement, measurable progress, and fast access to the right phase. The experience now leads with clarity, not noise.</p>
+                        
+                        <div class="hero-actions">
+                            <button class="btn btn-primary btn-xl" onclick="document.getElementById('phaseAuth').scrollIntoView({behavior: 'smooth'})">
+                                <i class="ri-flag-line"></i> Start today's plan
+                            </button>
+                            <button class="btn btn-secondary btn-lg" onclick="toggleCalmMode()">
+                                <i class="ri-moon-clear-line"></i> Toggle Calm / Pro
+                            </button>
+                            <button class="btn btn-outline btn-lg" onclick="document.getElementById('phaseBio').scrollIntoView({behavior: 'smooth'})">
+                                <i class="ri-focus-line"></i> Jump to readiness
+                            </button>
+                        </div>
+                        
+                        <div class="hero-pills">
+                            <div class="pill">
+                                <span class="pill-label">Profile</span>
+                                <span class="pill-strong" id="summaryProfile">—</span>
+                                <div class="meta-subtle" id="summarySupport">Injury focus · Intensity</div>
+                            </div>
+                            <div class="pill">
+                                <span class="pill-label">Streak</span>
+                                <span class="pill-strong" id="summaryStreak">0 days</span>
+                                <div class="meta-subtle">Total sessions <span id="summarySessions">0</span></div>
+                            </div>
+                            <div class="pill">
+                                <span class="pill-label">Pain ceiling</span>
+                                <span class="pill-strong" id="summaryPainLimit">7 / 10</span>
+                                <div class="meta-subtle">Current baseline <span id="summaryPainBaseline">0 / 10</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="snapshot-grid">
+                        <div class="snapshot-card">
+                            <div class="flex items-center justify-between mb-6">
+                                <div>
+                                    <p class="meta-label">Session readiness</p>
+                                    <p class="text-xl font-bold text-white">Live signal</p>
+                                </div>
+                                <span class="status-chip" id="summarySessionChip" data-tone="ready">Ready</span>
+                            </div>
+                            <div class="readiness-dial" id="summaryReadinessDial" style="--value: 100">
+                                <div class="readiness-value" id="summaryReadinessValue">100%</div>
+                                <div class="readiness-subtext" id="summaryPhaseCopy">Auth required</div>
+                            </div>
+                            <div class="snapshot-meta">
+                                <div>
+                                    <div class="meta-label">Current pain</div>
+                                    <div class="meta-value" id="summaryPainBadge">0.0 / 10</div>
+                                    <div class="meta-subtle">Live drag or slider</div>
+                                </div>
+                                <div>
+                                    <div class="meta-label">Fatigue</div>
+                                    <div class="meta-value" id="summaryFatigue">0%</div>
+                                    <div class="meta-subtle">Auto-adjusted</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="micro-grid">
+                            <div class="micro-card">
+                                <div class="meta-label">Now</div>
+                                <div class="timeline-label" id="summaryPhaseChip">Authenticate</div>
+                                <div class="timeline-hint">Verify, set baseline, then advance.</div>
+                            </div>
+                            <div class="micro-card">
+                                <div class="meta-label">Flow</div>
+                                <div class="progress-timeline">
+                                    <div class="timeline-step">
+                                        <div class="timeline-dot" id="timelineAuthDot"></div>
+                                        <div class="timeline-body">
+                                            <div class="timeline-label">Authenticate</div>
+                                            <div class="timeline-hint">ID + clearance</div>
+                                        </div>
+                                        <div class="timeline-state" id="timelineAuthState">Ready</div>
+                                    </div>
+                                    <div class="timeline-step">
+                                        <div class="timeline-dot" id="timelineReadyDot"></div>
+                                        <div class="timeline-body">
+                                            <div class="timeline-label">Readiness</div>
+                                            <div class="timeline-hint">Baseline & thresholds</div>
+                                        </div>
+                                        <div class="timeline-state" id="timelineReadyState">Waiting</div>
+                                    </div>
+                                    <div class="timeline-step">
+                                        <div class="timeline-dot" id="timelineWorkDot"></div>
+                                        <div class="timeline-body">
+                                            <div class="timeline-label">Exercise stack</div>
+                                            <div class="timeline-hint">Timer + voice control</div>
+                                        </div>
+                                        <div class="timeline-state" id="timelineWorkState">Queued</div>
+                                    </div>
+                                    <div class="timeline-step">
+                                        <div class="timeline-dot" id="timelineDebriefDot"></div>
+                                        <div class="timeline-body">
+                                            <div class="timeline-label">Recovery</div>
+                                            <div class="timeline-hint">Debrief & share</div>
+                                        </div>
+                                        <div class="timeline-state" id="timelineDebriefState">Queued</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
             
             <!-- Phase 1: Authentication -->
             <section id="phaseAuth" class="section">
@@ -3387,6 +3760,89 @@
             alignStatusAnimationWithMotion();
         }
 
+        function refreshExperienceSummary() {
+            const readiness = Math.round(AppState.session.metrics.readiness || 0);
+            const pain = Number(AppState.session.metrics.painIndex || 0).toFixed(1);
+            const fatigue = Math.round(AppState.session.metrics.fatigue || 0);
+            const streak = AppState.progress.streak || 0;
+            const totalSessions = AppState.progress.totalSessions || 0;
+            const threshold = AppState.operator.profile?.painThreshold ?? 7;
+            const intensity = (AppState.operator.profile?.intensity || 'STANDARD').replace('_', ' ');
+            const injury = (AppState.operator.profile?.injury || 'BALANCE').replace('_', ' ');
+            
+            const dial = document.getElementById('summaryReadinessDial');
+            if (dial) dial.style.setProperty('--value', readiness);
+            
+            const readinessValue = document.getElementById('summaryReadinessValue');
+            if (readinessValue) readinessValue.textContent = `${readiness}%`;
+            
+            const readinessCopy = document.getElementById('summaryPhaseCopy');
+            if (readinessCopy) {
+                readinessCopy.textContent = AppState.session.active ? 'In session' : 'Awaiting start';
+            }
+            
+            const phaseChip = document.getElementById('summaryPhaseChip');
+            if (phaseChip) {
+                phaseChip.textContent = AppState.session.active ? `Phase ${AppState.session.phase}` : 'Authenticate';
+            }
+            
+            const profileEl = document.getElementById('summaryProfile');
+            if (profileEl) profileEl.textContent = `${intensity} • ${injury}`;
+            
+            const supportEl = document.getElementById('summarySupport');
+            if (supportEl) supportEl.textContent = `${AppState.operator.profile?.support || 'Support on standby'}`;
+            
+            const streakEl = document.getElementById('summaryStreak');
+            if (streakEl) streakEl.textContent = `${streak} day${streak === 1 ? '' : 's'} in a row`;
+            
+            const sessionEl = document.getElementById('summarySessions');
+            if (sessionEl) sessionEl.textContent = totalSessions;
+            
+            const painLimitEl = document.getElementById('summaryPainLimit');
+            if (painLimitEl) painLimitEl.textContent = `${threshold} / 10`;
+            
+            const painBaselineEl = document.getElementById('summaryPainBaseline');
+            if (painBaselineEl) painBaselineEl.textContent = `${pain} / 10`;
+            
+            const painBadge = document.getElementById('summaryPainBadge');
+            if (painBadge) painBadge.textContent = `${pain} / 10`;
+            
+            const fatigueEl = document.getElementById('summaryFatigue');
+            if (fatigueEl) fatigueEl.textContent = `${fatigue}%`;
+            
+            const sessionChip = document.getElementById('summarySessionChip');
+            if (sessionChip) {
+                let tone = 'ready';
+                let label = 'Ready';
+                if (AppState.session.active && !AppState.session.paused) {
+                    tone = 'active';
+                    label = 'Active';
+                } else if (AppState.session.paused) {
+                    tone = 'paused';
+                    label = 'Paused';
+                } else if (!AppState.session.active && AppState.session.elapsedTime > 0) {
+                    tone = 'done';
+                    label = 'Complete';
+                }
+                sessionChip.dataset.tone = tone;
+                sessionChip.textContent = label;
+            }
+            
+            const timelineStates = [
+                { id: 'Auth', state: AppState.session.phase > 1 || AppState.session.active ? 'Done' : 'Ready' },
+                { id: 'Ready', state: AppState.session.active ? 'Done' : 'Waiting' },
+                { id: 'Work', state: AppState.session.active ? 'Active' : 'Queued' },
+                { id: 'Debrief', state: AppState.session.elapsedTime > 0 && !AppState.session.active ? 'Next' : 'Queued' }
+            ];
+            
+            timelineStates.forEach(step => {
+                const stateEl = document.getElementById(`timeline${step.id}State`);
+                const dotEl = document.getElementById(`timeline${step.id}Dot`);
+                if (stateEl) stateEl.textContent = step.state;
+                if (dotEl) dotEl.style.background = step.state === 'Done' || step.state === 'Active' ? 'var(--accent-teal)' : 'rgba(255,255,255,0.2)';
+            });
+        }
+
         function saveState() {
             try {
                 localStorage.setItem('Rehab_state', JSON.stringify(AppState));
@@ -3494,6 +3950,7 @@
             
             initializePainMonitoring();
             updateMLRecommendations();
+            refreshExperienceSummary();
             
             showNotification('Authentication Successful', `Welcome back, ${operatorId}`, 'success');
             updateSystemStatus();
@@ -3526,6 +3983,7 @@
             selectPhase(1);
             startMissionTimer();
             updateMLRecommendations();
+            refreshExperienceSummary();
             
             showNotification('Mission Started', 'Execute protocol with precision. Stay safe.', 'success');
             updateSystemStatus();
@@ -3649,6 +4107,7 @@
             }
             
             showNotification(`Phase ${phase} Loaded`, protocol.description, 'info');
+            refreshExperienceSummary();
             saveState();
         }
 
@@ -3875,6 +4334,8 @@
                 document.getElementById('painWarning').classList.add('hidden');
             }
             
+            refreshExperienceSummary();
+            
             // Update ML recommendations based on pain changes
             updateMLRecommendations();
             
@@ -3992,6 +4453,7 @@
             
             AppState.session.active = false;
             AppState.emergency.triggered = false;
+            refreshExperienceSummary();
             updateSystemStatus();
             saveState();
         }
@@ -4267,7 +4729,7 @@
                         hasStoredPreference = true;
                     }
                 }catch(e){}
-                const on = storedPreference !== null ? storedPreference : media.matches;
+                const on = storedPreference !== null ? storedPreference : true;
                 apply(on, { persist: storedPreference !== null });
                 window.toggleCalmMode = () => apply(!document.body.classList.contains("calm"));
                 const onMediaChange = (event) => {
@@ -4339,6 +4801,7 @@
             
             // Initialize ML recommendations
             updateMLRecommendations();
+            refreshExperienceSummary();
             
             // Keyboard shortcuts
             document.addEventListener('keydown', (e) => {
