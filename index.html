@@ -1,1290 +1,4 @@
-<script>
-    // =========================================================
-    // ENHANCED APPLICATION STATE WITH ERROR HANDLING
-    // =========================================================
-    const AppState = {
-        version: '4.1',
-        operator: {
-            id: 'MARVIN',
-            clearance: 'Rehab_RISING',
-            biometrics: {
-                faceRegistered: true,
-                voiceRegistered: true,
-                motionRegistered: false
-            },
-            profile: {
-                name: 'MARVIN',
-                injury: 'BALANCE',
-                intensity: 'STANDARD',
-                support: 'MINIMAL',
-                sessionsPerWeek: 5,
-                painThreshold: 7,
-                motivation: 'I WILL RECLAIM MY MOBILITY. I WILL NOT BE DEFEATED.',
-                customExercises: [],
-                privacy: {
-                    shareTherapist: true,
-                    allowAI: true,
-                    anonymousResearch: false
-                }
-            }
-        },
-        session: {
-            active: false,
-            phase: 1,
-            startTime: null,
-            elapsedTime: 0,
-            totalTime: 15 * 60,
-            paused: false,
-            authenticated: false,
-            completedExercises: [],
-            currentExercise: null,
-            painHistory: [],
-            notes: '',
-            metrics: {
-                painIndex: 0,
-                fatigue: 0,
-                readiness: 100,
-                stability: 100,
-                startPain: 0,
-                avgPain: 0,
-                maxPain: 0
-            }
-        },
-        progress: {
-            totalSessions: 0,
-            streak: 0,
-            longestStreak: 0,
-            lastSession: null,
-            phasesCompleted: [],
-            bestTimes: {},
-            achievements: []
-        },
-        emergency: {
-            triggered: false,
-            lastStop: null,
-            stopCount: 0
-        }
-    };
-
-    // =========================================================
-    // ENHANCED ERROR HANDLING
-    // =========================================================
-    class RehabError extends Error {
-        constructor(message, context = 'Unknown') {
-            super(message);
-            this.name = 'RehabError';
-            this.context = context;
-            this.timestamp = new Date().toISOString();
-        }
-        
-        log() {
-            console.error(`[${this.timestamp}] RehabError in ${this.context}:`, this.message);
-            return this;
-        }
-    }
-
-    function withErrorHandling(fn, context = 'Unknown') {
-        return function(...args) {
-            try {
-                return fn.apply(this, args);
-            } catch (error) {
-                const rehabError = new RehabError(
-                    error.message || 'Unknown error occurred',
-                    context
-                ).log();
-                
-                showNotification(
-                    'Application Error',
-                    `Something went wrong in ${context}. Please try again.`,
-                    'error'
-                );
-                
-                // Return safe fallback
-                return null;
-            }
-        };
-    }
-
-    // =========================================================
-    // ENHANCED STATE MANAGEMENT
-    // =========================================================
-    const StateManager = {
-        KEY: 'RehabSessionPro_State_v4',
-        
-        save() {
-            try {
-                const state = {
-                    ...AppState,
-                    lastSaved: new Date().toISOString()
-                };
-                localStorage.setItem(this.KEY, JSON.stringify(state));
-                return true;
-            } catch (error) {
-                console.error('Failed to save state:', error);
-                return false;
-            }
-        },
-        
-        load() {
-            try {
-                const saved = localStorage.getItem(this.KEY);
-                if (saved) {
-                    const parsed = JSON.parse(saved);
-                    
-                    // Merge with defaults, preserving important state
-                    AppState.operator = { ...AppState.operator, ...parsed.operator };
-                    AppState.session = { 
-                        ...AppState.session, 
-                        ...parsed.session,
-                        // Don't restore active session on load for safety
-                        active: false,
-                        paused: false,
-                        emergency: { triggered: false, lastStop: null, stopCount: 0 }
-                    };
-                    AppState.progress = { ...AppState.progress, ...parsed.progress };
-                    
-                    return true;
-                }
-            } catch (error) {
-                console.error('Failed to load state:', error);
-                // Clear corrupted state
-                localStorage.removeItem(this.KEY);
-            }
-            return false;
-        },
-        
-        clear() {
-            try {
-                localStorage.removeItem(this.KEY);
-                return true;
-            } catch (error) {
-                console.error('Failed to clear state:', error);
-                return false;
-            }
-        }
-    };
-
-    // =========================================================
-    // ENHANCED NOTIFICATION SYSTEM
-    // =========================================================
-    function showNotification(title, message, type = 'info', duration = 5000) {
-        const safeShow = withErrorHandling(function(title, message, type, duration) {
-            const container = document.getElementById('notificationContainer');
-            if (!container) return null;
-            
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.setAttribute('role', 'alert');
-            notification.setAttribute('aria-live', type === 'error' ? 'assertive' : 'polite');
-            
-            notification.innerHTML = `
-                <button class="notification-close" aria-label="Close notification">
-                    <i class="ri-close-line" aria-hidden="true"></i>
-                </button>
-                <div class="notification-title">${escapeHtml(title)}</div>
-                <div class="notification-message">${escapeHtml(message)}</div>
-            `;
-            
-            container.appendChild(notification);
-            
-            // Add close functionality
-            const closeBtn = notification.querySelector('.notification-close');
-            closeBtn.addEventListener('click', () => removeNotification(notification));
-            
-            // Auto-remove after duration
-            if (duration > 0) {
-                setTimeout(() => removeNotification(notification), duration);
-            }
-            
-            return notification;
-        }, 'Notification System');
-        
-        return safeShow(title, message, type, duration);
-    }
-    
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-    
-    function removeNotification(notification) {
-        if (notification && notification.parentElement) {
-            notification.style.animation = 'notification-slide-in 0.3s cubic-bezier(0.4, 0, 0.2, 1) reverse forwards';
-            setTimeout(() => {
-                if (notification.parentElement) {
-                    notification.remove();
-                }
-            }, 300);
-        }
-    }
-
-    // =========================================================
-    // ENHANCED TIME FORMATTING
-    // =========================================================
-    function formatTime(seconds) {
-        if (typeof seconds !== 'number' || isNaN(seconds)) {
-            return '00:00';
-        }
-        
-        const secs = Math.max(0, Math.floor(seconds));
-        const mins = Math.floor(secs / 60);
-        const remainingSecs = secs % 60;
-        
-        return `${mins.toString().padStart(2, '0')}:${remainingSecs.toString().padStart(2, '0')}`;
-    }
-
-    // =========================================================
-    // ENHANCED SYSTEM STATUS UPDATES
-    // =========================================================
-    function updateSystemStatus() {
-        const statusDot = document.getElementById('systemStatus');
-        const statusText = document.getElementById('statusText');
-        
-        if (!statusDot || !statusText) return;
-        
-        let status = 'Ready';
-        let color = 'var(--accent-yellow)';
-        let animation = 'pulse 2s infinite';
-        
-        if (AppState.emergency.triggered) {
-            status = 'EMERGENCY';
-            color = 'var(--accent-red)';
-            animation = 'blink 1s infinite';
-        } else if (AppState.session.active) {
-            if (AppState.session.paused) {
-                status = 'Paused';
-                color = 'var(--accent-yellow)';
-            } else {
-                status = 'Active';
-                color = 'var(--accent-green)';
-            }
-        } else if (AppState.session.authenticated) {
-            status = 'Ready';
-            color = 'var(--accent-teal)';
-        }
-        
-        // Apply styles
-        statusDot.style.background = color;
-        statusText.textContent = status;
-        statusText.style.color = color;
-        
-        // Handle reduced motion
-        if (document.body.classList.contains('reduced-motion')) {
-            statusDot.style.animation = 'none';
-        } else {
-            statusDot.style.animation = animation;
-        }
-    }
-
-    // =========================================================
-    // ENHANCED PAIN MONITORING
-    // =========================================================
-    class PainMonitor {
-        constructor() {
-            this.marker = document.getElementById('painMarker');
-            this.scale = document.getElementById('painScale');
-            this.currentValue = 0;
-            this.isDragging = false;
-            
-            this.init();
-        }
-        
-        init() {
-            if (!this.marker || !this.scale) return;
-            
-            // Mouse events
-            this.marker.addEventListener('mousedown', this.startDrag.bind(this));
-            document.addEventListener('mousemove', this.drag.bind(this));
-            document.addEventListener('mouseup', this.stopDrag.bind(this));
-            
-            // Touch events
-            this.marker.addEventListener('touchstart', this.startDrag.bind(this));
-            document.addEventListener('touchmove', this.drag.bind(this));
-            document.addEventListener('touchend', this.stopDrag.bind(this));
-            
-            // Keyboard support
-            this.marker.addEventListener('keydown', this.handleKeydown.bind(this));
-            this.marker.setAttribute('tabindex', '0');
-        }
-        
-        startDrag(e) {
-            e.preventDefault();
-            this.isDragging = true;
-            this.marker.classList.add('cursor-grabbing');
-        }
-        
-        drag(e) {
-            if (!this.isDragging) return;
-            
-            e.preventDefault();
-            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-            if (!clientX) return;
-            
-            const rect = this.scale.getBoundingClientRect();
-            let x = clientX - rect.left;
-            x = Math.max(0, Math.min(x, rect.width));
-            
-            const percentage = (x / rect.width) * 100;
-            this.setValue(percentage / 10);
-        }
-        
-        stopDrag() {
-            this.isDragging = false;
-            this.marker.classList.remove('cursor-grabbing');
-        }
-        
-        handleKeydown(e) {
-            const step = 0.5; // Half point increments
-            
-            switch(e.key) {
-                case 'ArrowLeft':
-                case 'ArrowDown':
-                    e.preventDefault();
-                    this.setValue(Math.max(0, this.currentValue - step));
-                    break;
-                case 'ArrowRight':
-                case 'ArrowUp':
-                    e.preventDefault();
-                    this.setValue(Math.min(10, this.currentValue + step));
-                    break;
-                case 'Home':
-                    e.preventDefault();
-                    this.setValue(0);
-                    break;
-                case 'End':
-                    e.preventDefault();
-                    this.setValue(10);
-                    break;
-            }
-        }
-        
-        setValue(value) {
-            this.currentValue = Math.round(value * 2) / 2; // Round to nearest 0.5
-            const percentage = this.currentValue * 10;
-            
-            // Update UI
-            this.marker.style.left = `${percentage}%`;
-            this.marker.textContent = this.currentValue.toFixed(1);
-            this.marker.setAttribute('aria-valuenow', this.currentValue);
-            
-            // Update app state
-            AppState.session.metrics.painIndex = this.currentValue;
-            
-            // Update other pain displays
-            document.getElementById('painValue').textContent = this.currentValue.toFixed(1);
-            document.getElementById('realTimePain').textContent = this.currentValue.toFixed(1);
-            document.getElementById('livePain').textContent = this.currentValue.toFixed(1);
-            
-            // Check pain threshold
-            this.checkThreshold();
-            
-            // Save state
-            StateManager.save();
-        }
-        
-        checkThreshold() {
-            const threshold = AppState.operator.profile.painThreshold;
-            const warning = document.getElementById('painWarning');
-            
-            if (this.currentValue >= threshold) {
-                warning.classList.remove('hidden');
-                if (this.currentValue >= 8) {
-                    showNotification('Severe Pain Alert', 
-                        `Pain level ${this.currentValue.toFixed(1)}/10 detected. Consider stopping.`, 
-                        'error');
-                }
-            } else {
-                warning.classList.add('hidden');
-            }
-        }
-    }
-
-    // =========================================================
-    // ENHANCED FORM VALIDATION
-    // =========================================================
-    class FormValidator {
-        static validateAuthentication(formData) {
-            const errors = [];
-            
-            if (!formData.operatorId?.trim()) {
-                errors.push('Operator ID is required');
-            } else if (formData.operatorId.length < 2) {
-                errors.push('Operator ID must be at least 2 characters');
-            }
-            
-            if (formData.securityCode && formData.securityCode.length < 3) {
-                errors.push('Security code must be at least 3 characters if provided');
-            }
-            
-            return {
-                isValid: errors.length === 0,
-                errors
-            };
-        }
-    }
-
-    // =========================================================
-    // ENHANCED CALM MODE TOGGLE
-    // =========================================================
-    class CalmModeManager {
-        constructor() {
-            this.KEY = "RehabCalmMode";
-            this.mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-            this.hasStoredPreference = false;
-            
-            this.init();
-        }
-        
-        init() {
-            this.loadPreference();
-            this.setupMediaQueryListener();
-            this.setupToggleButton();
-        }
-        
-        loadPreference() {
-            try {
-                const saved = localStorage.getItem(this.KEY);
-                if (saved !== null) {
-                    this.hasStoredPreference = true;
-                    this.apply(saved === "1");
-                } else {
-                    // No stored preference, use system preference
-                    this.apply(this.mediaQuery.matches, false);
-                }
-            } catch (e) {
-                console.error('Failed to load calm mode preference:', e);
-            }
-        }
-        
-        apply(enabled, persist = true) {
-            const shouldReduce = enabled || this.mediaQuery.matches;
-            
-            document.body.classList.toggle("calm", enabled);
-            document.body.classList.toggle("reduced-motion", shouldReduce);
-            
-            // Update button state
-            const btn = document.getElementById("calmToggleBtn");
-            const label = document.getElementById("calmToggleLabel");
-            
-            if (btn) {
-                btn.setAttribute("aria-pressed", enabled.toString());
-                btn.setAttribute("aria-label", enabled ? 
-                    "Calm mode on - reduced visuals and motion" : 
-                    "Pro mode on - full visuals and motion");
-                
-                btn.innerHTML = enabled ? 
-                    '<i class="ri-moon-clear-line" aria-hidden="true"></i>' : 
-                    '<i class="ri-sun-line" aria-hidden="true"></i>';
-            }
-            
-            if (label) {
-                label.textContent = enabled ? "Calm" : "Pro";
-            }
-            
-            // Persist if requested
-            if (persist && this.hasStoredPreference) {
-                try {
-                    localStorage.setItem(this.KEY, enabled ? "1" : "0");
-                } catch (e) {
-                    console.error('Failed to save calm mode preference:', e);
-                }
-            }
-            
-            // Update animations
-            this.updateAnimations(shouldReduce);
-        }
-        
-        toggle() {
-            const isCalm = document.body.classList.contains("calm");
-            this.apply(!isCalm);
-        }
-        
-        setupMediaQueryListener() {
-            this.mediaQuery.addEventListener('change', (e) => {
-                if (!this.hasStoredPreference) {
-                    this.apply(e.matches, false);
-                }
-            });
-        }
-        
-        setupToggleButton() {
-            const btn = document.getElementById("calmToggleBtn");
-            if (btn) {
-                btn.addEventListener('click', () => this.toggle());
-            }
-            
-            // Also connect other calm mode buttons
-            const calmButtons = document.querySelectorAll('[aria-label*="calm"], [title*="Calm"]');
-            calmButtons.forEach(button => {
-                if (button !== btn) {
-                    button.addEventListener('click', () => this.toggle());
-                }
-            });
-        }
-        
-        updateAnimations(shouldReduce) {
-            const elements = document.querySelectorAll('[style*="animation"], .status-dot');
-            elements.forEach(el => {
-                if (shouldReduce) {
-                    el.style.animationPlayState = 'paused';
-                } else {
-                    el.style.animationPlayState = 'running';
-                }
-            });
-        }
-    }
-
-    // =========================================================
-    // MISSION MANAGEMENT FUNCTIONS (MISSING FUNCTIONS ADDED)
-    // =========================================================
-
-    function beginMission() {
-        if (!AppState.session.authenticated) {
-            showNotification('Not Authenticated', 'Please complete authentication first', 'warning');
-            scrollToSection('phaseAuth');
-            return;
-        }
-        
-        // Hide bio phase, show mission phase
-        document.getElementById('phaseBio').classList.add('hidden');
-        document.getElementById('phaseMission').classList.remove('hidden');
-        
-        // Update app state
-        AppState.session.active = true;
-        AppState.session.paused = false;
-        AppState.session.phase = 3;
-        AppState.session.startTime = Date.now();
-        
-        // Start timer
-        startSessionTimer();
-        
-        // Update UI
-        updateSystemStatus();
-        refreshExperienceSummary();
-        loadExercises();
-        
-        // Show notification
-        showNotification('Session Started', 'Week 1 exercises loaded. Begin when ready.', 'success');
-        
-        // Save state
-        StateManager.save();
-        
-        // Scroll to mission section
-        setTimeout(() => {
-            document.getElementById('phaseMission').scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-    }
-
-    function pauseMission() {
-        if (!AppState.session.active) return;
-        
-        AppState.session.paused = !AppState.session.paused;
-        
-        if (AppState.session.paused) {
-            showNotification('Session Paused', 'Session paused. Resume when ready.', 'warning');
-            document.getElementById('pauseBtn').innerHTML = '<i class="ri-play-line" aria-hidden="true"></i> RESUME';
-        } else {
-            showNotification('Session Resumed', 'Session resumed. Continue your exercises.', 'success');
-            document.getElementById('pauseBtn').innerHTML = '<i class="ri-pause-line" aria-hidden="true"></i> PAUSE';
-        }
-        
-        updateSystemStatus();
-        refreshExperienceSummary();
-        StateManager.save();
-    }
-
-    function emergencyStop() {
-        if (!AppState.session.active) return;
-        
-        AppState.emergency.triggered = true;
-        AppState.session.active = false;
-        AppState.session.paused = false;
-        AppState.emergency.lastStop = Date.now();
-        AppState.emergency.stopCount++;
-        
-        // Show emergency notification
-        showNotification('EMERGENCY STOP', 'Session terminated for safety. Check pain levels.', 'error', 10000);
-        
-        // Update UI
-        updateSystemStatus();
-        refreshExperienceSummary();
-        
-        // Save state
-        StateManager.save();
-        
-        // Scroll to auth section for restart
-        setTimeout(() => {
-            scrollToSection('phaseAuth');
-        }, 2000);
-    }
-
-    function completeMission() {
-        if (!AppState.session.active) return;
-        
-        // Calculate session metrics
-        const endTime = Date.now();
-        const duration = Math.floor((endTime - AppState.session.startTime) / 1000);
-        
-        // Update progress
-        AppState.progress.totalSessions++;
-        AppState.progress.lastSession = new Date().toISOString();
-        
-        // Check for streak
-        const today = new Date().toDateString();
-        const lastSessionDate = AppState.progress.lastSession ? new Date(AppState.progress.lastSession).toDateString() : null;
-        
-        if (lastSessionDate === today) {
-            // Already logged today
-        } else if (!lastSessionDate || new Date(lastSessionDate).getTime() === new Date(today).getTime() - 86400000) {
-            AppState.progress.streak++;
-        } else {
-            AppState.progress.streak = 1;
-        }
-        
-        if (AppState.progress.streak > AppState.progress.longestStreak) {
-            AppState.progress.longestStreak = AppState.progress.streak;
-        }
-        
-        // End session
-        AppState.session.active = false;
-        AppState.session.paused = false;
-        AppState.session.phase = 4;
-        
-        // Update UI
-        document.getElementById('phaseMission').classList.add('hidden');
-        document.getElementById('phaseDebrief').classList.remove('hidden');
-        
-        // Set debrief values
-        document.getElementById('debriefTime').textContent = formatTime(duration);
-        document.getElementById('debriefExercises').textContent = AppState.session.completedExercises.length;
-        document.getElementById('debriefPain').textContent = AppState.session.metrics.avgPain.toFixed(1);
-        document.getElementById('debriefSuccess').textContent = `${Math.min(100, Math.floor((AppState.session.completedExercises.length / 12) * 100))}%`;
-        
-        // Show success notification
-        showNotification('Session Complete', `Great work! ${AppState.session.completedExercises.length} exercises completed.`, 'success');
-        
-        // Update status and save
-        updateSystemStatus();
-        refreshExperienceSummary();
-        StateManager.save();
-        
-        // Scroll to debrief
-        setTimeout(() => {
-            document.getElementById('phaseDebrief').scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-    }
-
-    function loadExercises() {
-        const exerciseContainer = document.getElementById('exerciseContainer');
-        const exercisePeek = document.getElementById('exercisePeek');
-        
-        if (!exerciseContainer || !exercisePeek) return;
-        
-        // Week 1 exercises
-        const exercises = [
-            {
-                id: 'single-leg-stand',
-                name: 'Single-Leg Stand',
-                description: 'Stand on one leg, other foot lightly off the floor',
-                duration: 10,
-                sets: 4,
-                reps: '2× each leg',
-                difficulty: 'basic',
-                completed: false
-            },
-            {
-                id: 'tandem-stand',
-                name: 'Feet in a Line (Tandem)',
-                description: 'Heel-to-toe stand',
-                duration: 10,
-                sets: 2,
-                reps: 'Switch lead foot',
-                difficulty: 'basic',
-                completed: false
-            },
-            {
-                id: 'side-stepping',
-                name: 'Side Stepping',
-                description: 'Side steps with balance',
-                duration: 30,
-                sets: 2,
-                reps: '5 steps each direction',
-                difficulty: 'basic',
-                completed: false
-            },
-            {
-                id: 'backward-walking',
-                name: 'Backward Walking',
-                description: 'Slow backward steps',
-                duration: 20,
-                sets: 2,
-                reps: '5 steps',
-                difficulty: 'basic',
-                completed: false
-            },
-            {
-                id: 'calf-raises',
-                name: 'Calf Raises',
-                description: 'Rise onto toes holding counter',
-                duration: 30,
-                sets: 1,
-                reps: '10 each leg',
-                difficulty: 'basic',
-                completed: false
-            },
-            {
-                id: 'marching-knees',
-                name: 'Marching Knees',
-                description: 'Lift one knee at a time',
-                duration: 30,
-                sets: 1,
-                reps: '10 total steps',
-                difficulty: 'basic',
-                completed: false
-            },
-            {
-                id: 'mini-squats',
-                name: 'Mini Squats',
-                description: 'Small knee bends',
-                duration: 30,
-                sets: 1,
-                reps: '8-10 times',
-                difficulty: 'basic',
-                completed: false
-            }
-        ];
-        
-        // Clear containers
-        exerciseContainer.innerHTML = '';
-        exercisePeek.innerHTML = '';
-        
-        // Load main exercise list
-        exercises.forEach((exercise, index) => {
-            const exerciseCard = document.createElement('div');
-            exerciseCard.className = `exercise-card ${exercise.completed ? 'completed' : ''}`;
-            exerciseCard.id = `exercise-${exercise.id}`;
-            
-            exerciseCard.innerHTML = `
-                <div class="exercise-header">
-                    <div class="exercise-title">${exercise.name}</div>
-                    <span class="exercise-difficulty">${exercise.difficulty}</span>
-                </div>
-                <div class="exercise-meta">
-                    <span><i class="ri-time-line"></i> ${exercise.duration}s</span>
-                    <span><i class="ri-repeat-line"></i> ${exercise.sets} sets</span>
-                    <span><i class="ri-run-line"></i> ${exercise.reps}</span>
-                </div>
-                <p>${exercise.description}</p>
-                <div class="exercise-stats">
-                    <div class="stat-item">
-                        <div class="stat-value">${exercise.duration}</div>
-                        <div class="stat-label">Seconds</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">${exercise.sets}</div>
-                        <div class="stat-label">Sets</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">${exercise.completed ? '✓' : '○'}</div>
-                        <div class="stat-label">Status</div>
-                    </div>
-                </div>
-                <div class="flex gap-3 mt-4">
-                    <button class="btn btn-primary btn-sm" onclick="startExercise('${exercise.id}')">
-                        <i class="ri-play-line"></i> Start
-                    </button>
-                    <button class="btn btn-secondary btn-sm" onclick="completeExercise('${exercise.id}')">
-                        <i class="ri-check-line"></i> Mark Done
-                    </button>
-                    <button class="btn btn-outline btn-sm" onclick="skipExercise('${exercise.id}')">
-                        <i class="ri-skip-forward-line"></i> Skip
-                    </button>
-                </div>
-            `;
-            
-            exerciseContainer.appendChild(exerciseCard);
-            
-            // Add to peek view (first 3 exercises)
-            if (index < 3) {
-                const peekCard = document.createElement('div');
-                peekCard.className = `peek-card ${exercise.completed ? 'done' : ''}`;
-                
-                peekCard.innerHTML = `
-                    <div class="peek-head">
-                        <div class="peek-name">${exercise.name}</div>
-                        <span class="peek-chip">${exercise.duration}s</span>
-                    </div>
-                    <div class="peek-meta">${exercise.sets} sets · ${exercise.reps}</div>
-                    <div class="peek-actions">
-                        <button class="btn btn-primary btn-sm" onclick="startExercise('${exercise.id}')">
-                            <i class="ri-play-line"></i>
-                        </button>
-                        <button class="btn btn-secondary btn-sm" onclick="completeExercise('${exercise.id}')">
-                            <i class="ri-check-line"></i>
-                        </button>
-                    </div>
-                `;
-                
-                exercisePeek.appendChild(peekCard);
-            }
-        });
-        
-        // Update quick exercise display
-        if (exercises.length > 0) {
-            const firstExercise = exercises[0];
-            document.getElementById('quickExerciseName').textContent = firstExercise.name;
-            document.getElementById('quickExerciseMeta').textContent = `${firstExercise.duration}s · ${firstExercise.sets} sets · ${firstExercise.difficulty}`;
-            document.getElementById('dockExerciseName').textContent = firstExercise.name;
-            document.getElementById('dockExerciseMeta').textContent = `${firstExercise.duration}s · ${firstExercise.sets} sets · ${firstExercise.difficulty}`;
-        }
-    }
-
-    function startExercise(exerciseId) {
-        const exerciseCard = document.getElementById(`exercise-${exerciseId}`);
-        if (!exerciseCard) return;
-        
-        // Find exercise data
-        const exerciseName = exerciseCard.querySelector('.exercise-title').textContent;
-        
-        // Update UI
-        document.getElementById('dockExerciseName').textContent = exerciseName;
-        document.getElementById('quickExerciseName').textContent = exerciseName;
-        
-        // Show notification
-        showNotification('Exercise Started', `Starting ${exerciseName}. Focus on form and breathing.`, 'info');
-        
-        // Set as current exercise
-        AppState.session.currentExercise = exerciseId;
-        StateManager.save();
-    }
-
-    function completeExercise(exerciseId) {
-        const exerciseCard = document.getElementById(`exercise-${exerciseId}`);
-        if (!exerciseCard) return;
-        
-        // Mark as completed
-        exerciseCard.classList.add('completed');
-        
-        // Update completed exercises
-        if (!AppState.session.completedExercises.includes(exerciseId)) {
-            AppState.session.completedExercises.push(exerciseId);
-        }
-        
-        // Update UI
-        document.getElementById('completedExercises').textContent = AppState.session.completedExercises.length;
-        document.getElementById('dockExerciseCount').textContent = `${AppState.session.completedExercises.length}/7 done`;
-        document.getElementById('quickExerciseCount').textContent = `${AppState.session.completedExercises.length}/7 done`;
-        
-        // Update quick exercise to next uncompleted exercise
-        const nextExercise = document.querySelector('.exercise-card:not(.completed)');
-        if (nextExercise) {
-            const nextName = nextExercise.querySelector('.exercise-title').textContent;
-            document.getElementById('quickExerciseName').textContent = nextName;
-        }
-        
-        // Show notification
-        showNotification('Exercise Complete', 'Great work! Move to next exercise when ready.', 'success');
-        
-        // Save state
-        StateManager.save();
-        
-        // Check if all exercises are done
-        if (AppState.session.completedExercises.length >= 7) {
-            setTimeout(() => {
-                showNotification('All Exercises Complete', 'All Week 1 exercises completed! Ready for session summary.', 'success');
-            }, 1000);
-        }
-    }
-
-    function skipExercise(exerciseId) {
-        showNotification('Exercise Skipped', 'Exercise skipped. Move to next when ready.', 'warning');
-        
-        // Mark as completed but skipped
-        if (!AppState.session.completedExercises.includes(exerciseId)) {
-            AppState.session.completedExercises.push(exerciseId);
-            document.getElementById('completedExercises').textContent = AppState.session.completedExercises.length;
-        }
-        
-        StateManager.save();
-    }
-
-    function quickStartExercise() {
-        // Find first uncompleted exercise
-        const firstExercise = document.querySelector('.exercise-card:not(.completed)');
-        if (firstExercise) {
-            const exerciseId = firstExercise.id.replace('exercise-', '');
-            startExercise(exerciseId);
-        } else {
-            showNotification('All Exercises Complete', 'All exercises are already completed!', 'info');
-        }
-    }
-
-    function startSessionTimer() {
-        if (!AppState.session.active || AppState.session.paused) return;
-        
-        const timerElement = document.getElementById('missionTimer');
-        const timeElapsedElement = document.getElementById('timeElapsed');
-        
-        if (!timerElement || !timeElapsedElement) return;
-        
-        const updateTimer = () => {
-            if (!AppState.session.active || AppState.session.paused) return;
-            
-            const now = Date.now();
-            const elapsed = Math.floor((now - AppState.session.startTime) / 1000);
-            const remaining = Math.max(0, AppState.session.totalTime - elapsed);
-            
-            AppState.session.elapsedTime = elapsed;
-            
-            // Update timer displays
-            timerElement.textContent = formatTime(remaining);
-            timeElapsedElement.textContent = formatTime(elapsed);
-            
-            // Update success rate (decreases slightly over time to simulate reality)
-            const successRate = Math.max(70, 100 - Math.floor(elapsed / 60));
-            document.getElementById('successRate').textContent = `${successRate}%`;
-            
-            // Auto-complete after time is up
-            if (remaining <= 0) {
-                completeMission();
-                return;
-            }
-            
-            // Schedule next update
-            setTimeout(updateTimer, 1000);
-        };
-        
-        updateTimer();
-    }
-
-    // =========================================================
-    // HELPER FUNCTIONS
-    // =========================================================
-
-    function scrollToSection(sectionId) {
-        const section = document.getElementById(sectionId);
-        if (section) {
-            section.scrollIntoView({ behavior: 'smooth' });
-        }
-    }
-
-    function handlePrimaryNavAction() {
-        if (!AppState.session.authenticated) {
-            scrollToSection('phaseAuth');
-            showNotification('Authentication Required', 'Please sign in first', 'info');
-        } else if (!AppState.session.active) {
-            beginMission();
-        } else if (AppState.session.paused) {
-            pauseMission();
-        } else {
-            scrollToSection('phaseMission');
-        }
-    }
-
-    function refreshExperienceSummary() {
-        // Update all summary displays based on current state
-        const elements = {
-            summaryProfile: AppState.operator.profile.intensity,
-            summaryStreak: `${AppState.progress.streak} days`,
-            summarySessions: AppState.progress.totalSessions,
-            summaryPainLimit: `${AppState.operator.profile.painThreshold}/10`,
-            summaryPainBaseline: `${AppState.session.metrics.painIndex.toFixed(1)}/10`,
-            summaryReadinessValue: `${Math.round(AppState.session.metrics.readiness)}%`,
-            summaryPainBadge: `${AppState.session.metrics.painIndex.toFixed(1)}/10`,
-            summaryFatigue: `${Math.round(AppState.session.metrics.fatigue)}%`
-        };
-        
-        Object.entries(elements).forEach(([id, value]) => {
-            const el = document.getElementById(id);
-            if (el) el.textContent = value;
-        });
-        
-        // Update mobile displays
-        const mobileElements = {
-            mobileReadinessValue: `${Math.round(AppState.session.metrics.readiness)}%`,
-            mobilePainValue: `${AppState.session.metrics.painIndex.toFixed(1)}/10`,
-            mobileFatigueValue: `${Math.round(AppState.session.metrics.fatigue)}%`
-        };
-        
-        Object.entries(mobileElements).forEach(([id, value]) => {
-            const el = document.getElementById(id);
-            if (el) el.textContent = value;
-        });
-        
-        // Update session state
-        const sessionState = AppState.session.active ? 
-            (AppState.session.paused ? 'Paused' : 'Active') : 
-            (AppState.session.authenticated ? 'Ready' : 'Prep');
-        
-        const stateElements = [
-            'navSessionState',
-            'sessionStateText',
-            'mobileStatusPill',
-            'dockStatusLabel'
-        ];
-        
-        stateElements.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.textContent = sessionState;
-        });
-        
-        // Update action button text
-        const primaryActionBtn = document.getElementById('navPrimaryAction');
-        const mobileActionBtn = document.getElementById('mobilePrimaryAction');
-        const dockActionBtn = document.getElementById('dockPrimaryAction');
-        const heroActionBtn = document.getElementById('heroPrimaryCta');
-        
-        let actionText = 'Start session';
-        let actionIcon = 'ri-play-line';
-        
-        if (AppState.session.active) {
-            if (AppState.session.paused) {
-                actionText = 'Resume session';
-                actionIcon = 'ri-play-line';
-            } else {
-                actionText = 'Pause session';
-                actionIcon = 'ri-pause-line';
-            }
-        } else if (AppState.session.authenticated) {
-            actionText = 'Begin session';
-            actionIcon = 'ri-rocket-line';
-        }
-        
-        [primaryActionBtn, mobileActionBtn, dockActionBtn, heroActionBtn].forEach(btn => {
-            if (btn) {
-                btn.innerHTML = `<i class="${actionIcon}" aria-hidden="true"></i> ${actionText}`;
-            }
-        });
-    }
-
-    // =========================================================
-    // ENHANCED INITIALIZATION
-    // =========================================================
-    document.addEventListener('DOMContentLoaded', () => {
-        // Initialize managers
-        const calmModeManager = new CalmModeManager();
-        const painMonitor = new PainMonitor();
-        
-        // Load saved state
-        if (StateManager.load()) {
-            showNotification('System Ready', 'Previous session loaded successfully', 'success', 3000);
-        }
-        
-        // Update initial displays
-        updateSystemTime();
-        updateSystemStatus();
-        refreshExperienceSummary();
-        
-        // Setup authentication form
-        const authForm = document.getElementById('authForm');
-        if (authForm) {
-            authForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                authenticateOperator();
-            });
-        }
-        
-        // Setup baseline pain slider
-        const baselinePain = document.getElementById('baselinePain');
-        if (baselinePain) {
-            baselinePain.addEventListener('input', function() {
-                const value = parseInt(this.value);
-                document.getElementById('painValue').textContent = value;
-                
-                // Update fatigue based on pain
-                const fatigue = Math.min(100, value * 15);
-                document.getElementById('fatigueBar').style.width = `${fatigue}%`;
-                document.getElementById('fatigueValue').textContent = `${fatigue}%`;
-                
-                // Update readiness
-                const readiness = Math.max(0, 100 - (value * 10) - (fatigue * 0.5));
-                document.getElementById('readinessScore').textContent = `${Math.round(readiness)}%`;
-                
-                // Update readiness ring
-                const readinessRing = document.getElementById('readinessRing');
-                if (readinessRing) {
-                    const circumference = 2 * Math.PI * 60;
-                    const offset = circumference - (readiness / 100) * circumference;
-                    readinessRing.style.strokeDashoffset = offset;
-                }
-                
-                // Update pain marker
-                if (painMonitor.marker) {
-                    painMonitor.setValue(value);
-                }
-                
-                // Update app state
-                AppState.session.metrics.painIndex = value;
-                AppState.session.metrics.fatigue = fatigue;
-                AppState.session.metrics.readiness = readiness;
-            });
-        }
-        
-        // Setup keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            // Space to pause/resume
-            if (e.code === 'Space' && AppState.session.active) {
-                e.preventDefault();
-                pauseMission();
-            }
-            
-            // Escape for emergency stop
-            if (e.code === 'Escape' && AppState.session.active) {
-                emergencyStop();
-            }
-            
-            // Ctrl/Cmd + S to save
-            if ((e.ctrlKey || e.metaKey) && e.code === 'KeyS') {
-                e.preventDefault();
-                if (StateManager.save()) {
-                    showNotification('Auto-Save', 'Progress saved successfully', 'success', 2000);
-                }
-            }
-        });
-        
-        // Handle page visibility changes
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                // Page is hidden, pause intensive operations
-                if (AppState.session.active && !AppState.session.paused) {
-                    showNotification('Session Paused', 'Session auto-paused while tab is hidden', 'warning');
-                    AppState.session.paused = true;
-                    updateSystemStatus();
-                }
-            }
-        });
-        
-        // Initialize clock
-        setInterval(updateSystemTime, 1000);
-        
-        // Setup navigation buttons
-        document.querySelectorAll('.nav-link, .step-card, .btn[onclick*="scrollToSection"]').forEach(btn => {
-            if (btn.onclick) return; // Already has handler
-            
-            const sectionMatch = btn.textContent.match(/sign in|readiness|exercises|summary|auth|bio|mission|debrief/i);
-            if (sectionMatch) {
-                const sectionMap = {
-                    'sign in': 'phaseAuth',
-                    'auth': 'phaseAuth',
-                    'readiness': 'phaseBio',
-                    'bio': 'phaseBio',
-                    'exercises': 'phaseMission',
-                    'mission': 'phaseMission',
-                    'summary': 'phaseDebrief',
-                    'debrief': 'phaseDebrief'
-                };
-                
-                const section = sectionMap[sectionMatch[0].toLowerCase()];
-                if (section) {
-                    btn.addEventListener('click', () => scrollToSection(section));
-                }
-            }
-        });
-        
-        console.log('🚀 Rehab Session Pro v4.1 - Enhanced & Accessible');
-        console.log('Features: Enhanced accessibility, error handling, state management');
-        console.log('Mission functions loaded: beginMission, pauseMission, emergencyStop, completeMission');
-    });
-
-    // =========================================================
-    // AUTHENTICATION FUNCTION
-    // =========================================================
-    function authenticateOperator() {
-        const formData = {
-            operatorId: document.getElementById('operatorId').value.trim(),
-            securityCode: document.getElementById('securityCode').value.trim(),
-            missionProfile: document.getElementById('missionProfile').value
-        };
-        
-        const validation = FormValidator.validateAuthentication(formData);
-        if (!validation.isValid) {
-            showNotification('Authentication Failed', validation.errors.join('\n'), 'error');
-            return;
-        }
-        
-        // Update app state
-        AppState.operator.id = formData.operatorId.toUpperCase();
-        AppState.operator.clearance = formData.securityCode;
-        AppState.operator.profile.intensity = formData.missionProfile;
-        AppState.session.authenticated = true;
-        
-        // Update UI
-        document.getElementById('operatorName').textContent = `Patient: ${formData.operatorId}`;
-        document.getElementById('briefOperator').textContent = formData.operatorId;
-        document.getElementById('missionName').textContent = `Rehab Session - ${formData.missionProfile}`;
-        document.getElementById('sessionPatient').textContent = formData.operatorId;
-        
-        // Update phase states
-        document.getElementById('stepAuthState').textContent = 'Done';
-        document.getElementById('stepBioState').textContent = 'Ready';
-        document.getElementById('mobileAuthState').textContent = 'Done';
-        document.getElementById('mobileReadinessState').textContent = 'Ready';
-        
-        // Show next phase
-        document.getElementById('phaseAuth').classList.add('hidden');
-        document.getElementById('phaseBio').classList.remove('hidden');
-        
-        // Update status and save
-        updateSystemStatus();
-        refreshExperienceSummary();
-        StateManager.save();
-        
-        showNotification('Authentication Successful', 
-            `Welcome back, ${formData.operatorId}. Ready for readiness check.`, 
-            'success');
-        
-        // Scroll to bio phase
-        setTimeout(() => {
-            document.getElementById('phaseBio').scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-    }
-
-    function updateSystemTime() {
-        const now = new Date();
-        const timeString = now.toLocaleTimeString('en-US', { 
-            hour12: false,
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        });
-        
-        const timeElements = [
-            document.getElementById('currentTime'),
-            document.getElementById('sessionClockValue'),
-            document.getElementById('mobileClockValue')
-        ];
-        
-        timeElements.forEach(el => {
-            if (el) {
-                el.textContent = timeString;
-                el.setAttribute('datetime', now.toISOString());
-            }
-        });
-    }
-
-    // =========================================================
-    // EXPORT FUNCTIONS TO GLOBAL SCOPE
-    // =========================================================
-    window.authenticateOperator = authenticateOperator;
-    window.beginMission = withErrorHandling(beginMission, 'Begin Mission');
-    window.pauseMission = withErrorHandling(pauseMission, 'Pause Mission');
-    window.emergencyStop = withErrorHandling(emergencyStop, 'Emergency Stop');
-    window.completeMission = withErrorHandling(completeMission, 'Complete Mission');
-    window.showNotification = showNotification;
-    window.scrollToSection = scrollToSection;
-    window.handlePrimaryNavAction = handlePrimaryNavAction;
-    window.quickStartExercise = quickStartExercise;
-    window.startExercise = startExercise;
-    window.completeExercise = completeExercise;
-    window.skipExercise = skipExercise;
-    
-    // Calm mode toggle
-    window.toggleCalmMode = () => {
-        const calmModeManager = new CalmModeManager();
-        calmModeManager.toggle();
-    };
-</script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -3895,803 +2609,1289 @@
         </div>
     </div>
     
+    
     <script>
-        // =========================================================
-        // ENHANCED APPLICATION STATE WITH ERROR HANDLING
-        // =========================================================
-        const AppState = {
-            version: '4.1',
-            operator: {
-                id: 'MARVIN',
-                clearance: 'Rehab_RISING',
-                biometrics: {
-                    faceRegistered: true,
-                    voiceRegistered: true,
-                    motionRegistered: false
-                },
-                profile: {
-                    name: 'MARVIN',
-                    injury: 'BALANCE',
-                    intensity: 'STANDARD',
-                    support: 'MINIMAL',
-                    sessionsPerWeek: 5,
-                    painThreshold: 7,
-                    motivation: 'I WILL RECLAIM MY MOBILITY. I WILL NOT BE DEFEATED.',
-                    customExercises: [],
-                    privacy: {
-                        shareTherapist: true,
-                        allowAI: true,
-                        anonymousResearch: false
-                    }
+    // =========================================================
+    // ENHANCED APPLICATION STATE WITH ERROR HANDLING
+    // =========================================================
+    const AppState = {
+        version: '4.1',
+        operator: {
+            id: 'MARVIN',
+            clearance: 'Rehab_RISING',
+            biometrics: {
+                faceRegistered: true,
+                voiceRegistered: true,
+                motionRegistered: false
+            },
+            profile: {
+                name: 'MARVIN',
+                injury: 'BALANCE',
+                intensity: 'STANDARD',
+                support: 'MINIMAL',
+                sessionsPerWeek: 5,
+                painThreshold: 7,
+                motivation: 'I WILL RECLAIM MY MOBILITY. I WILL NOT BE DEFEATED.',
+                customExercises: [],
+                privacy: {
+                    shareTherapist: true,
+                    allowAI: true,
+                    anonymousResearch: false
                 }
-            },
-            session: {
-                active: false,
-                phase: 1,
-                startTime: null,
-                elapsedTime: 0,
-                totalTime: 15 * 60,
-                paused: false,
-                authenticated: false,
-                completedExercises: [],
-                currentExercise: null,
-                painHistory: [],
-                notes: '',
-                metrics: {
-                    painIndex: 0,
-                    fatigue: 0,
-                    readiness: 100,
-                    stability: 100,
-                    startPain: 0,
-                    avgPain: 0,
-                    maxPain: 0
-                }
-            },
-            progress: {
-                totalSessions: 0,
-                streak: 0,
-                longestStreak: 0,
-                lastSession: null,
-                phasesCompleted: [],
-                bestTimes: {},
-                achievements: []
-            },
-            emergency: {
-                triggered: false,
-                lastStop: null,
-                stopCount: 0
+            }
+        },
+        session: {
+            active: false,
+            phase: 1,
+            startTime: null,
+            elapsedTime: 0,
+            totalTime: 15 * 60,
+            paused: false,
+            authenticated: false,
+            completedExercises: [],
+            currentExercise: null,
+            painHistory: [],
+            notes: '',
+            metrics: {
+                painIndex: 0,
+                fatigue: 0,
+                readiness: 100,
+                stability: 100,
+                startPain: 0,
+                avgPain: 0,
+                maxPain: 0
+            }
+        },
+        progress: {
+            totalSessions: 0,
+            streak: 0,
+            longestStreak: 0,
+            lastSession: null,
+            phasesCompleted: [],
+            bestTimes: {},
+            achievements: []
+        },
+        emergency: {
+            triggered: false,
+            lastStop: null,
+            stopCount: 0
+        }
+    };
+
+    // =========================================================
+    // ENHANCED ERROR HANDLING
+    // =========================================================
+    class RehabError extends Error {
+        constructor(message, context = 'Unknown') {
+            super(message);
+            this.name = 'RehabError';
+            this.context = context;
+            this.timestamp = new Date().toISOString();
+        }
+        
+        log() {
+            console.error(`[${this.timestamp}] RehabError in ${this.context}:`, this.message);
+            return this;
+        }
+    }
+
+    function withErrorHandling(fn, context = 'Unknown') {
+        return function(...args) {
+            try {
+                return fn.apply(this, args);
+            } catch (error) {
+                const rehabError = new RehabError(
+                    error.message || 'Unknown error occurred',
+                    context
+                ).log();
+                
+                showNotification(
+                    'Application Error',
+                    `Something went wrong in ${context}. Please try again.`,
+                    'error'
+                );
+                
+                // Return safe fallback
+                return null;
             }
         };
+    }
 
-        // =========================================================
-        // ENHANCED ERROR HANDLING
-        // =========================================================
-        class RehabError extends Error {
-            constructor(message, context = 'Unknown') {
-                super(message);
-                this.name = 'RehabError';
-                this.context = context;
-                this.timestamp = new Date().toISOString();
+    // =========================================================
+    // ENHANCED STATE MANAGEMENT
+    // =========================================================
+    const StateManager = {
+        KEY: 'RehabSessionPro_State_v4',
+        
+        save() {
+            try {
+                const state = {
+                    ...AppState,
+                    lastSaved: new Date().toISOString()
+                };
+                localStorage.setItem(this.KEY, JSON.stringify(state));
+                return true;
+            } catch (error) {
+                console.error('Failed to save state:', error);
+                return false;
             }
-            
-            log() {
-                console.error(`[${this.timestamp}] RehabError in ${this.context}:`, this.message);
-                return this;
+        },
+        
+        load() {
+            try {
+                const saved = localStorage.getItem(this.KEY);
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    
+                    // Merge with defaults, preserving important state
+                    AppState.operator = { ...AppState.operator, ...parsed.operator };
+                    AppState.session = { 
+                        ...AppState.session, 
+                        ...parsed.session,
+                        // Don't restore active session on load for safety
+                        active: false,
+                        paused: false,
+                        emergency: { triggered: false, lastStop: null, stopCount: 0 }
+                    };
+                    AppState.progress = { ...AppState.progress, ...parsed.progress };
+                    
+                    return true;
+                }
+            } catch (error) {
+                console.error('Failed to load state:', error);
+                // Clear corrupted state
+                localStorage.removeItem(this.KEY);
+            }
+            return false;
+        },
+        
+        clear() {
+            try {
+                localStorage.removeItem(this.KEY);
+                return true;
+            } catch (error) {
+                console.error('Failed to clear state:', error);
+                return false;
             }
         }
+    };
 
-        function withErrorHandling(fn, context = 'Unknown') {
-            return function(...args) {
-                try {
-                    return fn.apply(this, args);
-                } catch (error) {
-                    const rehabError = new RehabError(
-                        error.message || 'Unknown error occurred',
-                        context
-                    ).log();
-                    
-                    showNotification(
-                        'Application Error',
-                        `Something went wrong in ${context}. Please try again.`,
-                        'error'
-                    );
-                    
-                    // Return safe fallback
-                    return null;
+    // =========================================================
+    // ENHANCED NOTIFICATION SYSTEM
+    // =========================================================
+    function showNotification(title, message, type = 'info', duration = 5000) {
+        const container = document.getElementById('notificationContainer');
+        if (!container) return null;
+        
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.setAttribute('role', 'alert');
+        notification.setAttribute('aria-live', type === 'error' ? 'assertive' : 'polite');
+        
+        notification.innerHTML = `
+            <button class="notification-close" aria-label="Close notification">
+                <i class="ri-close-line" aria-hidden="true"></i>
+            </button>
+            <div class="notification-title">${escapeHtml(title)}</div>
+            <div class="notification-message">${escapeHtml(message)}</div>
+        `;
+        
+        container.appendChild(notification);
+        
+        // Add close functionality
+        const closeBtn = notification.querySelector('.notification-close');
+        closeBtn.addEventListener('click', () => removeNotification(notification));
+        
+        // Auto-remove after duration
+        if (duration > 0) {
+            setTimeout(() => removeNotification(notification), duration);
+        }
+        
+        return notification;
+    }
+    
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    function removeNotification(notification) {
+        if (notification && notification.parentElement) {
+            notification.style.animation = 'notification-slide-in 0.3s cubic-bezier(0.4, 0, 0.2, 1) reverse forwards';
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
                 }
+            }, 300);
+        }
+    }
+
+    // =========================================================
+    // ENHANCED TIME FORMATTING
+    // =========================================================
+    function formatTime(seconds) {
+        if (typeof seconds !== 'number' || isNaN(seconds)) {
+            return '00:00';
+        }
+        
+        const secs = Math.max(0, Math.floor(seconds));
+        const mins = Math.floor(secs / 60);
+        const remainingSecs = secs % 60;
+        
+        return `${mins.toString().padStart(2, '0')}:${remainingSecs.toString().padStart(2, '0')}`;
+    }
+
+    // =========================================================
+    // ENHANCED SYSTEM STATUS UPDATES
+    // =========================================================
+    function updateSystemStatus() {
+        const statusDot = document.getElementById('systemStatus');
+        const statusText = document.getElementById('statusText');
+        
+        if (!statusDot || !statusText) return;
+        
+        let status = 'Ready';
+        let color = 'var(--accent-yellow)';
+        let animation = 'pulse 2s infinite';
+        
+        if (AppState.emergency.triggered) {
+            status = 'EMERGENCY';
+            color = 'var(--accent-red)';
+            animation = 'blink 1s infinite';
+        } else if (AppState.session.active) {
+            if (AppState.session.paused) {
+                status = 'Paused';
+                color = 'var(--accent-yellow)';
+            } else {
+                status = 'Active';
+                color = 'var(--accent-green)';
+            }
+        } else if (AppState.session.authenticated) {
+            status = 'Ready';
+            color = 'var(--accent-teal)';
+        }
+        
+        // Apply styles
+        statusDot.style.background = color;
+        statusText.textContent = status;
+        statusText.style.color = color;
+        
+        // Handle reduced motion
+        if (document.body.classList.contains('reduced-motion')) {
+            statusDot.style.animation = 'none';
+        } else {
+            statusDot.style.animation = animation;
+        }
+    }
+
+    // =========================================================
+    // ENHANCED PAIN MONITORING
+    // =========================================================
+    class PainMonitor {
+        constructor() {
+            this.marker = document.getElementById('painMarker');
+            this.scale = document.getElementById('painScale');
+            this.currentValue = 0;
+            this.isDragging = false;
+            
+            this.init();
+        }
+        
+        init() {
+            if (!this.marker || !this.scale) return;
+            
+            // Mouse events
+            this.marker.addEventListener('mousedown', this.startDrag.bind(this));
+            document.addEventListener('mousemove', this.drag.bind(this));
+            document.addEventListener('mouseup', this.stopDrag.bind(this));
+            
+            // Touch events
+            this.marker.addEventListener('touchstart', this.startDrag.bind(this));
+            document.addEventListener('touchmove', this.drag.bind(this));
+            document.addEventListener('touchend', this.stopDrag.bind(this));
+            
+            // Keyboard support
+            this.marker.addEventListener('keydown', this.handleKeydown.bind(this));
+            this.marker.setAttribute('tabindex', '0');
+        }
+        
+        startDrag(e) {
+            e.preventDefault();
+            this.isDragging = true;
+            this.marker.classList.add('cursor-grabbing');
+        }
+        
+        drag(e) {
+            if (!this.isDragging) return;
+            
+            e.preventDefault();
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            if (!clientX) return;
+            
+            const rect = this.scale.getBoundingClientRect();
+            let x = clientX - rect.left;
+            x = Math.max(0, Math.min(x, rect.width));
+            
+            const percentage = (x / rect.width) * 100;
+            this.setValue(percentage / 10);
+        }
+        
+        stopDrag() {
+            this.isDragging = false;
+            this.marker.classList.remove('cursor-grabbing');
+        }
+        
+        handleKeydown(e) {
+            const step = 0.5; // Half point increments
+            
+            switch(e.key) {
+                case 'ArrowLeft':
+                case 'ArrowDown':
+                    e.preventDefault();
+                    this.setValue(Math.max(0, this.currentValue - step));
+                    break;
+                case 'ArrowRight':
+                case 'ArrowUp':
+                    e.preventDefault();
+                    this.setValue(Math.min(10, this.currentValue + step));
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    this.setValue(0);
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    this.setValue(10);
+                    break;
+            }
+        }
+        
+        setValue(value) {
+            this.currentValue = Math.round(value * 2) / 2; // Round to nearest 0.5
+            const percentage = this.currentValue * 10;
+            
+            // Update UI
+            this.marker.style.left = `${percentage}%`;
+            this.marker.textContent = this.currentValue.toFixed(1);
+            this.marker.setAttribute('aria-valuenow', this.currentValue);
+            
+            // Update app state
+            AppState.session.metrics.painIndex = this.currentValue;
+            
+            // Update other pain displays
+            document.getElementById('painValue').textContent = this.currentValue.toFixed(1);
+            document.getElementById('realTimePain').textContent = this.currentValue.toFixed(1);
+            document.getElementById('livePain').textContent = this.currentValue.toFixed(1);
+            
+            // Check pain threshold
+            this.checkThreshold();
+            
+            // Save state
+            StateManager.save();
+        }
+        
+        checkThreshold() {
+            const threshold = AppState.operator.profile.painThreshold;
+            const warning = document.getElementById('painWarning');
+            
+            if (this.currentValue >= threshold) {
+                warning.classList.remove('hidden');
+                if (this.currentValue >= 8) {
+                    showNotification('Severe Pain Alert', 
+                        `Pain level ${this.currentValue.toFixed(1)}/10 detected. Consider stopping.`, 
+                        'error');
+                }
+            } else {
+                warning.classList.add('hidden');
+            }
+        }
+    }
+
+    // =========================================================
+    // ENHANCED FORM VALIDATION
+    // =========================================================
+    class FormValidator {
+        static validateAuthentication(formData) {
+            const errors = [];
+            
+            if (!formData.operatorId?.trim()) {
+                errors.push('Operator ID is required');
+            } else if (formData.operatorId.length < 2) {
+                errors.push('Operator ID must be at least 2 characters');
+            }
+            
+            if (formData.securityCode && formData.securityCode.length < 3) {
+                errors.push('Security code must be at least 3 characters if provided');
+            }
+            
+            return {
+                isValid: errors.length === 0,
+                errors
             };
         }
+    }
 
-        // =========================================================
-        // ENHANCED STATE MANAGEMENT
-        // =========================================================
-        const StateManager = {
-            KEY: 'RehabSessionPro_State_v4',
+    // =========================================================
+    // ENHANCED CALM MODE TOGGLE
+    // =========================================================
+    class CalmModeManager {
+        constructor() {
+            this.KEY = "RehabCalmMode";
+            this.mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+            this.hasStoredPreference = false;
             
-            save() {
-                try {
-                    const state = {
-                        ...AppState,
-                        lastSaved: new Date().toISOString()
-                    };
-                    localStorage.setItem(this.KEY, JSON.stringify(state));
-                    return true;
-                } catch (error) {
-                    console.error('Failed to save state:', error);
-                    return false;
+            this.init();
+        }
+        
+        init() {
+            this.loadPreference();
+            this.setupMediaQueryListener();
+            this.setupToggleButton();
+        }
+        
+        loadPreference() {
+            try {
+                const saved = localStorage.getItem(this.KEY);
+                if (saved !== null) {
+                    this.hasStoredPreference = true;
+                    this.apply(saved === "1");
+                } else {
+                    // No stored preference, use system preference
+                    this.apply(this.mediaQuery.matches, false);
                 }
-            },
+            } catch (e) {
+                console.error('Failed to load calm mode preference:', e);
+            }
+        }
+        
+        apply(enabled, persist = true) {
+            const shouldReduce = enabled || this.mediaQuery.matches;
             
-            load() {
-                try {
-                    const saved = localStorage.getItem(this.KEY);
-                    if (saved) {
-                        const parsed = JSON.parse(saved);
-                        
-                        // Merge with defaults, preserving important state
-                        AppState.operator = { ...AppState.operator, ...parsed.operator };
-                        AppState.session = { 
-                            ...AppState.session, 
-                            ...parsed.session,
-                            // Don't restore active session on load for safety
-                            active: false,
-                            paused: false,
-                            emergency: { triggered: false, lastStop: null, stopCount: 0 }
-                        };
-                        AppState.progress = { ...AppState.progress, ...parsed.progress };
-                        
-                        return true;
-                    }
-                } catch (error) {
-                    console.error('Failed to load state:', error);
-                    // Clear corrupted state
-                    localStorage.removeItem(this.KEY);
-                }
-                return false;
-            },
+            document.body.classList.toggle("calm", enabled);
+            document.body.classList.toggle("reduced-motion", shouldReduce);
             
-            clear() {
+            // Update button state
+            const btn = document.getElementById("calmToggleBtn");
+            const label = document.getElementById("calmToggleLabel");
+            
+            if (btn) {
+                btn.setAttribute("aria-pressed", enabled.toString());
+                btn.setAttribute("aria-label", enabled ? 
+                    "Calm mode on - reduced visuals and motion" : 
+                    "Pro mode on - full visuals and motion");
+                
+                btn.innerHTML = enabled ? 
+                    '<i class="ri-moon-clear-line" aria-hidden="true"></i>' : 
+                    '<i class="ri-sun-line" aria-hidden="true"></i>';
+            }
+            
+            if (label) {
+                label.textContent = enabled ? "Calm" : "Pro";
+            }
+            
+            // Persist if requested
+            if (persist && this.hasStoredPreference) {
                 try {
-                    localStorage.removeItem(this.KEY);
-                    return true;
-                } catch (error) {
-                    console.error('Failed to clear state:', error);
-                    return false;
+                    localStorage.setItem(this.KEY, enabled ? "1" : "0");
+                } catch (e) {
+                    console.error('Failed to save calm mode preference:', e);
                 }
             }
-        };
+            
+            // Update animations
+            this.updateAnimations(shouldReduce);
+        }
+        
+        toggle() {
+            const isCalm = document.body.classList.contains("calm");
+            this.apply(!isCalm);
+        }
+        
+        setupMediaQueryListener() {
+            this.mediaQuery.addEventListener('change', (e) => {
+                if (!this.hasStoredPreference) {
+                    this.apply(e.matches, false);
+                }
+            });
+        }
+        
+        setupToggleButton() {
+            const btn = document.getElementById("calmToggleBtn");
+            if (btn) {
+                btn.addEventListener('click', () => this.toggle());
+            }
+            
+            // Also connect other calm mode buttons
+            const calmButtons = document.querySelectorAll('[aria-label*="calm"], [title*="Calm"]');
+            calmButtons.forEach(button => {
+                if (button !== btn) {
+                    button.addEventListener('click', () => this.toggle());
+                }
+            });
+        }
+        
+        updateAnimations(shouldReduce) {
+            const elements = document.querySelectorAll('[style*="animation"], .status-dot');
+            elements.forEach(el => {
+                if (shouldReduce) {
+                    el.style.animationPlayState = 'paused';
+                } else {
+                    el.style.animationPlayState = 'running';
+                }
+            });
+        }
+    }
 
-        // =========================================================
-        // ENHANCED NOTIFICATION SYSTEM
-        // =========================================================
-        function showNotification(title, message, type = 'info', duration = 5000) {
-            const safeShow = withErrorHandling(function(title, message, type, duration) {
-                const container = document.getElementById('notificationContainer');
-                if (!container) return null;
-                
-                const notification = document.createElement('div');
-                notification.className = `notification ${type}`;
-                notification.setAttribute('role', 'alert');
-                notification.setAttribute('aria-live', type === 'error' ? 'assertive' : 'polite');
-                
-                notification.innerHTML = `
-                    <button class="notification-close" aria-label="Close notification">
-                        <i class="ri-close-line" aria-hidden="true"></i>
+    // =========================================================
+    // MISSION MANAGEMENT FUNCTIONS
+    // =========================================================
+
+    function beginMission() {
+        if (!AppState.session.authenticated) {
+            showNotification('Not Authenticated', 'Please complete authentication first', 'warning');
+            scrollToSection('phaseAuth');
+            return;
+        }
+        
+        // Hide bio phase, show mission phase
+        document.getElementById('phaseBio').classList.add('hidden');
+        document.getElementById('phaseMission').classList.remove('hidden');
+        
+        // Update app state
+        AppState.session.active = true;
+        AppState.session.paused = false;
+        AppState.session.phase = 3;
+        AppState.session.startTime = Date.now();
+        
+        // Start timer
+        startSessionTimer();
+        
+        // Update UI
+        updateSystemStatus();
+        refreshExperienceSummary();
+        loadExercises();
+        
+        // Show notification
+        showNotification('Session Started', 'Week 1 exercises loaded. Begin when ready.', 'success');
+        
+        // Save state
+        StateManager.save();
+        
+        // Scroll to mission section
+        setTimeout(() => {
+            document.getElementById('phaseMission').scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+    }
+
+    function pauseMission() {
+        if (!AppState.session.active) return;
+        
+        AppState.session.paused = !AppState.session.paused;
+        
+        if (AppState.session.paused) {
+            showNotification('Session Paused', 'Session paused. Resume when ready.', 'warning');
+            document.getElementById('pauseBtn').innerHTML = '<i class="ri-play-line" aria-hidden="true"></i> RESUME';
+        } else {
+            showNotification('Session Resumed', 'Session resumed. Continue your exercises.', 'success');
+            document.getElementById('pauseBtn').innerHTML = '<i class="ri-pause-line" aria-hidden="true"></i> PAUSE';
+        }
+        
+        updateSystemStatus();
+        refreshExperienceSummary();
+        StateManager.save();
+    }
+
+    function emergencyStop() {
+        if (!AppState.session.active) return;
+        
+        AppState.emergency.triggered = true;
+        AppState.session.active = false;
+        AppState.session.paused = false;
+        AppState.emergency.lastStop = Date.now();
+        AppState.emergency.stopCount++;
+        
+        // Show emergency notification
+        showNotification('EMERGENCY STOP', 'Session terminated for safety. Check pain levels.', 'error', 10000);
+        
+        // Update UI
+        updateSystemStatus();
+        refreshExperienceSummary();
+        
+        // Save state
+        StateManager.save();
+        
+        // Scroll to auth section for restart
+        setTimeout(() => {
+            scrollToSection('phaseAuth');
+        }, 2000);
+    }
+
+    function completeMission() {
+        if (!AppState.session.active) return;
+        
+        // Calculate session metrics
+        const endTime = Date.now();
+        const duration = Math.floor((endTime - AppState.session.startTime) / 1000);
+        
+        // Update progress
+        AppState.progress.totalSessions++;
+        AppState.progress.lastSession = new Date().toISOString();
+        
+        // Check for streak
+        const today = new Date().toDateString();
+        const lastSessionDate = AppState.progress.lastSession ? new Date(AppState.progress.lastSession).toDateString() : null;
+        
+        if (lastSessionDate === today) {
+            // Already logged today
+        } else if (!lastSessionDate || new Date(lastSessionDate).getTime() === new Date(today).getTime() - 86400000) {
+            AppState.progress.streak++;
+        } else {
+            AppState.progress.streak = 1;
+        }
+        
+        if (AppState.progress.streak > AppState.progress.longestStreak) {
+            AppState.progress.longestStreak = AppState.progress.streak;
+        }
+        
+        // End session
+        AppState.session.active = false;
+        AppState.session.paused = false;
+        AppState.session.phase = 4;
+        
+        // Update UI
+        document.getElementById('phaseMission').classList.add('hidden');
+        document.getElementById('phaseDebrief').classList.remove('hidden');
+        
+        // Set debrief values
+        document.getElementById('debriefTime').textContent = formatTime(duration);
+        document.getElementById('debriefExercises').textContent = AppState.session.completedExercises.length;
+        document.getElementById('debriefPain').textContent = AppState.session.metrics.avgPain.toFixed(1);
+        document.getElementById('debriefSuccess').textContent = `${Math.min(100, Math.floor((AppState.session.completedExercises.length / 12) * 100))}%`;
+        
+        // Show success notification
+        showNotification('Session Complete', `Great work! ${AppState.session.completedExercises.length} exercises completed.`, 'success');
+        
+        // Update status and save
+        updateSystemStatus();
+        refreshExperienceSummary();
+        StateManager.save();
+        
+        // Scroll to debrief
+        setTimeout(() => {
+            document.getElementById('phaseDebrief').scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+    }
+
+    function loadExercises() {
+        const exerciseContainer = document.getElementById('exerciseContainer');
+        const exercisePeek = document.getElementById('exercisePeek');
+        
+        if (!exerciseContainer || !exercisePeek) return;
+        
+        // Week 1 exercises
+        const exercises = [
+            {
+                id: 'single-leg-stand',
+                name: 'Single-Leg Stand',
+                description: 'Stand on one leg, other foot lightly off the floor',
+                duration: 10,
+                sets: 4,
+                reps: '2× each leg',
+                difficulty: 'basic',
+                completed: false
+            },
+            {
+                id: 'tandem-stand',
+                name: 'Feet in a Line (Tandem)',
+                description: 'Heel-to-toe stand',
+                duration: 10,
+                sets: 2,
+                reps: 'Switch lead foot',
+                difficulty: 'basic',
+                completed: false
+            },
+            {
+                id: 'side-stepping',
+                name: 'Side Stepping',
+                description: 'Side steps with balance',
+                duration: 30,
+                sets: 2,
+                reps: '5 steps each direction',
+                difficulty: 'basic',
+                completed: false
+            },
+            {
+                id: 'backward-walking',
+                name: 'Backward Walking',
+                description: 'Slow backward steps',
+                duration: 20,
+                sets: 2,
+                reps: '5 steps',
+                difficulty: 'basic',
+                completed: false
+            },
+            {
+                id: 'calf-raises',
+                name: 'Calf Raises',
+                description: 'Rise onto toes holding counter',
+                duration: 30,
+                sets: 1,
+                reps: '10 each leg',
+                difficulty: 'basic',
+                completed: false
+            },
+            {
+                id: 'marching-knees',
+                name: 'Marching Knees',
+                description: 'Lift one knee at a time',
+                duration: 30,
+                sets: 1,
+                reps: '10 total steps',
+                difficulty: 'basic',
+                completed: false
+            },
+            {
+                id: 'mini-squats',
+                name: 'Mini Squats',
+                description: 'Small knee bends',
+                duration: 30,
+                sets: 1,
+                reps: '8-10 times',
+                difficulty: 'basic',
+                completed: false
+            }
+        ];
+        
+        // Clear containers
+        exerciseContainer.innerHTML = '';
+        exercisePeek.innerHTML = '';
+        
+        // Load main exercise list
+        exercises.forEach((exercise, index) => {
+            const exerciseCard = document.createElement('div');
+            exerciseCard.className = `exercise-card ${exercise.completed ? 'completed' : ''}`;
+            exerciseCard.id = `exercise-${exercise.id}`;
+            
+            exerciseCard.innerHTML = `
+                <div class="exercise-header">
+                    <div class="exercise-title">${exercise.name}</div>
+                    <span class="exercise-difficulty">${exercise.difficulty}</span>
+                </div>
+                <div class="exercise-meta">
+                    <span><i class="ri-time-line"></i> ${exercise.duration}s</span>
+                    <span><i class="ri-repeat-line"></i> ${exercise.sets} sets</span>
+                    <span><i class="ri-run-line"></i> ${exercise.reps}</span>
+                </div>
+                <p>${exercise.description}</p>
+                <div class="exercise-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">${exercise.duration}</div>
+                        <div class="stat-label">Seconds</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${exercise.sets}</div>
+                        <div class="stat-label">Sets</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${exercise.completed ? '✓' : '○'}</div>
+                        <div class="stat-label">Status</div>
+                    </div>
+                </div>
+                <div class="flex gap-3 mt-4">
+                    <button class="btn btn-primary btn-sm" onclick="startExercise('${exercise.id}')">
+                        <i class="ri-play-line"></i> Start
                     </button>
-                    <div class="notification-title">${this.escapeHtml(title)}</div>
-                    <div class="notification-message">${this.escapeHtml(message)}</div>
+                    <button class="btn btn-secondary btn-sm" onclick="completeExercise('${exercise.id}')">
+                        <i class="ri-check-line"></i> Mark Done
+                    </button>
+                    <button class="btn btn-outline btn-sm" onclick="skipExercise('${exercise.id}')">
+                        <i class="ri-skip-forward-line"></i> Skip
+                    </button>
+                </div>
+            `;
+            
+            exerciseContainer.appendChild(exerciseCard);
+            
+            // Add to peek view (first 3 exercises)
+            if (index < 3) {
+                const peekCard = document.createElement('div');
+                peekCard.className = `peek-card ${exercise.completed ? 'done' : ''}`;
+                
+                peekCard.innerHTML = `
+                    <div class="peek-head">
+                        <div class="peek-name">${exercise.name}</div>
+                        <span class="peek-chip">${exercise.duration}s</span>
+                    </div>
+                    <div class="peek-meta">${exercise.sets} sets · ${exercise.reps}</div>
+                    <div class="peek-actions">
+                        <button class="btn btn-primary btn-sm" onclick="startExercise('${exercise.id}')">
+                            <i class="ri-play-line"></i>
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="completeExercise('${exercise.id}')">
+                            <i class="ri-check-line"></i>
+                        </button>
+                    </div>
                 `;
                 
-                container.appendChild(notification);
-                
-                // Add close functionality
-                const closeBtn = notification.querySelector('.notification-close');
-                closeBtn.addEventListener('click', () => this.removeNotification(notification));
-                
-                // Auto-remove after duration
-                if (duration > 0) {
-                    setTimeout(() => this.removeNotification(notification), duration);
-                }
-                
-                return notification;
-            }, 'Notification System');
-            
-            return safeShow(title, message, type, duration);
-        }
-        
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        function removeNotification(notification) {
-            if (notification && notification.parentElement) {
-                notification.style.animation = 'notification-slide-in 0.3s cubic-bezier(0.4, 0, 0.2, 1) reverse forwards';
-                setTimeout(() => {
-                    if (notification.parentElement) {
-                        notification.remove();
-                    }
-                }, 300);
+                exercisePeek.appendChild(peekCard);
             }
-        }
-
-        // =========================================================
-        // ENHANCED TIME FORMATTING
-        // =========================================================
-        function formatTime(seconds) {
-            if (typeof seconds !== 'number' || isNaN(seconds)) {
-                return '00:00';
-            }
-            
-            const secs = Math.max(0, Math.floor(seconds));
-            const mins = Math.floor(secs / 60);
-            const remainingSecs = secs % 60;
-            
-            return `${mins.toString().padStart(2, '0')}:${remainingSecs.toString().padStart(2, '0')}`;
-        }
-
-        // =========================================================
-        // ENHANCED SYSTEM STATUS UPDATES
-        // =========================================================
-        function updateSystemStatus() {
-            const statusDot = document.getElementById('systemStatus');
-            const statusText = document.getElementById('statusText');
-            
-            if (!statusDot || !statusText) return;
-            
-            let status = 'Ready';
-            let color = 'var(--accent-yellow)';
-            let animation = 'pulse 2s infinite';
-            
-            if (AppState.emergency.triggered) {
-                status = 'EMERGENCY';
-                color = 'var(--accent-red)';
-                animation = 'blink 1s infinite';
-            } else if (AppState.session.active) {
-                if (AppState.session.paused) {
-                    status = 'Paused';
-                    color = 'var(--accent-yellow)';
-                } else {
-                    status = 'Active';
-                    color = 'var(--accent-green)';
-                }
-            } else if (AppState.session.authenticated) {
-                status = 'Ready';
-                color = 'var(--accent-teal)';
-            }
-            
-            // Apply styles
-            statusDot.style.background = color;
-            statusText.textContent = status;
-            statusText.style.color = color;
-            
-            // Handle reduced motion
-            if (document.body.classList.contains('reduced-motion')) {
-                statusDot.style.animation = 'none';
-            } else {
-                statusDot.style.animation = animation;
-            }
-        }
-
-        // =========================================================
-        // ENHANCED PAIN MONITORING
-        // =========================================================
-        class PainMonitor {
-            constructor() {
-                this.marker = document.getElementById('painMarker');
-                this.scale = document.getElementById('painScale');
-                this.currentValue = 0;
-                this.isDragging = false;
-                
-                this.init();
-            }
-            
-            init() {
-                if (!this.marker || !this.scale) return;
-                
-                // Mouse events
-                this.marker.addEventListener('mousedown', this.startDrag.bind(this));
-                document.addEventListener('mousemove', this.drag.bind(this));
-                document.addEventListener('mouseup', this.stopDrag.bind(this));
-                
-                // Touch events
-                this.marker.addEventListener('touchstart', this.startDrag.bind(this));
-                document.addEventListener('touchmove', this.drag.bind(this));
-                document.addEventListener('touchend', this.stopDrag.bind(this));
-                
-                // Keyboard support
-                this.marker.addEventListener('keydown', this.handleKeydown.bind(this));
-                this.marker.setAttribute('tabindex', '0');
-            }
-            
-            startDrag(e) {
-                e.preventDefault();
-                this.isDragging = true;
-                this.marker.classList.add('cursor-grabbing');
-            }
-            
-            drag(e) {
-                if (!this.isDragging) return;
-                
-                e.preventDefault();
-                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-                if (!clientX) return;
-                
-                const rect = this.scale.getBoundingClientRect();
-                let x = clientX - rect.left;
-                x = Math.max(0, Math.min(x, rect.width));
-                
-                const percentage = (x / rect.width) * 100;
-                this.setValue(percentage / 10);
-            }
-            
-            stopDrag() {
-                this.isDragging = false;
-                this.marker.classList.remove('cursor-grabbing');
-            }
-            
-            handleKeydown(e) {
-                const step = 0.5; // Half point increments
-                
-                switch(e.key) {
-                    case 'ArrowLeft':
-                    case 'ArrowDown':
-                        e.preventDefault();
-                        this.setValue(Math.max(0, this.currentValue - step));
-                        break;
-                    case 'ArrowRight':
-                    case 'ArrowUp':
-                        e.preventDefault();
-                        this.setValue(Math.min(10, this.currentValue + step));
-                        break;
-                    case 'Home':
-                        e.preventDefault();
-                        this.setValue(0);
-                        break;
-                    case 'End':
-                        e.preventDefault();
-                        this.setValue(10);
-                        break;
-                }
-            }
-            
-            setValue(value) {
-                this.currentValue = Math.round(value * 2) / 2; // Round to nearest 0.5
-                const percentage = this.currentValue * 10;
-                
-                // Update UI
-                this.marker.style.left = `${percentage}%`;
-                this.marker.textContent = this.currentValue.toFixed(1);
-                this.marker.setAttribute('aria-valuenow', this.currentValue);
-                
-                // Update app state
-                AppState.session.metrics.painIndex = this.currentValue;
-                
-                // Update other pain displays
-                document.getElementById('painValue').textContent = this.currentValue.toFixed(1);
-                document.getElementById('realTimePain').textContent = this.currentValue.toFixed(1);
-                document.getElementById('livePain').textContent = this.currentValue.toFixed(1);
-                
-                // Check pain threshold
-                this.checkThreshold();
-                
-                // Save state
-                StateManager.save();
-            }
-            
-            checkThreshold() {
-                const threshold = AppState.operator.profile.painThreshold;
-                const warning = document.getElementById('painWarning');
-                
-                if (this.currentValue >= threshold) {
-                    warning.classList.remove('hidden');
-                    if (this.currentValue >= 8) {
-                        showNotification('Severe Pain Alert', 
-                            `Pain level ${this.currentValue.toFixed(1)}/10 detected. Consider stopping.`, 
-                            'error');
-                    }
-                } else {
-                    warning.classList.add('hidden');
-                }
-            }
-        }
-
-        // =========================================================
-        // ENHANCED FORM VALIDATION
-        // =========================================================
-        class FormValidator {
-            static validateAuthentication(formData) {
-                const errors = [];
-                
-                if (!formData.operatorId?.trim()) {
-                    errors.push('Operator ID is required');
-                } else if (formData.operatorId.length < 2) {
-                    errors.push('Operator ID must be at least 2 characters');
-                }
-                
-                if (formData.securityCode && formData.securityCode.length < 3) {
-                    errors.push('Security code must be at least 3 characters if provided');
-                }
-                
-                return {
-                    isValid: errors.length === 0,
-                    errors
-                };
-            }
-        }
-
-        // =========================================================
-        // ENHANCED EVENT HANDLING
-        // =========================================================
-        class EventManager {
-            constructor() {
-                this.handlers = new Map();
-            }
-            
-            add(element, event, handler, options = {}) {
-                if (!element || !event || !handler) return;
-                
-                const wrappedHandler = withErrorHandling(handler, `Event: ${event}`);
-                element.addEventListener(event, wrappedHandler, options);
-                
-                const key = `${element.id || element.className}-${event}`;
-                this.handlers.set(key, { element, event, handler: wrappedHandler });
-            }
-            
-            remove(element, event) {
-                const key = `${element.id || element.className}-${event}`;
-                const handler = this.handlers.get(key);
-                
-                if (handler) {
-                    handler.element.removeEventListener(handler.event, handler.handler);
-                    this.handlers.delete(key);
-                }
-            }
-            
-            clear() {
-                this.handlers.forEach(({ element, event, handler }) => {
-                    element.removeEventListener(event, handler);
-                });
-                this.handlers.clear();
-            }
-        }
-
-        // =========================================================
-        // ENHANCED CALM MODE TOGGLE
-        // =========================================================
-        class CalmModeManager {
-            constructor() {
-                this.KEY = "RehabCalmMode";
-                this.mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-                this.hasStoredPreference = false;
-                
-                this.init();
-            }
-            
-            init() {
-                this.loadPreference();
-                this.setupMediaQueryListener();
-                this.setupToggleButton();
-            }
-            
-            loadPreference() {
-                try {
-                    const saved = localStorage.getItem(this.KEY);
-                    if (saved !== null) {
-                        this.hasStoredPreference = true;
-                        this.apply(saved === "1");
-                    } else {
-                        // No stored preference, use system preference
-                        this.apply(this.mediaQuery.matches, false);
-                    }
-                } catch (e) {
-                    console.error('Failed to load calm mode preference:', e);
-                }
-            }
-            
-            apply(enabled, persist = true) {
-                const shouldReduce = enabled || this.mediaQuery.matches;
-                
-                document.body.classList.toggle("calm", enabled);
-                document.body.classList.toggle("reduced-motion", shouldReduce);
-                
-                // Update button state
-                const btn = document.getElementById("calmToggleBtn");
-                const label = document.getElementById("calmToggleLabel");
-                
-                if (btn) {
-                    btn.setAttribute("aria-pressed", enabled.toString());
-                    btn.setAttribute("aria-label", enabled ? 
-                        "Calm mode on - reduced visuals and motion" : 
-                        "Pro mode on - full visuals and motion");
-                    
-                    btn.innerHTML = enabled ? 
-                        '<i class="ri-moon-clear-line" aria-hidden="true"></i>' : 
-                        '<i class="ri-sun-line" aria-hidden="true"></i>';
-                }
-                
-                if (label) {
-                    label.textContent = enabled ? "Calm" : "Pro";
-                }
-                
-                // Persist if requested
-                if (persist && this.hasStoredPreference) {
-                    try {
-                        localStorage.setItem(this.KEY, enabled ? "1" : "0");
-                    } catch (e) {
-                        console.error('Failed to save calm mode preference:', e);
-                    }
-                }
-                
-                // Update animations
-                this.updateAnimations(shouldReduce);
-            }
-            
-            toggle() {
-                const isCalm = document.body.classList.contains("calm");
-                this.apply(!isCalm);
-            }
-            
-            setupMediaQueryListener() {
-                this.mediaQuery.addEventListener('change', (e) => {
-                    if (!this.hasStoredPreference) {
-                        this.apply(e.matches, false);
-                    }
-                });
-            }
-            
-            setupToggleButton() {
-                const btn = document.getElementById("calmToggleBtn");
-                if (btn) {
-                    btn.addEventListener('click', () => this.toggle());
-                }
-                
-                // Also connect other calm mode buttons
-                const calmButtons = document.querySelectorAll('[aria-label*="calm"], [title*="Calm"]');
-                calmButtons.forEach(button => {
-                    if (button !== btn) {
-                        button.addEventListener('click', () => this.toggle());
-                    }
-                });
-            }
-            
-            updateAnimations(shouldReduce) {
-                const elements = document.querySelectorAll('[style*="animation"], .status-dot');
-                elements.forEach(el => {
-                    if (shouldReduce) {
-                        el.style.animationPlayState = 'paused';
-                    } else {
-                        el.style.animationPlayState = 'running';
-                    }
-                });
-            }
-        }
-
-        // =========================================================
-        // ENHANCED INITIALIZATION
-        // =========================================================
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize managers
-            const calmModeManager = new CalmModeManager();
-            const eventManager = new EventManager();
-            const painMonitor = new PainMonitor();
-            
-            // Load saved state
-            if (StateManager.load()) {
-                showNotification('System Ready', 'Previous session loaded successfully', 'success', 3000);
-            }
-            
-            // Update initial displays
-            updateSystemTime();
-            updateSystemStatus();
-            refreshExperienceSummary();
-            
-            // Setup authentication form
-            const authForm = document.getElementById('authForm');
-            if (authForm) {
-                authForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    authenticateOperator();
-                });
-            }
-            
-            // Setup baseline pain slider
-            const baselinePain = document.getElementById('baselinePain');
-            if (baselinePain) {
-                baselinePain.addEventListener('input', function() {
-                    const value = parseInt(this.value);
-                    document.getElementById('painValue').textContent = value;
-                    
-                    // Update fatigue based on pain
-                    const fatigue = Math.min(100, value * 15);
-                    document.getElementById('fatigueBar').style.width = `${fatigue}%`;
-                    document.getElementById('fatigueValue').textContent = `${fatigue}%`;
-                    
-                    // Update readiness
-                    const readiness = Math.max(0, 100 - (value * 10) - (fatigue * 0.5));
-                    document.getElementById('readinessScore').textContent = `${Math.round(readiness)}%`;
-                    
-                    // Update pain marker
-                    if (painMonitor.marker) {
-                        painMonitor.setValue(value);
-                    }
-                });
-            }
-            
-            // Setup keyboard shortcuts
-            document.addEventListener('keydown', (e) => {
-                // Space to pause/resume
-                if (e.code === 'Space' && AppState.session.active) {
-                    e.preventDefault();
-                    pauseMission();
-                }
-                
-                // Escape for emergency stop
-                if (e.code === 'Escape' && AppState.session.active) {
-                    emergencyStop();
-                }
-                
-                // Ctrl/Cmd + S to save
-                if ((e.ctrlKey || e.metaKey) && e.code === 'KeyS') {
-                    e.preventDefault();
-                    if (StateManager.save()) {
-                        showNotification('Auto-Save', 'Progress saved successfully', 'success', 2000);
-                    }
-                }
-            });
-            
-            // Handle page visibility changes
-            document.addEventListener('visibilitychange', () => {
-                if (document.hidden) {
-                    // Page is hidden, pause intensive operations
-                    if (AppState.session.active && !AppState.session.paused) {
-                        showNotification('Session Paused', 'Session auto-paused while tab is hidden', 'warning');
-                        AppState.session.paused = true;
-                        updateSystemStatus();
-                    }
-                }
-            });
-            
-            // Initialize clock
-            setInterval(updateSystemTime, 1000);
-            
-            console.log('🚀 Rehab Session Pro v4.1 - Enhanced & Accessible');
-            console.log('Features: Enhanced accessibility, error handling, state management');
         });
-
-        // =========================================================
-        // CORE FUNCTIONS (Enhanced versions)
-        // =========================================================
-        function updateSystemTime() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('en-US', { 
-                hour12: false,
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            
-            const timeElements = [
-                document.getElementById('currentTime'),
-                document.getElementById('sessionClockValue'),
-                document.getElementById('mobileClockValue')
-            ];
-            
-            timeElements.forEach(el => {
-                if (el) {
-                    el.textContent = timeString;
-                    el.setAttribute('datetime', now.toISOString());
-                }
-            });
+        
+        // Update quick exercise display
+        if (exercises.length > 0) {
+            const firstExercise = exercises[0];
+            document.getElementById('quickExerciseName').textContent = firstExercise.name;
+            document.getElementById('quickExerciseMeta').textContent = `${firstExercise.duration}s · ${firstExercise.sets} sets · ${firstExercise.difficulty}`;
+            document.getElementById('dockExerciseName').textContent = firstExercise.name;
+            document.getElementById('dockExerciseMeta').textContent = `${firstExercise.duration}s · ${firstExercise.sets} sets · ${firstExercise.difficulty}`;
         }
+    }
 
-        function authenticateOperator() {
-            const formData = {
-                operatorId: document.getElementById('operatorId').value.trim(),
-                securityCode: document.getElementById('securityCode').value.trim(),
-                missionProfile: document.getElementById('missionProfile').value
-            };
+    function startExercise(exerciseId) {
+        const exerciseCard = document.getElementById(`exercise-${exerciseId}`);
+        if (!exerciseCard) return;
+        
+        // Find exercise data
+        const exerciseName = exerciseCard.querySelector('.exercise-title').textContent;
+        
+        // Update UI
+        document.getElementById('dockExerciseName').textContent = exerciseName;
+        document.getElementById('quickExerciseName').textContent = exerciseName;
+        
+        // Show notification
+        showNotification('Exercise Started', `Starting ${exerciseName}. Focus on form and breathing.`, 'info');
+        
+        // Set as current exercise
+        AppState.session.currentExercise = exerciseId;
+        StateManager.save();
+    }
+
+    function completeExercise(exerciseId) {
+        const exerciseCard = document.getElementById(`exercise-${exerciseId}`);
+        if (!exerciseCard) return;
+        
+        // Mark as completed
+        exerciseCard.classList.add('completed');
+        
+        // Update completed exercises
+        if (!AppState.session.completedExercises.includes(exerciseId)) {
+            AppState.session.completedExercises.push(exerciseId);
+        }
+        
+        // Update UI
+        document.getElementById('completedExercises').textContent = AppState.session.completedExercises.length;
+        document.getElementById('dockExerciseCount').textContent = `${AppState.session.completedExercises.length}/7 done`;
+        document.getElementById('quickExerciseCount').textContent = `${AppState.session.completedExercises.length}/7 done`;
+        
+        // Update quick exercise to next uncompleted exercise
+        const nextExercise = document.querySelector('.exercise-card:not(.completed)');
+        if (nextExercise) {
+            const nextName = nextExercise.querySelector('.exercise-title').textContent;
+            document.getElementById('quickExerciseName').textContent = nextName;
+        }
+        
+        // Show notification
+        showNotification('Exercise Complete', 'Great work! Move to next exercise when ready.', 'success');
+        
+        // Save state
+        StateManager.save();
+        
+        // Check if all exercises are done
+        if (AppState.session.completedExercises.length >= 7) {
+            setTimeout(() => {
+                showNotification('All Exercises Complete', 'All Week 1 exercises completed! Ready for session summary.', 'success');
+            }, 1000);
+        }
+    }
+
+    function skipExercise(exerciseId) {
+        showNotification('Exercise Skipped', 'Exercise skipped. Move to next when ready.', 'warning');
+        
+        // Mark as completed but skipped
+        if (!AppState.session.completedExercises.includes(exerciseId)) {
+            AppState.session.completedExercises.push(exerciseId);
+            document.getElementById('completedExercises').textContent = AppState.session.completedExercises.length;
+        }
+        
+        StateManager.save();
+    }
+
+    function quickStartExercise() {
+        // Find first uncompleted exercise
+        const firstExercise = document.querySelector('.exercise-card:not(.completed)');
+        if (firstExercise) {
+            const exerciseId = firstExercise.id.replace('exercise-', '');
+            startExercise(exerciseId);
+        } else {
+            showNotification('All Exercises Complete', 'All exercises are already completed!', 'info');
+        }
+    }
+
+    function startSessionTimer() {
+        if (!AppState.session.active || AppState.session.paused) return;
+        
+        const timerElement = document.getElementById('missionTimer');
+        const timeElapsedElement = document.getElementById('timeElapsed');
+        
+        if (!timerElement || !timeElapsedElement) return;
+        
+        const updateTimer = () => {
+            if (!AppState.session.active || AppState.session.paused) return;
             
-            const validation = FormValidator.validateAuthentication(formData);
-            if (!validation.isValid) {
-                showNotification('Authentication Failed', validation.errors.join('\n'), 'error');
+            const now = Date.now();
+            const elapsed = Math.floor((now - AppState.session.startTime) / 1000);
+            const remaining = Math.max(0, AppState.session.totalTime - elapsed);
+            
+            AppState.session.elapsedTime = elapsed;
+            
+            // Update timer displays
+            timerElement.textContent = formatTime(remaining);
+            timeElapsedElement.textContent = formatTime(elapsed);
+            
+            // Update success rate (decreases slightly over time to simulate reality)
+            const successRate = Math.max(70, 100 - Math.floor(elapsed / 60));
+            document.getElementById('successRate').textContent = `${successRate}%`;
+            
+            // Auto-complete after time is up
+            if (remaining <= 0) {
+                completeMission();
                 return;
             }
             
-            // Update app state
-            AppState.operator.id = formData.operatorId.toUpperCase();
-            AppState.operator.clearance = formData.securityCode;
-            AppState.operator.profile.intensity = formData.missionProfile;
-            AppState.session.authenticated = true;
-            
-            // Update UI
-            document.getElementById('operatorName').textContent = `Patient: ${formData.operatorId}`;
-            document.getElementById('briefOperator').textContent = formData.operatorId;
-            document.getElementById('missionName').textContent = `Rehab Session - ${formData.missionProfile}`;
-            
-            // Show next phase
-            document.getElementById('phaseAuth').classList.add('hidden');
-            document.getElementById('phaseBio').classList.remove('hidden');
-            
-            // Update status and save
-            updateSystemStatus();
-            refreshExperienceSummary();
-            StateManager.save();
-            
-            showNotification('Authentication Successful', 
-                `Welcome back, ${formData.operatorId}. Ready for readiness check.`, 
-                'success');
-        }
-
-        function refreshExperienceSummary() {
-            // Update all summary displays based on current state
-            const elements = {
-                summaryProfile: AppState.operator.profile.intensity,
-                summaryStreak: `${AppState.progress.streak} days`,
-                summarySessions: AppState.progress.totalSessions,
-                summaryPainLimit: `${AppState.operator.profile.painThreshold}/10`,
-                summaryPainBaseline: `${AppState.session.metrics.painIndex.toFixed(1)}/10`,
-                summaryReadinessValue: `${Math.round(AppState.session.metrics.readiness)}%`,
-                summaryPainBadge: `${AppState.session.metrics.painIndex.toFixed(1)}/10`,
-                summaryFatigue: `${Math.round(AppState.session.metrics.fatigue)}%`
-            };
-            
-            Object.entries(elements).forEach(([id, value]) => {
-                const el = document.getElementById(id);
-                if (el) el.textContent = value;
-            });
-            
-            // Update mobile displays
-            const mobileElements = {
-                mobileReadinessValue: `${Math.round(AppState.session.metrics.readiness)}%`,
-                mobilePainValue: `${AppState.session.metrics.painIndex.toFixed(1)}/10`,
-                mobileFatigueValue: `${Math.round(AppState.session.metrics.fatigue)}%`
-            };
-            
-            Object.entries(mobileElements).forEach(([id, value]) => {
-                const el = document.getElementById(id);
-                if (el) el.textContent = value;
-            });
-            
-            // Update session state
-            const sessionState = AppState.session.active ? 
-                (AppState.session.paused ? 'Paused' : 'Active') : 
-                (AppState.session.authenticated ? 'Ready' : 'Prep');
-            
-            const stateElements = [
-                'navSessionState',
-                'sessionStateText',
-                'mobileStatusPill',
-                'dockStatusLabel'
-            ];
-            
-            stateElements.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.textContent = sessionState;
-            });
-        }
-
-        // =========================================================
-        // SAFE WRAPPERS FOR EXISTING FUNCTIONS
-        // =========================================================
-        const safeBeginMission = withErrorHandling(beginMission, 'Begin Mission');
-        const safePauseMission = withErrorHandling(pauseMission, 'Pause Mission');
-        const safeEmergencyStop = withErrorHandling(emergencyStop, 'Emergency Stop');
-        const safeCompleteMission = withErrorHandling(completeMission, 'Complete Mission');
-        
-        // Export functions to global scope
-        window.authenticateOperator = withErrorHandling(authenticateOperator, 'Authentication');
-        window.beginMission = safeBeginMission;
-        window.pauseMission = safePauseMission;
-        window.emergencyStop = safeEmergencyStop;
-        window.completeMission = safeCompleteMission;
-        window.showNotification = showNotification;
-        
-        // Initialize calm mode
-        window.toggleCalmMode = () => {
-            // Will be set by CalmModeManager
+            // Schedule next update
+            setTimeout(updateTimer, 1000);
         };
-    </script>
+        
+        updateTimer();
+    }
+
+    // =========================================================
+    // HELPER FUNCTIONS
+    // =========================================================
+
+    function scrollToSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    function handlePrimaryNavAction() {
+        if (!AppState.session.authenticated) {
+            scrollToSection('phaseAuth');
+            showNotification('Authentication Required', 'Please sign in first', 'info');
+        } else if (!AppState.session.active) {
+            beginMission();
+        } else if (AppState.session.paused) {
+            pauseMission();
+        } else {
+            scrollToSection('phaseMission');
+        }
+    }
+
+    function refreshExperienceSummary() {
+        // Update all summary displays based on current state
+        const elements = {
+            summaryProfile: AppState.operator.profile.intensity,
+            summaryStreak: `${AppState.progress.streak} days`,
+            summarySessions: AppState.progress.totalSessions,
+            summaryPainLimit: `${AppState.operator.profile.painThreshold}/10`,
+            summaryPainBaseline: `${AppState.session.metrics.painIndex.toFixed(1)}/10`,
+            summaryReadinessValue: `${Math.round(AppState.session.metrics.readiness)}%`,
+            summaryPainBadge: `${AppState.session.metrics.painIndex.toFixed(1)}/10`,
+            summaryFatigue: `${Math.round(AppState.session.metrics.fatigue)}%`
+        };
+        
+        Object.entries(elements).forEach(([id, value]) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = value;
+        });
+        
+        // Update mobile displays
+        const mobileElements = {
+            mobileReadinessValue: `${Math.round(AppState.session.metrics.readiness)}%`,
+            mobilePainValue: `${AppState.session.metrics.painIndex.toFixed(1)}/10`,
+            mobileFatigueValue: `${Math.round(AppState.session.metrics.fatigue)}%`
+        };
+        
+        Object.entries(mobileElements).forEach(([id, value]) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = value;
+        });
+        
+        // Update session state
+        const sessionState = AppState.session.active ? 
+            (AppState.session.paused ? 'Paused' : 'Active') : 
+            (AppState.session.authenticated ? 'Ready' : 'Prep');
+        
+        const stateElements = [
+            'navSessionState',
+            'sessionStateText',
+            'mobileStatusPill',
+            'dockStatusLabel'
+        ];
+        
+        stateElements.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = sessionState;
+        });
+        
+        // Update action button text
+        const primaryActionBtn = document.getElementById('navPrimaryAction');
+        const mobileActionBtn = document.getElementById('mobilePrimaryAction');
+        const dockActionBtn = document.getElementById('dockPrimaryAction');
+        const heroActionBtn = document.getElementById('heroPrimaryCta');
+        
+        let actionText = 'Start session';
+        let actionIcon = 'ri-play-line';
+        
+        if (AppState.session.active) {
+            if (AppState.session.paused) {
+                actionText = 'Resume session';
+                actionIcon = 'ri-play-line';
+            } else {
+                actionText = 'Pause session';
+                actionIcon = 'ri-pause-line';
+            }
+        } else if (AppState.session.authenticated) {
+            actionText = 'Begin session';
+            actionIcon = 'ri-rocket-line';
+        }
+        
+        [primaryActionBtn, mobileActionBtn, dockActionBtn, heroActionBtn].forEach(btn => {
+            if (btn) {
+                btn.innerHTML = `<i class="${actionIcon}" aria-hidden="true"></i> ${actionText}`;
+            }
+        });
+    }
+
+    // =========================================================
+    // AUTHENTICATION FUNCTION
+    // =========================================================
+    function authenticateOperator() {
+        const formData = {
+            operatorId: document.getElementById('operatorId').value.trim(),
+            securityCode: document.getElementById('securityCode').value.trim(),
+            missionProfile: document.getElementById('missionProfile').value
+        };
+        
+        const validation = FormValidator.validateAuthentication(formData);
+        if (!validation.isValid) {
+            showNotification('Authentication Failed', validation.errors.join('\n'), 'error');
+            return;
+        }
+        
+        // Update app state
+        AppState.operator.id = formData.operatorId.toUpperCase();
+        AppState.operator.clearance = formData.securityCode;
+        AppState.operator.profile.intensity = formData.missionProfile;
+        AppState.session.authenticated = true;
+        
+        // Update UI
+        document.getElementById('operatorName').textContent = `Patient: ${formData.operatorId}`;
+        document.getElementById('briefOperator').textContent = formData.operatorId;
+        document.getElementById('missionName').textContent = `Rehab Session - ${formData.missionProfile}`;
+        document.getElementById('sessionPatient').textContent = formData.operatorId;
+        
+        // Update phase states
+        document.getElementById('stepAuthState').textContent = 'Done';
+        document.getElementById('stepBioState').textContent = 'Ready';
+        document.getElementById('mobileAuthState').textContent = 'Done';
+        document.getElementById('mobileReadinessState').textContent = 'Ready';
+        
+        // Show next phase
+        document.getElementById('phaseAuth').classList.add('hidden');
+        document.getElementById('phaseBio').classList.remove('hidden');
+        
+        // Update status and save
+        updateSystemStatus();
+        refreshExperienceSummary();
+        StateManager.save();
+        
+        showNotification('Authentication Successful', 
+            `Welcome back, ${formData.operatorId}. Ready for readiness check.`, 
+            'success');
+        
+        // Scroll to bio phase
+        setTimeout(() => {
+            document.getElementById('phaseBio').scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+    }
+
+    function updateSystemTime() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('en-US', { 
+            hour12: false,
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+        
+        const timeElements = [
+            document.getElementById('currentTime'),
+            document.getElementById('sessionClockValue'),
+            document.getElementById('mobileClockValue')
+        ];
+        
+        timeElements.forEach(el => {
+            if (el) {
+                el.textContent = timeString;
+                el.setAttribute('datetime', now.toISOString());
+            }
+        });
+    }
+
+    // =========================================================
+    // ENHANCED INITIALIZATION
+    // =========================================================
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize managers
+        const calmModeManager = new CalmModeManager();
+        const painMonitor = new PainMonitor();
+        
+        // Load saved state
+        if (StateManager.load()) {
+            showNotification('System Ready', 'Previous session loaded successfully', 'success', 3000);
+        }
+        
+        // Update initial displays
+        updateSystemTime();
+        updateSystemStatus();
+        refreshExperienceSummary();
+        
+        // Setup authentication form
+        const authForm = document.getElementById('authForm');
+        if (authForm) {
+            authForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                authenticateOperator();
+            });
+        }
+        
+        // Setup baseline pain slider
+        const baselinePain = document.getElementById('baselinePain');
+        if (baselinePain) {
+            baselinePain.addEventListener('input', function() {
+                const value = parseInt(this.value);
+                document.getElementById('painValue').textContent = value;
+                
+                // Update fatigue based on pain
+                const fatigue = Math.min(100, value * 15);
+                document.getElementById('fatigueBar').style.width = `${fatigue}%`;
+                document.getElementById('fatigueValue').textContent = `${fatigue}%`;
+                
+                // Update readiness
+                const readiness = Math.max(0, 100 - (value * 10) - (fatigue * 0.5));
+                document.getElementById('readinessScore').textContent = `${Math.round(readiness)}%`;
+                
+                // Update readiness ring
+                const readinessRing = document.getElementById('readinessRing');
+                if (readinessRing) {
+                    const circumference = 2 * Math.PI * 60;
+                    const offset = circumference - (readiness / 100) * circumference;
+                    readinessRing.style.strokeDashoffset = offset;
+                }
+                
+                // Update pain marker
+                if (painMonitor.marker) {
+                    painMonitor.setValue(value);
+                }
+                
+                // Update app state
+                AppState.session.metrics.painIndex = value;
+                AppState.session.metrics.fatigue = fatigue;
+                AppState.session.metrics.readiness = readiness;
+            });
+        }
+        
+        // Setup keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Space to pause/resume
+            if (e.code === 'Space' && AppState.session.active) {
+                e.preventDefault();
+                pauseMission();
+            }
+            
+            // Escape for emergency stop
+            if (e.code === 'Escape' && AppState.session.active) {
+                emergencyStop();
+            }
+            
+            // Ctrl/Cmd + S to save
+            if ((e.ctrlKey || e.metaKey) && e.code === 'KeyS') {
+                e.preventDefault();
+                if (StateManager.save()) {
+                    showNotification('Auto-Save', 'Progress saved successfully', 'success', 2000);
+                }
+            }
+        });
+        
+        // Handle page visibility changes
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // Page is hidden, pause intensive operations
+                if (AppState.session.active && !AppState.session.paused) {
+                    showNotification('Session Paused', 'Session auto-paused while tab is hidden', 'warning');
+                    AppState.session.paused = true;
+                    updateSystemStatus();
+                }
+            }
+        });
+        
+        // Initialize clock
+        setInterval(updateSystemTime, 1000);
+        
+        // Setup navigation buttons
+        document.querySelectorAll('.nav-link, .step-card, .btn[onclick*="scrollToSection"]').forEach(btn => {
+            if (btn.onclick) return; // Already has handler
+            
+            const sectionMatch = btn.textContent.match(/sign in|readiness|exercises|summary|auth|bio|mission|debrief/i);
+            if (sectionMatch) {
+                const sectionMap = {
+                    'sign in': 'phaseAuth',
+                    'auth': 'phaseAuth',
+                    'readiness': 'phaseBio',
+                    'bio': 'phaseBio',
+                    'exercises': 'phaseMission',
+                    'mission': 'phaseMission',
+                    'summary': 'phaseDebrief',
+                    'debrief': 'phaseDebrief'
+                };
+                
+                const section = sectionMap[sectionMatch[0].toLowerCase()];
+                if (section) {
+                    btn.addEventListener('click', () => scrollToSection(section));
+                }
+            }
+        });
+        
+        console.log('🚀 Rehab Session Pro v4.1 - Enhanced & Accessible');
+        console.log('Features: Enhanced accessibility, error handling, state management');
+        console.log('Mission functions loaded: beginMission, pauseMission, emergencyStop, completeMission');
+    });
+
+    // =========================================================
+    // EXPORT FUNCTIONS TO GLOBAL SCOPE
+    // =========================================================
+    window.authenticateOperator = authenticateOperator;
+    window.beginMission = withErrorHandling(beginMission, 'Begin Mission');
+    window.pauseMission = withErrorHandling(pauseMission, 'Pause Mission');
+    window.emergencyStop = withErrorHandling(emergencyStop, 'Emergency Stop');
+    window.completeMission = withErrorHandling(completeMission, 'Complete Mission');
+    window.showNotification = showNotification;
+    window.scrollToSection = scrollToSection;
+    window.handlePrimaryNavAction = handlePrimaryNavAction;
+    window.quickStartExercise = quickStartExercise;
+    window.startExercise = startExercise;
+    window.completeExercise = completeExercise;
+    window.skipExercise = skipExercise;
+    
+    // Calm mode toggle
+    window.toggleCalmMode = () => {
+        const calmModeManager = new CalmModeManager();
+        calmModeManager.toggle();
+    };
+</script>
 </body>
 </html>
