@@ -875,7 +875,78 @@
             gap: var(--space-4);
             flex-wrap: wrap;
         }
-        
+
+        /* =========================================================
+           GUIDANCE PANEL
+        ========================================================= */
+        .guidance-panel {
+            margin: clamp(1rem, 2vw, 1.75rem) 0;
+            padding: clamp(1.25rem, 3vw, 1.75rem);
+            border-radius: var(--radius-2xl);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.75));
+            box-shadow: var(--shadow-lg);
+            display: grid;
+            gap: var(--space-4);
+        }
+
+        .guidance-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: var(--space-4);
+        }
+
+        .guidance-body {
+            color: var(--neutral-100);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .guidance-sub {
+            color: var(--neutral-400);
+            font-size: 0.95rem;
+            margin-top: 0.35rem;
+        }
+
+        .guidance-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: var(--space-3);
+        }
+
+        .guidance-step {
+            text-align: left;
+            padding: var(--space-4);
+            border-radius: var(--radius-xl);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--neutral-50);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            display: grid;
+            gap: var(--space-2);
+        }
+
+        .guidance-step:hover,
+        .guidance-step:focus-visible {
+            border-color: var(--accent-teal);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .guidance-step__label {
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .guidance-step__hint {
+            color: var(--neutral-300);
+            font-size: 0.95rem;
+        }
+
         .hero-pills {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -1876,6 +1947,35 @@
                                 <span class="hint">Notes & export</span>
                             </div>
                             <span class="pill-soft" id="stepDebriefState">Later</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="guidance-panel" role="complementary" aria-label="How to use Rehab Session Pro">
+                    <div class="guidance-header">
+                        <div>
+                            <p class="meta-label">How to use this screen</p>
+                            <p class="guidance-body" id="guidancePrimaryHint">Start here: enter your name, slide the pain dial, then press “Start session”.</p>
+                            <p class="guidance-sub" id="guidanceSecondaryHint">We keep the current step highlighted so you always know where to click next.</p>
+                        </div>
+                        <span class="pill-soft" id="guidanceStatusPill">Prep</span>
+                    </div>
+                    <div class="guidance-steps" role="list">
+                        <button class="guidance-step" type="button" role="listitem" aria-label="Step 1: Sign in" onclick="scrollToSection('phaseAuth')">
+                            <span class="guidance-step__label"><span class="pill-soft" aria-hidden="true">1</span> Sign in</span>
+                            <span class="guidance-step__hint">Enter your name, pick a profile, and unlock the readiness check.</span>
+                        </button>
+                        <button class="guidance-step" type="button" role="listitem" aria-label="Step 2: Check readiness" onclick="scrollToSection('phaseBio')">
+                            <span class="guidance-step__label"><span class="pill-soft" aria-hidden="true">2</span> Check readiness</span>
+                            <span class="guidance-step__hint">Set today’s pain and fatigue, then glance at the readiness ring.</span>
+                        </button>
+                        <button class="guidance-step" type="button" role="listitem" aria-label="Step 3: Start exercises" onclick="scrollToSection('phaseMission')">
+                            <span class="guidance-step__label"><span class="pill-soft" aria-hidden="true">3</span> Start exercises</span>
+                            <span class="guidance-step__hint">Press Start session, follow the highlighted exercise, and mark done.</span>
+                        </button>
+                        <button class="guidance-step" type="button" role="listitem" aria-label="Step 4: Finish and log notes" onclick="scrollToSection('phaseDebrief')">
+                            <span class="guidance-step__label"><span class="pill-soft" aria-hidden="true">4</span> Finish &amp; log</span>
+                            <span class="guidance-step__hint">Review the summary, jot any notes, and export if needed.</span>
                         </button>
                     </div>
                 </div>
@@ -3448,9 +3548,25 @@
         const { nav, dock } = computeSessionHint();
         const navHelper = document.getElementById('navHelperText');
         const dockHint = document.getElementById('dockStatusHint');
+        const guidancePrimary = document.getElementById('guidancePrimaryHint');
+        const guidanceSecondary = document.getElementById('guidanceSecondaryHint');
+        const guidanceStatus = document.getElementById('guidanceStatusPill');
 
         if (navHelper) navHelper.textContent = nav;
         if (dockHint) dockHint.textContent = dock;
+        if (guidancePrimary) guidancePrimary.textContent = nav;
+        if (guidanceSecondary) guidanceSecondary.textContent = dock;
+        if (guidanceStatus) {
+            let stageLabel = 'Prep';
+
+            if (AppState.session.active) {
+                stageLabel = AppState.session.paused ? 'Paused' : 'In session';
+            } else if (AppState.session.authenticated) {
+                stageLabel = 'Ready';
+            }
+
+            guidanceStatus.textContent = stageLabel;
+        }
     }
 
     function refreshExperienceSummary() {
