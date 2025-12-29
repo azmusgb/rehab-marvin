@@ -1806,6 +1806,120 @@
             letter-spacing: 0.1em;
         }
 
+        /* Exercise shortcuts */
+        .exercise-spotlight {
+            background: linear-gradient(135deg, rgba(77, 243, 201, 0.08), rgba(115, 179, 255, 0.08));
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-6);
+            margin-top: var(--space-6);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .spotlight-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: var(--space-6);
+            flex-wrap: wrap;
+        }
+
+        .spotlight-tags {
+            display: flex;
+            gap: var(--space-3);
+            margin-top: var(--space-3);
+            flex-wrap: wrap;
+        }
+
+        .spotlight-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .spotlight-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: var(--space-4);
+            margin-top: var(--space-6);
+        }
+
+        .peek-card {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: var(--radius-xl);
+            padding: var(--space-4);
+            border: 1px solid var(--border-strong);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .peek-card.done {
+            border-color: var(--accent-green);
+            background: rgba(6, 214, 160, 0.08);
+        }
+
+        .peek-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-3);
+            margin-bottom: var(--space-2);
+        }
+
+        .peek-name {
+            font-weight: 700;
+            color: white;
+        }
+
+        .peek-meta {
+            color: var(--neutral-300);
+            font-size: 0.9rem;
+        }
+
+        .peek-chip {
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .peek-card.done .peek-chip {
+            background: rgba(6, 214, 160, 0.2);
+            color: var(--accent-green);
+        }
+
+        .peek-actions {
+            display: flex;
+            gap: var(--space-2);
+            margin-top: var(--space-4);
+            flex-wrap: wrap;
+        }
+
+        .exercise-dock {
+            position: sticky;
+            top: 84px;
+            z-index: var(--z-above);
+            background: var(--neutral-900);
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: var(--space-6);
+            box-shadow: var(--shadow-md);
+            margin-bottom: var(--space-6);
+        }
+
+        .dock-actions {
+            display: flex;
+            gap: var(--space-3);
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
         /* Plan layout */
         .plan-grid {
             display: grid;
@@ -2511,6 +2625,10 @@
             .hero-grid {
                 grid-template-columns: 1fr;
             }
+
+            .exercise-dock {
+                position: static;
+            }
         }
         
         @media (max-width: 768px) {
@@ -2563,6 +2681,18 @@
 
             .hero-actions .btn {
                 width: 100%;
+            }
+
+            .spotlight-top,
+            .exercise-dock {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .dock-actions,
+            .spotlight-actions {
+                width: 100%;
+                justify-content: flex-start;
             }
         }
         
@@ -2977,6 +3107,31 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="exercise-spotlight card" aria-live="polite">
+                        <div class="spotlight-top">
+                            <div>
+                                <p class="meta-label">Exercises, front and center</p>
+                                <h3 class="text-2xl font-bold" id="quickExerciseName">Single-Leg Stand</h3>
+                                <p class="text-neutral-300" id="quickExerciseMeta">00:10 · 4 sets · basic</p>
+                                <div class="spotlight-tags">
+                                    <span class="badge" id="quickExercisePhase">Week 1 — Learning &amp; Safety</span>
+                                    <span class="pill-soft" id="quickExerciseCount">0/0 done</span>
+                                </div>
+                            </div>
+                            <div class="spotlight-actions">
+                                <button class="btn btn-primary btn-lg" id="quickExerciseStart" onclick="quickStartExercise()">
+                                    <i class="ri-play-line"></i> Start next exercise
+                                </button>
+                                <button class="btn btn-secondary" onclick="scrollToSection('phaseMission')">
+                                    <i class="ri-run-line"></i> Open exercise list
+                                </button>
+                            </div>
+                        </div>
+                        <div class="spotlight-list" id="exercisePeek" aria-label="Preview of upcoming exercises">
+                            <!-- Filled dynamically -->
                         </div>
                     </div>
                 </div>
@@ -3441,6 +3596,29 @@
                     </div>
                     
                     <div class="panel-body">
+                        <div class="exercise-dock" aria-live="polite">
+                            <div>
+                                <p class="meta-label">Quick exercise access</p>
+                                <h3 class="text-xl font-bold" id="dockExerciseName">Single-Leg Stand</h3>
+                                <p class="text-neutral-400" id="dockExerciseMeta">00:10 · 4 sets · basic</p>
+                                <div class="spotlight-tags">
+                                    <span class="pill-soft" id="dockExerciseCount">0/0 done</span>
+                                    <span class="badge" id="dockExercisePhase">Week 1 — Learning &amp; Safety</span>
+                                </div>
+                            </div>
+                            <div class="dock-actions">
+                                <button class="btn btn-primary" onclick="quickStartExercise()">
+                                    <i class="ri-play-line"></i> Start / Resume
+                                </button>
+                                <button class="btn btn-secondary" onclick="scrollToSection('phaseMission')">
+                                    <i class="ri-run-line"></i> Exercise list
+                                </button>
+                                <button class="btn btn-outline" onclick="scrollToSection('exerciseContainer')">
+                                    <i class="ri-focus-line"></i> Scroll to stack
+                                </button>
+                            </div>
+                        </div>
+
                         <!-- Phase Navigation -->
                         <div class="card mb-8">
                             <h3 class="text-xl font-bold mb-4">WEEK NAVIGATION</h3>
@@ -5666,6 +5844,116 @@
             saveState();
         }
 
+        function getActiveProtocol() {
+            return EXERCISE_PLANS[AppState.session.phase] || EXERCISE_PLANS[1];
+        }
+
+        function getNextExercise() {
+            const protocol = getActiveProtocol();
+            if (!protocol || !protocol.exercises.length) return null;
+            if (AppState.session.currentExercise) return AppState.session.currentExercise;
+            const nextExercise = protocol.exercises.find(ex => !AppState.session.completedExercises.includes(ex.id));
+            return nextExercise || null;
+        }
+
+        function formatExerciseMeta(exercise) {
+            if (!exercise) return '';
+            const parts = [`${formatTime(exercise.duration)}`, `${exercise.sets} sets`];
+            if (exercise.reps) parts.push(`${exercise.reps} reps`);
+            if (exercise.difficulty) parts.push(exercise.difficulty.toLowerCase());
+            return parts.join(' · ');
+        }
+
+        function renderExercisePeek(protocol = getActiveProtocol()) {
+            const peek = document.getElementById('exercisePeek');
+            if (!peek || !protocol) return;
+            peek.innerHTML = '';
+            const preview = protocol.exercises.slice(0, 3);
+            preview.forEach((exercise) => {
+                const isCompleted = AppState.session.completedExercises.includes(exercise.id);
+                peek.innerHTML += `
+                    <div class="peek-card ${isCompleted ? 'done' : ''}">
+                        <div class="peek-head">
+                            <div class="peek-name">${exercise.name}</div>
+                            <span class="peek-chip">${isCompleted ? 'Done' : 'Ready'}</span>
+                        </div>
+                        <div class="peek-meta">${formatExerciseMeta(exercise)}</div>
+                        <div class="peek-actions">
+                            <button class="btn btn-primary btn-sm" onclick="startExerciseTimer('${exercise.id}')">
+                                <i class="ri-play-line"></i> ${isCompleted ? 'Replay' : 'Start'}
+                            </button>
+                            <button class="btn btn-secondary btn-sm" onclick="scrollToSection('phaseMission')">
+                                <i class="ri-run-line"></i> Full view
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function updateExerciseQuickAccess() {
+            const protocol = getActiveProtocol();
+            const nextExercise = getNextExercise();
+            const total = protocol?.exercises.length || 0;
+            const completedInPhase = protocol
+                ? protocol.exercises.filter(ex => AppState.session.completedExercises.includes(ex.id)).length
+                : 0;
+            const meta = nextExercise
+                ? formatExerciseMeta(nextExercise)
+                : 'Every exercise in this week is marked complete. You can replay any drill.';
+
+            const quickName = document.getElementById('quickExerciseName');
+            if (quickName) quickName.textContent = nextExercise ? nextExercise.name : 'All exercises done';
+
+            const quickMeta = document.getElementById('quickExerciseMeta');
+            if (quickMeta) quickMeta.textContent = meta;
+
+            const quickCount = document.getElementById('quickExerciseCount');
+            if (quickCount) quickCount.textContent = `${completedInPhase}/${total} done`;
+
+            const quickPhase = document.getElementById('quickExercisePhase');
+            if (quickPhase) quickPhase.textContent = protocol ? protocol.title : 'Exercises';
+
+            const quickButton = document.getElementById('quickExerciseStart');
+            if (quickButton) {
+                quickButton.disabled = total === 0;
+                quickButton.innerHTML = nextExercise
+                    ? `<i class="ri-play-line"></i> ${Timers.exerciseRunning ? 'Resume timer' : 'Start next exercise'}`
+                    : `<i class="ri-run-line"></i> Review exercises`;
+            }
+
+            const dockName = document.getElementById('dockExerciseName');
+            if (dockName) dockName.textContent = nextExercise ? nextExercise.name : 'Exercises complete';
+
+            const dockMeta = document.getElementById('dockExerciseMeta');
+            if (dockMeta) dockMeta.textContent = meta;
+
+            const dockCount = document.getElementById('dockExerciseCount');
+            if (dockCount) dockCount.textContent = `${completedInPhase}/${total} done`;
+
+            const dockPhase = document.getElementById('dockExercisePhase');
+            if (dockPhase) dockPhase.textContent = protocol ? protocol.title : 'Exercises';
+
+            renderExercisePeek(protocol);
+        }
+
+        function quickStartExercise() {
+            if (!AppState.session.authenticated) {
+                showNotification('Authenticate first', 'Confirm your ID to unlock exercises.', 'warning');
+                scrollToSection('phaseAuth');
+                return;
+            }
+
+            const nextExercise = getNextExercise();
+            if (nextExercise) {
+                startExerciseTimer(nextExercise.id);
+                scrollToSection('phaseMission');
+            } else {
+                scrollToSection('phaseMission');
+            }
+            updateExerciseQuickAccess();
+        }
+
         function selectPhase(phase) {
             if (!EXERCISE_PLANS[phase]) {
                 showNotification('Phase Unavailable', 'Advanced phase coming soon', 'info');
@@ -5738,6 +6026,7 @@
             
             showNotification(`Phase ${phase} Loaded`, protocol.description, 'info');
             refreshExperienceSummary();
+            updateExerciseQuickAccess();
             saveState();
         }
 
@@ -5774,6 +6063,7 @@
             
             document.getElementById('timerPauseBtn').innerHTML = '<i class="ri-pause-line"></i> PAUSE';
             runExerciseCountdown(exercise);
+            updateExerciseQuickAccess();
         }
 
         function runExerciseCountdown(exercise) {
@@ -5818,6 +6108,7 @@
             } else {
                 button.innerHTML = '<i class="ri-play-line"></i> RESUME';
             }
+            updateExerciseQuickAccess();
         }
 
         function stopExerciseTimer() {
@@ -5825,6 +6116,7 @@
             clearTimer('exercise');
             document.getElementById('timerModal').classList.remove('active');
             showNotification('Exercise Stopped', 'Timer cancelled', 'warning');
+            updateExerciseQuickAccess();
         }
 
         function completeExerciseTimer() {
@@ -5876,6 +6168,7 @@
             updateMLRecommendations();
             
             showNotification('Exercise Completed', 'Great work! Progress saved.', 'success');
+            updateExerciseQuickAccess();
             saveState();
         }
 
@@ -6458,6 +6751,7 @@
             // Initialize ML recommendations
             updateMLRecommendations();
             refreshExperienceSummary();
+            updateExerciseQuickAccess();
             
             // Keyboard shortcuts
             document.addEventListener('keydown', (e) => {
