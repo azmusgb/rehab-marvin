@@ -2608,36 +2608,18 @@
             </div>
         </div>
     </div>
-    
-    
     <script>
     // =========================================================
-    // ENHANCED APPLICATION STATE WITH ERROR HANDLING
+    // ENHANCED APPLICATION STATE
     // =========================================================
     const AppState = {
         version: '4.1',
         operator: {
             id: 'MARVIN',
             clearance: 'Rehab_RISING',
-            biometrics: {
-                faceRegistered: true,
-                voiceRegistered: true,
-                motionRegistered: false
-            },
             profile: {
-                name: 'MARVIN',
-                injury: 'BALANCE',
                 intensity: 'STANDARD',
-                support: 'MINIMAL',
-                sessionsPerWeek: 5,
-                painThreshold: 7,
-                motivation: 'I WILL RECLAIM MY MOBILITY. I WILL NOT BE DEFEATED.',
-                customExercises: [],
-                privacy: {
-                    shareTherapist: true,
-                    allowAI: true,
-                    anonymousResearch: false
-                }
+                painThreshold: 7
             }
         },
         session: {
@@ -2650,86 +2632,28 @@
             authenticated: false,
             completedExercises: [],
             currentExercise: null,
-            painHistory: [],
             notes: '',
             metrics: {
                 painIndex: 0,
                 fatigue: 0,
-                readiness: 100,
-                stability: 100,
-                startPain: 0,
-                avgPain: 0,
-                maxPain: 0
+                readiness: 100
             }
         },
         progress: {
             totalSessions: 0,
-            streak: 0,
-            longestStreak: 0,
-            lastSession: null,
-            phasesCompleted: [],
-            bestTimes: {},
-            achievements: []
-        },
-        emergency: {
-            triggered: false,
-            lastStop: null,
-            stopCount: 0
+            streak: 0
         }
     };
 
     // =========================================================
-    // ENHANCED ERROR HANDLING
-    // =========================================================
-    class RehabError extends Error {
-        constructor(message, context = 'Unknown') {
-            super(message);
-            this.name = 'RehabError';
-            this.context = context;
-            this.timestamp = new Date().toISOString();
-        }
-        
-        log() {
-            console.error(`[${this.timestamp}] RehabError in ${this.context}:`, this.message);
-            return this;
-        }
-    }
-
-    function withErrorHandling(fn, context = 'Unknown') {
-        return function(...args) {
-            try {
-                return fn.apply(this, args);
-            } catch (error) {
-                const rehabError = new RehabError(
-                    error.message || 'Unknown error occurred',
-                    context
-                ).log();
-                
-                showNotification(
-                    'Application Error',
-                    `Something went wrong in ${context}. Please try again.`,
-                    'error'
-                );
-                
-                // Return safe fallback
-                return null;
-            }
-        };
-    }
-
-    // =========================================================
-    // ENHANCED STATE MANAGEMENT
+    // STATE MANAGEMENT
     // =========================================================
     const StateManager = {
-        KEY: 'RehabSessionPro_State_v4',
+        KEY: 'RehabSessionPro_State',
         
         save() {
             try {
-                const state = {
-                    ...AppState,
-                    lastSaved: new Date().toISOString()
-                };
-                localStorage.setItem(this.KEY, JSON.stringify(state));
+                localStorage.setItem(this.KEY, JSON.stringify(AppState));
                 return true;
             } catch (error) {
                 console.error('Failed to save state:', error);
@@ -2742,108 +2666,91 @@
                 const saved = localStorage.getItem(this.KEY);
                 if (saved) {
                     const parsed = JSON.parse(saved);
-                    
-                    // Merge with defaults, preserving important state
-                    AppState.operator = { ...AppState.operator, ...parsed.operator };
-                    AppState.session = { 
-                        ...AppState.session, 
-                        ...parsed.session,
-                        // Don't restore active session on load for safety
-                        active: false,
-                        paused: false,
-                        emergency: { triggered: false, lastStop: null, stopCount: 0 }
-                    };
-                    AppState.progress = { ...AppState.progress, ...parsed.progress };
-                    
+                    Object.assign(AppState, parsed);
                     return true;
                 }
             } catch (error) {
                 console.error('Failed to load state:', error);
-                // Clear corrupted state
-                localStorage.removeItem(this.KEY);
             }
             return false;
-        },
-        
-        clear() {
-            try {
-                localStorage.removeItem(this.KEY);
-                return true;
-            } catch (error) {
-                console.error('Failed to clear state:', error);
-                return false;
-            }
         }
     };
 
     // =========================================================
-    // ENHANCED NOTIFICATION SYSTEM
+    // NOTIFICATION SYSTEM
     // =========================================================
     function showNotification(title, message, type = 'info', duration = 5000) {
         const container = document.getElementById('notificationContainer');
-        if (!container) return null;
+        if (!container) return;
         
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
         notification.setAttribute('role', 'alert');
-        notification.setAttribute('aria-live', type === 'error' ? 'assertive' : 'polite');
         
         notification.innerHTML = `
             <button class="notification-close" aria-label="Close notification">
-                <i class="ri-close-line" aria-hidden="true"></i>
+                <i class="ri-close-line"></i>
             </button>
-            <div class="notification-title">${escapeHtml(title)}</div>
-            <div class="notification-message">${escapeHtml(message)}</div>
+            <div class="notification-title">${title}</div>
+            <div class="notification-message">${message}</div>
         `;
         
         container.appendChild(notification);
         
         // Add close functionality
         const closeBtn = notification.querySelector('.notification-close');
-        closeBtn.addEventListener('click', () => removeNotification(notification));
+        closeBtn.addEventListener('click', () => {
+            notification.remove();
+        });
         
         // Auto-remove after duration
         if (duration > 0) {
-            setTimeout(() => removeNotification(notification), duration);
-        }
-        
-        return notification;
-    }
-    
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-    
-    function removeNotification(notification) {
-        if (notification && notification.parentElement) {
-            notification.style.animation = 'notification-slide-in 0.3s cubic-bezier(0.4, 0, 0.2, 1) reverse forwards';
             setTimeout(() => {
                 if (notification.parentElement) {
                     notification.remove();
                 }
-            }, 300);
+            }, duration);
         }
     }
 
     // =========================================================
-    // ENHANCED TIME FORMATTING
+    // TIME FUNCTIONS
     // =========================================================
     function formatTime(seconds) {
-        if (typeof seconds !== 'number' || isNaN(seconds)) {
-            return '00:00';
-        }
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function updateSystemTime() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('en-US', { 
+            hour12: false,
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
         
-        const secs = Math.max(0, Math.floor(seconds));
-        const mins = Math.floor(secs / 60);
-        const remainingSecs = secs % 60;
+        // Update all clock elements
+        const clocks = [
+            'currentTime',
+            'sessionClockValue', 
+            'mobileClockValue'
+        ];
         
-        return `${mins.toString().padStart(2, '0')}:${remainingSecs.toString().padStart(2, '0')}`;
+        clocks.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.textContent = timeString;
+                if (el.tagName === 'TIME') {
+                    el.setAttribute('datetime', now.toISOString());
+                }
+            }
+        });
     }
 
     // =========================================================
-    // ENHANCED SYSTEM STATUS UPDATES
+    // STATUS UPDATES
     // =========================================================
     function updateSystemStatus() {
         const statusDot = document.getElementById('systemStatus');
@@ -2852,41 +2759,23 @@
         if (!statusDot || !statusText) return;
         
         let status = 'Ready';
-        let color = 'var(--accent-yellow)';
-        let animation = 'pulse 2s infinite';
+        let color = 'var(--accent-teal)';
         
-        if (AppState.emergency.triggered) {
-            status = 'EMERGENCY';
-            color = 'var(--accent-red)';
-            animation = 'blink 1s infinite';
-        } else if (AppState.session.active) {
-            if (AppState.session.paused) {
-                status = 'Paused';
-                color = 'var(--accent-yellow)';
-            } else {
-                status = 'Active';
-                color = 'var(--accent-green)';
-            }
+        if (AppState.session.active) {
+            status = AppState.session.paused ? 'Paused' : 'Active';
+            color = AppState.session.paused ? 'var(--accent-yellow)' : 'var(--accent-green)';
         } else if (AppState.session.authenticated) {
             status = 'Ready';
             color = 'var(--accent-teal)';
         }
         
-        // Apply styles
         statusDot.style.background = color;
         statusText.textContent = status;
         statusText.style.color = color;
-        
-        // Handle reduced motion
-        if (document.body.classList.contains('reduced-motion')) {
-            statusDot.style.animation = 'none';
-        } else {
-            statusDot.style.animation = animation;
-        }
     }
 
     // =========================================================
-    // ENHANCED PAIN MONITORING
+    // PAIN MONITOR
     // =========================================================
     class PainMonitor {
         constructor() {
@@ -2895,12 +2784,12 @@
             this.currentValue = 0;
             this.isDragging = false;
             
-            this.init();
+            if (this.marker && this.scale) {
+                this.init();
+            }
         }
         
         init() {
-            if (!this.marker || !this.scale) return;
-            
             // Mouse events
             this.marker.addEventListener('mousedown', this.startDrag.bind(this));
             document.addEventListener('mousemove', this.drag.bind(this));
@@ -2911,15 +2800,14 @@
             document.addEventListener('touchmove', this.drag.bind(this));
             document.addEventListener('touchend', this.stopDrag.bind(this));
             
-            // Keyboard support
-            this.marker.addEventListener('keydown', this.handleKeydown.bind(this));
-            this.marker.setAttribute('tabindex', '0');
+            // Set initial value
+            this.setValue(0);
         }
         
         startDrag(e) {
             e.preventDefault();
             this.isDragging = true;
-            this.marker.classList.add('cursor-grabbing');
+            this.marker.style.cursor = 'grabbing';
         }
         
         drag(e) {
@@ -2939,50 +2827,77 @@
         
         stopDrag() {
             this.isDragging = false;
-            this.marker.classList.remove('cursor-grabbing');
-        }
-        
-        handleKeydown(e) {
-            const step = 0.5; // Half point increments
-            
-            switch(e.key) {
-                case 'ArrowLeft':
-                case 'ArrowDown':
-                    e.preventDefault();
-                    this.setValue(Math.max(0, this.currentValue - step));
-                    break;
-                case 'ArrowRight':
-                case 'ArrowUp':
-                    e.preventDefault();
-                    this.setValue(Math.min(10, this.currentValue + step));
-                    break;
-                case 'Home':
-                    e.preventDefault();
-                    this.setValue(0);
-                    break;
-                case 'End':
-                    e.preventDefault();
-                    this.setValue(10);
-                    break;
-            }
+            this.marker.style.cursor = 'grab';
         }
         
         setValue(value) {
-            this.currentValue = Math.round(value * 2) / 2; // Round to nearest 0.5
+            this.currentValue = Math.max(0, Math.min(10, value));
             const percentage = this.currentValue * 10;
             
             // Update UI
             this.marker.style.left = `${percentage}%`;
             this.marker.textContent = this.currentValue.toFixed(1);
-            this.marker.setAttribute('aria-valuenow', this.currentValue);
             
-            // Update app state
+            // Update app state and displays
             AppState.session.metrics.painIndex = this.currentValue;
             
-            // Update other pain displays
-            document.getElementById('painValue').textContent = this.currentValue.toFixed(1);
-            document.getElementById('realTimePain').textContent = this.currentValue.toFixed(1);
-            document.getElementById('livePain').textContent = this.currentValue.toFixed(1);
+            // Update all pain displays
+            const painDisplays = [
+                'painValue',
+                'realTimePain',
+                'livePain',
+                'summaryPainBadge',
+                'summaryPainBaseline',
+                'mobilePainValue'
+            ];
+            
+            painDisplays.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (id === 'summaryPainBaseline') {
+                        el.textContent = `${this.currentValue.toFixed(1)}/10`;
+                    } else {
+                        el.textContent = this.currentValue.toFixed(1);
+                    }
+                }
+            });
+            
+            // Update fatigue based on pain
+            const fatigue = Math.min(100, this.currentValue * 15);
+            AppState.session.metrics.fatigue = fatigue;
+            
+            const fatigueBar = document.getElementById('fatigueBar');
+            const fatigueValue = document.getElementById('fatigueValue');
+            const mobileFatigue = document.getElementById('mobileFatigueValue');
+            const summaryFatigue = document.getElementById('summaryFatigue');
+            
+            if (fatigueBar) fatigueBar.style.width = `${fatigue}%`;
+            if (fatigueValue) fatigueValue.textContent = `${fatigue}%`;
+            if (mobileFatigue) mobileFatigue.textContent = `${fatigue}%`;
+            if (summaryFatigue) summaryFatigue.textContent = `${fatigue}%`;
+            
+            // Update readiness
+            const readiness = Math.max(0, 100 - (this.currentValue * 10) - (fatigue * 0.5));
+            AppState.session.metrics.readiness = readiness;
+            
+            document.getElementById('readinessScore').textContent = `${Math.round(readiness)}%`;
+            document.getElementById('summaryReadinessValue').textContent = `${Math.round(readiness)}%`;
+            document.getElementById('mobileReadinessValue').textContent = `${Math.round(readiness)}%`;
+            document.getElementById('bioReadiness').textContent = `${Math.round(readiness)}%`;
+            
+            // Update readiness ring
+            const readinessRing = document.getElementById('readinessRing');
+            if (readinessRing) {
+                const circumference = 2 * Math.PI * 60;
+                const offset = circumference - (readiness / 100) * circumference;
+                readinessRing.style.strokeDashoffset = offset;
+            }
+            
+            // Update readiness bar
+            const readinessBar = document.getElementById('readinessBar');
+            if (readinessBar) {
+                readinessBar.style.width = `${readiness}%`;
+            }
             
             // Check pain threshold
             this.checkThreshold();
@@ -2996,57 +2911,29 @@
             const warning = document.getElementById('painWarning');
             
             if (this.currentValue >= threshold) {
-                warning.classList.remove('hidden');
+                if (warning) warning.classList.remove('hidden');
                 if (this.currentValue >= 8) {
                     showNotification('Severe Pain Alert', 
                         `Pain level ${this.currentValue.toFixed(1)}/10 detected. Consider stopping.`, 
                         'error');
                 }
             } else {
-                warning.classList.add('hidden');
+                if (warning) warning.classList.add('hidden');
             }
         }
     }
 
     // =========================================================
-    // ENHANCED FORM VALIDATION
-    // =========================================================
-    class FormValidator {
-        static validateAuthentication(formData) {
-            const errors = [];
-            
-            if (!formData.operatorId?.trim()) {
-                errors.push('Operator ID is required');
-            } else if (formData.operatorId.length < 2) {
-                errors.push('Operator ID must be at least 2 characters');
-            }
-            
-            if (formData.securityCode && formData.securityCode.length < 3) {
-                errors.push('Security code must be at least 3 characters if provided');
-            }
-            
-            return {
-                isValid: errors.length === 0,
-                errors
-            };
-        }
-    }
-
-    // =========================================================
-    // ENHANCED CALM MODE TOGGLE
+    // CALM MODE
     // =========================================================
     class CalmModeManager {
         constructor() {
             this.KEY = "RehabCalmMode";
-            this.mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-            this.hasStoredPreference = false;
-            
             this.init();
         }
         
         init() {
             this.loadPreference();
-            this.setupMediaQueryListener();
             this.setupToggleButton();
         }
         
@@ -3054,53 +2941,37 @@
             try {
                 const saved = localStorage.getItem(this.KEY);
                 if (saved !== null) {
-                    this.hasStoredPreference = true;
                     this.apply(saved === "1");
-                } else {
-                    // No stored preference, use system preference
-                    this.apply(this.mediaQuery.matches, false);
                 }
             } catch (e) {
                 console.error('Failed to load calm mode preference:', e);
             }
         }
         
-        apply(enabled, persist = true) {
-            const shouldReduce = enabled || this.mediaQuery.matches;
-            
+        apply(enabled) {
             document.body.classList.toggle("calm", enabled);
-            document.body.classList.toggle("reduced-motion", shouldReduce);
             
-            // Update button state
+            // Update button
             const btn = document.getElementById("calmToggleBtn");
             const label = document.getElementById("calmToggleLabel");
             
             if (btn) {
                 btn.setAttribute("aria-pressed", enabled.toString());
-                btn.setAttribute("aria-label", enabled ? 
-                    "Calm mode on - reduced visuals and motion" : 
-                    "Pro mode on - full visuals and motion");
-                
                 btn.innerHTML = enabled ? 
-                    '<i class="ri-moon-clear-line" aria-hidden="true"></i>' : 
-                    '<i class="ri-sun-line" aria-hidden="true"></i>';
+                    '<i class="ri-moon-clear-line"></i>' : 
+                    '<i class="ri-sun-line"></i>';
             }
             
             if (label) {
                 label.textContent = enabled ? "Calm" : "Pro";
             }
             
-            // Persist if requested
-            if (persist && this.hasStoredPreference) {
-                try {
-                    localStorage.setItem(this.KEY, enabled ? "1" : "0");
-                } catch (e) {
-                    console.error('Failed to save calm mode preference:', e);
-                }
+            // Save preference
+            try {
+                localStorage.setItem(this.KEY, enabled ? "1" : "0");
+            } catch (e) {
+                console.error('Failed to save calm mode preference:', e);
             }
-            
-            // Update animations
-            this.updateAnimations(shouldReduce);
         }
         
         toggle() {
@@ -3108,45 +2979,65 @@
             this.apply(!isCalm);
         }
         
-        setupMediaQueryListener() {
-            this.mediaQuery.addEventListener('change', (e) => {
-                if (!this.hasStoredPreference) {
-                    this.apply(e.matches, false);
-                }
-            });
-        }
-        
         setupToggleButton() {
             const btn = document.getElementById("calmToggleBtn");
             if (btn) {
                 btn.addEventListener('click', () => this.toggle());
             }
-            
-            // Also connect other calm mode buttons
-            const calmButtons = document.querySelectorAll('[aria-label*="calm"], [title*="Calm"]');
-            calmButtons.forEach(button => {
-                if (button !== btn) {
-                    button.addEventListener('click', () => this.toggle());
-                }
-            });
-        }
-        
-        updateAnimations(shouldReduce) {
-            const elements = document.querySelectorAll('[style*="animation"], .status-dot');
-            elements.forEach(el => {
-                if (shouldReduce) {
-                    el.style.animationPlayState = 'paused';
-                } else {
-                    el.style.animationPlayState = 'running';
-                }
-            });
         }
     }
 
     // =========================================================
-    // MISSION MANAGEMENT FUNCTIONS
+    // AUTHENTICATION
     // =========================================================
+    function authenticateOperator() {
+        const operatorId = document.getElementById('operatorId').value.trim();
+        const missionProfile = document.getElementById('missionProfile').value;
+        
+        if (!operatorId) {
+            showNotification('Authentication Failed', 'Please enter your name', 'error');
+            return;
+        }
+        
+        // Update app state
+        AppState.operator.id = operatorId.toUpperCase();
+        AppState.operator.profile.intensity = missionProfile;
+        AppState.session.authenticated = true;
+        
+        // Update UI
+        document.getElementById('operatorName').textContent = `Patient: ${operatorId}`;
+        document.getElementById('briefOperator').textContent = operatorId;
+        document.getElementById('missionName').textContent = `Rehab Session - ${missionProfile}`;
+        document.getElementById('sessionPatient').textContent = operatorId;
+        
+        // Update phase states
+        document.getElementById('stepAuthState').textContent = 'Done';
+        document.getElementById('stepBioState').textContent = 'Ready';
+        document.getElementById('mobileAuthState').textContent = 'Done';
+        document.getElementById('mobileReadinessState').textContent = 'Ready';
+        
+        // Show next phase
+        document.getElementById('phaseAuth').classList.add('hidden');
+        document.getElementById('phaseBio').classList.remove('hidden');
+        
+        // Update status and save
+        updateSystemStatus();
+        refreshExperienceSummary();
+        StateManager.save();
+        
+        showNotification('Authentication Successful', 
+            `Welcome back, ${operatorId}. Ready for readiness check.`, 
+            'success');
+        
+        // Scroll to bio phase
+        setTimeout(() => {
+            document.getElementById('phaseBio').scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+    }
 
+    // =========================================================
+    // MISSION FUNCTIONS
+    // =========================================================
     function beginMission() {
         if (!AppState.session.authenticated) {
             showNotification('Not Authenticated', 'Please complete authentication first', 'warning');
@@ -3191,10 +3082,8 @@
         
         if (AppState.session.paused) {
             showNotification('Session Paused', 'Session paused. Resume when ready.', 'warning');
-            document.getElementById('pauseBtn').innerHTML = '<i class="ri-play-line" aria-hidden="true"></i> RESUME';
         } else {
             showNotification('Session Resumed', 'Session resumed. Continue your exercises.', 'success');
-            document.getElementById('pauseBtn').innerHTML = '<i class="ri-pause-line" aria-hidden="true"></i> PAUSE';
         }
         
         updateSystemStatus();
@@ -3205,11 +3094,8 @@
     function emergencyStop() {
         if (!AppState.session.active) return;
         
-        AppState.emergency.triggered = true;
         AppState.session.active = false;
         AppState.session.paused = false;
-        AppState.emergency.lastStop = Date.now();
-        AppState.emergency.stopCount++;
         
         // Show emergency notification
         showNotification('EMERGENCY STOP', 'Session terminated for safety. Check pain levels.', 'error', 10000);
@@ -3231,28 +3117,11 @@
         if (!AppState.session.active) return;
         
         // Calculate session metrics
-        const endTime = Date.now();
-        const duration = Math.floor((endTime - AppState.session.startTime) / 1000);
+        const duration = Math.floor((Date.now() - AppState.session.startTime) / 1000);
         
         // Update progress
         AppState.progress.totalSessions++;
-        AppState.progress.lastSession = new Date().toISOString();
-        
-        // Check for streak
-        const today = new Date().toDateString();
-        const lastSessionDate = AppState.progress.lastSession ? new Date(AppState.progress.lastSession).toDateString() : null;
-        
-        if (lastSessionDate === today) {
-            // Already logged today
-        } else if (!lastSessionDate || new Date(lastSessionDate).getTime() === new Date(today).getTime() - 86400000) {
-            AppState.progress.streak++;
-        } else {
-            AppState.progress.streak = 1;
-        }
-        
-        if (AppState.progress.streak > AppState.progress.longestStreak) {
-            AppState.progress.longestStreak = AppState.progress.streak;
-        }
+        AppState.progress.streak++;
         
         // End session
         AppState.session.active = false;
@@ -3266,8 +3135,8 @@
         // Set debrief values
         document.getElementById('debriefTime').textContent = formatTime(duration);
         document.getElementById('debriefExercises').textContent = AppState.session.completedExercises.length;
-        document.getElementById('debriefPain').textContent = AppState.session.metrics.avgPain.toFixed(1);
-        document.getElementById('debriefSuccess').textContent = `${Math.min(100, Math.floor((AppState.session.completedExercises.length / 12) * 100))}%`;
+        document.getElementById('debriefPain').textContent = AppState.session.metrics.painIndex.toFixed(1);
+        document.getElementById('debriefSuccess').textContent = `${Math.min(100, Math.floor((AppState.session.completedExercises.length / 7) * 100))}%`;
         
         // Show success notification
         showNotification('Session Complete', `Great work! ${AppState.session.completedExercises.length} exercises completed.`, 'success');
@@ -3283,6 +3152,9 @@
         }, 100);
     }
 
+    // =========================================================
+    // EXERCISE FUNCTIONS
+    // =========================================================
     function loadExercises() {
         const exerciseContainer = document.getElementById('exerciseContainer');
         const exercisePeek = document.getElementById('exercisePeek');
@@ -3298,8 +3170,7 @@
                 duration: 10,
                 sets: 4,
                 reps: '2× each leg',
-                difficulty: 'basic',
-                completed: false
+                difficulty: 'basic'
             },
             {
                 id: 'tandem-stand',
@@ -3308,8 +3179,7 @@
                 duration: 10,
                 sets: 2,
                 reps: 'Switch lead foot',
-                difficulty: 'basic',
-                completed: false
+                difficulty: 'basic'
             },
             {
                 id: 'side-stepping',
@@ -3318,8 +3188,7 @@
                 duration: 30,
                 sets: 2,
                 reps: '5 steps each direction',
-                difficulty: 'basic',
-                completed: false
+                difficulty: 'basic'
             },
             {
                 id: 'backward-walking',
@@ -3328,8 +3197,7 @@
                 duration: 20,
                 sets: 2,
                 reps: '5 steps',
-                difficulty: 'basic',
-                completed: false
+                difficulty: 'basic'
             },
             {
                 id: 'calf-raises',
@@ -3338,8 +3206,7 @@
                 duration: 30,
                 sets: 1,
                 reps: '10 each leg',
-                difficulty: 'basic',
-                completed: false
+                difficulty: 'basic'
             },
             {
                 id: 'marching-knees',
@@ -3348,8 +3215,7 @@
                 duration: 30,
                 sets: 1,
                 reps: '10 total steps',
-                difficulty: 'basic',
-                completed: false
+                difficulty: 'basic'
             },
             {
                 id: 'mini-squats',
@@ -3358,8 +3224,7 @@
                 duration: 30,
                 sets: 1,
                 reps: '8-10 times',
-                difficulty: 'basic',
-                completed: false
+                difficulty: 'basic'
             }
         ];
         
@@ -3369,8 +3234,10 @@
         
         // Load main exercise list
         exercises.forEach((exercise, index) => {
+            const isCompleted = AppState.session.completedExercises.includes(exercise.id);
+            
             const exerciseCard = document.createElement('div');
-            exerciseCard.className = `exercise-card ${exercise.completed ? 'completed' : ''}`;
+            exerciseCard.className = `exercise-card ${isCompleted ? 'completed' : ''}`;
             exerciseCard.id = `exercise-${exercise.id}`;
             
             exerciseCard.innerHTML = `
@@ -3394,7 +3261,7 @@
                         <div class="stat-label">Sets</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-value">${exercise.completed ? '✓' : '○'}</div>
+                        <div class="stat-value">${isCompleted ? '✓' : '○'}</div>
                         <div class="stat-label">Status</div>
                     </div>
                 </div>
@@ -3416,7 +3283,7 @@
             // Add to peek view (first 3 exercises)
             if (index < 3) {
                 const peekCard = document.createElement('div');
-                peekCard.className = `peek-card ${exercise.completed ? 'done' : ''}`;
+                peekCard.className = `peek-card ${isCompleted ? 'done' : ''}`;
                 
                 peekCard.innerHTML = `
                     <div class="peek-head">
@@ -3441,19 +3308,22 @@
         // Update quick exercise display
         if (exercises.length > 0) {
             const firstExercise = exercises[0];
-            document.getElementById('quickExerciseName').textContent = firstExercise.name;
-            document.getElementById('quickExerciseMeta').textContent = `${firstExercise.duration}s · ${firstExercise.sets} sets · ${firstExercise.difficulty}`;
-            document.getElementById('dockExerciseName').textContent = firstExercise.name;
-            document.getElementById('dockExerciseMeta').textContent = `${firstExercise.duration}s · ${firstExercise.sets} sets · ${firstExercise.difficulty}`;
+            const isFirstCompleted = AppState.session.completedExercises.includes(firstExercise.id);
+            
+            if (!isFirstCompleted) {
+                document.getElementById('quickExerciseName').textContent = firstExercise.name;
+                document.getElementById('quickExerciseMeta').textContent = `${firstExercise.duration}s · ${firstExercise.sets} sets · ${firstExercise.difficulty}`;
+                document.getElementById('dockExerciseName').textContent = firstExercise.name;
+                document.getElementById('dockExerciseMeta').textContent = `${firstExercise.duration}s · ${firstExercise.sets} sets · ${firstExercise.difficulty}`;
+            }
         }
+        
+        // Update exercise count
+        updateExerciseCount();
     }
 
     function startExercise(exerciseId) {
-        const exerciseCard = document.getElementById(`exercise-${exerciseId}`);
-        if (!exerciseCard) return;
-        
-        // Find exercise data
-        const exerciseName = exerciseCard.querySelector('.exercise-title').textContent;
+        const exerciseName = document.querySelector(`#exercise-${exerciseId} .exercise-title`).textContent;
         
         // Update UI
         document.getElementById('dockExerciseName').textContent = exerciseName;
@@ -3480,16 +3350,7 @@
         }
         
         // Update UI
-        document.getElementById('completedExercises').textContent = AppState.session.completedExercises.length;
-        document.getElementById('dockExerciseCount').textContent = `${AppState.session.completedExercises.length}/7 done`;
-        document.getElementById('quickExerciseCount').textContent = `${AppState.session.completedExercises.length}/7 done`;
-        
-        // Update quick exercise to next uncompleted exercise
-        const nextExercise = document.querySelector('.exercise-card:not(.completed)');
-        if (nextExercise) {
-            const nextName = nextExercise.querySelector('.exercise-title').textContent;
-            document.getElementById('quickExerciseName').textContent = nextName;
-        }
+        updateExerciseCount();
         
         // Show notification
         showNotification('Exercise Complete', 'Great work! Move to next exercise when ready.', 'success');
@@ -3511,10 +3372,25 @@
         // Mark as completed but skipped
         if (!AppState.session.completedExercises.includes(exerciseId)) {
             AppState.session.completedExercises.push(exerciseId);
-            document.getElementById('completedExercises').textContent = AppState.session.completedExercises.length;
+            updateExerciseCount();
         }
         
         StateManager.save();
+    }
+
+    function updateExerciseCount() {
+        const completedCount = AppState.session.completedExercises.length;
+        
+        document.getElementById('completedExercises').textContent = completedCount;
+        document.getElementById('dockExerciseCount').textContent = `${completedCount}/7 done`;
+        document.getElementById('quickExerciseCount').textContent = `${completedCount}/7 done`;
+        
+        // Update quick exercise to next uncompleted exercise
+        const nextExercise = document.querySelector('.exercise-card:not(.completed)');
+        if (nextExercise) {
+            const nextName = nextExercise.querySelector('.exercise-title').textContent;
+            document.getElementById('quickExerciseName').textContent = nextName;
+        }
     }
 
     function quickStartExercise() {
@@ -3529,8 +3405,6 @@
     }
 
     function startSessionTimer() {
-        if (!AppState.session.active || AppState.session.paused) return;
-        
         const timerElement = document.getElementById('missionTimer');
         const timeElapsedElement = document.getElementById('timeElapsed');
         
@@ -3549,7 +3423,7 @@
             timerElement.textContent = formatTime(remaining);
             timeElapsedElement.textContent = formatTime(elapsed);
             
-            // Update success rate (decreases slightly over time to simulate reality)
+            // Update success rate
             const successRate = Math.max(70, 100 - Math.floor(elapsed / 60));
             document.getElementById('successRate').textContent = `${successRate}%`;
             
@@ -3569,7 +3443,6 @@
     // =========================================================
     // HELPER FUNCTIONS
     // =========================================================
-
     function scrollToSection(sectionId) {
         const section = document.getElementById(sectionId);
         if (section) {
@@ -3591,34 +3464,19 @@
     }
 
     function refreshExperienceSummary() {
-        // Update all summary displays based on current state
-        const elements = {
-            summaryProfile: AppState.operator.profile.intensity,
-            summaryStreak: `${AppState.progress.streak} days`,
-            summarySessions: AppState.progress.totalSessions,
-            summaryPainLimit: `${AppState.operator.profile.painThreshold}/10`,
-            summaryPainBaseline: `${AppState.session.metrics.painIndex.toFixed(1)}/10`,
-            summaryReadinessValue: `${Math.round(AppState.session.metrics.readiness)}%`,
-            summaryPainBadge: `${AppState.session.metrics.painIndex.toFixed(1)}/10`,
-            summaryFatigue: `${Math.round(AppState.session.metrics.fatigue)}%`
-        };
-        
-        Object.entries(elements).forEach(([id, value]) => {
-            const el = document.getElementById(id);
-            if (el) el.textContent = value;
-        });
+        // Update all summary displays
+        document.getElementById('summaryProfile').textContent = AppState.operator.profile.intensity;
+        document.getElementById('summaryStreak').textContent = `${AppState.progress.streak} days`;
+        document.getElementById('summarySessions').textContent = AppState.progress.totalSessions;
+        document.getElementById('summaryPainLimit').textContent = `${AppState.operator.profile.painThreshold}/10`;
+        document.getElementById('summaryPainBaseline').textContent = `${AppState.session.metrics.painIndex.toFixed(1)}/10`;
+        document.getElementById('summaryReadinessValue').textContent = `${Math.round(AppState.session.metrics.readiness)}%`;
+        document.getElementById('summaryFatigue').textContent = `${Math.round(AppState.session.metrics.fatigue)}%`;
         
         // Update mobile displays
-        const mobileElements = {
-            mobileReadinessValue: `${Math.round(AppState.session.metrics.readiness)}%`,
-            mobilePainValue: `${AppState.session.metrics.painIndex.toFixed(1)}/10`,
-            mobileFatigueValue: `${Math.round(AppState.session.metrics.fatigue)}%`
-        };
-        
-        Object.entries(mobileElements).forEach(([id, value]) => {
-            const el = document.getElementById(id);
-            if (el) el.textContent = value;
-        });
+        document.getElementById('mobileReadinessValue').textContent = `${Math.round(AppState.session.metrics.readiness)}%`;
+        document.getElementById('mobilePainValue').textContent = `${AppState.session.metrics.painIndex.toFixed(1)}/10`;
+        document.getElementById('mobileFatigueValue').textContent = `${Math.round(AppState.session.metrics.fatigue)}%`;
         
         // Update session state
         const sessionState = AppState.session.active ? 
@@ -3661,94 +3519,18 @@
         
         [primaryActionBtn, mobileActionBtn, dockActionBtn, heroActionBtn].forEach(btn => {
             if (btn) {
-                btn.innerHTML = `<i class="${actionIcon}" aria-hidden="true"></i> ${actionText}`;
+                btn.innerHTML = `<i class="${actionIcon}"></i> ${actionText}`;
             }
         });
     }
 
     // =========================================================
-    // AUTHENTICATION FUNCTION
-    // =========================================================
-    function authenticateOperator() {
-        const formData = {
-            operatorId: document.getElementById('operatorId').value.trim(),
-            securityCode: document.getElementById('securityCode').value.trim(),
-            missionProfile: document.getElementById('missionProfile').value
-        };
-        
-        const validation = FormValidator.validateAuthentication(formData);
-        if (!validation.isValid) {
-            showNotification('Authentication Failed', validation.errors.join('\n'), 'error');
-            return;
-        }
-        
-        // Update app state
-        AppState.operator.id = formData.operatorId.toUpperCase();
-        AppState.operator.clearance = formData.securityCode;
-        AppState.operator.profile.intensity = formData.missionProfile;
-        AppState.session.authenticated = true;
-        
-        // Update UI
-        document.getElementById('operatorName').textContent = `Patient: ${formData.operatorId}`;
-        document.getElementById('briefOperator').textContent = formData.operatorId;
-        document.getElementById('missionName').textContent = `Rehab Session - ${formData.missionProfile}`;
-        document.getElementById('sessionPatient').textContent = formData.operatorId;
-        
-        // Update phase states
-        document.getElementById('stepAuthState').textContent = 'Done';
-        document.getElementById('stepBioState').textContent = 'Ready';
-        document.getElementById('mobileAuthState').textContent = 'Done';
-        document.getElementById('mobileReadinessState').textContent = 'Ready';
-        
-        // Show next phase
-        document.getElementById('phaseAuth').classList.add('hidden');
-        document.getElementById('phaseBio').classList.remove('hidden');
-        
-        // Update status and save
-        updateSystemStatus();
-        refreshExperienceSummary();
-        StateManager.save();
-        
-        showNotification('Authentication Successful', 
-            `Welcome back, ${formData.operatorId}. Ready for readiness check.`, 
-            'success');
-        
-        // Scroll to bio phase
-        setTimeout(() => {
-            document.getElementById('phaseBio').scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-    }
-
-    function updateSystemTime() {
-        const now = new Date();
-        const timeString = now.toLocaleTimeString('en-US', { 
-            hour12: false,
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        });
-        
-        const timeElements = [
-            document.getElementById('currentTime'),
-            document.getElementById('sessionClockValue'),
-            document.getElementById('mobileClockValue')
-        ];
-        
-        timeElements.forEach(el => {
-            if (el) {
-                el.textContent = timeString;
-                el.setAttribute('datetime', now.toISOString());
-            }
-        });
-    }
-
-    // =========================================================
-    // ENHANCED INITIALIZATION
+    // INITIALIZATION
     // =========================================================
     document.addEventListener('DOMContentLoaded', () => {
         // Initialize managers
-        const calmModeManager = new CalmModeManager();
-        const painMonitor = new PainMonitor();
+        new CalmModeManager();
+        new PainMonitor();
         
         // Load saved state
         if (StateManager.load()) {
@@ -3776,33 +3558,13 @@
                 const value = parseInt(this.value);
                 document.getElementById('painValue').textContent = value;
                 
-                // Update fatigue based on pain
-                const fatigue = Math.min(100, value * 15);
-                document.getElementById('fatigueBar').style.width = `${fatigue}%`;
-                document.getElementById('fatigueValue').textContent = `${fatigue}%`;
-                
-                // Update readiness
-                const readiness = Math.max(0, 100 - (value * 10) - (fatigue * 0.5));
-                document.getElementById('readinessScore').textContent = `${Math.round(readiness)}%`;
-                
-                // Update readiness ring
-                const readinessRing = document.getElementById('readinessRing');
-                if (readinessRing) {
-                    const circumference = 2 * Math.PI * 60;
-                    const offset = circumference - (readiness / 100) * circumference;
-                    readinessRing.style.strokeDashoffset = offset;
-                }
-                
-                // Update pain marker
-                if (painMonitor.marker) {
-                    painMonitor.setValue(value);
-                }
-                
-                // Update app state
-                AppState.session.metrics.painIndex = value;
-                AppState.session.metrics.fatigue = fatigue;
-                AppState.session.metrics.readiness = readiness;
+                // Update pain monitor
+                const painMonitor = new PainMonitor();
+                painMonitor.setValue(value);
             });
+            
+            // Set initial value
+            baselinePain.dispatchEvent(new Event('input'));
         }
         
         // Setup keyboard shortcuts
@@ -3817,68 +3579,22 @@
             if (e.code === 'Escape' && AppState.session.active) {
                 emergencyStop();
             }
-            
-            // Ctrl/Cmd + S to save
-            if ((e.ctrlKey || e.metaKey) && e.code === 'KeyS') {
-                e.preventDefault();
-                if (StateManager.save()) {
-                    showNotification('Auto-Save', 'Progress saved successfully', 'success', 2000);
-                }
-            }
-        });
-        
-        // Handle page visibility changes
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                // Page is hidden, pause intensive operations
-                if (AppState.session.active && !AppState.session.paused) {
-                    showNotification('Session Paused', 'Session auto-paused while tab is hidden', 'warning');
-                    AppState.session.paused = true;
-                    updateSystemStatus();
-                }
-            }
         });
         
         // Initialize clock
         setInterval(updateSystemTime, 1000);
         
-        // Setup navigation buttons
-        document.querySelectorAll('.nav-link, .step-card, .btn[onclick*="scrollToSection"]').forEach(btn => {
-            if (btn.onclick) return; // Already has handler
-            
-            const sectionMatch = btn.textContent.match(/sign in|readiness|exercises|summary|auth|bio|mission|debrief/i);
-            if (sectionMatch) {
-                const sectionMap = {
-                    'sign in': 'phaseAuth',
-                    'auth': 'phaseAuth',
-                    'readiness': 'phaseBio',
-                    'bio': 'phaseBio',
-                    'exercises': 'phaseMission',
-                    'mission': 'phaseMission',
-                    'summary': 'phaseDebrief',
-                    'debrief': 'phaseDebrief'
-                };
-                
-                const section = sectionMap[sectionMatch[0].toLowerCase()];
-                if (section) {
-                    btn.addEventListener('click', () => scrollToSection(section));
-                }
-            }
-        });
-        
-        console.log('🚀 Rehab Session Pro v4.1 - Enhanced & Accessible');
-        console.log('Features: Enhanced accessibility, error handling, state management');
-        console.log('Mission functions loaded: beginMission, pauseMission, emergencyStop, completeMission');
+        console.log('🚀 Rehab Session Pro - Ready');
     });
 
     // =========================================================
-    // EXPORT FUNCTIONS TO GLOBAL SCOPE
+    // GLOBAL EXPORTS
     // =========================================================
     window.authenticateOperator = authenticateOperator;
-    window.beginMission = withErrorHandling(beginMission, 'Begin Mission');
-    window.pauseMission = withErrorHandling(pauseMission, 'Pause Mission');
-    window.emergencyStop = withErrorHandling(emergencyStop, 'Emergency Stop');
-    window.completeMission = withErrorHandling(completeMission, 'Complete Mission');
+    window.beginMission = beginMission;
+    window.pauseMission = pauseMission;
+    window.emergencyStop = emergencyStop;
+    window.completeMission = completeMission;
     window.showNotification = showNotification;
     window.scrollToSection = scrollToSection;
     window.handlePrimaryNavAction = handlePrimaryNavAction;
@@ -3886,8 +3602,6 @@
     window.startExercise = startExercise;
     window.completeExercise = completeExercise;
     window.skipExercise = skipExercise;
-    
-    // Calm mode toggle
     window.toggleCalmMode = () => {
         const calmModeManager = new CalmModeManager();
         calmModeManager.toggle();
