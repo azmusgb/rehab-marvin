@@ -938,6 +938,180 @@
             color: #64748b;
             font-size: 0.875rem;
         }
+
+        /* REPORTS */
+        .reports-section {
+            margin-top: 2rem;
+        }
+
+        .reports-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .reports-header h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.25rem;
+        }
+
+        .reports-header p {
+            color: #64748b;
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+        }
+
+        .report-card {
+            padding: 1.25rem;
+            border-radius: 14px;
+            border: 1px solid rgba(226, 232, 240, 0.7);
+            background: white;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+        }
+
+        .report-title {
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.35rem;
+        }
+
+        .report-subtitle {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .bar-chart {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.65rem;
+            align-items: end;
+            height: 180px;
+        }
+
+        .bar-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+            height: 100%;
+            position: relative;
+        }
+
+        .bar {
+            position: relative;
+            background: #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            min-height: 8px;
+            width: 100%;
+            flex: 1;
+        }
+
+        .bar-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, #6366f1, #8b5cf6);
+            border-radius: 12px;
+            transition: height 0.4s ease, transform 0.2s ease;
+        }
+
+        .bar-today .bar-fill {
+            background: linear-gradient(180deg, #10b981, #34d399);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.25);
+        }
+
+        .bar-value {
+            position: absolute;
+            top: -26px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            padding: 0.15rem 0.45rem;
+            border-radius: 8px;
+            font-weight: 700;
+            color: #0f172a;
+            font-size: 0.8rem;
+            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+        }
+
+        .bar-label {
+            display: block;
+            text-align: center;
+            margin-top: 0.35rem;
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .sparkline {
+            width: 100%;
+            height: 110px;
+        }
+
+        .pain-legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.35rem;
+            margin-top: 0.75rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #475569;
+            font-size: 0.95rem;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+
+        .legend-today {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12);
+        }
+
+        .report-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .report-metric {
+            padding: 0.85rem;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .report-metric strong {
+            display: block;
+            color: #0f172a;
+            font-size: 1.2rem;
+            margin-bottom: 0.15rem;
+        }
+
+        .report-metric span {
+            color: #64748b;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
         
         /* RESPONSIVE */
         @media (max-width: 768px) {
@@ -973,6 +1147,11 @@
 
             .coach-progress {
                 width: 100%;
+            }
+
+            .reports-header {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
     </style>
@@ -1261,6 +1440,52 @@
                             <div class="result-label">Pain Level</div>
                         </div>
                     </div>
+
+                    <!-- Reports & Stats -->
+                    <div class="reports-section">
+                        <div class="reports-header">
+                            <div>
+                                <h3>Reports &amp; Stats</h3>
+                                <p>See how today's effort fits into your weekly rhythm.</p>
+                            </div>
+                            <span class="badge info">Live updated</span>
+                        </div>
+                        <div class="reports-grid">
+                            <div class="report-card glass">
+                                <div class="report-title">Weekly activity</div>
+                                <p class="report-subtitle" id="weeklySubtitle">Logging gentle reps keeps your momentum steady.</p>
+                                <div class="bar-chart" id="weeklyBars"></div>
+                            </div>
+                            <div class="report-card glass">
+                                <div class="report-title">Pain trend</div>
+                                <p class="report-subtitle">How your reported pain has shifted across the week.</p>
+                                <svg class="sparkline" id="painSparkline" aria-hidden="true"></svg>
+                                <div class="pain-legend" id="painLegend"></div>
+                            </div>
+                            <div class="report-card glass">
+                                <div class="report-title">Session stats</div>
+                                <p class="report-subtitle">Quick snapshot of today's effort.</p>
+                                <div class="report-metrics">
+                                    <div class="report-metric">
+                                        <strong id="reportTotalReps">0 reps</strong>
+                                        <span>Total reps today</span>
+                                    </div>
+                                    <div class="report-metric">
+                                        <strong id="durationStat">0 min</strong>
+                                        <span>Active time</span>
+                                    </div>
+                                    <div class="report-metric">
+                                        <strong id="consistencyScore">0%</strong>
+                                        <span>Consistency score</span>
+                                    </div>
+                                    <div class="report-metric">
+                                        <strong id="streakCount">0 days</strong>
+                                        <span>Recovery streak</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     
                     <!-- Post-Session Notes -->
                     <div class="input-group">
@@ -1346,6 +1571,22 @@
                 timer: null
             }
         };
+
+        const ReportsData = {
+            weekly: [
+                { day: 'Sun', reps: 20, pain: 3.6 },
+                { day: 'Mon', reps: 28, pain: 3.4 },
+                { day: 'Tue', reps: 24, pain: 3.5 },
+                { day: 'Wed', reps: 18, pain: 3.8 },
+                { day: 'Thu', reps: 26, pain: 3.3 },
+                { day: 'Fri', reps: 32, pain: 3.1 },
+                { day: 'Sat', reps: 22, pain: 3.2 }
+            ],
+            streak: 4,
+            consistency: 86
+        };
+
+        const DAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
@@ -1358,6 +1599,7 @@
             updatePainBadge();
             resetRestTimer();
             updateCoachPanel();
+            updateReportsUI();
         });
         
         // Live Clock
@@ -1542,6 +1784,7 @@
             const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             document.getElementById('sessionTimer').textContent = timeStr;
             document.getElementById('sessionDuration').textContent = timeStr;
+            updateReportMetrics();
         }
         
         // Adjust Reps
@@ -1586,6 +1829,7 @@
             AppState.results.totalReps = total;
             document.getElementById('totalReps').textContent = total;
             updateProgressUI();
+            updateReportsUI();
         }
         
         // Update exercises completed
@@ -1670,12 +1914,161 @@
             if (form) form.textContent = exercise.form;
             if (reminder) reminder.textContent = exercise.reminder;
         }
+
+        function updateReportsUI() {
+            const todayLabel = DAY_LABELS[new Date().getDay()];
+            const totalReps = AppState.results.totalReps;
+            const pain = AppState.user.painLevel;
+
+            const existing = ReportsData.weekly.find(entry => entry.day === todayLabel);
+            if (existing) {
+                existing.reps = Math.max(existing.reps, totalReps);
+                existing.pain = pain;
+            } else {
+                ReportsData.weekly.push({ day: todayLabel, reps: totalReps, pain });
+            }
+
+            renderWeeklyBars(todayLabel);
+            renderPainSparkline(todayLabel);
+            updateReportMetrics();
+        }
+
+        function renderWeeklyBars(todayLabel) {
+            const barsContainer = document.getElementById('weeklyBars');
+            if (!barsContainer) return;
+
+            barsContainer.innerHTML = '';
+            const maxReps = Math.max(...ReportsData.weekly.map(item => item.reps), 1);
+
+            ReportsData.weekly.forEach(entry => {
+                const column = document.createElement('div');
+                column.className = 'bar-column';
+
+                const bar = document.createElement('div');
+                bar.className = 'bar' + (entry.day === todayLabel ? ' bar-today' : '');
+
+                const fill = document.createElement('div');
+                fill.className = 'bar-fill';
+                fill.style.height = `${Math.max(8, (entry.reps / maxReps) * 100)}%`;
+
+                const value = document.createElement('div');
+                value.className = 'bar-value';
+                value.textContent = entry.reps;
+
+                const label = document.createElement('span');
+                label.className = 'bar-label';
+                label.textContent = entry.day;
+
+                bar.appendChild(fill);
+                column.appendChild(bar);
+                column.appendChild(value);
+                column.appendChild(label);
+                barsContainer.appendChild(column);
+            });
+        }
+
+        function renderPainSparkline(todayLabel) {
+            const svg = document.getElementById('painSparkline');
+            const legend = document.getElementById('painLegend');
+            if (!svg || !legend) return;
+
+            const width = 320;
+            const height = 110;
+            const padding = 12;
+
+            svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+            svg.innerHTML = '';
+
+            const points = ReportsData.weekly.map((entry, index) => {
+                const x = padding + (index / Math.max(ReportsData.weekly.length - 1, 1)) * (width - padding * 2);
+                const y = height - padding - (entry.pain / 10) * (height - padding * 2);
+                return { ...entry, x, y };
+            });
+
+            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+            gradient.setAttribute('id', 'painGradient');
+            gradient.setAttribute('x1', '0%');
+            gradient.setAttribute('y1', '0%');
+            gradient.setAttribute('x2', '100%');
+            gradient.setAttribute('y2', '0%');
+
+            const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+            stop1.setAttribute('offset', '0%');
+            stop1.setAttribute('stop-color', '#6366f1');
+            const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+            stop2.setAttribute('offset', '100%');
+            stop2.setAttribute('stop-color', '#8b5cf6');
+
+            gradient.appendChild(stop1);
+            gradient.appendChild(stop2);
+            defs.appendChild(gradient);
+            svg.appendChild(defs);
+
+            const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+            polyline.setAttribute('fill', 'none');
+            polyline.setAttribute('stroke', 'url(#painGradient)');
+            polyline.setAttribute('stroke-width', '3');
+            polyline.setAttribute('points', points.map(point => `${point.x},${point.y}`).join(' '));
+            polyline.setAttribute('stroke-linecap', 'round');
+            polyline.setAttribute('stroke-linejoin', 'round');
+            svg.appendChild(polyline);
+
+            points.forEach(point => {
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', point.x);
+                circle.setAttribute('cy', point.y);
+                circle.setAttribute('r', point.day === todayLabel ? 5 : 4);
+                circle.setAttribute('fill', point.day === todayLabel ? '#10b981' : '#6366f1');
+                circle.setAttribute('stroke', '#fff');
+                circle.setAttribute('stroke-width', '2');
+                svg.appendChild(circle);
+            });
+
+            legend.innerHTML = '';
+            points.forEach(point => {
+                const item = document.createElement('div');
+                item.className = 'legend-item';
+
+                const dot = document.createElement('span');
+                dot.className = 'legend-dot' + (point.day === todayLabel ? ' legend-today' : '');
+
+                const text = document.createElement('span');
+                text.textContent = `${point.day}: ${point.pain.toFixed(1)}/10`;
+
+                item.appendChild(dot);
+                item.appendChild(text);
+                legend.appendChild(item);
+            });
+        }
+
+        function updateReportMetrics() {
+            const totalReps = AppState.results.totalReps;
+            const durationMinutes = Math.max(0, Math.round(AppState.session.duration / 60));
+            const weeklyPainAverage = ReportsData.weekly.length
+                ? (ReportsData.weekly.reduce((sum, entry) => sum + entry.pain, 0) / ReportsData.weekly.length).toFixed(1)
+                : AppState.user.painLevel.toFixed(1);
+
+            const weeklySubtitle = document.getElementById('weeklySubtitle');
+            const totalRepsLabel = document.getElementById('reportTotalReps');
+            const durationLabel = document.getElementById('durationStat');
+            const consistencyLabel = document.getElementById('consistencyScore');
+            const streakLabel = document.getElementById('streakCount');
+
+            if (weeklySubtitle) weeklySubtitle.textContent = `Today: ${totalReps} reps logged • Avg pain ${weeklyPainAverage}/10 this week`;
+            if (totalRepsLabel) totalRepsLabel.textContent = `${totalReps} reps`;
+            if (durationLabel) durationLabel.textContent = `${durationMinutes} min`;
+            if (consistencyLabel) consistencyLabel.textContent = `${ReportsData.consistency}%`;
+            if (streakLabel) streakLabel.textContent = `${ReportsData.streak} days`;
+        }
+
         // Pain badge updates
         function updatePainBadge() {
             const badge = document.getElementById('painBadge');
             if (badge) {
                 badge.textContent = `Pain ${AppState.user.painLevel.toFixed(1)} / 10`;
             }
+            updateReportsUI();
         }
 
         // Show notification
@@ -1737,6 +2130,7 @@
             AppState.rest.active = false;
 
             updateStepDisplay();
+            updateReportsUI();
             showNotification('Session completed! Review your results.', 'success');
             
             // Update pain change
