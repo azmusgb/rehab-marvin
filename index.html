@@ -1561,12 +1561,164 @@
         }
         
         /* =========================================================
+           SENIOR-FRIENDLY MODE
+        ========================================================= */
+        body.senior-friendly {
+            font-size: 18px;
+            line-height: 1.7;
+            background: #e9eff6 !important;
+            color: #0b1020 !important;
+        }
+
+        body.senior-friendly .scanlines,
+        body.senior-friendly .grid-overlay {
+            display: none !important;
+        }
+
+        body.senior-friendly .card,
+        body.senior-friendly .panel,
+        body.senior-friendly .notification {
+            background: #ffffff !important;
+            color: #0b1020 !important;
+            border-color: rgba(15, 23, 42, 0.12) !important;
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08) !important;
+        }
+
+        body.senior-friendly .status-bar,
+        body.senior-friendly .primary-nav {
+            background: rgba(255, 255, 255, 0.96) !important;
+            color: #0b1020 !important;
+            border-color: rgba(15, 23, 42, 0.08) !important;
+        }
+
+        body.senior-friendly .btn {
+            font-size: 1.05rem;
+            min-height: 56px;
+            letter-spacing: 0.01em;
+        }
+
+        body.senior-friendly .form-control {
+            font-size: 1.05rem;
+            padding: 0.9rem 1rem;
+        }
+
+        body.senior-friendly .nav-links {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        body.senior-friendly .session-banner,
+        body.senior-friendly .guidance-panel {
+            border-color: rgba(15, 23, 42, 0.1);
+            background: linear-gradient(135deg, #f8fbff, #eef2f6) !important;
+            color: #0b1020 !important;
+        }
+
+        .comfort-bar {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: clamp(1rem, 3vw, 1.5rem);
+            padding: clamp(1.25rem, 3vw, 1.75rem);
+            border-radius: var(--radius-2xl);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            align-items: center;
+        }
+
+        .comfort-title {
+            font-weight: 800;
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
+        }
+
+        .comfort-sub {
+            color: var(--neutral-200);
+            margin-top: 0.4rem;
+        }
+
+        .comfort-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+            margin-top: var(--space-3);
+        }
+
+        .comfort-pill {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--neutral-50);
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .comfort-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-3);
+            justify-content: flex-end;
+        }
+
+        .quick-access-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: var(--space-3);
+            margin-top: var(--space-3);
+        }
+
+        .quick-access-card {
+            border-radius: var(--radius-2xl);
+            padding: var(--space-4);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            text-align: left;
+            display: grid;
+            gap: 0.5rem;
+            align-items: start;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            font-size: 1.05rem;
+        }
+
+        .quick-access-card:hover,
+        .quick-access-card:focus-visible {
+            border-color: var(--accent-teal);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+            outline: none;
+        }
+
+        .quick-access-step {
+            font-weight: 800;
+            color: var(--accent-yellow);
+            letter-spacing: 0.03em;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quick-access-hint {
+            color: var(--neutral-200);
+            font-size: 1rem;
+        }
+
+        .body-copy-xl {
+            font-size: 1.05rem;
+            color: var(--neutral-200);
+        }
+
+        /* =========================================================
            RESPONSIVE DESIGN
         ========================================================= */
         @media (max-width: 1024px) {
             .nav-shell {
                 grid-template-columns: 1fr;
                 gap: var(--space-4);
+            }
+
+            .comfort-bar {
+                grid-template-columns: 1fr;
+                text-align: left;
             }
             
             .session-banner__body {
@@ -1634,9 +1786,18 @@
             .hero-actions .btn {
                 width: 100%;
             }
-            
+
             .session-steps {
                 grid-template-columns: 1fr;
+            }
+
+            .comfort-actions {
+                width: 100%;
+                justify-content: stretch;
+            }
+
+            .comfort-actions .btn {
+                width: 100%;
             }
             
             .session-banner,
@@ -1855,6 +2016,9 @@
                     <button class="btn btn-primary" id="navPrimaryAction" aria-label="Start session" onclick="handlePrimaryNavAction()">
                         <i class="ri-play-line" aria-hidden="true"></i> Start session
                     </button>
+                    <button class="btn btn-secondary" id="navSeniorToggle" data-toggle-senior aria-pressed="true" aria-label="Toggle large text and bigger controls">
+                        <i class="ri-eye-2-line" aria-hidden="true"></i> Large text
+                    </button>
                     <button class="btn btn-outline" aria-label="Toggle calm visuals" onclick="toggleCalmMode()">
                         <i class="ri-moon-clear-line" aria-hidden="true"></i> Calm visuals
                     </button>
@@ -1871,6 +2035,47 @@
         <div class="container">
             <!-- Hero Section -->
             <section class="section" aria-labelledby="overviewTitle">
+                <div class="comfort-bar mb-6" role="region" aria-label="Comfort-first quick start">
+                    <div>
+                        <p class="comfort-title">Comfort mode for seniors</p>
+                        <p class="comfort-sub body-copy-xl" id="comfortPrimaryHint">Large text, high contrast, and clear steps to keep you oriented.</p>
+                        <div class="comfort-pills">
+                            <span class="comfort-pill"><i class="ri-eye-2-line" aria-hidden="true"></i> Large text</span>
+                            <span class="comfort-pill"><i class="ri-contrast-drop-line" aria-hidden="true"></i> High contrast</span>
+                            <span class="comfort-pill" id="comfortModeLabel"><i class="ri-hand-heart-line" aria-hidden="true"></i> Senior comfort on</span>
+                        </div>
+                    </div>
+                    <div class="comfort-actions">
+                        <button class="btn btn-primary btn-lg" id="seniorModeToggle" data-toggle-senior aria-pressed="true" aria-label="Toggle large text and calm layout">
+                            <i class="ri-eye-2-line" aria-hidden="true"></i> Large text on
+                        </button>
+                        <button class="btn btn-secondary btn-lg" aria-label="Switch to calm visuals" onclick="toggleCalmMode()">
+                            <i class="ri-moon-clear-line" aria-hidden="true"></i> Calm visuals
+                        </button>
+                        <button class="btn btn-outline btn-lg" aria-label="Jump to step 1: sign in" onclick="scrollToSection('phaseAuth')">
+                            <i class="ri-arrow-down-line" aria-hidden="true"></i> Jump to step 1
+                        </button>
+                    </div>
+                </div>
+
+                <div class="quick-access-grid mb-6" role="list" aria-label="Three simple steps">
+                    <button class="quick-access-card" type="button" role="listitem" onclick="scrollToSection('phaseAuth')">
+                        <span class="quick-access-step">Step 1</span>
+                        <div class="text-xl font-bold">Type your name</div>
+                        <p class="quick-access-hint">We fill the rest. Press Initiate Plan when ready.</p>
+                    </button>
+                    <button class="quick-access-card" type="button" role="listitem" onclick="scrollToSection('phaseBio')">
+                        <span class="quick-access-step">Step 2</span>
+                        <div class="text-xl font-bold">Set pain &amp; fatigue</div>
+                        <p class="quick-access-hint">Slide the pain marker; the readiness ring updates instantly.</p>
+                    </button>
+                    <button class="quick-access-card" type="button" role="listitem" onclick="scrollToSection('phaseMission')">
+                        <span class="quick-access-step">Step 3</span>
+                        <div class="text-xl font-bold">Press Start Session</div>
+                        <p class="quick-access-hint">Large buttons keep the next move obvious. We keep you on track.</p>
+                    </button>
+                </div>
+
                 <!-- Desktop View -->
                 <div class="session-banner mb-6" aria-label="Session overview">
                     <div class="session-banner__header">
@@ -2667,6 +2872,8 @@
         missionProfile: 'STANDARD'
     };
     let painMonitor = null;
+    let calmModeManager = null;
+    let seniorModeManager = null;
 
     // =========================================================
     // STATE MANAGEMENT
@@ -2968,6 +3175,76 @@
                     warning.setAttribute('aria-hidden', 'true');
                 }
             }
+        }
+    }
+
+    // =========================================================
+    // SENIOR MODE MANAGER
+    // =========================================================
+    class SeniorModeManager {
+        constructor() {
+            this.KEY = 'RehabSeniorMode';
+            this.toggleButtons = [];
+            this.labels = {
+                on: 'Large text on',
+                off: 'Large text off'
+            };
+        }
+
+        init() {
+            this.toggleButtons = Array.from(document.querySelectorAll('[data-toggle-senior]'));
+            this.toggleButtons.forEach(btn => {
+                btn.addEventListener('click', () => this.toggle());
+            });
+
+            const defaultOn = true;
+            const saved = this.loadPreference();
+            this.apply(saved ?? defaultOn, false);
+        }
+
+        loadPreference() {
+            try {
+                const saved = localStorage.getItem(this.KEY);
+                if (saved === null) return null;
+                return saved === '1';
+            } catch (e) {
+                console.error('Failed to load senior mode preference:', e);
+                return null;
+            }
+        }
+
+        persist(enabled) {
+            try {
+                localStorage.setItem(this.KEY, enabled ? '1' : '0');
+            } catch (e) {
+                console.error('Failed to save senior mode preference:', e);
+            }
+        }
+
+        apply(enabled, announce = true) {
+            document.body.classList.toggle('senior-friendly', enabled);
+            const label = enabled ? this.labels.on : this.labels.off;
+
+            this.toggleButtons.forEach(btn => {
+                btn.setAttribute('aria-pressed', enabled.toString());
+                btn.innerHTML = `<i class="ri-eye-2-line" aria-hidden="true"></i> ${label}`;
+            });
+
+            const comfortLabel = document.getElementById('comfortModeLabel');
+            if (comfortLabel) {
+                comfortLabel.innerHTML = `<i class="ri-hand-heart-line" aria-hidden="true"></i> ${enabled ? 'Senior comfort on' : 'Senior comfort off'}`;
+            }
+
+            if (announce) {
+                showNotification('Comfort view', enabled ? 'Large text and higher contrast are on.' : 'Returning to standard text size.', 'info', 2200);
+            }
+
+            this.persist(enabled);
+        }
+
+        toggle() {
+            const enabled = document.body.classList.contains('senior-friendly');
+            this.apply(!enabled);
         }
     }
 
@@ -3551,11 +3828,13 @@
         const guidancePrimary = document.getElementById('guidancePrimaryHint');
         const guidanceSecondary = document.getElementById('guidanceSecondaryHint');
         const guidanceStatus = document.getElementById('guidanceStatusPill');
+        const comfortPrimary = document.getElementById('comfortPrimaryHint');
 
         if (navHelper) navHelper.textContent = nav;
         if (dockHint) dockHint.textContent = dock;
         if (guidancePrimary) guidancePrimary.textContent = nav;
         if (guidanceSecondary) guidanceSecondary.textContent = dock;
+        if (comfortPrimary) comfortPrimary.textContent = nav;
         if (guidanceStatus) {
             let stageLabel = 'Prep';
 
@@ -3630,7 +3909,9 @@
     // =========================================================
     document.addEventListener('DOMContentLoaded', () => {
         // Initialize managers
-        new CalmModeManager();
+        calmModeManager = new CalmModeManager();
+        seniorModeManager = new SeniorModeManager();
+        seniorModeManager.init();
         painMonitor = new PainMonitor();
         
         // Load saved state
@@ -3742,8 +4023,14 @@
     window.completeExercise = completeExercise;
     window.skipExercise = skipExercise;
     window.toggleCalmMode = () => {
-        const calmModeManager = new CalmModeManager();
-        calmModeManager.toggle();
+        if (calmModeManager) {
+            calmModeManager.toggle();
+        }
+    };
+    window.toggleSeniorMode = () => {
+        if (seniorModeManager) {
+            seniorModeManager.toggle();
+        }
     };
     </script>
 </body>
