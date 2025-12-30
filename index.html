@@ -733,6 +733,114 @@
             line-height: 1.4;
         }
 
+        /* EXERCISE COACHING */
+        .exercise-coach {
+            padding: 1.5rem;
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            border-radius: 16px;
+            margin: 1.5rem 0;
+        }
+
+        .coach-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .coach-label {
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #94a3b8;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .coach-name {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.35rem;
+        }
+
+        .coach-note {
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        .coach-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .coach-tag {
+            background: #eef2ff;
+            color: #3730a3;
+            padding: 0.5rem 0.75rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .coach-progress {
+            min-width: 260px;
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .micro-progress {
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 999px;
+            overflow: hidden;
+            margin: 0.4rem 0 0.6rem;
+        }
+
+        .micro-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #10b981, #6366f1);
+            border-radius: 999px;
+            transition: width 0.3s ease;
+        }
+
+        .coach-stat {
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .coach-small {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .coach-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .coach-item {
+            background: white;
+            border-radius: 12px;
+            padding: 0.85rem;
+            border: 1px solid rgba(226, 232, 240, 0.7);
+            color: #475569;
+            display: flex;
+            gap: 0.5rem;
+            align-items: flex-start;
+        }
+
+        .coach-item strong {
+            color: #0f172a;
+        }
+
         /* ACTION BUTTONS */
         .action-buttons {
             display: flex;
@@ -856,6 +964,15 @@
 
             .rest-card {
                 grid-template-columns: 1fr;
+            }
+
+            .coach-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .coach-progress {
+                width: 100%;
             }
         }
     </style>
@@ -993,6 +1110,41 @@
                         <div class="rest-controls">
                             <button class="chip-btn primary" onclick="toggleRestTimer()" id="restToggle">Start Rest</button>
                             <button class="chip-btn" onclick="resetRestTimer()">Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise-coach glass" id="exerciseCoach">
+                    <div class="coach-top">
+                        <div>
+                            <div class="coach-label">Now focusing on</div>
+                            <div class="coach-name" id="coachExerciseName">Heel Slides</div>
+                            <p class="coach-note" id="coachExerciseCue">Smooth glide in and out. Keep tension soft and steady.</p>
+                            <div class="coach-tags">
+                                <span class="coach-tag" id="coachTempo">Tempo: 3-1-3</span>
+                                <span class="coach-tag" id="coachBreath">Exhale on the effort</span>
+                            </div>
+                        </div>
+                        <div class="coach-progress">
+                            <div class="coach-stat" id="coachRepsLeft">Reps logged: 0 / 10</div>
+                            <div class="micro-progress">
+                                <div class="micro-progress-fill" id="coachProgressFill"></div>
+                            </div>
+                            <div class="coach-small" id="coachNextLabel">Up next: Quad Sets</div>
+                        </div>
+                    </div>
+                    <div class="coach-list">
+                        <div class="coach-item">
+                            <strong>Feel:</strong>
+                            <span id="coachFeel">Gentle front-of-thigh stretch without knee pain.</span>
+                        </div>
+                        <div class="coach-item">
+                            <strong>Form check:</strong>
+                            <span id="coachForm">Relax shoulders, let the heel glide without lifting your hips.</span>
+                        </div>
+                        <div class="coach-item">
+                            <strong>Reminder:</strong>
+                            <span id="coachReminder">If discomfort rises above a 4/10, pause and take 2 deep breaths.</span>
                         </div>
                     </div>
                 </div>
@@ -1140,9 +1292,42 @@
                 sessionStart: null
             },
             exercises: {
-                1: { name: 'Heel Slides', reps: 0, goal: 10, completed: false },
-                2: { name: 'Quad Sets', reps: 0, goal: 15, completed: false },
-                3: { name: 'Leg Raises', reps: 0, goal: 10, completed: false }
+                1: { 
+                    name: 'Heel Slides', 
+                    reps: 0, 
+                    goal: 10, 
+                    completed: false,
+                    cue: 'Smooth glide in and out. Keep tension soft and steady.',
+                    feel: 'Gentle front-of-thigh stretch without knee pain.',
+                    form: 'Relax your hips and keep the knee aligned with your toes.',
+                    tempo: 'Tempo: 3-1-3',
+                    breath: 'Exhale as you slide inward, inhale as you extend.',
+                    reminder: 'If discomfort rises above a 4/10, pause for two slow breaths.'
+                },
+                2: { 
+                    name: 'Quad Sets', 
+                    reps: 0, 
+                    goal: 15, 
+                    completed: false,
+                    cue: 'Press the back of your knee down gently; hold, then fully relax.',
+                    feel: 'A firm squeeze at the front of the thigh, not sharp in the knee.',
+                    form: 'Keep the ankle relaxed and avoid holding your breath.',
+                    tempo: 'Hold 3–5s, release fully',
+                    breath: 'Exhale as you press down, inhale as you soften.',
+                    reminder: 'Notice if the hip lifts—keep it grounded and easy.'
+                },
+                3: { 
+                    name: 'Leg Raises', 
+                    reps: 0, 
+                    goal: 10, 
+                    completed: false,
+                    cue: 'Lift with control, pause briefly, lower slower than you lifted.',
+                    feel: 'Work in the front of the hip and thigh with steady breathing.',
+                    form: 'Brace lightly through the core and keep the knee straight.',
+                    tempo: 'Tempo: 2-1-3',
+                    breath: 'Exhale on the lift, inhale on the descent.',
+                    reminder: 'Stop short of any pinching in the hip—range over height.'
+                }
             },
             session: {
                 active: false,
@@ -1166,11 +1351,13 @@
         document.addEventListener('DOMContentLoaded', function() {
             initClock();
             setupPainSlider();
+            setupExerciseCardClicks();
             updateStepDisplay();
             updateTotalReps();
             updateProgressUI();
             updatePainBadge();
             resetRestTimer();
+            updateCoachPanel();
         });
         
         // Live Clock
@@ -1278,6 +1465,7 @@
             resetRestTimer();
 
             updateStepDisplay();
+            setActiveExercise(1);
             startSessionTimer();
             updateProgressUI();
             
@@ -1291,6 +1479,49 @@
             cards.forEach((card, index) => {
                 card.style.animationDelay = `${index * 0.1}s`;
             });
+        }
+
+        function setupExerciseCardClicks() {
+            const cards = document.querySelectorAll('.exercise-card');
+            cards.forEach(card => {
+                card.addEventListener('click', (event) => {
+                    // Prevent clicks from rep buttons resetting status
+                    if (event.target.closest('.rep-btn')) return;
+                    const exerciseNum = parseInt(card.dataset.exercise);
+                    setActiveExercise(exerciseNum, { scroll: true });
+                });
+            });
+        }
+
+        function getActiveExerciseKey() {
+            const activeCard = document.querySelector('.exercise-card.active');
+            return activeCard ? parseInt(activeCard.dataset.exercise) : null;
+        }
+
+        function getActiveExercise() {
+            const activeKey = getActiveExerciseKey();
+            return activeKey ? AppState.exercises[activeKey] : null;
+        }
+
+        function setActiveExercise(exerciseNum, options = { scroll: false }) {
+            document.querySelectorAll('.exercise-card').forEach(card => {
+                const cardNum = parseInt(card.dataset.exercise);
+                const status = card.querySelector('.exercise-status');
+                const exercise = AppState.exercises[cardNum];
+
+                if (cardNum === exerciseNum) {
+                    card.classList.add('active');
+                    if (!exercise.completed) status.textContent = 'Current';
+                    if (options.scroll) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    card.classList.remove('active');
+                    if (!exercise.completed) status.textContent = 'Up Next';
+                    else status.textContent = 'Completed ✓';
+                }
+            });
+
+            updateProgressUI();
+            updateCoachPanel();
         }
         
         // Session Timer
@@ -1342,6 +1573,7 @@
                 
                 updateTotalReps();
                 updateExercisesCompleted();
+                updateCoachPanel();
             }
         }
         
@@ -1372,17 +1604,7 @@
             const nextExercise = currentExercise + 1;
             
             if (AppState.exercises[nextExercise]) {
-                // Update current card
-                const currentCard = document.querySelector(`[data-exercise="${currentExercise}"]`);
-                currentCard.classList.remove('active');
-                currentCard.querySelector('.exercise-status').textContent = 'Completed ✓';
-                
-                // Activate next card
-                const nextCard = document.querySelector(`[data-exercise="${nextExercise}"]`);
-                nextCard.classList.add('active');
-                nextCard.querySelector('.exercise-status').textContent = 'Current';
-                nextCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                
+                setActiveExercise(nextExercise, { scroll: true });
                 // Show subtle notification
                 showNotification(`Great! Moving to ${AppState.exercises[nextExercise].name}`);
             } else {
@@ -1406,8 +1628,10 @@
             if (exercisesLabel) exercisesLabel.textContent = `${completed}/${totalExercises}`;
             if (repsLabel) repsLabel.textContent = `${AppState.results.totalReps} reps`;
 
-            const activeName = getActiveExerciseName();
-            if (focusLabel) focusLabel.textContent = activeName ? activeName : 'Check your posture';
+            const activeExercise = getActiveExercise();
+            if (focusLabel) {
+                focusLabel.textContent = activeExercise ? `${activeExercise.name} • ${activeExercise.cue}` : 'Check your posture';
+            }
 
             if (subtitle) {
                 if (completed === 0) subtitle.textContent = "You're ready to begin. Slow and steady wins.";
@@ -1416,11 +1640,36 @@
             }
         }
 
-        function getActiveExerciseName() {
-            const activeCard = document.querySelector('.exercise-card.active .exercise-title');
-            return activeCard ? activeCard.textContent : '';
-        }
+        function updateCoachPanel() {
+            const activeKey = getActiveExerciseKey() || 1;
+            const exercise = AppState.exercises[activeKey];
+            if (!exercise) return;
 
+            const nextExercise = AppState.exercises[activeKey + 1];
+            const repsFill = Math.min((exercise.reps / exercise.goal) * 100, 100);
+
+            const name = document.getElementById('coachExerciseName');
+            const cue = document.getElementById('coachExerciseCue');
+            const tempo = document.getElementById('coachTempo');
+            const breath = document.getElementById('coachBreath');
+            const repsLeft = document.getElementById('coachRepsLeft');
+            const progressFill = document.getElementById('coachProgressFill');
+            const nextLabel = document.getElementById('coachNextLabel');
+            const feel = document.getElementById('coachFeel');
+            const form = document.getElementById('coachForm');
+            const reminder = document.getElementById('coachReminder');
+
+            if (name) name.textContent = exercise.name;
+            if (cue) cue.textContent = exercise.cue;
+            if (tempo) tempo.textContent = exercise.tempo;
+            if (breath) breath.textContent = exercise.breath;
+            if (repsLeft) repsLeft.textContent = `Reps logged: ${exercise.reps} / ${exercise.goal}`;
+            if (progressFill) progressFill.style.width = `${repsFill}%`;
+            if (nextLabel) nextLabel.textContent = nextExercise ? `Up next: ${nextExercise.name}` : 'This is your final exercise—cool down after this one.';
+            if (feel) feel.textContent = exercise.feel;
+            if (form) form.textContent = exercise.form;
+            if (reminder) reminder.textContent = exercise.reminder;
+        }
         // Pain badge updates
         function updatePainBadge() {
             const badge = document.getElementById('painBadge');
