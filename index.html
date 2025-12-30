@@ -158,6 +158,9 @@
         .justify-center { justify-content: center; }
         .flex-col { flex-direction: column; }
         .flex-wrap { flex-wrap: wrap; }
+
+        .desktop-only { display: block; }
+        .mobile-only { display: none; }
         
         .gap-1 { gap: var(--space-1); }
         .gap-2 { gap: var(--space-2); }
@@ -1702,6 +1705,125 @@
             font-size: 1rem;
         }
 
+        /* =========================================================
+           MOBILE OVERVIEW
+        ========================================================= */
+        .mobile-shell {
+            display: grid;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+
+        .mobile-hero-card {
+            display: grid;
+            gap: var(--space-3);
+            padding: clamp(1.25rem, 3vw, 1.75rem);
+            border-radius: var(--radius-2xl);
+            background: linear-gradient(135deg, rgba(77, 243, 201, 0.14), rgba(124, 183, 255, 0.12));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+
+        .mobile-hero-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: var(--space-3);
+        }
+
+        .mobile-status {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+            align-items: flex-end;
+        }
+
+        .mobile-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: 0.35rem 0.85rem;
+            border-radius: var(--radius-full);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            background: rgba(255, 255, 255, 0.12);
+            color: var(--neutral-50);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+        }
+
+        .mobile-chip[data-tone="success"] { background: rgba(16, 185, 129, 0.16); color: #8ef4c5; border-color: rgba(16, 185, 129, 0.26); }
+        .mobile-chip[data-tone="warning"] { background: rgba(245, 158, 11, 0.16); color: #ffd48a; border-color: rgba(245, 158, 11, 0.26); }
+        .mobile-chip[data-tone="error"] { background: rgba(239, 68, 68, 0.16); color: #ff9b9b; border-color: rgba(239, 68, 68, 0.26); }
+        .mobile-chip[data-tone="ready"] { background: rgba(77, 243, 201, 0.16); color: #8ef4c5; border-color: rgba(77, 243, 201, 0.26); }
+
+        .mobile-hint {
+            color: var(--neutral-200);
+            font-size: 1rem;
+        }
+
+        .mobile-glance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: var(--space-3);
+        }
+
+        .mobile-glance-card {
+            padding: var(--space-4);
+            border-radius: var(--radius-xl);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: grid;
+            gap: var(--space-2);
+        }
+
+        .mobile-reading {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--neutral-50);
+        }
+
+        .mobile-meter {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .mobile-meter__fill {
+            height: 100%;
+            width: 0%;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-full);
+            transition: width var(--transition-base);
+        }
+
+        .mobile-next-card {
+            padding: var(--space-4);
+            border-radius: var(--radius-2xl);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: grid;
+            gap: var(--space-3);
+        }
+
+        .mobile-next-action {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--neutral-100);
+        }
+
+        .mobile-action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: var(--space-3);
+        }
+
+        .mobile-action-grid .btn {
+            width: 100%;
+        }
+
         .body-copy-xl {
             font-size: 1.05rem;
             color: var(--neutral-200);
@@ -1710,6 +1832,12 @@
         /* =========================================================
            RESPONSIVE DESIGN
         ========================================================= */
+        @media (min-width: 769px) {
+            .mobile-only {
+                display: none !important;
+            }
+        }
+
         @media (max-width: 1024px) {
             .nav-shell {
                 grid-template-columns: 1fr;
@@ -1757,6 +1885,14 @@
         @media (max-width: 768px) {
             .container {
                 padding: 0 var(--space-4);
+            }
+
+            .mobile-only {
+                display: grid;
+            }
+
+            .desktop-only {
+                display: none !important;
             }
             
             .grid-cols-2,
@@ -2045,24 +2181,94 @@
                             <span class="comfort-pill" id="comfortModeLabel"><i class="ri-hand-heart-line" aria-hidden="true"></i> Senior comfort on</span>
                         </div>
                     </div>
-                    <div class="comfort-actions">
-                        <button class="btn btn-primary btn-lg" id="seniorModeToggle" data-toggle-senior aria-pressed="true" aria-label="Toggle large text and calm layout">
-                            <i class="ri-eye-2-line" aria-hidden="true"></i> Large text on
-                        </button>
-                        <button class="btn btn-secondary btn-lg" aria-label="Switch to calm visuals" onclick="toggleCalmMode()">
+                <div class="comfort-actions">
+                    <button class="btn btn-primary btn-lg" id="seniorModeToggle" data-toggle-senior aria-pressed="true" aria-label="Toggle large text and calm layout">
+                        <i class="ri-eye-2-line" aria-hidden="true"></i> Large text on
+                    </button>
+                    <button class="btn btn-secondary btn-lg" aria-label="Switch to calm visuals" onclick="toggleCalmMode()">
                             <i class="ri-moon-clear-line" aria-hidden="true"></i> Calm visuals
                         </button>
                         <button class="btn btn-outline btn-lg" aria-label="Jump to step 1: sign in" onclick="scrollToSection('phaseAuth')">
-                            <i class="ri-arrow-down-line" aria-hidden="true"></i> Jump to step 1
+                        <i class="ri-arrow-down-line" aria-hidden="true"></i> Jump to step 1
+                    </button>
+                </div>
+            </div>
+
+            <div class="mobile-shell mobile-only" role="region" aria-label="Mobile session overview">
+                <div class="mobile-hero-card">
+                    <div class="mobile-hero-top">
+                        <div>
+                            <p class="pill-soft" aria-hidden="true">Today</p>
+                            <h2 class="text-2xl font-black text-gradient">Balance rehab, calmer view</h2>
+                            <p class="mobile-hint" id="mobileSessionHint">Enter your name, slide the pain dial, then press “Start session”.</p>
+                        </div>
+                        <div class="mobile-status">
+                            <span class="mobile-chip" id="mobileStatusChip" data-tone="ready">Ready</span>
+                            <span class="text-sm text-neutral-200" id="mobileStatusHelper">Sign in to unlock the plan.</span>
+                        </div>
+                    </div>
+                    <div class="mobile-action-grid">
+                        <button class="btn btn-primary btn-lg" type="button" aria-label="Start or resume session" onclick="handlePrimaryNavAction()">
+                            <i class="ri-play-line" aria-hidden="true"></i> Start session
+                        </button>
+                        <button class="btn btn-secondary btn-lg" type="button" aria-label="Toggle calm visuals" onclick="toggleCalmMode()">
+                            <i class="ri-moon-clear-line" aria-hidden="true"></i> Calm visuals
                         </button>
                     </div>
                 </div>
 
-                <div class="quick-access-grid mb-6" role="list" aria-label="Three simple steps">
-                    <button class="quick-access-card" type="button" role="listitem" onclick="scrollToSection('phaseAuth')">
-                        <span class="quick-access-step">Step 1</span>
-                        <div class="text-xl font-bold">Type your name</div>
-                        <p class="quick-access-hint">We fill the rest. Press Initiate Plan when ready.</p>
+                <div class="mobile-glance-grid" role="list" aria-label="Vitals at a glance">
+                    <div class="mobile-glance-card" role="listitem">
+                        <div class="meta-label">Readiness</div>
+                        <div class="mobile-reading" id="mobileReadinessValue">100%</div>
+                        <div class="mobile-meter" aria-hidden="true">
+                            <div class="mobile-meter__fill" id="mobileReadinessBar" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                    <div class="mobile-glance-card" role="listitem">
+                        <div class="meta-label">Pain today</div>
+                        <div class="mobile-reading" id="mobilePainValue">0.0</div>
+                        <p class="meta-subtle">Adjust with the dial below.</p>
+                    </div>
+                    <div class="mobile-glance-card" role="listitem">
+                        <div class="meta-label">Fatigue</div>
+                        <div class="mobile-reading" id="mobileFatigueValue">0%</div>
+                        <div class="mobile-meter" aria-hidden="true">
+                            <div class="mobile-meter__fill" id="mobileFatigueBar" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                    <div class="mobile-glance-card" role="listitem">
+                        <div class="meta-label">Exercises</div>
+                        <div class="mobile-reading" id="mobileExerciseCount">0/7</div>
+                        <p class="meta-subtle" id="mobileActionHelper">Next up: sign in to unlock the plan.</p>
+                    </div>
+                </div>
+
+                <div class="mobile-next-card">
+                    <div>
+                        <p class="meta-label">Next step</p>
+                        <p class="mobile-next-action" id="mobileNextAction">Enter your name, then slide pain.</p>
+                        <p class="meta-subtle" id="mobileSessionHelper">Clear cues stay pinned here while you scroll.</p>
+                    </div>
+                    <div class="mobile-action-grid">
+                        <button class="btn btn-secondary btn-sm" type="button" onclick="scrollToSection('phaseAuth')" aria-label="Jump to sign in">
+                            <i class="ri-id-card-line" aria-hidden="true"></i> Step 1: Sign in
+                        </button>
+                        <button class="btn btn-secondary btn-sm" type="button" onclick="scrollToSection('phaseBio')" aria-label="Jump to readiness">
+                            <i class="ri-heart-pulse-line" aria-hidden="true"></i> Step 2: Readiness
+                        </button>
+                        <button class="btn btn-secondary btn-sm" type="button" onclick="scrollToSection('phaseMission')" aria-label="Jump to exercises">
+                            <i class="ri-run-line" aria-hidden="true"></i> Step 3: Exercises
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-access-grid mb-6" role="list" aria-label="Three simple steps">
+                <button class="quick-access-card" type="button" role="listitem" onclick="scrollToSection('phaseAuth')">
+                    <span class="quick-access-step">Step 1</span>
+                    <div class="text-xl font-bold">Type your name</div>
+                    <p class="quick-access-hint">We fill the rest. Press Initiate Plan when ready.</p>
                     </button>
                     <button class="quick-access-card" type="button" role="listitem" onclick="scrollToSection('phaseBio')">
                         <span class="quick-access-step">Step 2</span>
@@ -3090,7 +3296,8 @@
                 'realTimePain',
                 'livePain',
                 'summaryPainBadge',
-                'summaryPainBaseline'
+                'summaryPainBaseline',
+                'mobilePainValue'
             ];
             
             painDisplays.forEach(id => {
@@ -3113,6 +3320,8 @@
             const fatigueBar = document.getElementById('fatigueBar');
             const fatigueValue = document.getElementById('fatigueValue');
             const summaryFatigue = document.getElementById('summaryFatigue');
+            const mobileFatigueBar = document.getElementById('mobileFatigueBar');
+            const mobileFatigueValue = document.getElementById('mobileFatigueValue');
             
             if (fatigueBar) {
                 fatigueBar.style.width = `${fatigue}%`;
@@ -3120,6 +3329,8 @@
             }
             if (fatigueValue) fatigueValue.textContent = `${fatigue}%`;
             if (summaryFatigue) summaryFatigue.textContent = `${fatigue}%`;
+            if (mobileFatigueBar) mobileFatigueBar.style.width = `${fatigue}%`;
+            if (mobileFatigueValue) mobileFatigueValue.textContent = `${fatigue}%`;
             
             // Update readiness
             const readiness = Math.max(0, 100 - (this.currentValue * 10) - (fatigue * 0.5));
@@ -3128,10 +3339,14 @@
             const readinessScore = document.getElementById('readinessScore');
             const summaryReadiness = document.getElementById('summaryReadinessValue');
             const bioReadiness = document.getElementById('bioReadiness');
+            const mobileReadinessValue = document.getElementById('mobileReadinessValue');
+            const mobileReadinessBar = document.getElementById('mobileReadinessBar');
             
             if (readinessScore) readinessScore.textContent = `${Math.round(readiness)}%`;
             if (summaryReadiness) summaryReadiness.textContent = `${Math.round(readiness)}%`;
             if (bioReadiness) bioReadiness.textContent = `${Math.round(readiness)}%`;
+            if (mobileReadinessValue) mobileReadinessValue.textContent = `${Math.round(readiness)}%`;
+            if (mobileReadinessBar) mobileReadinessBar.style.width = `${readiness}%`;
             
             // Update readiness ring
             const readinessRing = document.getElementById('readinessRing');
@@ -3147,6 +3362,8 @@
                 readinessBar.style.width = `${readiness}%`;
                 readinessBar.setAttribute('aria-valuenow', readiness);
             }
+
+            updateMobileOverview();
             
             // Check pain threshold
             this.checkThreshold();
@@ -3688,6 +3905,10 @@
         document.getElementById('completedExercises').textContent = completedCount;
         document.getElementById('dockExerciseCount').textContent = `${completedCount}/${EXERCISES.length} done`;
         document.getElementById('quickExerciseCount').textContent = `${completedCount}/${EXERCISES.length} done`;
+        const mobileExerciseCount = document.getElementById('mobileExerciseCount');
+        if (mobileExerciseCount) {
+            mobileExerciseCount.textContent = `${completedCount}/${EXERCISES.length}`;
+        }
         
         // Update quick exercise to next uncompleted exercise
         const nextExercise = document.querySelector('.exercise-card:not(.completed)');
@@ -3695,6 +3916,8 @@
             const nextName = nextExercise.querySelector('.exercise-title').textContent;
             document.getElementById('quickExerciseName').textContent = nextName;
         }
+
+        updateMobileOverview();
     }
 
     function quickStartExercise() {
@@ -3821,6 +4044,60 @@
         };
     }
 
+    function updateMobileOverview() {
+        const { nav, dock } = computeSessionHint();
+        const readiness = Math.round(AppState.session.metrics.readiness);
+        const fatigue = Math.round(AppState.session.metrics.fatigue);
+        const pain = AppState.session.metrics.painIndex.toFixed(1);
+        const completedCount = AppState.session.completedExercises.length;
+        const sessionState = AppState.session.active ?
+            (AppState.session.paused ? 'Paused' : 'In session') :
+            (AppState.session.authenticated ? 'Ready' : 'Prep');
+
+        const tone = AppState.session.active
+            ? (AppState.session.paused ? 'warning' : 'success')
+            : 'ready';
+
+        const statusChip = document.getElementById('mobileStatusChip');
+        if (statusChip) {
+            statusChip.textContent = sessionState;
+            statusChip.setAttribute('data-tone', tone);
+        }
+
+        const statusHelper = document.getElementById('mobileStatusHelper');
+        if (statusHelper) statusHelper.textContent = nav;
+
+        const sessionHint = document.getElementById('mobileSessionHint');
+        if (sessionHint) sessionHint.textContent = nav;
+
+        const nextAction = document.getElementById('mobileNextAction');
+        if (nextAction) nextAction.textContent = nav;
+
+        const sessionHelper = document.getElementById('mobileSessionHelper');
+        if (sessionHelper) sessionHelper.textContent = dock;
+
+        const actionHelper = document.getElementById('mobileActionHelper');
+        if (actionHelper) actionHelper.textContent = AppState.session.authenticated ? 'You are signed in—continue below.' : 'Next up: sign in to unlock the plan.';
+
+        const readinessValue = document.getElementById('mobileReadinessValue');
+        if (readinessValue) readinessValue.textContent = `${readiness}%`;
+
+        const readinessBar = document.getElementById('mobileReadinessBar');
+        if (readinessBar) readinessBar.style.width = `${readiness}%`;
+
+        const fatigueValue = document.getElementById('mobileFatigueValue');
+        if (fatigueValue) fatigueValue.textContent = `${fatigue}%`;
+
+        const fatigueBar = document.getElementById('mobileFatigueBar');
+        if (fatigueBar) fatigueBar.style.width = `${fatigue}%`;
+
+        const painValue = document.getElementById('mobilePainValue');
+        if (painValue) painValue.textContent = pain;
+
+        const exerciseCount = document.getElementById('mobileExerciseCount');
+        if (exerciseCount) exerciseCount.textContent = `${completedCount}/${EXERCISES.length}`;
+    }
+
     function updateSessionHints() {
         const { nav, dock } = computeSessionHint();
         const navHelper = document.getElementById('navHelperText');
@@ -3846,6 +4123,8 @@
 
             guidanceStatus.textContent = stageLabel;
         }
+
+        updateMobileOverview();
     }
 
     function refreshExperienceSummary() {
@@ -3902,6 +4181,8 @@
                 btn.innerHTML = `<i class="${actionIcon}"></i> ${actionText}`;
             }
         });
+
+        updateMobileOverview();
     }
 
     // =========================================================
