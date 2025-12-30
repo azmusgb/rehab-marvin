@@ -538,7 +538,7 @@
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
             border-radius: 16px;
         }
-        
+
         .timer-display {
             font-size: 3rem;
             font-weight: 700;
@@ -554,7 +554,185 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
-        
+
+        /* PROGRESS CARD */
+        .progress-card {
+            padding: 1.75rem;
+            border-radius: 16px;
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        .progress-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .progress-title {
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.35rem;
+        }
+
+        .progress-subtitle {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 999px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #10b981, #6366f1);
+            border-radius: 999px;
+            transition: width 0.4s ease;
+        }
+
+        .progress-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .metric-card {
+            padding: 1rem 1.25rem;
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            border-radius: 12px;
+            background: white;
+        }
+
+        .metric-label {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .metric-value {
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 1.15rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.65rem 0.9rem;
+            border-radius: 999px;
+            background: #f1f5f9;
+            color: #0f172a;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .badge.success {
+            background: #ecfdf3;
+            color: #166534;
+        }
+
+        .badge.info {
+            background: #eef2ff;
+            color: #3730a3;
+        }
+
+        /* REST TIMER */
+        .rest-card {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+            align-items: center;
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(226, 232, 240, 0.6);
+        }
+
+        .rest-info h3 {
+            color: #1e293b;
+            font-size: 1.1rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .rest-info p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .rest-display {
+            text-align: right;
+        }
+
+        .rest-time {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6366f1;
+            font-feature-settings: "tnum";
+        }
+
+        .rest-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.65rem;
+            justify-content: flex-end;
+        }
+
+        .chip-btn {
+            border: 1px solid #e2e8f0;
+            background: #fff;
+            border-radius: 10px;
+            padding: 0.6rem 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: #475569;
+            transition: all 0.2s ease;
+        }
+
+        .chip-btn.primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
+        }
+
+        .chip-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        /* CUES */
+        .cues-list {
+            list-style: none;
+            margin: 1rem 0 0;
+            padding: 0;
+            display: grid;
+            gap: 0.35rem;
+        }
+
+        .cues-list li {
+            padding: 0.75rem 0.85rem;
+            background: #f8fafc;
+            border-radius: 10px;
+            color: #475569;
+            border: 1px solid rgba(226, 232, 240, 0.7);
+            display: flex;
+            gap: 0.65rem;
+            align-items: flex-start;
+        }
+
+        .cue-icon {
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
         /* ACTION BUTTONS */
         .action-buttons {
             display: flex;
@@ -670,10 +848,14 @@
             .action-buttons {
                 flex-direction: column;
             }
-            
+
             .step-nav::before {
                 left: 30px;
                 right: 30px;
+            }
+
+            .rest-card {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -767,13 +949,54 @@
             <section id="step2" class="section-card glass hidden">
                 <h2 class="section-title">Today's Gentle Exercises</h2>
                 <p class="section-subtitle">Take your time, focus on form over speed</p>
-                
+
+                <div class="progress-card glass">
+                    <div class="progress-top">
+                        <div>
+                            <div class="progress-title">Mindful progress</div>
+                            <div class="progress-subtitle" id="progressSubtitle">You're ready to begin. Slow and steady wins.</div>
+                        </div>
+                        <span class="badge info" id="painBadge">Pain 2.5 / 10</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-metrics">
+                        <div class="metric-card">
+                            <div class="metric-label">Exercises Completed</div>
+                            <div class="metric-value" id="progressExercises">0/3</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Reps Logged</div>
+                            <div class="metric-value" id="progressReps">0 reps</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Current Focus</div>
+                            <div class="metric-value" id="progressFocus">Check your posture</div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Session Timer -->
                 <div class="session-timer glass">
                     <div class="timer-display" id="sessionTimer">00:00</div>
                     <div class="timer-label">Session Duration</div>
                 </div>
-                
+
+                <div class="rest-card glass">
+                    <div class="rest-info">
+                        <h3>Rest & Breathing</h3>
+                        <p id="restStatus">Ready for a gentle 30-second reset between exercises.</p>
+                    </div>
+                    <div class="rest-display">
+                        <div class="rest-time" id="restTimer">00:30</div>
+                        <div class="rest-controls">
+                            <button class="chip-btn primary" onclick="toggleRestTimer()" id="restToggle">Start Rest</button>
+                            <button class="chip-btn" onclick="resetRestTimer()">Reset</button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Exercises Grid -->
                 <div class="exercise-grid">
                     <!-- Exercise 1 -->
@@ -787,6 +1010,11 @@
                             Gently slide your heel toward your buttocks while keeping contact with the surface. 
                             Hold briefly, then slowly return.
                         </div>
+                        <ul class="cues-list">
+                            <li><span class="cue-icon">🌬️</span><span>Exhale as you slide in, inhale as you return to the start.</span></li>
+                            <li><span class="cue-icon">🪑</span><span>Keep your hips and lower back relaxed against the surface.</span></li>
+                            <li><span class="cue-icon">🐢</span><span>Move slow enough to count to three on the way back.</span></li>
+                        </ul>
                         <div class="rep-counter">
                             <button class="rep-btn" onclick="adjustReps(1, -1)">−</button>
                             <span class="rep-count" id="reps1">0</span>
@@ -806,6 +1034,11 @@
                             Tighten your thigh muscle as if trying to straighten your knee. 
                             Hold the contraction, then relax completely.
                         </div>
+                        <ul class="cues-list">
+                            <li><span class="cue-icon">🎯</span><span>Imagine pressing the back of your knee gently toward the bed or floor.</span></li>
+                            <li><span class="cue-icon">⏱️</span><span>Hold for 3–5 seconds, then release fully before the next rep.</span></li>
+                            <li><span class="cue-icon">✅</span><span>Stop if you feel any sharp pain—slow tension only.</span></li>
+                        </ul>
                         <div class="rep-counter">
                             <button class="rep-btn" onclick="adjustReps(2, -1)">−</button>
                             <span class="rep-count" id="reps2">0</span>
@@ -825,6 +1058,11 @@
                             With knee straight, lift your leg 6-12 inches. Hold briefly, 
                             then lower with control. Maintain steady breathing.
                         </div>
+                        <ul class="cues-list">
+                            <li><span class="cue-icon">📏</span><span>Lift only as high as you can keep the knee straight and core braced.</span></li>
+                            <li><span class="cue-icon">🧘</span><span>Keep shoulders relaxed; let your breath stay calm and even.</span></li>
+                            <li><span class="cue-icon">🧭</span><span>Lower slower than you lifted—aim for a 3-second descent.</span></li>
+                        </ul>
                         <div class="rep-counter">
                             <button class="rep-btn" onclick="adjustReps(3, -1)">−</button>
                             <span class="rep-count" id="reps3">0</span>
@@ -915,6 +1153,12 @@
             results: {
                 totalReps: 0,
                 exercisesCompleted: 0
+            },
+            rest: {
+                duration: 30,
+                remaining: 30,
+                active: false,
+                timer: null
             }
         };
         
@@ -924,6 +1168,9 @@
             setupPainSlider();
             updateStepDisplay();
             updateTotalReps();
+            updateProgressUI();
+            updatePainBadge();
+            resetRestTimer();
         });
         
         // Live Clock
@@ -956,6 +1203,8 @@
                 handle.style.left = percent + '%';
                 handle.textContent = painValue;
                 AppState.user.painLevel = parseFloat(painValue);
+                updatePainBadge();
+                updateProgressUI();
                 
                 // Visual feedback
                 handle.style.transform = `translateX(-50%) scale(${dragging ? 1.1 : 1})`;
@@ -1025,9 +1274,12 @@
             AppState.session.active = true;
             AppState.user.sessionStart = new Date();
             AppState.session.duration = 0;
-            
+            AppState.session.paused = false;
+            resetRestTimer();
+
             updateStepDisplay();
             startSessionTimer();
+            updateProgressUI();
             
             // Animate cards in
             animateExerciseCards();
@@ -1101,6 +1353,7 @@
             }
             AppState.results.totalReps = total;
             document.getElementById('totalReps').textContent = total;
+            updateProgressUI();
         }
         
         // Update exercises completed
@@ -1111,6 +1364,7 @@
             }
             AppState.results.exercisesCompleted = completed;
             document.getElementById('exercisesDone').textContent = `${completed}/${Object.keys(AppState.exercises).length}`;
+            updateProgressUI();
         }
         
         // Auto-advance to next exercise
@@ -1136,7 +1390,45 @@
                 showNotification('All exercises completed! Ready to finish.', 'success');
             }
         }
-        
+
+        // Update progress UI
+        function updateProgressUI() {
+            const totalExercises = Object.keys(AppState.exercises).length;
+            const completed = AppState.results.exercisesCompleted;
+            const progress = Math.round((completed / totalExercises) * 100);
+            const fill = document.getElementById('progressFill');
+            const exercisesLabel = document.getElementById('progressExercises');
+            const repsLabel = document.getElementById('progressReps');
+            const focusLabel = document.getElementById('progressFocus');
+            const subtitle = document.getElementById('progressSubtitle');
+
+            if (fill) fill.style.width = `${progress}%`;
+            if (exercisesLabel) exercisesLabel.textContent = `${completed}/${totalExercises}`;
+            if (repsLabel) repsLabel.textContent = `${AppState.results.totalReps} reps`;
+
+            const activeName = getActiveExerciseName();
+            if (focusLabel) focusLabel.textContent = activeName ? activeName : 'Check your posture';
+
+            if (subtitle) {
+                if (completed === 0) subtitle.textContent = "You're ready to begin. Slow and steady wins.";
+                else if (completed < totalExercises) subtitle.textContent = 'Keep breathing and moving with intention.';
+                else subtitle.textContent = 'All exercises ticked off—finish when you feel ready.';
+            }
+        }
+
+        function getActiveExerciseName() {
+            const activeCard = document.querySelector('.exercise-card.active .exercise-title');
+            return activeCard ? activeCard.textContent : '';
+        }
+
+        // Pain badge updates
+        function updatePainBadge() {
+            const badge = document.getElementById('painBadge');
+            if (badge) {
+                badge.textContent = `Pain ${AppState.user.painLevel.toFixed(1)} / 10`;
+            }
+        }
+
         // Show notification
         function showNotification(message, type = 'info') {
             // Create notification element
@@ -1176,8 +1468,10 @@
                 btn.innerHTML = '<span>⏸️ Pause Session</span>';
                 showNotification('Session resumed', 'success');
             }
+
+            updateProgressUI();
         }
-        
+
         // Complete Session
         function completeSession() {
             // Validate some progress was made
@@ -1190,7 +1484,9 @@
             AppState.currentStep = 3;
             AppState.session.active = false;
             clearInterval(AppState.session.timer);
-            
+            clearInterval(AppState.rest.timer);
+            AppState.rest.active = false;
+
             updateStepDisplay();
             showNotification('Session completed! Review your results.', 'success');
             
@@ -1228,6 +1524,60 @@
                     alert('Great work today! Your progress has been recorded. See you next time!');
                 }, 500);
             }, 1500);
+        }
+
+        // Rest timer controls
+        function toggleRestTimer() {
+            AppState.rest.active = !AppState.rest.active;
+            const toggleBtn = document.getElementById('restToggle');
+            const status = document.getElementById('restStatus');
+
+            if (AppState.rest.active) {
+                startRestInterval();
+                if (toggleBtn) toggleBtn.textContent = 'Pause Rest';
+                if (status) status.textContent = 'Slow breaths while you reset—feel your shoulders drop.';
+            } else {
+                clearInterval(AppState.rest.timer);
+                if (toggleBtn) toggleBtn.textContent = 'Resume Rest';
+                if (status) status.textContent = 'Paused—start again when you are ready.';
+            }
+        }
+
+        function startRestInterval() {
+            clearInterval(AppState.rest.timer);
+            AppState.rest.timer = setInterval(() => {
+                if (AppState.rest.remaining > 0) {
+                    AppState.rest.remaining--;
+                    updateRestTimer();
+                } else {
+                    clearInterval(AppState.rest.timer);
+                    AppState.rest.active = false;
+                    showNotification('Rest complete. Ease into the next exercise.', 'success');
+                    const toggleBtn = document.getElementById('restToggle');
+                    const status = document.getElementById('restStatus');
+                    if (toggleBtn) toggleBtn.textContent = 'Start Rest';
+                    if (status) status.textContent = 'Ready for the next gentle block.';
+                }
+            }, 1000);
+        }
+
+        function updateRestTimer() {
+            const minutes = Math.floor(AppState.rest.remaining / 60).toString().padStart(2, '0');
+            const seconds = (AppState.rest.remaining % 60).toString().padStart(2, '0');
+            const display = document.getElementById('restTimer');
+            if (display) display.textContent = `${minutes}:${seconds}`;
+        }
+
+        function resetRestTimer() {
+            clearInterval(AppState.rest.timer);
+            AppState.rest.remaining = AppState.rest.duration;
+            AppState.rest.active = false;
+            updateRestTimer();
+
+            const toggleBtn = document.getElementById('restToggle');
+            const status = document.getElementById('restStatus');
+            if (toggleBtn) toggleBtn.textContent = 'Start Rest';
+            if (status) status.textContent = 'Ready for a gentle 30-second reset between exercises.';
         }
     </script>
 </body>
