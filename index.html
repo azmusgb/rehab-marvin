@@ -707,7 +707,35 @@
             gap: 0.35rem;
             align-items: center;
         }
-        
+
+        .sequence-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem 1.25rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(16, 185, 129, 0.06));
+            border-radius: 14px;
+            border: 1px solid rgba(226, 232, 240, 0.7);
+        }
+
+        .sequence-hint {
+            max-width: 600px;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        .sequence-hint strong {
+            color: #0f172a;
+        }
+
+        .sequence-controls {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
         .exercise-card {
             border-radius: 16px;
             padding: 1.5rem 1.75rem;
@@ -1775,6 +1803,16 @@
                         <span class="guide-chip">👆 Tap any tile to review cues or jump to that block.</span>
                         <span class="guide-chip">🌬️ Pause for breath: start the rest timer between blocks.</span>
                     </div>
+                    <div class="sequence-actions">
+                        <div class="sequence-hint">
+                            <strong>Keep the flow clear.</strong> Jump back if you missed a cue, or skip ahead to the next open block—the summary and coach will update automatically.
+                        </div>
+                        <div class="sequence-controls">
+                            <button class="chip-btn" id="sequencePrev" aria-label="Go to previous exercise">⬅️ Previous</button>
+                            <button class="chip-btn primary" id="sequenceNext" aria-label="Skip to next exercise">Next ➡️</button>
+                            <button class="chip-btn ghost" id="sequenceRestart" aria-label="Restart sequence at the first incomplete exercise">Restart at first open block</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="next-up-banner glass" id="nextUpBanner" role="status" aria-live="polite">
@@ -2117,6 +2155,7 @@
             setupPainSliderKeyboard();
             setupExerciseCardClicks();
             setupSequenceClicks();
+            setupSequenceActions();
             setupHeroToggle();
             setupCuesToggles();
             setupRepButtons();
@@ -2364,6 +2403,43 @@
             });
         }
 
+        function setupSequenceActions() {
+            const prev = document.getElementById('sequencePrev');
+            const next = document.getElementById('sequenceNext');
+            const restart = document.getElementById('sequenceRestart');
+
+            prev?.addEventListener('click', () => {
+                const activeKey = getActiveExerciseKey() || 1;
+                const prevKey = getPreviousExerciseKey(activeKey);
+                if (prevKey) setActiveExercise(prevKey, { scroll: true });
+            });
+
+            next?.addEventListener('click', () => {
+                const activeKey = getActiveExerciseKey() || 1;
+                const nextKey = getNextIncompleteExercise(activeKey) ?? getExerciseKeys().find(key => key > activeKey);
+                if (nextKey) setActiveExercise(nextKey, { scroll: true });
+            });
+
+            restart?.addEventListener('click', () => {
+                const firstOpen = getFirstIncompleteExercise();
+                setActiveExercise(firstOpen, { scroll: true });
+                showNotification('Back to the first open block—take a breath and restart.', 'info');
+            });
+
+            updateSequenceControls();
+        }
+
+        function updateSequenceControls() {
+            const prev = document.getElementById('sequencePrev');
+            const next = document.getElementById('sequenceNext');
+            const activeKey = getActiveExerciseKey() || 1;
+            const prevKey = getPreviousExerciseKey(activeKey);
+            const nextKey = getNextIncompleteExercise(activeKey) ?? getExerciseKeys().find(key => key > activeKey);
+
+            if (prev) prev.disabled = !prevKey;
+            if (next) next.disabled = !nextKey;
+        }
+
         function getActiveExerciseKey() {
             const activeCard = document.querySelector('.exercise-card.active');
             return activeCard ? parseInt(activeCard.dataset.exercise) : null;
@@ -2372,6 +2448,33 @@
         function getActiveExercise() {
             const activeKey = getActiveExerciseKey();
             return activeKey ? AppState.exercises[activeKey] : null;
+        }
+
+        function getExerciseKeys() {
+            return Object.keys(AppState.exercises)
+                .map(Number)
+                .sort((a, b) => a - b);
+        }
+
+        function getNextIncompleteExercise(startKey = 0) {
+            const keys = getExerciseKeys();
+            for (const key of keys) {
+                if (key > startKey && !AppState.exercises[key].completed) return key;
+            }
+            return null;
+        }
+
+        function getFirstIncompleteExercise() {
+            const keys = getExerciseKeys();
+            for (const key of keys) {
+                if (!AppState.exercises[key].completed) return key;
+            }
+            return keys[0];
+        }
+
+        function getPreviousExerciseKey(currentKey) {
+            const keys = getExerciseKeys().filter(key => key < currentKey);
+            return keys.length ? keys[keys.length - 1] : null;
         }
 
         function setActiveExercise(exerciseNum, options = { scroll: false }) {
@@ -2396,6 +2499,7 @@
             updateSequenceRail();
             updateNextUpBanner();
             updateMobileFooter();
+            updateSequenceControls();
         }
         
         // Session Timer
@@ -2477,12 +2581,12 @@
         
         // Auto-advance to next exercise
         function advanceToNextExercise(currentExercise) {
-            const nextExercise = currentExercise + 1;
-            
-            if (AppState.exercises[nextExercise]) {
-                setActiveExercise(nextExercise, { scroll: true });
+            const nextKey = getNextIncompleteExercise(currentExercise) ?? getExerciseKeys().find(key => key > currentExercise);
+
+            if (nextKey && AppState.exercises[nextKey]) {
+                setActiveExercise(nextKey, { scroll: true });
                 // Show subtle notification
-                showNotification(`Great! Moving to ${AppState.exercises[nextExercise].name}`);
+                showNotification(`Great! Moving to ${AppState.exercises[nextKey].name}`);
             } else {
                 // All exercises complete
                 showNotification('All exercises completed! Ready to finish.', 'success');
@@ -2526,7 +2630,8 @@
             const totalExercises = Object.keys(AppState.exercises).length;
             const completed = AppState.results.exercisesCompleted;
             const activeExercise = AppState.exercises[activeKey];
-            const nextExercise = AppState.exercises[activeKey + 1];
+            const nextKey = getNextIncompleteExercise(activeKey);
+            const nextExercise = nextKey ? AppState.exercises[nextKey] : null;
             const meterFill = document.getElementById('sequenceMeterFill');
             const summary = document.getElementById('sequenceSummary');
 
@@ -2541,7 +2646,7 @@
                 } else if (num === activeKey) {
                     step.classList.add('active');
                     if (status) status.textContent = 'Now';
-                } else if (num === activeKey + 1) {
+                } else if (num === nextKey) {
                     step.classList.add('up-next');
                     if (status) status.textContent = 'Next';
                 } else if (status) {
@@ -2561,6 +2666,7 @@
                     summary.textContent = `${activeExercise.name} is your final block—cool down when it feels right.`;
                 }
             }
+            updateSequenceControls();
         }
 
         function updateNextUpBanner() {
@@ -2569,7 +2675,8 @@
             if (!banner || !label) return;
 
             const activeKey = getActiveExerciseKey() || 1;
-            const nextExercise = AppState.exercises[activeKey + 1];
+            const nextKey = getNextIncompleteExercise(activeKey);
+            const nextExercise = nextKey ? AppState.exercises[nextKey] : null;
             if (nextExercise) {
                 label.textContent = `${nextExercise.name} is queued. Start when breathing feels steady.`;
                 banner.classList.add('show');
@@ -2584,7 +2691,8 @@
             const exercise = AppState.exercises[activeKey];
             if (!exercise) return;
 
-            const nextExercise = AppState.exercises[activeKey + 1];
+            const nextKey = getNextIncompleteExercise(activeKey);
+            const nextExercise = nextKey ? AppState.exercises[nextKey] : null;
             const repsFill = Math.min((exercise.reps / exercise.goal) * 100, 100);
 
             const name = document.getElementById('coachExerciseName');
