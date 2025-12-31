@@ -292,6 +292,46 @@
             gap: 0.4rem;
         }
         
+        /* GUIDE PANEL */
+        .guide-panel {
+            margin: 1.25rem 0 0;
+            padding: 1.25rem 1.5rem;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.07), rgba(16, 185, 129, 0.07));
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            display: grid;
+            gap: 0.75rem;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 8px 24px rgba(15, 23, 42, 0.05);
+        }
+
+        .guide-panel strong {
+            color: #0f172a;
+        }
+
+        .guide-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.4rem;
+        }
+
+        .guide-highlight {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 0.85rem;
+            border-radius: 12px;
+            background: #fff;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            font-weight: 700;
+            color: #0f172a;
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.12);
+        }
+
+        .guide-note {
+            color: #475569;
+            font-weight: 600;
+        }
+        
         /* STEP NAVIGATION */
         .step-banner {
             display: inline-flex;
@@ -1813,6 +1853,20 @@
                             <div class="quickstart-text">When the cards turn green, tap Finish to see your totals. Add notes and save—it’s all in one place.</div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="guide-panel" aria-label="Orientation for this page">
+                <div class="guide-row">
+                    <div class="guide-highlight">🧭 Three tabs only: Check In → Exercises → Complete.</div>
+                    <div class="guide-note">Everything you need lives in those three blocks. The top progress dots and bottom mobile bar both move you forward or back.</div>
+                </div>
+                <div class="guide-row">
+                    <div class="guide-highlight">🎯 Stay on one card at a time.</div>
+                    <div class="guide-note">Use +/− to log reps, then tap “Next” or the next tile in the sequence rail. Completed cards turn green so you always know where you are.</div>
+                </div>
+                <div class="guide-row">
+                    <div class="guide-highlight">📌 Need a break?</div>
+                    <div class="guide-note">Pause the session or start the rest timer. Nothing resets unless you hit “Restart at first open block.”</div>
                 </div>
             </div>
             
