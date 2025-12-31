@@ -47,6 +47,7 @@
         
         /* UTILITY */
         .hidden { display: none !important; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
         
         /* SMOOTH SCROLLING */
         html {
@@ -151,7 +152,7 @@
         
         /* HERO SECTION */
         .hero {
-            padding: 3.25rem 0 2.5rem;
+            padding: 2.8rem 0 1.75rem;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -181,21 +182,21 @@
         }
         
         .hero h2 {
-            font-size: 3rem;
+            font-size: 2.85rem;
             font-weight: 800;
             background: linear-gradient(135deg, #6366f1, #8b5cf6);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 1rem;
+            margin-bottom: 0.65rem;
             line-height: 1.2;
         }
         
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.05rem;
             color: #475569;
             max-width: 620px;
-            margin: 0.75rem auto 2.5rem;
+            margin: 0.25rem auto 1.25rem;
         }
 
         .hero .pill-group {
@@ -204,6 +205,18 @@
             gap: 0.75rem;
             flex-wrap: wrap;
             margin-bottom: 1.5rem;
+        }
+
+        .collapsible {
+            transition: max-height 0.35s ease, opacity 0.35s ease;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+        }
+
+        .collapsible.open {
+            max-height: 200px;
+            opacity: 1;
         }
 
         .pill {
@@ -220,11 +233,24 @@
         }
         
         /* STEP NAVIGATION */
+        .step-banner {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.7rem 1.1rem;
+            border-radius: 12px;
+            background: #eef2ff;
+            color: #3730a3;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+        }
+
         .step-nav {
             display: flex;
             justify-content: center;
             gap: 0.75rem;
-            margin: 3.2rem 0 2rem;
+            margin: 2rem 0 2rem;
             position: relative;
         }
         
@@ -382,7 +408,7 @@
         
         /* FORM ELEMENTS */
         .input-group {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
         
         .input-label {
@@ -427,18 +453,19 @@
         }
         
         .pain-track {
-            height: 8px;
+            height: 10px;
             background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
-            border-radius: 4px;
+            border-radius: 999px;
             position: relative;
             margin: 36px 0;
+            outline: none;
         }
         
         .pain-handle {
             position: absolute;
             top: -24px;
-            width: 56px;
-            height: 56px;
+            width: 60px;
+            height: 60px;
             background: white;
             border-radius: 50%;
             box-shadow: 0 12px 28px rgba(99, 102, 241, 0.2);
@@ -462,6 +489,10 @@
             transform: translateX(-50%) scale(0.95);
         }
         
+        .pain-handle:focus-visible {
+            box-shadow: 0 0 0 6px rgba(99,102,241,0.25);
+        }
+
         .pain-labels {
             display: flex;
             justify-content: space-between;
@@ -559,7 +590,7 @@
             padding: 0.85rem 1rem;
             border: 1px solid rgba(226, 232, 240, 0.8);
             display: grid;
-            grid-template-columns: auto 1fr auto;
+            grid-template-columns: auto auto 1fr auto;
             gap: 0.75rem;
             align-items: center;
             transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
@@ -624,6 +655,29 @@
             background: white;
         }
 
+        .sequence-progress-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 3px solid #e2e8f0;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            color: #94a3b8;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+        }
+
+        .sequence-step.active .sequence-progress-dot {
+            border-color: #6366f1;
+            color: #6366f1;
+        }
+
+        .sequence-step.completed .sequence-progress-dot {
+            background: #10b981;
+            color: white;
+            border-color: #0d9f73;
+        }
+
         .sequence-step.active .sequence-status {
             background: #6366f1;
             border-color: #4f46e5;
@@ -656,7 +710,7 @@
         
         .exercise-card {
             border-radius: 16px;
-            padding: 2rem;
+            padding: 1.5rem 1.75rem;
             background: white;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
@@ -700,6 +754,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 0.75rem;
             margin-bottom: 1rem;
         }
         
@@ -752,7 +807,7 @@
         
         .exercise-description {
             color: #64748b;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             line-height: 1.6;
         }
         
@@ -760,13 +815,14 @@
         .rep-counter {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.25rem;
             margin-top: 1rem;
+            flex-wrap: wrap;
         }
         
         .rep-btn {
-            width: 48px;
-            height: 48px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
             border: none;
             background: linear-gradient(135deg, #6366f1, #8b5cf6);
@@ -778,6 +834,7 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+            touch-action: manipulation;
         }
         
         .rep-btn:hover {
@@ -977,6 +1034,11 @@
             color: white;
             border: none;
             box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
+        }
+
+        .chip-btn.ghost {
+            background: transparent;
+            border-style: dashed;
         }
 
         .chip-btn:hover {
@@ -1373,6 +1435,22 @@
             box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12);
         }
 
+        .pain-pills {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.35rem;
+        }
+
+        .pain-pill {
+            padding: 0.35rem 0.6rem;
+            border-radius: 999px;
+            background: #f1f5f9;
+            color: #0f172a;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
         .report-metrics {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -1400,6 +1478,61 @@
         }
         
         /* RESPONSIVE */
+        .breath-circle {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99,102,241,0.25), rgba(99,102,241,0.05));
+            animation: breathe 6s ease-in-out infinite;
+            margin-left: auto;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(0.85); opacity: 0.65; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+
+        .next-up-banner {
+            margin: 1rem 0;
+            padding: 0.9rem 1rem;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(16,185,129,0.08));
+            border: 1px solid rgba(99,102,241,0.15);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transform: translateY(8px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .next-up-banner.show {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .mobile-footer {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.96);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(226, 232, 240, 0.8);
+            padding: 0.85rem 1rem;
+            display: none;
+            gap: 0.75rem;
+            align-items: center;
+            box-shadow: 0 -6px 20px rgba(15, 23, 42, 0.08);
+            z-index: 200;
+        }
+
+        .mobile-footer .btn {
+            flex: 1;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 0 1rem;
@@ -1439,6 +1572,23 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+
+            .exercise-header {
+                flex-wrap: wrap;
+                align-items: flex-start;
+            }
+
+            .exercise-status {
+                margin-left: auto;
+            }
+
+            .mobile-footer {
+                display: flex;
+            }
+
+            .action-buttons.mobile-hidden {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -1465,12 +1615,18 @@
     <!-- Hero -->
     <section class="hero">
         <div class="container">
+            <div class="step-banner" aria-live="polite" id="stepBanner">Step 1 · Check in gently</div>
             <h2>Your Gentle Recovery</h2>
-            <p>Follow these simple steps to rebuild strength with care and precision</p>
-            <div class="pill-group">
-                <span class="pill">✨ Therapist-guided cues</span>
-                <span class="pill">🧘 Slow, mindful pacing</span>
-                <span class="pill">📈 Progress that feels kind</span>
+            <p>Follow three calm steps to rebuild strength without overwhelm.</p>
+            <button class="chip-btn ghost" id="heroToggle" aria-expanded="false" aria-controls="heroDetails">
+                Why this flow?
+            </button>
+            <div class="collapsible" id="heroDetails">
+                <div class="pill-group">
+                    <span class="pill">✨ Therapist-guided cues</span>
+                    <span class="pill">🧘 Slow, mindful pacing</span>
+                    <span class="pill">📈 Progress that feels kind</span>
+                </div>
             </div>
             
             <!-- Step Navigation -->
@@ -1513,9 +1669,9 @@
                 <div class="pain-slider-container glass">
                     <label class="input-label">Current Pain Level</label>
                     <div class="pain-visual">
-                        <div class="pain-track" id="painTrack">
-                            <div class="pain-handle" id="painHandle" style="left: 25%;">2.5</div>
-                        </div>
+                            <div class="pain-track" id="painTrack">
+                                <div class="pain-handle" id="painHandle" style="left: 25%;" role="slider" aria-valuemin="0" aria-valuemax="10" aria-valuenow="2.5" aria-label="Pain level" tabindex="0">2.5</div>
+                            </div>
                     </div>
                     <div class="pain-labels">
                         <span>No Pain</span>
@@ -1541,9 +1697,9 @@
                     <div class="progress-top">
                         <div>
                             <div class="progress-title">Mindful progress</div>
-                            <div class="progress-subtitle" id="progressSubtitle">You're ready to begin. Slow and steady wins.</div>
+                            <div class="progress-subtitle" id="progressSubtitle" aria-live="polite">You're ready to begin. Slow and steady wins.</div>
                         </div>
-                        <span class="badge info" id="painBadge">Pain 2.5 / 10</span>
+                        <span class="badge info" id="painBadge" aria-live="polite">Pain 2.5 / 10</span>
                     </div>
                     <div class="progress-bar">
                         <div class="progress-fill" id="progressFill"></div>
@@ -1561,6 +1717,9 @@
                             <div class="metric-label">Current Focus</div>
                             <div class="metric-value" id="progressFocus">Check your posture</div>
                         </div>
+                    </div>
+                    <div class="pain-pills" aria-live="polite">
+                        <span class="pain-pill">If pain rises above 4/10, tap Pause and take two slow breaths.</span>
                     </div>
                 </div>
 
@@ -1580,30 +1739,33 @@
                         </div>
                     </div>
                     <div class="sequence-steps">
-                        <div class="sequence-step active" data-exercise="1">
-                            <div class="sequence-icon">🦵</div>
-                            <div class="sequence-body">
-                                <div class="title">1. Heel Slides</div>
-                                <div class="sequence-meta">10 reps • Tempo 3-1-3</div>
-                                <div class="sequence-note">Glide in, glide out; keep hips heavy and breath soft.</div>
-                            </div>
-                            <span class="sequence-status">Now</span>
+                    <div class="sequence-step active" data-exercise="1">
+                        <div class="sequence-progress-dot">1</div>
+                        <div class="sequence-icon">🦵</div>
+                        <div class="sequence-body">
+                            <div class="title">1. Heel Slides</div>
+                            <div class="sequence-meta">10 reps • Tempo 3-1-3</div>
+                            <div class="sequence-note">Glide in, glide out; keep hips heavy and breath soft.</div>
                         </div>
-                        <div class="sequence-step" data-exercise="2">
-                            <div class="sequence-icon">💪</div>
-                            <div class="sequence-body">
-                                <div class="title">2. Quad Sets</div>
-                                <div class="sequence-meta">15 reps • Hold 3–5s</div>
-                                <div class="sequence-note">Press the back of the knee down, then let it melt fully.</div>
-                            </div>
-                            <span class="sequence-status">Queued</span>
+                        <span class="sequence-status">Now</span>
+                    </div>
+                    <div class="sequence-step" data-exercise="2">
+                        <div class="sequence-progress-dot">2</div>
+                        <div class="sequence-icon">💪</div>
+                        <div class="sequence-body">
+                            <div class="title">2. Quad Sets</div>
+                            <div class="sequence-meta">15 reps • Hold 3–5s</div>
+                            <div class="sequence-note">Press the back of the knee down, then let it melt fully.</div>
                         </div>
-                        <div class="sequence-step" data-exercise="3">
-                            <div class="sequence-icon">🏋️</div>
-                            <div class="sequence-body">
-                                <div class="title">3. Leg Raises</div>
-                                <div class="sequence-meta">10 reps • Tempo 2-1-3</div>
-                                <div class="sequence-note">Lift with control, pause, lower slower than you lifted.</div>
+                        <span class="sequence-status">Queued</span>
+                    </div>
+                    <div class="sequence-step" data-exercise="3">
+                        <div class="sequence-progress-dot">3</div>
+                        <div class="sequence-icon">🏋️</div>
+                        <div class="sequence-body">
+                            <div class="title">3. Leg Raises</div>
+                            <div class="sequence-meta">10 reps • Tempo 2-1-3</div>
+                            <div class="sequence-note">Lift with control, pause, lower slower than you lifted.</div>
                             </div>
                             <span class="sequence-status">Queued</span>
                         </div>
@@ -1615,9 +1777,17 @@
                     </div>
                 </div>
 
+                <div class="next-up-banner glass" id="nextUpBanner" role="status" aria-live="polite">
+                    <span>✨</span>
+                    <div>
+                        <div class="coach-small">Next up</div>
+                        <div class="coach-name" id="nextUpLabel">Quad Sets are queued.</div>
+                    </div>
+                </div>
+
                 <!-- Session Timer -->
                 <div class="session-timer glass">
-                    <div class="timer-display" id="sessionTimer">00:00</div>
+                    <div class="timer-display" id="sessionTimer" aria-live="polite">00:00</div>
                     <div class="timer-label">Session Duration</div>
                 </div>
 
@@ -1625,13 +1795,15 @@
                     <div class="rest-info">
                         <h3>Rest & Breathing</h3>
                         <p id="restStatus">Ready for a gentle 30-second reset between exercises.</p>
+                        <p id="restBreath" class="coach-small">Inhale for 3 · Hold for 1 · Exhale for 4</p>
                     </div>
                     <div class="rest-display">
-                        <div class="rest-time" id="restTimer">00:30</div>
+                        <div class="rest-time" id="restTimer" aria-live="polite">00:30</div>
                         <div class="rest-controls">
                             <button class="chip-btn primary" onclick="toggleRestTimer()" id="restToggle">Start Rest</button>
                             <button class="chip-btn" onclick="resetRestTimer()">Reset</button>
                         </div>
+                        <div class="breath-circle" aria-hidden="true"></div>
                     </div>
                 </div>
 
@@ -1645,6 +1817,7 @@
                                 <span class="coach-tag" id="coachTempo">Tempo: 3-1-3</span>
                                 <span class="coach-tag" id="coachBreath">Exhale on the effort</span>
                             </div>
+                            <div class="coach-small" id="coachSuccess">You should feel: light front-of-thigh work, no knee pinch.</div>
                         </div>
                         <div class="coach-progress">
                             <div class="coach-stat" id="coachRepsLeft">Reps logged: 0 / 10</div>
@@ -1674,73 +1847,76 @@
                 <div class="exercise-grid">
                     <!-- Exercise 1 -->
                     <div class="exercise-card active" data-exercise="1">
-                        <div class="exercise-header">
-                            <div class="exercise-icon">🦵</div>
-                            <div class="exercise-title">Heel Slides</div>
-                            <span class="exercise-status">Current</span>
-                        </div>
-                        <div class="exercise-description">
-                            Gently slide your heel toward your buttocks while keeping contact with the surface. 
-                            Hold briefly, then slowly return.
-                        </div>
-                        <ul class="cues-list">
-                            <li><span class="cue-icon">🌬️</span><span>Exhale as you slide in, inhale as you return to the start.</span></li>
-                            <li><span class="cue-icon">🪑</span><span>Keep your hips and lower back relaxed against the surface.</span></li>
-                            <li><span class="cue-icon">🐢</span><span>Move slow enough to count to three on the way back.</span></li>
-                        </ul>
-                        <div class="rep-counter">
-                            <button class="rep-btn" onclick="adjustReps(1, -1)">−</button>
-                            <span class="rep-count" id="reps1">0</span>
-                            <button class="rep-btn" onclick="adjustReps(1, 1)">+</button>
-                            <span class="rep-goal">Goal: 10 reps each leg</span>
+                    <div class="exercise-header">
+                        <div class="exercise-icon">🦵</div>
+                        <div class="exercise-title">Heel Slides</div>
+                        <span class="exercise-status">Current</span>
+                    </div>
+                    <div class="exercise-description">
+                        Gently slide your heel toward your buttocks while keeping contact with the surface. 
+                        Hold briefly, then slowly return.
+                    </div>
+                    <button class="chip-btn ghost cues-toggle" data-target="cues1" aria-expanded="false" aria-controls="cues1">Show cues</button>
+                    <ul class="cues-list collapsible" id="cues1">
+                        <li><span class="cue-icon">🌬️</span><span>Exhale as you slide in, inhale as you return to the start.</span></li>
+                        <li><span class="cue-icon">🪑</span><span>Keep your hips and lower back relaxed against the surface.</span></li>
+                        <li><span class="cue-icon">🐢</span><span>Move slow enough to count to three on the way back.</span></li>
+                    </ul>
+                    <div class="rep-counter">
+                        <button class="rep-btn" onclick="adjustReps(1, -1)">−</button>
+                        <span class="rep-count" id="reps1">0</span>
+                        <button class="rep-btn" onclick="adjustReps(1, 1)">+</button>
+                        <span class="rep-goal">Goal: 10 reps each leg</span>
                         </div>
                     </div>
                     
                     <!-- Exercise 2 -->
                     <div class="exercise-card" data-exercise="2">
-                        <div class="exercise-header">
-                            <div class="exercise-icon">💪</div>
-                            <div class="exercise-title">Quad Sets</div>
-                            <span class="exercise-status">Up Next</span>
-                        </div>
-                        <div class="exercise-description">
-                            Tighten your thigh muscle as if trying to straighten your knee. 
-                            Hold the contraction, then relax completely.
-                        </div>
-                        <ul class="cues-list">
-                            <li><span class="cue-icon">🎯</span><span>Imagine pressing the back of your knee gently toward the bed or floor.</span></li>
-                            <li><span class="cue-icon">⏱️</span><span>Hold for 3–5 seconds, then release fully before the next rep.</span></li>
-                            <li><span class="cue-icon">✅</span><span>Stop if you feel any sharp pain—slow tension only.</span></li>
-                        </ul>
-                        <div class="rep-counter">
-                            <button class="rep-btn" onclick="adjustReps(2, -1)">−</button>
-                            <span class="rep-count" id="reps2">0</span>
-                            <button class="rep-btn" onclick="adjustReps(2, 1)">+</button>
-                            <span class="rep-goal">Goal: 15 reps</span>
+                    <div class="exercise-header">
+                        <div class="exercise-icon">💪</div>
+                        <div class="exercise-title">Quad Sets</div>
+                        <span class="exercise-status">Up Next</span>
+                    </div>
+                    <div class="exercise-description">
+                        Tighten your thigh muscle as if trying to straighten your knee. 
+                        Hold the contraction, then relax completely.
+                    </div>
+                    <button class="chip-btn ghost cues-toggle" data-target="cues2" aria-expanded="false" aria-controls="cues2">Show cues</button>
+                    <ul class="cues-list collapsible" id="cues2">
+                        <li><span class="cue-icon">🎯</span><span>Imagine pressing the back of your knee gently toward the bed or floor.</span></li>
+                        <li><span class="cue-icon">⏱️</span><span>Hold for 3–5 seconds, then release fully before the next rep.</span></li>
+                        <li><span class="cue-icon">✅</span><span>Stop if you feel any sharp pain—slow tension only.</span></li>
+                    </ul>
+                    <div class="rep-counter">
+                        <button class="rep-btn" onclick="adjustReps(2, -1)">−</button>
+                        <span class="rep-count" id="reps2">0</span>
+                        <button class="rep-btn" onclick="adjustReps(2, 1)">+</button>
+                        <span class="rep-goal">Goal: 15 reps</span>
                         </div>
                     </div>
                     
                     <!-- Exercise 3 -->
                     <div class="exercise-card" data-exercise="3">
-                        <div class="exercise-header">
-                            <div class="exercise-icon">🏋️</div>
-                            <div class="exercise-title">Leg Raises</div>
-                            <span class="exercise-status">Up Next</span>
-                        </div>
-                        <div class="exercise-description">
-                            With knee straight, lift your leg 6-12 inches. Hold briefly, 
-                            then lower with control. Maintain steady breathing.
-                        </div>
-                        <ul class="cues-list">
-                            <li><span class="cue-icon">📏</span><span>Lift only as high as you can keep the knee straight and core braced.</span></li>
-                            <li><span class="cue-icon">🧘</span><span>Keep shoulders relaxed; let your breath stay calm and even.</span></li>
-                            <li><span class="cue-icon">🧭</span><span>Lower slower than you lifted—aim for a 3-second descent.</span></li>
-                        </ul>
-                        <div class="rep-counter">
-                            <button class="rep-btn" onclick="adjustReps(3, -1)">−</button>
-                            <span class="rep-count" id="reps3">0</span>
-                            <button class="rep-btn" onclick="adjustReps(3, 1)">+</button>
-                            <span class="rep-goal">Goal: 10 reps each leg</span>
+                    <div class="exercise-header">
+                        <div class="exercise-icon">🏋️</div>
+                        <div class="exercise-title">Leg Raises</div>
+                        <span class="exercise-status">Up Next</span>
+                    </div>
+                    <div class="exercise-description">
+                        With knee straight, lift your leg 6-12 inches. Hold briefly, 
+                        then lower with control. Maintain steady breathing.
+                    </div>
+                    <button class="chip-btn ghost cues-toggle" data-target="cues3" aria-expanded="false" aria-controls="cues3">Show cues</button>
+                    <ul class="cues-list collapsible" id="cues3">
+                        <li><span class="cue-icon">📏</span><span>Lift only as high as you can keep the knee straight and core braced.</span></li>
+                        <li><span class="cue-icon">🧘</span><span>Keep shoulders relaxed; let your breath stay calm and even.</span></li>
+                        <li><span class="cue-icon">🧭</span><span>Lower slower than you lifted—aim for a 3-second descent.</span></li>
+                    </ul>
+                    <div class="rep-counter">
+                        <button class="rep-btn" onclick="adjustReps(3, -1)">−</button>
+                        <span class="rep-count" id="reps3">0</span>
+                        <button class="rep-btn" onclick="adjustReps(3, 1)">+</button>
+                        <span class="rep-goal">Goal: 10 reps each leg</span>
                         </div>
                     </div>
                 </div>
@@ -1849,6 +2025,10 @@
         </div>
     </main>
 
+    <div class="mobile-footer" id="mobileFooter" aria-live="polite">
+        <button class="btn btn-primary" id="mobileCta" onclick="handleMobileCta()">Start Session</button>
+    </div>
+
     <script>
         // State Management
         const AppState = {
@@ -1934,8 +2114,12 @@
         document.addEventListener('DOMContentLoaded', function() {
             initClock();
             setupPainSlider();
+            setupPainSliderKeyboard();
             setupExerciseCardClicks();
             setupSequenceClicks();
+            setupHeroToggle();
+            setupCuesToggles();
+            setupRepButtons();
             updateStepDisplay();
             updateTotalReps();
             updateProgressUI();
@@ -1944,6 +2128,9 @@
             updateCoachPanel();
             updateSequenceRail();
             updateReportsUI();
+            startBreathCoach();
+            updateMobileFooter();
+            updateNextUpBanner();
         });
         
         // Live Clock
@@ -1975,6 +2162,7 @@
                 const painValue = (percent / 10).toFixed(1);
                 handle.style.left = percent + '%';
                 handle.textContent = painValue;
+                handle.setAttribute('aria-valuenow', painValue);
                 AppState.user.painLevel = parseFloat(painValue);
                 updatePainBadge();
                 updateProgressUI();
@@ -2017,6 +2205,78 @@
                 handle.style.transform = 'translateX(-50%) scale(1)';
             });
         }
+
+        function setupPainSliderKeyboard() {
+            const track = document.getElementById('painTrack');
+            const handle = document.getElementById('painHandle');
+            if (!track || !handle) return;
+
+            const step = 0.5;
+            const setFromValue = (value) => {
+                const bounded = Math.min(10, Math.max(0, value));
+                const percent = (bounded / 10) * 100;
+                handle.style.left = percent + '%';
+                handle.textContent = bounded.toFixed(1);
+                handle.setAttribute('aria-valuenow', bounded.toFixed(1));
+                AppState.user.painLevel = bounded;
+                updatePainBadge();
+                updateProgressUI();
+            };
+
+            handle.addEventListener('keydown', (e) => {
+                if (['ArrowLeft', 'ArrowDown'].includes(e.key)) {
+                    e.preventDefault();
+                    setFromValue(AppState.user.painLevel - step);
+                } else if (['ArrowRight', 'ArrowUp'].includes(e.key)) {
+                    e.preventDefault();
+                    setFromValue(AppState.user.painLevel + step);
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    setFromValue(0);
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    setFromValue(10);
+                }
+            });
+        }
+
+        function setupHeroToggle() {
+            const toggle = document.getElementById('heroToggle');
+            const details = document.getElementById('heroDetails');
+            if (!toggle || !details) return;
+
+            toggle.addEventListener('click', () => {
+                const isOpen = details.classList.toggle('open');
+                toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            });
+        }
+
+        function setupCuesToggles() {
+            document.querySelectorAll('.cues-toggle').forEach(button => {
+                const targetId = button.dataset.target;
+                const target = document.getElementById(targetId);
+                if (!target) return;
+
+                button.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    const isOpen = target.classList.toggle('open');
+                    button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                    button.textContent = isOpen ? 'Hide cues' : 'Show cues';
+                });
+            });
+        }
+
+        function setupRepButtons() {
+            const setPressed = (btn, pressed) => btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+            document.querySelectorAll('.rep-btn').forEach(btn => {
+                setPressed(btn, false);
+                btn.addEventListener('mousedown', () => setPressed(btn, true));
+                btn.addEventListener('mouseup', () => setPressed(btn, false));
+                btn.addEventListener('mouseleave', () => setPressed(btn, false));
+                btn.addEventListener('touchstart', () => setPressed(btn, true), { passive: true });
+                btn.addEventListener('touchend', () => setPressed(btn, false));
+            });
+        }
         
         // Step Navigation
         function updateStepDisplay() {
@@ -2038,6 +2298,20 @@
             });
             const current = document.getElementById('step' + AppState.currentStep);
             if (current) current.classList.remove('hidden');
+            updateStepBanner();
+            updateMobileFooter();
+        }
+
+        function updateStepBanner() {
+            const banner = document.getElementById('stepBanner');
+            if (!banner) return;
+            const labels = {
+                1: 'Check in gently',
+                2: 'Move mindfully',
+                3: 'Review & save'
+            };
+            const label = labels[AppState.currentStep] || 'Your session';
+            banner.textContent = `Step ${AppState.currentStep} · ${label}`;
         }
         
         // Start Session
@@ -2072,7 +2346,7 @@
             cards.forEach(card => {
                 card.addEventListener('click', (event) => {
                     // Prevent clicks from rep buttons resetting status
-                    if (event.target.closest('.rep-btn')) return;
+                    if (event.target.closest('.rep-btn') || event.target.closest('.cues-toggle')) return;
                     const exerciseNum = parseInt(card.dataset.exercise);
                     setActiveExercise(exerciseNum, { scroll: true });
                 });
@@ -2120,6 +2394,8 @@
             updateProgressUI();
             updateCoachPanel();
             updateSequenceRail();
+            updateNextUpBanner();
+            updateMobileFooter();
         }
         
         // Session Timer
@@ -2211,6 +2487,7 @@
                 // All exercises complete
                 showNotification('All exercises completed! Ready to finish.', 'success');
             }
+            updateMobileFooter();
         }
 
         // Update progress UI
@@ -2240,6 +2517,7 @@
             }
 
             updateSequenceRail();
+            updateMobileFooter();
         }
 
         function updateSequenceRail() {
@@ -2285,6 +2563,22 @@
             }
         }
 
+        function updateNextUpBanner() {
+            const banner = document.getElementById('nextUpBanner');
+            const label = document.getElementById('nextUpLabel');
+            if (!banner || !label) return;
+
+            const activeKey = getActiveExerciseKey() || 1;
+            const nextExercise = AppState.exercises[activeKey + 1];
+            if (nextExercise) {
+                label.textContent = `${nextExercise.name} is queued. Start when breathing feels steady.`;
+                banner.classList.add('show');
+            } else {
+                label.textContent = 'This is your final block—cool down after you finish.';
+                banner.classList.add('show');
+            }
+        }
+
         function updateCoachPanel() {
             const activeKey = getActiveExerciseKey() || 1;
             const exercise = AppState.exercises[activeKey];
@@ -2303,6 +2597,7 @@
             const feel = document.getElementById('coachFeel');
             const form = document.getElementById('coachForm');
             const reminder = document.getElementById('coachReminder');
+            const success = document.getElementById('coachSuccess');
 
             if (name) name.textContent = exercise.name;
             if (cue) cue.textContent = exercise.cue;
@@ -2314,6 +2609,7 @@
             if (feel) feel.textContent = exercise.feel;
             if (form) form.textContent = exercise.form;
             if (reminder) reminder.textContent = exercise.reminder;
+            if (success) success.textContent = `You should feel: ${exercise.feel}`;
         }
 
         function updateReportsUI() {
@@ -2347,6 +2643,8 @@
 
                 const bar = document.createElement('div');
                 bar.className = 'bar' + (entry.day === todayLabel ? ' bar-today' : '');
+                bar.setAttribute('role', 'img');
+                bar.setAttribute('aria-label', `${entry.day}: ${entry.reps} reps`);
 
                 const fill = document.createElement('div');
                 fill.className = 'bar-fill';
@@ -2385,6 +2683,8 @@
                 const y = height - padding - (entry.pain / 10) * (height - padding * 2);
                 return { ...entry, x, y };
             });
+            const minPain = Math.min(...ReportsData.weekly.map(entry => entry.pain));
+            const maxPain = Math.max(...ReportsData.weekly.map(entry => entry.pain));
 
             const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
             const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
@@ -2423,6 +2723,8 @@
                 circle.setAttribute('fill', point.day === todayLabel ? '#10b981' : '#6366f1');
                 circle.setAttribute('stroke', '#fff');
                 circle.setAttribute('stroke-width', '2');
+                circle.setAttribute('aria-label', `${point.day}: ${point.pain.toFixed(1)}/10`);
+                circle.setAttribute('tabindex', '0');
                 svg.appendChild(circle);
             });
 
@@ -2435,7 +2737,11 @@
                 dot.className = 'legend-dot' + (point.day === todayLabel ? ' legend-today' : '');
 
                 const text = document.createElement('span');
-                text.textContent = `${point.day}: ${point.pain.toFixed(1)}/10`;
+                let descriptor = '';
+                if (point.pain === minPain) descriptor = ' · lowest';
+                if (point.pain === maxPain) descriptor = ' · highest';
+                if (point.day === todayLabel) descriptor = ' · today';
+                text.textContent = `${point.day}: ${point.pain.toFixed(1)}/10${descriptor}`;
 
                 item.appendChild(dot);
                 item.appendChild(text);
@@ -2456,7 +2762,7 @@
             const consistencyLabel = document.getElementById('consistencyScore');
             const streakLabel = document.getElementById('streakCount');
 
-            if (weeklySubtitle) weeklySubtitle.textContent = `Today: ${totalReps} reps logged • Avg pain ${weeklyPainAverage}/10 this week`;
+            if (weeklySubtitle) weeklySubtitle.textContent = `You logged ${totalReps} reps today; weekly pain average is ${weeklyPainAverage}/10.`;
             if (totalRepsLabel) totalRepsLabel.textContent = `${totalReps} reps`;
             if (durationLabel) durationLabel.textContent = `${durationMinutes} min`;
             if (consistencyLabel) consistencyLabel.textContent = `${ReportsData.consistency}%`;
@@ -2513,6 +2819,7 @@
             }
 
             updateProgressUI();
+            updateMobileFooter();
         }
 
         // Complete Session
@@ -2536,6 +2843,7 @@
             
             // Update pain change
             document.getElementById('painChange').textContent = AppState.user.painLevel.toFixed(1);
+            updateMobileFooter();
         }
         
         // Return to Exercises
@@ -2622,6 +2930,45 @@
             const status = document.getElementById('restStatus');
             if (toggleBtn) toggleBtn.textContent = 'Start Rest';
             if (status) status.textContent = 'Ready for a gentle 30-second reset between exercises.';
+        }
+
+        function updateMobileFooter() {
+            const footer = document.getElementById('mobileFooter');
+            const cta = document.getElementById('mobileCta');
+            if (!footer || !cta) return;
+
+            if (AppState.currentStep === 1) {
+                cta.textContent = "Start Session";
+                cta.dataset.action = "start";
+            } else if (AppState.currentStep === 2) {
+                const completedAll = AppState.results.exercisesCompleted === Object.keys(AppState.exercises).length;
+                cta.textContent = completedAll ? "Finish Session" : "Next exercise";
+                cta.dataset.action = completedAll ? "finish" : "next";
+            } else {
+                cta.textContent = "Save & Complete";
+                cta.dataset.action = "save";
+            }
+        }
+
+        function handleMobileCta() {
+            const cta = document.getElementById('mobileCta');
+            if (!cta) return;
+            const action = cta.dataset.action;
+            if (action === 'start') startSession();
+            else if (action === 'next') advanceToNextExercise(getActiveExerciseKey() || 1);
+            else if (action === 'finish') completeSession();
+            else if (action === 'save') saveAndFinish();
+        }
+
+        function startBreathCoach() {
+            const breathText = document.getElementById('restBreath');
+            if (!breathText) return;
+            const cues = ['Inhale for 3', 'Hold for 1', 'Exhale for 4'];
+            let index = 0;
+            setInterval(() => {
+                breathText.textContent = cues[index % cues.length];
+                index++;
+            }, 3000);
         }
     </script>
 </body>
