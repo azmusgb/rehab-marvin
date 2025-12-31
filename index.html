@@ -66,6 +66,37 @@
             padding-bottom: 6rem;
         }
 
+        .page-nav {
+            display: flex;
+            gap: 0.6rem;
+            padding: 1rem 0 0.6rem;
+            position: sticky;
+            top: 60px;
+            z-index: 18;
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+        }
+        .page-tab {
+            border: 1px solid var(--slate-200);
+            background: white;
+            color: var(--slate-700);
+            padding: 0.7rem 1.1rem;
+            border-radius: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06);
+            transition: all 0.18s ease;
+        }
+        .page-tab.active {
+            background: linear-gradient(135deg, #e7fff5, #e8f5ff);
+            color: var(--jade-700);
+            border-color: #b8f1df;
+            box-shadow: inset 0 0 0 2px #b8f1df, 0 12px 24px rgba(15, 23, 42, 0.08);
+        }
+        .page-shell { display: none; padding: 0.25rem 0 0; }
+        .page-shell.active { display: block; }
+
         .ambient {
             position: fixed;
             inset: 0;
@@ -466,6 +497,14 @@
     </header>
 
     <div class="container">
+        <nav class="page-nav" role="tablist" aria-label="Page navigation">
+            <button class="page-tab active" data-page-target="overview" role="tab" aria-selected="true">Overview</button>
+            <button class="page-tab" data-page-target="session" role="tab" aria-selected="false">Session</button>
+            <button class="page-tab" data-page-target="completion" role="tab" aria-selected="false">Completion</button>
+        </nav>
+    </div>
+
+    <div class="container page-shell active" data-page="overview">
         <section class="hero">
             <div class="hero-copy">
                 <div class="pill success" id="stepBanner">Step 1 · Check in gently</div>
@@ -473,7 +512,7 @@
                 <p>Move with a clinician-designed flow that balances breath, joint nourishment, and tiny wins. Every control, cue, and exercise was tuned for ease.</p>
                 <div class="hero-actions">
                     <button class="btn btn-primary" onclick="startSession()">Start Session →</button>
-                    <button class="btn btn-ghost" onclick="document.getElementById('step1').scrollIntoView({behavior:'smooth'})">Check-in first</button>
+                    <button class="btn btn-ghost" onclick="goToCheckIn()">Check-in first</button>
                 </div>
                 <div class="essentials" aria-label="Essential summary">
                     <div class="essential-card">
@@ -504,6 +543,42 @@
             </div>
         </section>
 
+        <div class="status-grid" aria-label="Session overview">
+            <article class="status-card glow">
+                <div class="status-head">
+                    <span class="eyebrow">Readiness</span>
+                    <span class="pill" id="sessionStateChip">Not started</span>
+                </div>
+                <div class="progress-shell" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+                <div class="progress-text"><strong id="progressLabel">0% ready</strong><span id="progressMeta">0/35 gentle reps</span></div>
+                <div class="micro-tags"><span class="micro-tag" id="focusBadge">Mobility focus</span><span class="micro-tag" id="reminderCue">Reminders on · gentle nudges</span></div>
+            </article>
+            <article class="status-card">
+                <div class="status-head"><span class="eyebrow">Breath guide</span><span class="pill success">Stay relaxed</span></div>
+                <div class="breath-steps" id="breathCue">Inhale 4s · Exhale 6s</div>
+                <p class="status-body">Match your pace to your breath. Slow exhales down-regulate tension and keep movements calm.</p>
+                <div class="micro-tags"><span class="micro-tag" id="paceCue">Gentle pace</span><span class="micro-tag">Soft shoulders</span></div>
+            </article>
+            <article class="status-card">
+                <div class="status-head"><span class="eyebrow">Comfort check</span><span class="pill">1–2 mins</span></div>
+                <div class="checklist" aria-label="Comfort checklist">
+                    <label class="check-pill"><input type="checkbox" checked>Supportive surface ready</label>
+                    <label class="check-pill"><input type="checkbox" checked>Water nearby</label>
+                    <label class="check-pill"><input type="checkbox">Pillows or rolled towel handy</label>
+                </div>
+            </article>
+            <article class="status-card">
+                <div class="status-head"><span class="eyebrow">Small wins</span><span class="pill success">Celebrate</span></div>
+                <div class="mini-stats">
+                    <div class="mini-stat"><strong id="miniStep">Step 1 of 3</strong><span>Current stage</span></div>
+                    <div class="mini-stat"><strong id="navMode">Guided</strong><span>Support style</span></div>
+                </div>
+                <p class="status-body" style="margin-top:0.5rem;">Keep an easy tempo—quality over quantity. Tap a card to jump to any exercise when ready.</p>
+            </article>
+        </div>
+    </div>
+
+    <div class="container page-shell" data-page="session">
         <div class="utility-bar">
             <div class="utility-inner">
                 <div class="utility-actions">
@@ -541,40 +616,6 @@
                     <span class="micro-tag" id="layoutHint">Spacious view · more breathing room</span>
                 </div>
             </div>
-        </div>
-
-        <div class="status-grid" aria-label="Session overview">
-            <article class="status-card glow">
-                <div class="status-head">
-                    <span class="eyebrow">Readiness</span>
-                    <span class="pill" id="sessionStateChip">Not started</span>
-                </div>
-                <div class="progress-shell" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
-                <div class="progress-text"><strong id="progressLabel">0% ready</strong><span id="progressMeta">0/35 gentle reps</span></div>
-                <div class="micro-tags"><span class="micro-tag" id="focusBadge">Mobility focus</span><span class="micro-tag" id="reminderCue">Reminders on · gentle nudges</span></div>
-            </article>
-            <article class="status-card">
-                <div class="status-head"><span class="eyebrow">Breath guide</span><span class="pill success">Stay relaxed</span></div>
-                <div class="breath-steps" id="breathCue">Inhale 4s · Exhale 6s</div>
-                <p class="status-body">Match your pace to your breath. Slow exhales down-regulate tension and keep movements calm.</p>
-                <div class="micro-tags"><span class="micro-tag" id="paceCue">Gentle pace</span><span class="micro-tag">Soft shoulders</span></div>
-            </article>
-            <article class="status-card">
-                <div class="status-head"><span class="eyebrow">Comfort check</span><span class="pill">1–2 mins</span></div>
-                <div class="checklist" aria-label="Comfort checklist">
-                    <label class="check-pill"><input type="checkbox" checked>Supportive surface ready</label>
-                    <label class="check-pill"><input type="checkbox" checked>Water nearby</label>
-                    <label class="check-pill"><input type="checkbox">Pillows or rolled towel handy</label>
-                </div>
-            </article>
-            <article class="status-card">
-                <div class="status-head"><span class="eyebrow">Small wins</span><span class="pill success">Celebrate</span></div>
-                <div class="mini-stats">
-                    <div class="mini-stat"><strong id="miniStep">Step 1 of 3</strong><span>Current stage</span></div>
-                    <div class="mini-stat"><strong id="navMode">Guided</strong><span>Support style</span></div>
-                </div>
-                <p class="status-body" style="margin-top:0.5rem;">Keep an easy tempo—quality over quantity. Tap a card to jump to any exercise when ready.</p>
-            </article>
         </div>
 
         <div class="step-nav">
@@ -714,7 +755,11 @@
                     </div>
                 </div>
             </section>
+        </main>
+    </div>
 
+    <div class="container page-shell" data-page="completion">
+        <main class="main-content">
             <section id="step3" class="section-card collapsible hidden" data-collapsible data-default-collapsed="true">
                 <div class="section-header">
                     <div>
@@ -788,7 +833,7 @@
             session: { active: false, paused: false, duration: 0, timer: null },
             voice: { recognition: null, listening: false, supported: false },
             preferences: { pace: 'Gentle', reminders: true, mode: 'Guided', focus: 'Mobility' },
-            ui: { density: 'spacious', condensed: false, simpleHome: true },
+            ui: { density: 'spacious', condensed: false, simpleHome: true, page: 'overview' },
             results: { totalReps: 0, exercisesCompleted: 0 }
         };
         const totalGoalReps = Object.values(AppState.exercises).reduce((sum, ex) => sum + ex.goal, 0);
@@ -806,6 +851,7 @@
             bindVoiceToggle();
             initUtilityBar();
             initLayoutControls();
+            initPageNavigation();
             initSimplicityToggle();
             initCommandPalette();
             registerKeyboardShortcuts();
@@ -932,7 +978,12 @@
                 chip.addEventListener('click', () => {
                     const target = chip.getAttribute('data-scroll');
                     const step = parseInt(chip.getAttribute('data-step'), 10);
-                    if (step) { AppState.currentStep = step; updateStepDisplay(); }
+                    if (step) {
+                        AppState.currentStep = step;
+                        const desiredPage = step === 3 ? 'completion' : 'session';
+                        if (AppState.ui.page !== desiredPage) setPage(desiredPage, { silent: true });
+                        else updateStepDisplay();
+                    }
                     if (target) { const el = document.querySelector(target); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
                 });
             });
@@ -964,6 +1015,38 @@
             const condensedToggle = document.getElementById('condensedToggle');
             if (condensedToggle) condensedToggle.addEventListener('click', () => setCondensedFlow(!AppState.ui.condensed));
             setCondensedFlow(AppState.ui.condensed, { silent: true });
+        }
+        function initPageNavigation() {
+            const initialPage = AppState.ui.page || 'overview';
+            document.querySelectorAll('[data-page-target]').forEach(tab => {
+                tab.addEventListener('click', () => setPage(tab.dataset.pageTarget));
+            });
+            setPage(initialPage, { silent: true });
+        }
+        function setPage(page, options = { silent: false }) {
+            if (!page) return;
+            AppState.ui.page = page;
+            document.querySelectorAll('[data-page]').forEach(shell => {
+                const active = shell.dataset.page === page;
+                shell.classList.toggle('active', active);
+            });
+            document.querySelectorAll('[data-page-target]').forEach(tab => {
+                const active = tab.dataset.pageTarget === page;
+                tab.classList.toggle('active', active);
+                tab.setAttribute('aria-selected', active.toString());
+            });
+            if (page === 'session') {
+                if (AppState.currentStep === 3) AppState.currentStep = 2;
+                updateStepDisplay();
+                document.querySelector('[data-page="session"]')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else if (page === 'completion') {
+                AppState.currentStep = 3;
+                updateStepDisplay();
+                document.querySelector('[data-page="completion"]')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else if (page === 'overview') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            if (!options.silent) showNotification(`Showing ${page} page`, 'success');
         }
         function initSimplicityToggle() {
             const toggle = document.getElementById('simplicityToggle');
@@ -1102,6 +1185,12 @@
             const miniStep = document.getElementById('miniStep');
             if (miniStep) miniStep.textContent = `Step ${AppState.currentStep} of 3`;
         }
+        function goToCheckIn() {
+            AppState.currentStep = 1;
+            setPage('session', { silent: true });
+            updateStepDisplay();
+            document.getElementById('step1')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
 
         function initCommandPalette() {
             paletteOverlay = document.getElementById('commandOverlay');
@@ -1120,9 +1209,9 @@
                 { title: 'Next exercise', desc: 'Jump forward to the next movement', action: () => goToAdjacentExercise(1) },
                 { title: 'Previous exercise', desc: 'Return to the last movement', action: () => goToAdjacentExercise(-1) },
                 { title: 'Mark exercise complete', desc: 'Count it done and advance the flow', action: () => completeCurrentExercise() },
-                { title: 'Jump to Step 1 · Check-in', desc: 'Return to your daily readiness questions', action: () => { AppState.currentStep = 1; updateStepDisplay(); } },
-                { title: 'Jump to Step 2 · Exercises', desc: 'Enter movement mode', action: () => { AppState.currentStep = 2; updateStepDisplay(); } },
-                { title: 'Jump to Step 3 · Review', desc: 'View totals and add notes', action: () => { AppState.currentStep = 3; updateStepDisplay(); } },
+                { title: 'Jump to Step 1 · Check-in', desc: 'Return to your daily readiness questions', action: () => { AppState.currentStep = 1; setPage('session', { silent: true }); updateStepDisplay(); } },
+                { title: 'Jump to Step 2 · Exercises', desc: 'Enter movement mode', action: () => { AppState.currentStep = 2; setPage('session', { silent: true }); updateStepDisplay(); } },
+                { title: 'Jump to Step 3 · Review', desc: 'View totals and add notes', action: () => { AppState.currentStep = 3; setPage('completion', { silent: true }); updateStepDisplay(); } },
                 { title: 'Toggle reminders', desc: 'Turn gentle prompts on or off', action: () => toggleReminders() },
                 { title: 'Toggle voice coach', desc: 'Hands-free controls', action: () => document.getElementById('voiceToggle')?.click() },
                 { title: 'Switch to compact layout', desc: 'Tighter spacing for small screens', action: () => setDensity('compact') },
@@ -1306,6 +1395,7 @@
             if (AppState.session.active) {
                 AppState.session.paused = false;
                 AppState.currentStep = Math.min(AppState.currentStep, 2);
+                setPage('session', { silent: true });
                 updateStepDisplay();
                 startSessionTimer();
                 updateDockUI();
@@ -1319,6 +1409,7 @@
             AppState.user.sessionStart = new Date();
             AppState.session.duration = 0;
             AppState.session.paused = false;
+            setPage('session', { silent: true });
             updateStepDisplay();
             setActiveExercise(1);
             startSessionTimer();
@@ -1451,6 +1542,7 @@
             AppState.currentStep = 3;
             AppState.session.active = false;
             clearInterval(AppState.session.timer);
+            setPage('completion', { silent: true });
             updateStepDisplay();
             showNotification('Session completed! Great work today!', 'success');
             const painChange = document.getElementById('painChange');
@@ -1459,7 +1551,7 @@
             updateWellnessCards();
         }
 
-        const returnToExercises = () => { AppState.currentStep = 2; updateStepDisplay(); };
+        const returnToExercises = () => { AppState.currentStep = 2; setPage('session', { silent: true }); updateStepDisplay(); };
         function saveAndFinish() {
             const saveBtn = document.querySelector('#step3 .btn-primary');
             if (!saveBtn) return;
@@ -1489,6 +1581,8 @@
         function toggleStartOrResume() {
             if (AppState.session.active) {
                 AppState.session.paused = false;
+                setPage('session', { silent: true });
+                updateStepDisplay();
                 startSessionTimer();
                 updateDockUI();
                 showNotification('Session resumed.', 'success');
