@@ -9,6 +9,7 @@
         :root {
             --green-500: #10b981;
             --green-400: #34d399;
+            --green-300: #6ee7b7;
             --green-100: #d1fae5;
             --green-50: #ecfdf5;
             --slate-900: #0f172a;
@@ -61,6 +62,97 @@
             border: 2px solid var(--slate-200);
             box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
             border-radius: 24px;
+        }
+
+        /* VOICE CONTROL */
+        .voice-card {
+            display: grid;
+            gap: 1.25rem;
+            grid-template-columns: 1fr;
+            align-items: start;
+        }
+
+        .voice-controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .voice-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            border-radius: 14px;
+            border: 3px solid var(--slate-200);
+            background: linear-gradient(135deg, var(--green-50), var(--green-100));
+            color: var(--slate-900);
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .voice-toggle.active {
+            border-color: var(--green-500);
+            background: linear-gradient(135deg, var(--green-400), var(--green-300));
+            color: white;
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.25);
+        }
+
+        .voice-toggle:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .voice-status {
+            font-weight: 700;
+            color: var(--slate-600);
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            background: var(--slate-50);
+            border: 2px solid var(--slate-200);
+        }
+
+        .voice-status.active {
+            background: #ecfdf3;
+            border-color: var(--green-200);
+            color: #065f46;
+        }
+
+        .voice-response {
+            background: var(--blue-50);
+            border: 3px solid var(--blue-100);
+            padding: 1.25rem 1.5rem;
+            border-radius: 16px;
+            font-weight: 700;
+            color: var(--slate-700);
+            line-height: 1.6;
+        }
+
+        .voice-commands {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 0.75rem;
+            padding: 0;
+            margin: 0;
+        }
+
+        .voice-command {
+            padding: 0.85rem 1rem;
+            border-radius: 14px;
+            background: var(--slate-50);
+            border: 2px solid var(--slate-200);
+            color: var(--slate-700);
+            font-weight: 700;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .voice-command span {
+            color: var(--green-600);
         }
         
         /* HEADER */
@@ -912,6 +1004,30 @@
     <!-- Main Content -->
     <main class="main-content">
         <div class="container">
+            <!-- Voice Control -->
+            <section class="section-card glass voice-card" aria-labelledby="voiceControlHeading">
+                <div>
+                    <h2 class="section-title" id="voiceControlHeading">Voice Coach</h2>
+                    <p class="section-subtitle">Control your session hands-free with simple, gentle commands.</p>
+                    <ul class="voice-commands">
+                        <li class="voice-command">🎙️ <span>"Start session"</span> to begin</li>
+                        <li class="voice-command">🎙️ <span>"Pause session"</span> or <span>"Resume session"</span></li>
+                        <li class="voice-command">🎙️ <span>"Next exercise"</span> or <span>"Previous exercise"</span></li>
+                        <li class="voice-command">🎙️ <span>"Increase reps"</span> / <span>"Decrease reps"</span> (say a number too!)</li>
+                        <li class="voice-command">🎙️ <span>"Finish session"</span> when you're done</li>
+                    </ul>
+                </div>
+                <div class="voice-controls">
+                    <button class="voice-toggle" id="voiceToggle" type="button" aria-pressed="false">
+                        <span>🎤 Start Voice Coach</span>
+                    </button>
+                    <div class="voice-status" id="voiceStatus" aria-live="polite">Voice ready when you are.</div>
+                </div>
+                <div class="voice-response" id="voiceResponse" aria-live="polite">
+                    Voice responses will appear here so you always know what was heard.
+                </div>
+            </section>
+
             <!-- Step 1: Check In -->
             <section id="step1" class="section-card glass">
                 <h2 class="section-title">How are you feeling today?</h2>
@@ -1082,6 +1198,7 @@
                 painLevel: 2.5,
                 sessionStart: null
             },
+            currentExercise: 1,
             exercises: {
                 1: { name: 'Heel Slides', reps: 0, goal: 10, completed: false },
                 2: { name: 'Quad Sets', reps: 0, goal: 15, completed: false },
@@ -1092,6 +1209,11 @@
                 paused: false,
                 duration: 0,
                 timer: null
+            },
+            voice: {
+                recognition: null,
+                listening: false,
+                supported: false
             },
             results: {
                 totalReps: 0,
@@ -1105,6 +1227,8 @@
             setupPainSlider();
             setupPainSliderKeyboard();
             setupExerciseCardClicks();
+            initVoiceControl();
+            bindVoiceToggle();
             updateStepDisplay();
             updateTotalReps();
         });
@@ -1218,6 +1342,192 @@
                 });
             });
         }
+
+        // Voice Control
+        function initVoiceControl() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const statusEl = document.getElementById('voiceStatus');
+
+            if (!SpeechRecognition) {
+                AppState.voice.supported = false;
+                statusEl.textContent = 'Voice control is not supported in this browser.';
+                statusEl.classList.remove('active');
+                document.getElementById('voiceToggle').disabled = true;
+                return;
+            }
+
+            AppState.voice.supported = true;
+            const recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = () => updateVoiceUI(true, 'Listening... say a command like "start session".');
+            recognition.onend = () => updateVoiceUI(false, 'Voice coach stopped. Tap to start again.');
+            recognition.onerror = (event) => {
+                updateVoiceUI(false, `Oops, I ran into an issue: ${event.error}`);
+            };
+            recognition.onresult = (event) => {
+                const transcript = event.results[event.results.length - 1][0].transcript.trim();
+                handleVoiceCommand(transcript);
+            };
+
+            AppState.voice.recognition = recognition;
+            statusEl.textContent = 'Voice ready when you are.';
+        }
+
+        function bindVoiceToggle() {
+            const toggle = document.getElementById('voiceToggle');
+            toggle.addEventListener('click', () => {
+                if (!AppState.voice.supported) return;
+                if (AppState.voice.listening) {
+                    AppState.voice.recognition.stop();
+                } else {
+                    AppState.voice.recognition.start();
+                }
+                AppState.voice.listening = !AppState.voice.listening;
+                toggle.classList.toggle('active', AppState.voice.listening);
+                toggle.setAttribute('aria-pressed', AppState.voice.listening.toString());
+                toggle.innerHTML = AppState.voice.listening ? '<span>🛑 Stop Voice Coach</span>' : '<span>🎤 Start Voice Coach</span>';
+            });
+        }
+
+        function updateVoiceUI(active, message) {
+            const statusEl = document.getElementById('voiceStatus');
+            const responseEl = document.getElementById('voiceResponse');
+            const toggle = document.getElementById('voiceToggle');
+
+            AppState.voice.listening = active;
+            statusEl.textContent = message;
+            statusEl.classList.toggle('active', active);
+            responseEl.textContent = message;
+            toggle.classList.toggle('active', active);
+            toggle.setAttribute('aria-pressed', active.toString());
+            toggle.innerHTML = active ? '<span>🛑 Stop Voice Coach</span>' : '<span>🎤 Start Voice Coach</span>';
+        }
+
+        function handleVoiceCommand(transcript) {
+            const text = transcript.toLowerCase();
+            const responseEl = document.getElementById('voiceResponse');
+
+            const reply = (message, type = 'info') => {
+                responseEl.textContent = `Heard: "${transcript}". ${message}`;
+                if (type === 'success') {
+                    showNotification(message, 'success');
+                }
+            };
+
+            if (text.includes('start session') || text.includes('begin session')) {
+                startSession();
+                reply('Starting your session now.', 'success');
+                return;
+            }
+
+            if (text.includes('pause session')) {
+                if (!AppState.session.active) {
+                    reply('You need to start the session before pausing.');
+                    return;
+                }
+                if (!AppState.session.paused) {
+                    pauseSession();
+                    reply('Session paused. Take your time.', 'success');
+                } else {
+                    reply('Session is already paused.');
+                }
+                return;
+            }
+
+            if (text.includes('resume session') || text.includes('continue session')) {
+                if (!AppState.session.active) {
+                    reply('You need to start the session first.');
+                    return;
+                }
+                if (AppState.session.paused) {
+                    pauseSession();
+                    reply('Session resumed. Keep moving gently.', 'success');
+                } else {
+                    reply('Session is already running.');
+                }
+                return;
+            }
+
+            if (text.includes('finish session') || text.includes('complete session') || text.includes('end session')) {
+                completeSession();
+                reply('Finishing your session now.', 'success');
+                return;
+            }
+
+            if (text.includes('next exercise')) {
+                goToAdjacentExercise(1);
+                reply('Moving to the next exercise.', 'success');
+                return;
+            }
+
+            if (text.includes('previous exercise') || text.includes('back exercise')) {
+                goToAdjacentExercise(-1);
+                reply('Returning to the previous exercise.', 'success');
+                return;
+            }
+
+            const increaseMatch = text.match(/(increase|add|plus)(?:.*?)(\d+)/);
+            const decreaseMatch = text.match(/(decrease|remove|minus)(?:.*?)(\d+)/);
+
+            if (increaseMatch) {
+                const amount = parseInt(increaseMatch[2], 10) || 1;
+                adjustReps(getActiveExerciseNumber(), amount);
+                reply(`Adding ${amount} rep${amount === 1 ? '' : 's'} now.`, 'success');
+                return;
+            }
+
+            if (decreaseMatch) {
+                const amount = parseInt(decreaseMatch[2], 10) || 1;
+                adjustReps(getActiveExerciseNumber(), amount * -1);
+                reply(`Removing ${amount} rep${amount === 1 ? '' : 's'} now.`, 'success');
+                return;
+            }
+
+            if (text.includes('increase reps') || text.includes('add reps')) {
+                adjustReps(getActiveExerciseNumber(), 1);
+                reply('Adding one rep.', 'success');
+                return;
+            }
+
+            if (text.includes('decrease reps') || text.includes('remove reps')) {
+                adjustReps(getActiveExerciseNumber(), -1);
+                reply('Taking one rep away.', 'success');
+                return;
+            }
+
+            if (text.includes('how many reps')) {
+                const exercise = AppState.exercises[getActiveExerciseNumber()];
+                reply(`You have ${exercise.reps} rep${exercise.reps === 1 ? '' : 's'} logged for ${exercise.name}.`);
+                return;
+            }
+
+            if (text.match(/go to exercise (\d+)/)) {
+                const num = parseInt(text.match(/go to exercise (\d+)/)[1], 10);
+                if (AppState.exercises[num]) {
+                    setActiveExercise(num, { scroll: true });
+                    reply(`Switching to exercise ${num}.`, 'success');
+                } else {
+                    reply('I could not find that exercise number.');
+                }
+                return;
+            }
+
+            reply('I did not catch that command. Try saying "increase reps" or "next exercise".');
+        }
+
+        function getActiveExerciseNumber() {
+            return AppState.currentExercise || 1;
+        }
+
+        function goToAdjacentExercise(direction) {
+            const current = getActiveExerciseNumber();
+            const target = current + direction;
+            const bounded = Math.min(Math.max(target, 1), Object.keys(AppState.exercises).length);
+            setActiveExercise(bounded, { scroll: true });
+        }
         
         // Step Navigation
         function updateStepDisplay() {
@@ -1268,6 +1578,7 @@
         }
         
         function setActiveExercise(exerciseNum, options = { scroll: false }) {
+            AppState.currentExercise = exerciseNum;
             document.querySelectorAll('.exercise-card').forEach(card => {
                 const cardNum = parseInt(card.dataset.exercise);
                 const status = card.querySelector('.exercise-status');
