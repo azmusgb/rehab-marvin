@@ -56,6 +56,41 @@
             width: min(1100px, calc(100% - 2rem));
         }
 
+        /* AMBIENT DECOR */
+        .ambient {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.7;
+        }
+
+        .ambient .blob {
+            position: absolute;
+            width: 520px;
+            height: 520px;
+            filter: blur(120px);
+            border-radius: 999px;
+        }
+
+        .ambient .blob.green {
+            background: rgba(16, 185, 129, 0.12);
+            top: -160px;
+            left: -120px;
+        }
+
+        .ambient .blob.blue {
+            background: rgba(59, 130, 246, 0.12);
+            bottom: -180px;
+            right: -120px;
+        }
+
+        .ambient .blob.gold {
+            background: rgba(245, 158, 11, 0.1);
+            top: 45%;
+            right: 10%;
+        }
+
         /* TOP NAVIGATION */
         .utility-bar {
             position: sticky;
@@ -368,6 +403,8 @@
         .hero {
             padding: 3rem 0 2rem;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
         
         .hero h2 {
@@ -413,6 +450,199 @@
         .hero-card span {
             color: var(--slate-600);
             font-weight: 600;
+        }
+
+        /* DASHBOARD ENHANCEMENTS */
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            margin: 2rem auto 0;
+            text-align: left;
+        }
+
+        .status-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.92));
+            border: 2px solid var(--slate-200);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(140% 80% at 0% 0%, rgba(16, 185, 129, 0.08), transparent 40%),
+                        radial-gradient(120% 70% at 100% 0%, rgba(59, 130, 246, 0.08), transparent 35%);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .status-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 800;
+            font-size: 0.85rem;
+            color: var(--slate-500);
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            background: var(--slate-50);
+            border: 1px solid var(--slate-200);
+            font-weight: 800;
+            color: var(--slate-700);
+        }
+
+        .pill.soft {
+            background: linear-gradient(135deg, var(--blue-50), white);
+            color: var(--slate-700);
+            border-color: var(--blue-100);
+        }
+
+        .progress-shell {
+            position: relative;
+            width: 100%;
+            height: 16px;
+            background: var(--slate-100);
+            border-radius: 999px;
+            overflow: hidden;
+            border: 2px solid var(--slate-200);
+            margin: 0.75rem 0;
+        }
+
+        .progress-fill {
+            position: absolute;
+            inset: 0;
+            width: 0%;
+            background: linear-gradient(90deg, var(--green-500), var(--green-300));
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 800;
+            color: var(--slate-800);
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-text span {
+            color: var(--slate-500);
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .micro-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .micro-tag {
+            background: var(--slate-50);
+            border: 1px solid var(--slate-200);
+            border-radius: 12px;
+            padding: 0.4rem 0.65rem;
+            font-weight: 700;
+            color: var(--slate-600);
+            font-size: 0.95rem;
+        }
+
+        .breath-steps {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            gap: 0.35rem;
+            font-weight: 800;
+            color: var(--slate-800);
+            font-size: 1.2rem;
+            margin: 0.5rem 0 0.75rem;
+        }
+
+        .status-body {
+            position: relative;
+            z-index: 1;
+            color: var(--slate-600);
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        .checklist {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .check-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.65rem 0.75rem;
+            border-radius: 14px;
+            border: 2px solid var(--slate-200);
+            background: var(--slate-50);
+            font-weight: 700;
+            color: var(--slate-700);
+        }
+
+        .check-pill input {
+            accent-color: var(--green-500);
+            width: 18px;
+            height: 18px;
+        }
+
+        .mini-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.75rem;
+            position: relative;
+            z-index: 1;
+            margin-top: 0.5rem;
+        }
+
+        .mini-stat {
+            background: white;
+            border: 1px solid var(--slate-200);
+            border-radius: 12px;
+            padding: 0.65rem 0.75rem;
+            font-weight: 700;
+            color: var(--slate-600);
+        }
+
+        .mini-stat strong {
+            display: block;
+            color: var(--slate-900);
+            font-size: 1.1rem;
+        }
+
+        .status-card.glow {
+            background: linear-gradient(135deg, rgba(236, 253, 245, 0.92), rgba(239, 246, 255, 0.95));
+            border-color: var(--green-100);
+            box-shadow: 0 20px 48px rgba(16, 185, 129, 0.18);
         }
 
         .step-banner {
@@ -1202,6 +1432,21 @@
                 font-size: 2rem !important;
                 line-height: 1.3 !important;
             }
+
+            .status-grid {
+                grid-template-columns: 1fr;
+                gap: 0.85rem;
+            }
+
+            .status-card {
+                padding: 1.25rem;
+            }
+
+            .progress-text {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.25rem;
+            }
             
             /* BETTER EXERCISE CARDS FOR TOUCH */
             .exercise-card {
@@ -1675,6 +1920,11 @@
     </style>
 </head>
 <body>
+    <div class="ambient" aria-hidden="true">
+        <div class="blob green"></div>
+        <div class="blob blue"></div>
+        <div class="blob gold"></div>
+    </div>
     <!-- Header -->
     <header class="header">
         <div class="container">
@@ -1750,6 +2000,70 @@
                     <strong id="heroReminders">On · gentle nudges</strong>
                     <span>Remind me to pause & hydrate</span>
                 </div>
+            </div>
+
+            <div class="status-grid" aria-label="Session overview">
+                <article class="status-card glow">
+                    <div class="status-head">
+                        <span class="eyebrow">Readiness</span>
+                        <span class="pill" id="sessionStateChip">Not started</span>
+                    </div>
+                    <div class="progress-shell" aria-hidden="true">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text">
+                        <strong id="progressLabel">0% ready</strong>
+                        <span id="progressMeta">0/35 gentle reps</span>
+                    </div>
+                    <div class="micro-tags">
+                        <span class="micro-tag" id="focusBadge">Mobility focus</span>
+                        <span class="micro-tag" id="reminderCue">Reminders on · gentle nudges</span>
+                    </div>
+                </article>
+                <article class="status-card">
+                    <div class="status-head">
+                        <span class="eyebrow">Breath guide</span>
+                        <span class="pill soft">Stay relaxed</span>
+                    </div>
+                    <div class="breath-steps" id="breathCue">Inhale 4s · Exhale 6s</div>
+                    <p class="status-body">
+                        Match your pace to your breath. Slow exhales down-regulate tension and keep movements calm.
+                    </p>
+                    <div class="micro-tags">
+                        <span class="micro-tag" id="paceCue">Gentle pace</span>
+                        <span class="micro-tag">Soft shoulders</span>
+                    </div>
+                </article>
+                <article class="status-card">
+                    <div class="status-head">
+                        <span class="eyebrow">Comfort check</span>
+                        <span class="pill">1–2 mins</span>
+                    </div>
+                    <div class="checklist" aria-label="Comfort checklist">
+                        <label class="check-pill"><input type="checkbox" checked>Supportive surface ready</label>
+                        <label class="check-pill"><input type="checkbox" checked>Water nearby</label>
+                        <label class="check-pill"><input type="checkbox">Pillows or rolled towel handy</label>
+                    </div>
+                </article>
+                <article class="status-card">
+                    <div class="status-head">
+                        <span class="eyebrow">Small wins</span>
+                        <span class="pill soft">Celebrate</span>
+                    </div>
+                    <div class="mini-stats">
+                        <div class="mini-stat">
+                            <strong id="miniStep">Step 1 of 3</strong>
+                            <span>Current stage</span>
+                        </div>
+                        <div class="mini-stat">
+                            <strong id="miniMode">Guided</strong>
+                            <span>Support style</span>
+                        </div>
+                    </div>
+                    <p class="status-body" style="margin-top: 0.75rem;">
+                        Keep an easy tempo—quality over quantity. Tap a card to jump to any exercise when ready.
+                    </p>
+                </article>
             </div>
             
             <!-- Step Navigation -->
@@ -1840,6 +2154,15 @@
                             <span>No Pain</span>
                             <span>Moderate</span>
                             <span>Severe</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Quick setup</label>
+                        <div class="checklist">
+                            <label class="check-pill"><input type="checkbox" checked>Notifications on for breaks</label>
+                            <label class="check-pill"><input type="checkbox" checked>Room temperature feels comfortable</label>
+                            <label class="check-pill"><input type="checkbox">I have a chair or wall for balance</label>
                         </div>
                     </div>
                     
@@ -2070,6 +2393,7 @@
                 exercisesCompleted: 0
             }
         };
+        const totalGoalReps = Object.values(AppState.exercises).reduce((sum, ex) => sum + ex.goal, 0);
         
         // Initialize with iOS improvements
         document.addEventListener('DOMContentLoaded', function() {
@@ -2123,6 +2447,9 @@
             
             updateTotalReps();
             updateHeroSummary();
+            updateProgressUI();
+            updateWellnessCards();
+            updateMiniSummary();
             updateExerciseNav();
             updateDockUI();
         });
@@ -2349,6 +2676,7 @@
             });
             updateHeroSummary();
             updateExerciseNav();
+            updateMiniSummary();
         }
 
         function cyclePace() {
@@ -2386,6 +2714,51 @@
             setText('heroReminders', reminders ? 'On · gentle nudges' : 'Off · silent focus');
             setText('heroMode', `${mode} mode`);
             setText('heroFocus', `${focus} today`);
+            updateWellnessCards();
+        }
+
+        function updateProgressUI() {
+            const percent = Math.min(100, Math.round((AppState.results.totalReps / totalGoalReps) * 100));
+            const fill = document.getElementById('progressFill');
+            const label = document.getElementById('progressLabel');
+            const meta = document.getElementById('progressMeta');
+            if (fill) fill.style.width = `${percent}%`;
+            if (label) label.textContent = `${percent}% ready`;
+            if (meta) meta.textContent = `${AppState.results.totalReps}/${totalGoalReps} gentle reps`;
+        }
+
+        function updateWellnessCards() {
+            const paceMap = {
+                Gentle: 'Inhale 4s · Exhale 6s',
+                Steady: 'Inhale 4s · Exhale 4s',
+                Confident: 'Inhale 5s · Exhale 5s'
+            };
+            const breathCue = document.getElementById('breathCue');
+            const reminderCue = document.getElementById('reminderCue');
+            const focusBadge = document.getElementById('focusBadge');
+            const paceCue = document.getElementById('paceCue');
+            const stateChip = document.getElementById('sessionStateChip');
+
+            if (breathCue) breathCue.textContent = paceMap[AppState.preferences.pace] || paceMap.Gentle;
+            if (paceCue) paceCue.textContent = `${AppState.preferences.pace} pace`;
+            if (reminderCue) reminderCue.textContent = AppState.preferences.reminders ? 'Reminders on · gentle nudges' : 'Reminders paused · stay mindful of breaks';
+            if (focusBadge) focusBadge.textContent = `${AppState.preferences.focus} focus`;
+            if (stateChip) {
+                if (AppState.session.active && AppState.session.paused) {
+                    stateChip.textContent = 'Paused · tap resume';
+                } else if (AppState.session.active) {
+                    stateChip.textContent = 'In session';
+                } else {
+                    stateChip.textContent = 'Not started';
+                }
+            }
+        }
+
+        function updateMiniSummary() {
+            const miniStep = document.getElementById('miniStep');
+            const miniMode = document.getElementById('miniMode');
+            if (miniStep) miniStep.textContent = `Step ${AppState.currentStep} of 3`;
+            if (miniMode) miniMode.textContent = AppState.preferences.mode;
         }
 
         // Voice Control
@@ -2595,6 +2968,7 @@
             expandActiveStepSection();
             updateStepBanner();
             refreshStepChips();
+            updateMiniSummary();
         }
 
         function expandActiveStepSection() {
@@ -2646,6 +3020,7 @@
             startSessionTimer();
             showNotification('Session started! Take your time with each exercise.');
             updateDockUI();
+            updateWellnessCards();
         }
         
         function setActiveExercise(exerciseNum, options = { scroll: false }) {
@@ -2729,6 +3104,7 @@
             }
             AppState.results.totalReps = total;
             document.getElementById('totalReps').textContent = total;
+            updateProgressUI();
         }
         
         function updateExercisesCompleted() {
@@ -2826,6 +3202,7 @@
                 showNotification('Session resumed', 'success');
             }
             updateDockUI();
+            updateWellnessCards();
         }
 
         function completeSession() {
@@ -2844,6 +3221,7 @@
             
             document.getElementById('painChange').textContent = AppState.user.painLevel.toFixed(1);
             updateDockUI();
+            updateWellnessCards();
         }
         
         function returnToExercises() {
