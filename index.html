@@ -505,7 +505,8 @@
         .exercise-grid {
             display: grid;
             gap: 1.5rem;
-            margin: 2rem 0;
+            margin: 2rem auto;
+            max-width: 820px;
         }
 
         /* SEQUENCE RAIL */
@@ -745,6 +746,7 @@
             overflow: hidden;
             border: 1px solid rgba(226, 232, 240, 0.5);
             box-shadow: 0 12px 26px rgba(15, 23, 42, 0.06);
+            display: none;
         }
         
         .exercise-card::before {
@@ -762,6 +764,7 @@
         .exercise-card.active {
             transform: translateY(-4px);
             box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
+            display: block;
         }
         
         .exercise-card.active::before {
@@ -837,6 +840,75 @@
             color: #64748b;
             margin-bottom: 1rem;
             line-height: 1.6;
+        }
+
+        .exercise-visual {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .visual-figure {
+            width: 140px;
+            height: 140px;
+            border-radius: 18px;
+            background: radial-gradient(circle at 30% 30%, rgba(99, 102, 241, 0.25), rgba(99, 102, 241, 0.05));
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            display: grid;
+            place-items: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .visual-figure::after {
+            content: '';
+            width: 70%;
+            height: 8px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #10b981, #6366f1);
+            position: absolute;
+            bottom: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.5;
+        }
+
+        .visual-marker {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            background: white;
+            border: 3px solid #6366f1;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            color: #1e293b;
+            box-shadow: 0 14px 30px rgba(99, 102, 241, 0.15);
+        }
+
+        .visual-details {
+            display: grid;
+            gap: 0.45rem;
+        }
+
+        .visual-row {
+            display: grid;
+            grid-template-columns: 96px 1fr;
+            gap: 0.5rem;
+            align-items: baseline;
+        }
+
+        .visual-label {
+            font-weight: 800;
+            color: #1e293b;
+            font-size: 0.9rem;
+        }
+
+        .visual-text {
+            color: #475569;
         }
         
         /* REP COUNTER */
@@ -1719,7 +1791,7 @@
             <!-- Step 2: Exercises -->
             <section id="step2" class="section-card glass hidden">
                 <h2 class="section-title">Today's Gentle Exercises</h2>
-                <p class="section-subtitle">Take your time, focus on form over speed</p>
+                <p class="section-subtitle">One exercise at a time—clear visuals and cues so you can move without guesswork.</p>
 
                 <div class="progress-card glass">
                     <div class="progress-top">
@@ -1894,6 +1966,25 @@
                         Gently slide your heel toward your buttocks while keeping contact with the surface. 
                         Hold briefly, then slowly return.
                     </div>
+                    <div class="exercise-visual" aria-hidden="true">
+                        <div class="visual-figure">
+                            <div class="visual-marker">🦵</div>
+                        </div>
+                        <div class="visual-details">
+                            <div class="visual-row">
+                                <span class="visual-label">Start</span>
+                                <span class="visual-text">Lie on your back with your heel resting and toes pointing to the ceiling.</span>
+                            </div>
+                            <div class="visual-row">
+                                <span class="visual-label">Move</span>
+                                <span class="visual-text">Slide heel toward your hip without lifting the thigh; pause, then glide back.</span>
+                            </div>
+                            <div class="visual-row">
+                                <span class="visual-label">Breathe</span>
+                                <span class="visual-text">Exhale while sliding in; inhale on the return. Pace: 3s in, 3s out.</span>
+                            </div>
+                        </div>
+                    </div>
                     <button class="chip-btn ghost cues-toggle" data-target="cues1" aria-expanded="false" aria-controls="cues1">Show cues</button>
                     <ul class="cues-list collapsible" id="cues1">
                         <li><span class="cue-icon">🌬️</span><span>Exhale as you slide in, inhale as you return to the start.</span></li>
@@ -1919,6 +2010,25 @@
                         Tighten your thigh muscle as if trying to straighten your knee. 
                         Hold the contraction, then relax completely.
                     </div>
+                    <div class="exercise-visual" aria-hidden="true">
+                        <div class="visual-figure">
+                            <div class="visual-marker">💪</div>
+                        </div>
+                        <div class="visual-details">
+                            <div class="visual-row">
+                                <span class="visual-label">Start</span>
+                                <span class="visual-text">Leg long and relaxed, heel resting on the floor or bed.</span>
+                            </div>
+                            <div class="visual-row">
+                                <span class="visual-label">Move</span>
+                                <span class="visual-text">Press the back of the knee gently down until the quad firms; hold for 3–5s.</span>
+                            </div>
+                            <div class="visual-row">
+                                <span class="visual-label">Breathe</span>
+                                <span class="visual-text">Exhale as you press; inhale as you fully soften the leg.</span>
+                            </div>
+                        </div>
+                    </div>
                     <button class="chip-btn ghost cues-toggle" data-target="cues2" aria-expanded="false" aria-controls="cues2">Show cues</button>
                     <ul class="cues-list collapsible" id="cues2">
                         <li><span class="cue-icon">🎯</span><span>Imagine pressing the back of your knee gently toward the bed or floor.</span></li>
@@ -1943,6 +2053,25 @@
                     <div class="exercise-description">
                         With knee straight, lift your leg 6-12 inches. Hold briefly, 
                         then lower with control. Maintain steady breathing.
+                    </div>
+                    <div class="exercise-visual" aria-hidden="true">
+                        <div class="visual-figure">
+                            <div class="visual-marker">🏋️</div>
+                        </div>
+                        <div class="visual-details">
+                            <div class="visual-row">
+                                <span class="visual-label">Start</span>
+                                <span class="visual-text">Lie back with one knee bent for support; working leg stays straight.</span>
+                            </div>
+                            <div class="visual-row">
+                                <span class="visual-label">Move</span>
+                                <span class="visual-text">Lift 6–12 inches keeping the knee locked, pause, then lower for a slow 3-count.</span>
+                            </div>
+                            <div class="visual-row">
+                                <span class="visual-label">Breathe</span>
+                                <span class="visual-text">Exhale during the lift; inhale as you ease the leg back down.</span>
+                            </div>
+                        </div>
                     </div>
                     <button class="chip-btn ghost cues-toggle" data-target="cues3" aria-expanded="false" aria-controls="cues3">Show cues</button>
                     <ul class="cues-list collapsible" id="cues3">
