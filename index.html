@@ -217,12 +217,14 @@
         .utility-select label { font-weight: 800; color: var(--slate-600); }
         .utility-select select, .utility-select button { border: none; background: #f8fafc; padding: 0.55rem 0.8rem; border-radius: 12px; font-weight: 700; color: var(--slate-700); cursor: pointer; }
         .utility-select button { background: linear-gradient(135deg, var(--jade-600), var(--jade-500)); color: white; }
-        .layout-switcher { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
-        .density-pill { border: 1px solid var(--slate-200); background: white; color: var(--slate-700); border-radius: 12px; padding: 0.65rem 0.9rem; font-weight: 800; cursor: pointer; box-shadow: 0 10px 22px rgba(15,23,42,0.07); transition: all 0.18s ease; }
-        .density-pill.primary { background: linear-gradient(135deg, var(--jade-600), var(--jade-400)); color: white; border-color: transparent; box-shadow: 0 12px 26px rgba(20,182,137,0.2); }
-        .density-pill.active { border-color: #b6f0dd; box-shadow: inset 0 0 0 2px #b6f0dd, 0 12px 24px rgba(15,23,42,0.08); }
-        .menu-hint { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; color: var(--slate-600); flex-wrap: wrap; }
-        .menu-hint .micro-tag { background: #eef7ff; color: var(--slate-700); border-color: #d7e9ff; }
+            .layout-switcher { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+            .density-pill { border: 1px solid var(--slate-200); background: white; color: var(--slate-700); border-radius: 12px; padding: 0.65rem 0.9rem; font-weight: 800; cursor: pointer; box-shadow: 0 10px 22px rgba(15,23,42,0.07); transition: all 0.18s ease; }
+            .density-pill.primary { background: linear-gradient(135deg, var(--jade-600), var(--jade-400)); color: white; border-color: transparent; box-shadow: 0 12px 26px rgba(20,182,137,0.2); }
+            .density-pill.active { border-color: #b6f0dd; box-shadow: inset 0 0 0 2px #b6f0dd, 0 12px 24px rgba(15,23,42,0.08); }
+            .menu-hint { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; color: var(--slate-600); flex-wrap: wrap; }
+            .menu-hint .micro-tag { background: #eef7ff; color: var(--slate-700); border-color: #d7e9ff; }
+            .condensed-pill { background: linear-gradient(135deg, #f6f7fb, #f8fffb); border-color: #d7e9ff; }
+            .condensed-pill.active { background: linear-gradient(135deg, #d9f6e8, #e4f1ff); border-color: #b8f1df; color: var(--jade-700); box-shadow: inset 0 0 0 2px #b8f1df, 0 12px 24px rgba(15,23,42,0.08); }
 
         .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1.2rem; }
         .status-card {
@@ -373,9 +375,14 @@
         .compact-ui .section-card { padding: 1.25rem; border-radius: 18px; }
         .compact-ui .utility-bar { margin-top: 0.6rem; padding: 0.7rem 0.85rem; }
         .compact-ui .hero { gap: 0.9rem; }
-        .compact-ui .status-card { padding: 1.1rem; }
-        .compact-ui .exercise-card { padding: 1rem; }
-        .compact-ui .control-dock { width: min(320px, calc(100% - 1.5rem)); }
+            .compact-ui .status-card { padding: 1.1rem; }
+            .compact-ui .exercise-card { padding: 1rem; }
+            .compact-ui .control-dock { width: min(320px, calc(100% - 1.5rem)); }
+            .condensed-flow .hero { display: none; }
+            .condensed-flow .ambient { display: none; }
+            .condensed-flow .status-grid { margin-top: 0.4rem; }
+            .condensed-flow .utility-bar { margin-top: 0.6rem; position: sticky; top: 60px; }
+            .condensed-flow .section-card { margin-bottom: 1rem; }
 
         @media (max-width: 1024px) {
             .hero { grid-template-columns: 1fr; }
@@ -486,6 +493,7 @@
                 <div class="layout-switcher" aria-label="Layout & quick menu">
                     <button class="density-pill active" data-density="spacious">Spacious layout</button>
                     <button class="density-pill" data-density="compact">Compact layout</button>
+                    <button class="density-pill condensed-pill" id="condensedToggle">Reduce scrolling</button>
                     <button class="density-pill primary" id="openCommandPalette">⌘/ Quick menu</button>
                 </div>
                 <div class="menu-hint">
@@ -740,7 +748,7 @@
             session: { active: false, paused: false, duration: 0, timer: null },
             voice: { recognition: null, listening: false, supported: false },
             preferences: { pace: 'Gentle', reminders: true, mode: 'Guided', focus: 'Mobility' },
-            ui: { density: 'spacious' },
+            ui: { density: 'spacious', condensed: false },
             results: { totalReps: 0, exercisesCompleted: 0 }
         };
         const totalGoalReps = Object.values(AppState.exercises).reduce((sum, ex) => sum + ex.goal, 0);
@@ -912,15 +920,51 @@
             setDensity(AppState.ui.density, { silent: true });
             const commandTrigger = document.getElementById('openCommandPalette');
             if (commandTrigger) commandTrigger.addEventListener('click', openCommandPalette);
+            const condensedToggle = document.getElementById('condensedToggle');
+            if (condensedToggle) condensedToggle.addEventListener('click', () => setCondensedFlow(!AppState.ui.condensed));
+            setCondensedFlow(AppState.ui.condensed, { silent: true });
         }
         function setDensity(mode, options = { silent: false }) {
             if (!mode) return;
             AppState.ui.density = mode;
             document.body.classList.toggle('compact-ui', mode === 'compact');
             document.querySelectorAll('[data-density]').forEach(btn => btn.classList.toggle('active', btn.dataset.density === mode));
-            const layoutHint = document.getElementById('layoutHint');
-            if (layoutHint) layoutHint.textContent = mode === 'compact' ? 'Compact view · tighter controls' : 'Spacious view · more breathing room';
+            updateLayoutHint();
             if (!options.silent) showNotification(`Switched to a ${mode} layout`, 'success');
+        }
+        function updateLayoutHint() {
+            const layoutHint = document.getElementById('layoutHint');
+            if (!layoutHint) return;
+            if (AppState.ui.condensed) layoutHint.textContent = 'Reduced scrolling · hero hidden';
+            else layoutHint.textContent = AppState.ui.density === 'compact' ? 'Compact view · tighter controls' : 'Spacious view · more breathing room';
+        }
+        function setCondensedFlow(enabled, options = { silent: false }) {
+            AppState.ui.condensed = enabled;
+            document.body.classList.toggle('condensed-flow', enabled);
+            const condensedToggle = document.getElementById('condensedToggle');
+            if (condensedToggle) {
+                condensedToggle.classList.toggle('active', enabled);
+                condensedToggle.textContent = enabled ? 'Reduced scrolling on' : 'Reduce scrolling';
+            }
+            if (enabled) {
+                collapseSupportingSections();
+                const activeStep = document.getElementById('step' + AppState.currentStep);
+                if (activeStep) activeStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                const voiceCard = document.querySelector('.voice-card');
+                if (voiceCard) setCollapsed(voiceCard, false);
+                expandActiveStepSection();
+            }
+            updateLayoutHint();
+            if (!options.silent) showNotification(enabled ? 'Reduced scrolling enabled' : 'Full view restored', 'success');
+        }
+        function collapseSupportingSections() {
+            const voiceCard = document.querySelector('.voice-card');
+            if (voiceCard) setCollapsed(voiceCard, true);
+            document.querySelectorAll('[data-collapsible]').forEach(section => {
+                const isStepSection = section.id && section.id.startsWith('step');
+                if (isStepSection) setCollapsed(section, section.id !== `step${AppState.currentStep}`);
+            });
         }
 
         function setMode(mode) {
@@ -1175,6 +1219,7 @@
             const current = document.getElementById('step' + AppState.currentStep);
             if (current) current.classList.remove('hidden');
             expandActiveStepSection();
+            if (AppState.ui.condensed) collapseSupportingSections();
             updateStepBanner();
             refreshStepChips();
             updateMiniSummary();
