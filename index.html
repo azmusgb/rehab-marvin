@@ -8,6 +8,22 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        .simple-home .ambient,
+        .simple-home .hero-panel,
+        .simple-home .utility-bar,
+        .simple-home .control-dock,
+        .simple-home .voice-card,
+        .simple-home .layout-switcher,
+        .simple-home .mode-pill-group,
+        .simple-home .utility-select,
+        .simple-home .menu-hint,
+        .simple-home .top-actions .pill.success { display: none !important; }
+        .simple-home .status-card:nth-child(n+3) { display: none; }
+        .simple-home .hero { grid-template-columns: 1fr; padding-top: 1.1rem; }
+        .simple-home .section-card { margin-bottom: 1rem; }
+        .simple-home .hero-actions { margin-top: 0.8rem; }
+        .simple-home .utility-actions { gap: 0.45rem; }
+
         :root {
             --jade-900: #0b2f2d;
             --jade-800: #0f3f3b;
@@ -111,6 +127,7 @@
             flex-wrap: wrap;
             justify-content: flex-end;
         }
+        .pill-button { border: none; cursor: pointer; }
         .pill {
             display: inline-flex;
             align-items: center;
@@ -158,6 +175,11 @@
         .btn:hover { transform: translateY(-2px); }
         .btn-primary { background: linear-gradient(135deg, var(--jade-600), var(--jade-400)); color: white; }
         .btn-ghost { background: var(--card); color: var(--slate-800); border: 1px solid var(--slate-200); box-shadow: 0 12px 24px rgba(15,23,42,0.06); }
+        .essentials { display: none; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.8rem; margin-top: 1rem; }
+        .simple-home .essentials { display: grid; }
+        .essential-card { background: white; border: 1px solid var(--slate-200); border-radius: 16px; padding: 1rem 1.1rem; box-shadow: 0 10px 24px rgba(15,23,42,0.07); display: grid; gap: 0.35rem; }
+        .essential-card strong { font-size: 1.2rem; }
+        .essential-card p { color: var(--slate-600); font-weight: 700; }
 
         .hero-panel {
             background: var(--card);
@@ -438,6 +460,7 @@
                 <span class="pill success">Calm · Kind · Consistent</span>
                 <span class="pill neutral" id="currentTime">--:--</span>
                 <span class="pill">Today's focus: <strong id="miniMode">Guided</strong></span>
+                <button class="pill pill-button" id="simplicityToggle" aria-pressed="false" type="button">Simplify view</button>
             </div>
         </div>
     </header>
@@ -451,6 +474,23 @@
                 <div class="hero-actions">
                     <button class="btn btn-primary" onclick="startSession()">Start Session →</button>
                     <button class="btn btn-ghost" onclick="document.getElementById('step1').scrollIntoView({behavior:'smooth'})">Check-in first</button>
+                </div>
+                <div class="essentials" aria-label="Essential summary">
+                    <div class="essential-card">
+                        <span class="eyebrow">Today's focus</span>
+                        <strong id="essentialFocus">Mobility focus</strong>
+                        <p id="essentialMode">Guided · reminders on</p>
+                    </div>
+                    <div class="essential-card">
+                        <span class="eyebrow">Current step</span>
+                        <strong id="essentialStep">Step 1 · Check in gently</strong>
+                        <p id="essentialPace">Gentle pace · steady breath</p>
+                    </div>
+                    <div class="essential-card">
+                        <span class="eyebrow">Progress</span>
+                        <strong id="essentialProgress">0% ready</strong>
+                        <p id="essentialMeta">0/35 gentle reps</p>
+                    </div>
                 </div>
             </div>
             <div class="hero-panel">
@@ -748,7 +788,7 @@
             session: { active: false, paused: false, duration: 0, timer: null },
             voice: { recognition: null, listening: false, supported: false },
             preferences: { pace: 'Gentle', reminders: true, mode: 'Guided', focus: 'Mobility' },
-            ui: { density: 'spacious', condensed: false },
+            ui: { density: 'spacious', condensed: false, simpleHome: true },
             results: { totalReps: 0, exercisesCompleted: 0 }
         };
         const totalGoalReps = Object.values(AppState.exercises).reduce((sum, ex) => sum + ex.goal, 0);
@@ -766,6 +806,7 @@
             bindVoiceToggle();
             initUtilityBar();
             initLayoutControls();
+            initSimplicityToggle();
             initCommandPalette();
             registerKeyboardShortcuts();
             updateStepDisplay();
@@ -924,6 +965,22 @@
             if (condensedToggle) condensedToggle.addEventListener('click', () => setCondensedFlow(!AppState.ui.condensed));
             setCondensedFlow(AppState.ui.condensed, { silent: true });
         }
+        function initSimplicityToggle() {
+            const toggle = document.getElementById('simplicityToggle');
+            if (!toggle) return;
+            const applyState = () => {
+                document.body.classList.toggle('simple-home', AppState.ui.simpleHome);
+                toggle.textContent = AppState.ui.simpleHome ? 'Show full dashboard' : 'Simplify view';
+                toggle.setAttribute('aria-pressed', AppState.ui.simpleHome.toString());
+                if (AppState.ui.simpleHome) collapseSupportingSections();
+                updateLayoutHint();
+            };
+            toggle.addEventListener('click', () => {
+                AppState.ui.simpleHome = !AppState.ui.simpleHome;
+                applyState();
+            });
+            applyState();
+        }
         function setDensity(mode, options = { silent: false }) {
             if (!mode) return;
             AppState.ui.density = mode;
@@ -935,6 +992,7 @@
         function updateLayoutHint() {
             const layoutHint = document.getElementById('layoutHint');
             if (!layoutHint) return;
+            if (AppState.ui.simpleHome) { layoutHint.textContent = 'Simple view · essentials only'; return; }
             if (AppState.ui.condensed) layoutHint.textContent = 'Reduced scrolling · hero hidden';
             else layoutHint.textContent = AppState.ui.density === 'compact' ? 'Compact view · tighter controls' : 'Spacious view · more breathing room';
         }
@@ -1002,6 +1060,9 @@
             setText('heroMode', `${mode} mode`);
             setText('heroFocus', `${focus} today`);
             setText('miniMode', mode);
+            setText('essentialFocus', `${focus} focus`);
+            setText('essentialMode', `${mode} · reminders ${reminders ? 'on' : 'off'}`);
+            setText('essentialPace', `${pace} pace · steady breath`);
             updateWellnessCards();
         }
 
@@ -1013,6 +1074,10 @@
             if (fill) fill.style.width = `${percent}%`;
             if (label) label.textContent = `${percent}% ready`;
             if (meta) meta.textContent = `${AppState.results.totalReps}/${totalGoalReps} gentle reps`;
+            const essentialProgress = document.getElementById('essentialProgress');
+            const essentialMeta = document.getElementById('essentialMeta');
+            if (essentialProgress) essentialProgress.textContent = `${percent}% ready`;
+            if (essentialMeta) essentialMeta.textContent = `${AppState.results.totalReps}/${totalGoalReps} gentle reps`;
         }
 
         function updateWellnessCards() {
@@ -1232,6 +1297,8 @@
             const banner = document.getElementById('stepBanner');
             const labels = { 1: 'Check in gently', 2: 'Move mindfully', 3: 'Review & save' };
             if (banner) banner.textContent = `Step ${AppState.currentStep} · ${labels[AppState.currentStep] || 'Your session'}`;
+            const essentialStep = document.getElementById('essentialStep');
+            if (essentialStep) essentialStep.textContent = banner?.textContent || '';
         }
         function refreshStepChips() { document.querySelectorAll('[data-step-chip]').forEach(chip => chip.classList.toggle('active', parseInt(chip.dataset.stepChip, 10) === AppState.currentStep)); }
 
