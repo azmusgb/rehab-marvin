@@ -7,52 +7,42 @@
     <style>
         /* RESET & BASE */
         :root {
-            --slate-50: #f8fafc;
-            --slate-100: #f1f5f9;
-            --slate-200: #e2e8f0;
-            --slate-500: #64748b;
-            --slate-700: #334155;
+            --green-500: #10b981;
+            --green-400: #34d399;
+            --green-100: #d1fae5;
+            --green-50: #ecfdf5;
             --slate-900: #0f172a;
-            --indigo-500: #6366f1;
-            --indigo-600: #4f46e5;
-            --violet-500: #8b5cf6;
-            --emerald-500: #10b981;
-            --amber-500: #f59e0b;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-500: #64748b;
+            --slate-400: #94a3b8;
+            --slate-300: #cbd5e1;
+            --slate-200: #e2e8f0;
+            --slate-100: #f1f5f9;
+            --slate-50: #f8fafc;
+            --blue-100: #dbeafe;
+            --blue-50: #eff6ff;
+            --orange-500: #f59e0b;
+            --red-500: #ef4444;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body { 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            background: radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.08), transparent 32%),
-                        radial-gradient(circle at 80% 10%, rgba(16, 185, 129, 0.09), transparent 30%),
-                        linear-gradient(135deg, var(--slate-50) 0%, var(--slate-100) 100%);
-            color: #1e293b;
-            line-height: 1.6;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: var(--slate-900);
+            line-height: 1.8;
             min-height: 100vh;
-            position: relative;
             overflow-x: hidden;
-        }
-
-        body::after {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
-            background-size: 46px 46px;
-            opacity: 0.5;
-            pointer-events: none;
-            z-index: -1;
+            font-size: 18px;
         }
         
         /* UTILITY */
         .hidden { display: none !important; }
         .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
         
-        /* SMOOTH SCROLLING */
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
         
         /* CONTAINER */
         .container {
@@ -63,21 +53,21 @@
         
         /* GLASS EFFECTS */
         .glass {
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(226, 232, 240, 0.65);
-            box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08), 0 2px 8px rgba(99, 102, 241, 0.08);
+            background: white;
+            border: 2px solid var(--slate-200);
+            box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+            border-radius: 24px;
         }
         
         /* HEADER */
         .header {
-            padding: 1.25rem 0;
+            padding: 1.5rem 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+            background: white;
+            border-bottom: 3px solid #e0f2fe;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
         }
         
         .header-content {
@@ -89,280 +79,123 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.25rem;
         }
         
         .logo-icon {
-            width: 42px;
-            height: 42px;
-            background: conic-gradient(from 140deg, #8b5cf6, #6366f1, #10b981, #8b5cf6);
-            border-radius: 14px;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--green-500), var(--green-400));
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.25rem;
-            box-shadow: 0 8px 16px rgba(99, 102, 241, 0.28);
+            font-size: 2rem;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
         }
         
         .logo-text h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #1e293b, #475569);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--slate-900);
+            margin-bottom: 0.25rem;
         }
         
         .logo-text p {
-            font-size: 0.875rem;
-            color: #64748b;
+            font-size: 1.125rem;
+            color: var(--slate-500);
+            font-weight: 500;
         }
         
         /* USER INFO */
         .user-info {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.25rem;
         }
         
         .user-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--green-500), var(--green-400));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #0ea5e9;
-            font-weight: 600;
-            border: 2px solid rgba(14, 165, 233, 0.2);
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            border: 3px solid white;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
         }
         
         .time-display {
             font-family: 'SF Mono', monospace;
-            font-size: 0.875rem;
-            color: #64748b;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(16, 185, 129, 0.06));
-            padding: 0.6rem 1.1rem;
-            border-radius: 20px;
-            border: 1px solid rgba(99, 102, 241, 0.12);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--slate-900);
+            background: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: 16px;
+            border: 2px solid #e0f2fe;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
         }
         
         /* HERO SECTION */
         .hero {
-            padding: 2.8rem 0 1.75rem;
+            padding: 3rem 0 2rem;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before, .hero::after {
-            content: '';
-            position: absolute;
-            width: 320px;
-            height: 320px;
-            border-radius: 999px;
-            filter: blur(80px);
-            opacity: 0.18;
-            z-index: -1;
-        }
-
-        .hero::before {
-            background: #6366f1;
-            top: -30px;
-            left: -80px;
-        }
-
-        .hero::after {
-            background: #10b981;
-            bottom: -120px;
-            right: -120px;
         }
         
         .hero h2 {
-            font-size: 2.85rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 0.65rem;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--slate-900);
+            margin-bottom: 1rem;
             line-height: 1.2;
         }
         
         .hero p {
-            font-size: 1.05rem;
-            color: #475569;
-            max-width: 620px;
-            margin: 0.25rem auto 1.25rem;
+            font-size: 1.5rem;
+            color: var(--slate-600);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            font-weight: 500;
         }
 
-        .hero .pill-group {
-            display: flex;
-            justify-content: center;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-            margin-bottom: 1.5rem;
-        }
-
-        .quickstart {
-            margin: 1.25rem auto 0;
-            padding: 1.5rem;
-            border-radius: 16px;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(16, 185, 129, 0.06));
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
-        }
-
-        .quickstart h3 {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: #0f172a;
-        }
-
-        .quickstart p {
-            color: #475569;
-        }
-
-        .quickstart-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 0.85rem;
-            margin-top: 1rem;
-        }
-
-        .quickstart-step {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 0.75rem;
-            padding: 0.9rem 1rem;
-            border-radius: 12px;
-            background: white;
-            border: 1px solid rgba(226, 232, 240, 0.9);
-            align-items: center;
-        }
-
-        .quickstart-number {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: grid;
-            place-items: center;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            color: white;
-            font-weight: 800;
-            box-shadow: 0 10px 24px rgba(99, 102, 241, 0.18);
-        }
-
-        .quickstart-title {
-            font-weight: 800;
-            color: #0f172a;
-            margin-bottom: 0.15rem;
-        }
-
-        .quickstart-text {
-            color: #475569;
-            font-size: 0.95rem;
-        }
-
-        .collapsible {
-            transition: max-height 0.35s ease, opacity 0.35s ease;
-            overflow: hidden;
-            max-height: 0;
-            opacity: 0;
-        }
-
-        .collapsible.open {
-            max-height: 200px;
-            opacity: 1;
-        }
-
-        .pill {
-            padding: 0.55rem 1rem;
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(226, 232, 240, 0.7);
-            color: #475569;
-            border-radius: 999px;
-            font-weight: 600;
-            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-        
-        /* GUIDE PANEL */
-        .guide-panel {
-            margin: 1.25rem 0 0;
-            padding: 1.25rem 1.5rem;
-            border-radius: 16px;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.07), rgba(16, 185, 129, 0.07));
-            border: 1px solid rgba(99, 102, 241, 0.1);
-            display: grid;
-            gap: 0.75rem;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 8px 24px rgba(15, 23, 42, 0.05);
-        }
-
-        .guide-panel strong {
-            color: #0f172a;
-        }
-
-        .guide-row {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.4rem;
-        }
-
-        .guide-highlight {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.65rem 0.85rem;
-            border-radius: 12px;
-            background: #fff;
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            font-weight: 700;
-            color: #0f172a;
-            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.12);
-        }
-
-        .guide-note {
-            color: #475569;
-            font-weight: 600;
-        }
-        
-        /* STEP NAVIGATION */
         .step-banner {
             display: inline-flex;
             align-items: center;
-            gap: 0.65rem;
-            padding: 0.7rem 1.1rem;
-            border-radius: 12px;
-            background: #eef2ff;
-            color: #3730a3;
-            font-weight: 700;
-            font-size: 0.95rem;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            background: var(--green-50);
+            color: #065f46;
+            font-weight: 800;
+            font-size: 1.25rem;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+            border: 2px solid var(--green-100);
+            margin-bottom: 1.5rem;
         }
 
+        /* STEP NAVIGATION */
         .step-nav {
             display: flex;
             justify-content: center;
-            gap: 0.75rem;
-            margin: 2rem 0 2rem;
+            gap: 3rem;
+            margin: 3rem 0;
             position: relative;
         }
         
         .step-nav::before {
             content: '';
             position: absolute;
-            top: 24px;
-            left: 50px;
-            right: 50px;
-            height: 2px;
-            background: linear-gradient(90deg, #6366f1, #8b5cf6);
-            opacity: 0.15;
+            top: 40px;
+            left: 15%;
+            right: 15%;
+            height: 4px;
+            background: #e0f2fe;
             z-index: 1;
         }
         
@@ -373,47 +206,33 @@
         }
         
         .step-circle {
-            width: 52px;
-            height: 52px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(248,250,252,0.9));
-            border: 2px solid #e2e8f0;
+            background: white;
+            border: 4px solid var(--slate-200);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 0.85rem;
-            font-weight: 700;
-            color: #94a3b8;
+            margin: 0 auto 1rem;
+            font-weight: 900;
+            font-size: 2rem;
+            color: var(--slate-400);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
-        }
-        
-        .step-circle::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            opacity: 0;
-            transition: opacity 0.4s ease;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
         }
         
         .step.active .step-circle {
-            border-color: #6366f1;
+            border-color: var(--green-500);
+            background: linear-gradient(135deg, var(--green-500), var(--green-400));
             color: white;
-        }
-        
-        .step.active .step-circle::before {
-            opacity: 1;
+            transform: scale(1.1);
+            box-shadow: 0 12px 32px rgba(16, 185, 129, 0.3);
         }
         
         .step.completed .step-circle {
-            border-color: #10b981;
-            background: #10b981;
+            border-color: var(--green-500);
+            background: linear-gradient(135deg, var(--green-500), var(--green-400));
             color: white;
         }
         
@@ -423,16 +242,17 @@
         }
         
         .step-label {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #94a3b8;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--slate-400);
             transition: color 0.3s ease, transform 0.3s ease;
         }
         
         .step.active .step-label {
-            color: #1e293b;
-            font-weight: 700;
-            transform: translateY(-2px);
+            color: var(--slate-900);
+            font-weight: 800;
+            transform: translateY(-4px);
+            font-size: 1.375rem;
         }
         
         /* MAIN CONTENT */
@@ -442,22 +262,10 @@
         
         /* SECTION CARDS */
         .section-card {
-            border-radius: 22px;
-            padding: 2.5rem;
+            border-radius: 32px;
+            padding: 3rem;
             margin-bottom: 2rem;
             animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-origin: center top;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .section-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 24px;
-            border: 1px solid rgba(99, 102, 241, 0.05);
-            pointer-events: none;
         }
         
         @keyframes slideUp {
@@ -470,115 +278,93 @@
                 transform: translateY(0);
             }
         }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideOut {
-            from {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            to {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-        }
         
         .section-title {
-            font-size: 2.05rem;
-            font-weight: 800;
-            color: #1e293b;
-            margin-bottom: 0.75rem;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--slate-900);
+            margin-bottom: 1rem;
         }
         
         .section-subtitle {
-            font-size: 1.125rem;
-            color: #64748b;
-            margin-bottom: 2rem;
+            font-size: 1.375rem;
+            color: var(--slate-500);
+            margin-bottom: 2.5rem;
+            font-weight: 500;
         }
         
         /* FORM ELEMENTS */
         .input-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
         
         .input-label {
             display: block;
-            font-weight: 500;
-            color: #475569;
-            margin-bottom: 0.75rem;
-            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--slate-900);
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
         }
         
         .input-field {
             width: 100%;
-            padding: 1rem 1.25rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 1rem;
+            padding: 1.25rem 1.5rem;
+            border: 3px solid var(--slate-200);
+            border-radius: 16px;
+            font-size: 1.25rem;
             transition: all 0.3s ease;
-            background: linear-gradient(180deg, #fff, #f8fafc);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+            background: white;
+            font-weight: 500;
         }
         
         .input-field:focus {
             outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            border-color: var(--green-500);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
         }
         
         /* PAIN SLIDER */
         .pain-slider-container {
-            padding: 2rem;
-            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-            border-radius: 16px;
-            margin: 2rem 0;
-            border: 1px solid rgba(59, 130, 246, 0.15);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+            padding: 2.5rem;
+            background: linear-gradient(135deg, var(--green-50), var(--green-100));
+            border-radius: 24px;
+            margin: 2.5rem 0;
+            border: 3px solid var(--green-100);
         }
         
         .pain-visual {
             position: relative;
-            height: 80px;
-            margin: 2rem 0;
+            height: 100px;
+            margin: 2.5rem 0;
         }
         
         .pain-track {
-            height: 10px;
-            background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
+            height: 16px;
+            background: linear-gradient(90deg, var(--green-500), var(--orange-500), var(--red-500));
             border-radius: 999px;
             position: relative;
-            margin: 36px 0;
+            margin: 42px 0;
             outline: none;
         }
         
         .pain-handle {
             position: absolute;
-            top: -24px;
-            width: 60px;
-            height: 60px;
+            top: -32px;
+            width: 80px;
+            height: 80px;
             background: white;
             border-radius: 50%;
-            box-shadow: 0 12px 28px rgba(99, 102, 241, 0.2);
+            box-shadow: 0 12px 32px rgba(15, 23, 42, 0.2);
             transform: translateX(-50%);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 1.125rem;
-            color: #1e293b;
+            font-weight: 900;
+            font-size: 1.75rem;
+            color: var(--slate-900);
             transition: all 0.2s ease;
-            border: 3px solid #6366f1;
+            border: 4px solid var(--green-500);
         }
         
         .pain-handle:hover {
@@ -590,261 +376,32 @@
         }
         
         .pain-handle:focus-visible {
-            box-shadow: 0 0 0 6px rgba(99,102,241,0.25);
+            box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.3);
         }
 
         .pain-labels {
             display: flex;
             justify-content: space-between;
-            margin-top: 1rem;
-            color: #64748b;
-            font-size: 0.875rem;
+            margin-top: 1.5rem;
+            color: var(--slate-600);
+            font-size: 1.125rem;
+            font-weight: 600;
         }
         
         /* EXERCISE CARDS */
         .exercise-grid {
             display: grid;
-            gap: 1.5rem;
+            gap: 2rem;
             margin: 2rem auto;
             max-width: 820px;
         }
 
-        /* SEQUENCE RAIL */
-        .sequence-card {
-            padding: 1.5rem;
-            border-radius: 16px;
-            border: 1px solid rgba(226, 232, 240, 0.6);
-            margin: 1.5rem 0;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .sequence-header {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .eyebrow {
-            font-size: 0.8rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #94a3b8;
-            font-weight: 700;
-        }
-
-        .sequence-title {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: #0f172a;
-        }
-
-        .sequence-subtitle {
-            color: #475569;
-            margin-top: 0.35rem;
-        }
-
-        .sequence-meter {
-            min-width: 240px;
-        }
-
-        .meter-label {
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 0.4rem;
-        }
-
-        .meter-track {
-            height: 10px;
-            background: #e2e8f0;
-            border-radius: 999px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .meter-fill {
-            position: absolute;
-            inset: 0;
-            width: 0%;
-            background: linear-gradient(90deg, #6366f1, #10b981);
-            transition: width 0.35s ease;
-        }
-
-        .sequence-summary {
-            color: #64748b;
-            margin-top: 0.45rem;
-            font-weight: 600;
-        }
-
-        .sequence-steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 0.75rem;
-        }
-
-        .sequence-step {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 0.85rem 1rem;
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            display: grid;
-            grid-template-columns: auto auto 1fr auto;
-            gap: 0.75rem;
-            align-items: center;
-            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .sequence-step.active {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(16, 185, 129, 0.12));
-            border-color: rgba(99, 102, 241, 0.3);
-            box-shadow: 0 10px 26px rgba(99, 102, 241, 0.12);
-            transform: translateY(-2px);
-        }
-
-        .sequence-step.completed {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(16, 185, 129, 0.16));
-            border-color: rgba(16, 185, 129, 0.3);
-        }
-
-        .sequence-step.up-next {
-            border-color: rgba(139, 92, 246, 0.35);
-        }
-
-        .sequence-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 4px 10px rgba(15, 23, 42, 0.08);
-        }
-
-        .sequence-body {
-            display: grid;
-            gap: 0.15rem;
-        }
-
-        .sequence-body .title {
-            font-weight: 800;
-            color: #0f172a;
-        }
-
-        .sequence-meta {
-            color: #475569;
-            font-size: 0.9rem;
-        }
-
-        .sequence-note {
-            color: #94a3b8;
-            font-size: 0.85rem;
-        }
-
-        .sequence-status {
-            padding: 0.35rem 0.65rem;
-            border-radius: 999px;
-            font-weight: 800;
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
-            color: #0f172a;
-            border: 1px solid rgba(15, 23, 42, 0.08);
-            background: white;
-        }
-
-        .sequence-progress-dot {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 3px solid #e2e8f0;
-            display: grid;
-            place-items: center;
-            font-weight: 800;
-            color: #94a3b8;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
-        }
-
-        .sequence-step.active .sequence-progress-dot {
-            border-color: #6366f1;
-            color: #6366f1;
-        }
-
-        .sequence-step.completed .sequence-progress-dot {
-            background: #10b981;
-            color: white;
-            border-color: #0d9f73;
-        }
-
-        .sequence-step.active .sequence-status {
-            background: #6366f1;
-            border-color: #4f46e5;
-            color: white;
-        }
-
-        .sequence-step.completed .sequence-status {
-            background: #10b981;
-            border-color: #0d9f73;
-            color: white;
-        }
-
-        .sequence-guide {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .guide-chip {
-            background: white;
-            color: #475569;
-            padding: 0.5rem 0.75rem;
-            border-radius: 10px;
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            font-weight: 700;
-            display: inline-flex;
-            gap: 0.35rem;
-            align-items: center;
-        }
-
-        .sequence-actions {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 1rem;
-            align-items: center;
-            padding: 1rem 1.25rem;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(16, 185, 129, 0.06));
-            border-radius: 14px;
-            border: 1px solid rgba(226, 232, 240, 0.7);
-        }
-
-        .sequence-hint {
-            max-width: 600px;
-            color: #475569;
-            line-height: 1.5;
-        }
-
-        .sequence-hint strong {
-            color: #0f172a;
-        }
-
-        .sequence-controls {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
         .exercise-card {
-            border-radius: 16px;
-            padding: 1.5rem 1.75rem;
+            border-radius: 24px;
+            padding: 2rem;
             background: white;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(226, 232, 240, 0.5);
+            border: 3px solid var(--slate-200);
             box-shadow: 0 12px 26px rgba(15, 23, 42, 0.06);
             display: none;
         }
@@ -855,16 +412,17 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            height: 6px;
+            background: linear-gradient(90deg, var(--green-500), var(--green-400));
             transform: scaleX(0);
             transition: transform 0.4s ease;
+            border-radius: 24px 24px 0 0;
         }
         
         .exercise-card.active {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
             display: block;
+            border-color: var(--green-500);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15);
         }
         
         .exercise-card.active::before {
@@ -873,173 +431,101 @@
         
         .exercise-card.completed {
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(16, 185, 129, 0.1));
-            border-color: rgba(16, 185, 129, 0.2);
-        }
-        
-        .exercise-card.completed::before {
-            background: #10b981;
-            transform: scaleX(1);
+            border-color: var(--green-400);
         }
         
         .exercise-header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
         
         .exercise-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--green-50), var(--green-100));
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #0ea5e9;
-            font-size: 1.5rem;
+            font-size: 2rem;
+            border: 2px solid var(--green-100);
         }
         
         .exercise-card.completed .exercise-icon {
-            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
-            color: #10b981;
+            background: linear-gradient(135deg, var(--green-100), var(--green-400));
         }
         
         .exercise-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #1e293b;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--slate-900);
             flex: 1;
-            margin-left: 1rem;
         }
         
         .exercise-status {
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1.25rem;
             border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
+            font-size: 1rem;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.06em;
-            background: #f1f5f9;
-            color: #64748b;
-            border: 1px solid rgba(226, 232, 240, 0.7);
+            background: var(--slate-100);
+            color: var(--slate-600);
+            border: 2px solid var(--slate-200);
         }
         
         .exercise-card.active .exercise-status {
-            background: #6366f1;
+            background: var(--green-500);
             color: white;
+            border-color: var(--green-500);
         }
         
         .exercise-card.completed .exercise-status {
-            background: #10b981;
+            background: var(--green-500);
             color: white;
+            border-color: var(--green-500);
         }
         
         .exercise-description {
-            color: #64748b;
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-
-        .exercise-visual {
-            display: grid;
-            grid-template-columns: 140px 1fr;
-            gap: 1rem;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .visual-figure {
-            width: 140px;
-            height: 140px;
-            border-radius: 18px;
-            background: radial-gradient(circle at 30% 30%, rgba(99, 102, 241, 0.25), rgba(99, 102, 241, 0.05));
-            border: 1px solid rgba(99, 102, 241, 0.1);
-            display: grid;
-            place-items: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
-        }
-
-        .visual-figure::after {
-            content: '';
-            width: 70%;
-            height: 8px;
-            border-radius: 999px;
-            background: linear-gradient(90deg, #10b981, #6366f1);
-            position: absolute;
-            bottom: 22px;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0.5;
-        }
-
-        .visual-marker {
-            width: 54px;
-            height: 54px;
-            border-radius: 14px;
-            background: white;
-            border: 3px solid #6366f1;
-            display: grid;
-            place-items: center;
-            font-weight: 800;
-            color: #1e293b;
-            box-shadow: 0 14px 30px rgba(99, 102, 241, 0.15);
-        }
-
-        .visual-details {
-            display: grid;
-            gap: 0.45rem;
-        }
-
-        .visual-row {
-            display: grid;
-            grid-template-columns: 96px 1fr;
-            gap: 0.5rem;
-            align-items: baseline;
-        }
-
-        .visual-label {
-            font-weight: 800;
-            color: #1e293b;
-            font-size: 0.9rem;
-        }
-
-        .visual-text {
-            color: #475569;
+            color: var(--slate-600);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            font-size: 1.125rem;
+            font-weight: 500;
         }
         
         /* REP COUNTER */
         .rep-counter {
             display: flex;
             align-items: center;
-            gap: 1.25rem;
-            margin-top: 1rem;
+            gap: 1.5rem;
+            margin-top: 2rem;
             flex-wrap: wrap;
         }
         
         .rep-btn {
-            width: 56px;
-            height: 56px;
+            width: 72px;
+            height: 72px;
             border-radius: 50%;
             border: none;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            background: linear-gradient(135deg, var(--green-500), var(--green-400));
             color: white;
-            font-size: 1.5rem;
+            font-size: 2rem;
+            font-weight: 900;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
             touch-action: manipulation;
         }
         
         .rep-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 12px 32px rgba(16, 185, 129, 0.4);
         }
         
         .rep-btn:active {
@@ -1047,387 +533,98 @@
         }
         
         .rep-count {
-            font-size: 2rem;
-            font-weight: 800;
-            min-width: 60px;
+            font-size: 2.5rem;
+            font-weight: 900;
+            min-width: 80px;
             text-align: center;
-            color: #1e293b;
+            color: var(--slate-900);
             font-feature-settings: "tnum";
         }
         
         .rep-goal {
-            color: #64748b;
-            margin-left: 1rem;
-            font-size: 0.95rem;
+            color: var(--slate-500);
+            font-size: 1.125rem;
+            font-weight: 600;
         }
         
         /* SESSION TIMER */
         .session-timer {
             text-align: center;
             margin: 2rem 0;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
-            border-radius: 16px;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--green-50), var(--green-100));
+            border-radius: 24px;
+            border: 3px solid var(--green-100);
         }
 
         .timer-display {
-            font-size: 3rem;
-            font-weight: 700;
-            color: #6366f1;
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--green-500);
             font-feature-settings: "tnum";
             margin-bottom: 0.5rem;
             font-family: 'SF Mono', monospace;
         }
         
         .timer-label {
-            color: #64748b;
-            font-size: 0.875rem;
+            color: var(--slate-500);
+            font-size: 1.125rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-        }
-
-        /* PROGRESS CARD */
-        .progress-card {
-            padding: 1.75rem;
-            border-radius: 16px;
-            margin: 1.5rem 0 0.5rem;
-        }
-
-        .progress-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .progress-title {
             font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 0.35rem;
         }
-
-        .progress-subtitle {
-            color: #94a3b8;
-            font-size: 0.95rem;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 12px;
-            background: #e2e8f0;
-            border-radius: 999px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #10b981, #6366f1);
-            border-radius: 999px;
-            transition: width 0.4s ease;
-        }
-
-        .progress-metrics {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .metric-card {
-            padding: 1rem 1.25rem;
-            border: 1px solid rgba(226, 232, 240, 0.6);
-            border-radius: 12px;
-            background: white;
-        }
-
-        .metric-label {
-            color: #94a3b8;
-            font-size: 0.85rem;
-            margin-bottom: 0.35rem;
-        }
-
-        .metric-value {
-            font-weight: 700;
-            color: #1e293b;
-            font-size: 1.15rem;
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            padding: 0.65rem 0.9rem;
-            border-radius: 999px;
-            background: #f1f5f9;
-            color: #0f172a;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .badge.success {
-            background: #ecfdf3;
-            color: #166534;
-        }
-
-        .badge.info {
-            background: #eef2ff;
-            color: #3730a3;
-        }
-
-        /* REST TIMER */
-        .rest-card {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 1rem;
-            align-items: center;
-            padding: 1.5rem;
-            border-radius: 16px;
-            border: 1px solid rgba(226, 232, 240, 0.6);
-        }
-
-        .rest-info h3 {
-            color: #1e293b;
-            font-size: 1.1rem;
-            margin-bottom: 0.35rem;
-        }
-
-        .rest-info p {
-            color: #64748b;
-            font-size: 0.95rem;
-        }
-
-        .rest-display {
-            text-align: right;
-        }
-
-        .rest-time {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #6366f1;
-            font-feature-settings: "tnum";
-        }
-
-        .rest-controls {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 0.65rem;
-            justify-content: flex-end;
-        }
-
-        .chip-btn {
-            border: 1px solid #e2e8f0;
-            background: #fff;
-            border-radius: 12px;
-            padding: 0.6rem 1rem;
-            cursor: pointer;
-            font-weight: 700;
-            color: #475569;
-            transition: all 0.2s ease;
-            box-shadow: 0 6px 12px rgba(15, 23, 42, 0.05);
-        }
-
-        .chip-btn.primary {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            color: white;
-            border: none;
-            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
-        }
-
-        .chip-btn.ghost {
-            background: transparent;
-            border-style: dashed;
-        }
-
-        .chip-btn:hover {
-            transform: translateY(-1px);
-        }
-
-        /* CUES */
-        .cues-list {
-            list-style: none;
-            margin: 1rem 0 0;
-            padding: 0;
-            display: grid;
-            gap: 0.35rem;
-        }
-
-        .cues-list li {
-            padding: 0.75rem 0.85rem;
-            background: #f8fafc;
-            border-radius: 10px;
-            color: #475569;
-            border: 1px solid rgba(226, 232, 240, 0.7);
-            display: flex;
-            gap: 0.65rem;
-            align-items: flex-start;
-        }
-
-        .cue-icon {
-            font-size: 1rem;
-            line-height: 1.4;
-        }
-
-        /* EXERCISE COACHING */
-        .exercise-coach {
-            padding: 1.5rem;
-            border: 1px solid rgba(226, 232, 240, 0.6);
-            border-radius: 16px;
-            margin: 1.5rem 0;
-        }
-
-        .coach-top {
-            display: flex;
-            justify-content: space-between;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .coach-label {
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #94a3b8;
-            font-weight: 700;
-            font-size: 0.8rem;
-            margin-bottom: 0.35rem;
-        }
-
-        .coach-name {
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 0.35rem;
-        }
-
-        .coach-note {
-            color: #475569;
-            line-height: 1.6;
-        }
-
-        .coach-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 0.75rem;
-        }
-
-        .coach-tag {
-            background: #eef2ff;
-            color: #3730a3;
-            padding: 0.5rem 0.75rem;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 0.85rem;
-        }
-
-        .coach-progress {
-            min-width: 260px;
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 1rem 1.25rem;
-            border: 1px solid rgba(226, 232, 240, 0.8);
-        }
-
-        .micro-progress {
-            height: 10px;
-            background: #e2e8f0;
-            border-radius: 999px;
-            overflow: hidden;
-            margin: 0.4rem 0 0.6rem;
-        }
-
-        .micro-progress-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #10b981, #6366f1);
-            border-radius: 999px;
-            transition: width 0.3s ease;
-        }
-
-        .coach-stat {
-            font-weight: 700;
-            color: #0f172a;
-        }
-
-        .coach-small {
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-
-        .coach-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 0.75rem;
-            margin-top: 1rem;
-        }
-
-        .coach-item {
-            background: white;
-            border-radius: 12px;
-            padding: 0.85rem;
-            border: 1px solid rgba(226, 232, 240, 0.7);
-            color: #475569;
-            display: flex;
-            gap: 0.5rem;
-            align-items: flex-start;
-        }
-
-        .coach-item strong {
-            color: #0f172a;
-        }
-
+        
         /* ACTION BUTTONS */
         .action-buttons {
             display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
+            gap: 1.5rem;
+            margin-top: 3rem;
         }
         
         .btn {
-            padding: 1rem 2rem;
+            padding: 1.5rem 2.5rem;
             border: none;
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 1rem;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 1.375rem;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.75rem;
+            gap: 1rem;
             flex: 1;
             letter-spacing: 0.01em;
+            min-height: 72px;
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            background: linear-gradient(135deg, var(--green-500), var(--green-400));
             color: white;
-            box-shadow: 0 10px 24px rgba(99, 102, 241, 0.35);
+            box-shadow: 0 12px 32px rgba(16, 185, 129, 0.4);
         }
         
         .btn-primary:hover {
-            transform: translateY(-2px) scale(1.01);
-            box-shadow: 0 18px 34px rgba(99, 102, 241, 0.45);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 16px 40px rgba(16, 185, 129, 0.5);
         }
 
         .btn-primary:active {
-            transform: translateY(0);
-            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 28px rgba(16, 185, 129, 0.4);
         }
         
         .btn-secondary {
             background: white;
-            color: #475569;
-            border: 2px solid #e2e8f0;
-            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+            color: var(--slate-600);
+            border: 3px solid var(--slate-200);
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
         }
         
         .btn-secondary:hover {
-            background: #f8fafc;
-            border-color: #cbd5e1;
-            transform: translateY(-1px);
+            background: var(--slate-50);
+            border-color: var(--slate-300);
+            transform: translateY(-2px);
         }
 
         .btn-secondary:active {
@@ -1437,20 +634,20 @@
         /* COMPLETION SCREEN */
         .completion-screen {
             text-align: center;
-            padding: 4rem 2rem;
+            padding: 3rem 2rem;
         }
         
         .celebration-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #10b981, #34d399);
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--green-500), var(--green-400));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 2rem;
             color: white;
-            font-size: 2rem;
+            font-size: 4rem;
             box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3);
             animation: pulse 2s infinite;
         }
@@ -1462,288 +659,83 @@
         
         .results-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
             margin: 3rem 0;
         }
         
         .result-card {
             background: white;
-            padding: 1.5rem;
-            border-radius: 16px;
+            padding: 2rem;
+            border-radius: 24px;
             text-align: center;
-            border: 1px solid rgba(226, 232, 240, 0.5);
+            border: 3px solid var(--slate-200);
         }
         
         .result-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #6366f1;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--green-500);
             margin-bottom: 0.5rem;
         }
         
         .result-label {
-            color: #64748b;
-            font-size: 0.875rem;
-        }
-
-        /* REPORTS */
-        .reports-section {
-            margin-top: 2rem;
-        }
-
-        .reports-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .reports-header h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 0.25rem;
-        }
-
-        .reports-header p {
-            color: #64748b;
-        }
-
-        .reports-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1rem;
-        }
-
-        .report-card {
-            padding: 1.25rem;
-            border-radius: 14px;
-            border: 1px solid rgba(226, 232, 240, 0.7);
-            background: white;
-            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
-        }
-
-        .report-title {
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 0.35rem;
-        }
-
-        .report-subtitle {
-            color: #94a3b8;
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-        }
-
-        .bar-chart {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 0.65rem;
-            align-items: end;
-            height: 180px;
-        }
-
-        .bar-column {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.35rem;
-            height: 100%;
-            position: relative;
-        }
-
-        .bar {
-            position: relative;
-            background: #e2e8f0;
-            border-radius: 12px;
-            overflow: hidden;
-            min-height: 8px;
-            width: 100%;
-            flex: 1;
-        }
-
-        .bar-fill {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(180deg, #6366f1, #8b5cf6);
-            border-radius: 12px;
-            transition: height 0.4s ease, transform 0.2s ease;
-        }
-
-        .bar-today .bar-fill {
-            background: linear-gradient(180deg, #10b981, #34d399);
-            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.25);
-        }
-
-        .bar-value {
-            position: absolute;
-            top: -26px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: white;
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            padding: 0.15rem 0.45rem;
-            border-radius: 8px;
-            font-weight: 700;
-            color: #0f172a;
-            font-size: 0.8rem;
-            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
-        }
-
-        .bar-label {
-            display: block;
-            text-align: center;
-            margin-top: 0.35rem;
-            color: #94a3b8;
+            color: var(--slate-500);
+            font-size: 1.125rem;
             font-weight: 600;
-            font-size: 0.85rem;
-        }
-
-        .sparkline {
-            width: 100%;
-            height: 110px;
-        }
-
-        .pain-legend {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 0.35rem;
-            margin-top: 0.75rem;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #475569;
-            font-size: 0.95rem;
-        }
-
-        .legend-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-        }
-
-        .legend-today {
-            background: linear-gradient(135deg, #10b981, #34d399);
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12);
-        }
-
-        .pain-pills {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-top: 0.35rem;
-        }
-
-        .pain-pill {
-            padding: 0.35rem 0.6rem;
-            border-radius: 999px;
-            background: #f1f5f9;
-            color: #0f172a;
-            font-weight: 700;
-            font-size: 0.85rem;
-        }
-
-        .report-metrics {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 0.75rem;
-        }
-
-        .report-metric {
-            padding: 0.85rem;
-            background: #f8fafc;
-            border-radius: 10px;
-            border: 1px solid rgba(226, 232, 240, 0.8);
-        }
-
-        .report-metric strong {
-            display: block;
-            color: #0f172a;
-            font-size: 1.2rem;
-            margin-bottom: 0.15rem;
-        }
-
-        .report-metric span {
-            color: #64748b;
-            font-weight: 600;
-            font-size: 0.9rem;
         }
         
         /* RESPONSIVE */
-        .breath-circle {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(99,102,241,0.25), rgba(99,102,241,0.05));
-            animation: breathe 6s ease-in-out infinite;
-            margin-left: auto;
-        }
-
-        @keyframes breathe {
-            0%, 100% { transform: scale(0.85); opacity: 0.65; }
-            50% { transform: scale(1.05); opacity: 1; }
-        }
-
-        .next-up-banner {
-            margin: 1rem 0;
-            padding: 0.9rem 1rem;
-            border-radius: 12px;
-            background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(16,185,129,0.08));
-            border: 1px solid rgba(99,102,241,0.15);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            transform: translateY(8px);
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s ease;
-        }
-
-        .next-up-banner.show {
-            transform: translateY(0);
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .mobile-footer {
-            position: fixed;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255,255,255,0.96);
-            backdrop-filter: blur(12px);
-            border-top: 1px solid rgba(226, 232, 240, 0.8);
-            padding: 0.85rem 1rem;
-            display: none;
-            gap: 0.75rem;
-            align-items: center;
-            box-shadow: 0 -6px 20px rgba(15, 23, 42, 0.08);
-            z-index: 200;
-        }
-
-        .mobile-footer .btn {
-            flex: 1;
-        }
-
         @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+            }
+
             .container {
                 padding: 0 1rem;
             }
             
             .hero h2 {
-                font-size: 2.25rem;
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.25rem;
+            }
+
+            .step-nav {
+                gap: 1.5rem;
+            }
+
+            .step-circle {
+                width: 64px;
+                height: 64px;
+                font-size: 1.5rem;
+            }
+
+            .step-label {
+                font-size: 1rem;
+            }
+
+            .step.active .step-label {
+                font-size: 1.125rem;
             }
             
             .section-card {
-                padding: 1.5rem;
+                padding: 2rem 1.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .section-subtitle {
+                font-size: 1.125rem;
+            }
+
+            .btn {
+                font-size: 1.125rem;
+                padding: 1.25rem 2rem;
             }
             
             .action-buttons {
@@ -1751,50 +743,15 @@
             }
 
             .step-nav::before {
-                left: 30px;
-                right: 30px;
-            }
-
-            .rest-card {
-                grid-template-columns: 1fr;
-            }
-
-            .coach-top {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .coach-progress {
-                width: 100%;
-            }
-
-            .reports-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .exercise-header {
-                flex-wrap: wrap;
-                align-items: flex-start;
-            }
-
-            .exercise-status {
-                margin-left: auto;
-            }
-
-            .mobile-footer {
-                display: flex;
-            }
-
-            .action-buttons.mobile-hidden {
-                display: none;
+                left: 10%;
+                right: 10%;
             }
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header class="header glass">
+    <header class="header">
         <div class="container">
             <div class="header-content">
                 <div class="logo">
@@ -1817,58 +774,7 @@
         <div class="container">
             <div class="step-banner" aria-live="polite" id="stepBanner">Step 1 · Check in gently</div>
             <h2>Your Gentle Recovery</h2>
-            <p>Follow three calm steps to rebuild strength without overwhelm.</p>
-            <button class="chip-btn ghost" id="heroToggle" aria-expanded="false" aria-controls="heroDetails">
-                Why this flow?
-            </button>
-            <div class="collapsible" id="heroDetails">
-                <div class="pill-group">
-                    <span class="pill">✨ Therapist-guided cues</span>
-                    <span class="pill">🧘 Slow, mindful pacing</span>
-                    <span class="pill">📈 Progress that feels kind</span>
-                </div>
-            </div>
-            <div class="quickstart" aria-label="Quickstart guide">
-                <h3>How to use this page in under a minute</h3>
-                <p>Each step is already set up—just move left to right. You can tap the bottom bar on mobile at any time.</p>
-                <div class="quickstart-grid">
-                    <div class="quickstart-step">
-                        <div class="quickstart-number">1</div>
-                        <div>
-                            <div class="quickstart-title">Check in</div>
-                            <div class="quickstart-text">Add your name and slide the pain dial so the rest of the session matches how you feel.</div>
-                        </div>
-                    </div>
-                    <div class="quickstart-step">
-                        <div class="quickstart-number">2</div>
-                        <div>
-                            <div class="quickstart-title">Press “Start Session”</div>
-                            <div class="quickstart-text">We’ll jump you to the first card. Follow the cues, log reps with +/−, and tap Next when you’re ready.</div>
-                        </div>
-                    </div>
-                    <div class="quickstart-step">
-                        <div class="quickstart-number">3</div>
-                        <div>
-                            <div class="quickstart-title">Finish & save</div>
-                            <div class="quickstart-text">When the cards turn green, tap Finish to see your totals. Add notes and save—it’s all in one place.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="guide-panel" aria-label="Orientation for this page">
-                <div class="guide-row">
-                    <div class="guide-highlight">🧭 Three tabs only: Check In → Exercises → Complete.</div>
-                    <div class="guide-note">Everything you need lives in those three blocks. The top progress dots and bottom mobile bar both move you forward or back.</div>
-                </div>
-                <div class="guide-row">
-                    <div class="guide-highlight">🎯 Stay on one card at a time.</div>
-                    <div class="guide-note">Use +/− to log reps, then tap “Next” or the next tile in the sequence rail. Completed cards turn green so you always know where you are.</div>
-                </div>
-                <div class="guide-row">
-                    <div class="guide-highlight">📌 Need a break?</div>
-                    <div class="guide-note">Pause the session or start the rest timer. Nothing resets unless you hit “Restart at first open block.”</div>
-                </div>
-            </div>
+            <p>Follow three simple steps to rebuild strength without overwhelm.</p>
             
             <!-- Step Navigation -->
             <div class="step-nav">
@@ -1907,12 +813,12 @@
                     <input type="text" class="input-field" value="Marvin" id="userName" placeholder="Enter your name">
                 </div>
                 
-                <div class="pain-slider-container glass">
+                <div class="pain-slider-container">
                     <label class="input-label">Current Pain Level</label>
                     <div class="pain-visual">
-                            <div class="pain-track" id="painTrack">
-                                <div class="pain-handle" id="painHandle" style="left: 25%;" role="slider" aria-valuemin="0" aria-valuemax="10" aria-valuenow="2.5" aria-label="Pain level" tabindex="0">2.5</div>
-                            </div>
+                        <div class="pain-track" id="painTrack">
+                            <div class="pain-handle" id="painHandle" style="left: 25%;" role="slider" aria-valuemin="0" aria-valuemax="10" aria-valuenow="2.5" aria-label="Pain level" tabindex="0">2.5</div>
+                        </div>
                     </div>
                     <div class="pain-labels">
                         <span>No Pain</span>
@@ -1932,299 +838,70 @@
             <!-- Step 2: Exercises -->
             <section id="step2" class="section-card glass hidden">
                 <h2 class="section-title">Today's Gentle Exercises</h2>
-                <p class="section-subtitle">One exercise at a time—clear visuals and cues so you can move without guesswork.</p>
-
-                <div class="progress-card glass">
-                    <div class="progress-top">
-                        <div>
-                            <div class="progress-title">Mindful progress</div>
-                            <div class="progress-subtitle" id="progressSubtitle" aria-live="polite">You're ready to begin. Slow and steady wins.</div>
-                        </div>
-                        <span class="badge info" id="painBadge" aria-live="polite">Pain 2.5 / 10</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                    <div class="progress-metrics">
-                        <div class="metric-card">
-                            <div class="metric-label">Exercises Completed</div>
-                            <div class="metric-value" id="progressExercises">0/3</div>
-                        </div>
-                        <div class="metric-card">
-                            <div class="metric-label">Reps Logged</div>
-                            <div class="metric-value" id="progressReps">0 reps</div>
-                        </div>
-                        <div class="metric-card">
-                            <div class="metric-label">Current Focus</div>
-                            <div class="metric-value" id="progressFocus">Check your posture</div>
-                        </div>
-                    </div>
-                    <div class="pain-pills" aria-live="polite">
-                        <span class="pain-pill">If pain rises above 4/10, tap Pause and take two slow breaths.</span>
-                    </div>
-                </div>
-
-                <div class="sequence-card glass">
-                    <div class="sequence-header">
-                        <div>
-                            <div class="eyebrow">Session flow</div>
-                            <div class="sequence-title">See the path at a glance</div>
-                            <p class="sequence-subtitle">Move from "Now" to "Next" without guessing. Tap a tile to jump ahead if needed.</p>
-                        </div>
-                        <div class="sequence-meter">
-                            <div class="meter-label">Sequence progress</div>
-                            <div class="meter-track">
-                                <div class="meter-fill" id="sequenceMeterFill"></div>
-                            </div>
-                            <div class="sequence-summary" id="sequenceSummary">Start with Heel Slides, then flow into Quad Sets.</div>
-                        </div>
-                    </div>
-                    <div class="sequence-steps">
-                    <div class="sequence-step active" data-exercise="1">
-                        <div class="sequence-progress-dot">1</div>
-                        <div class="sequence-icon">🦵</div>
-                        <div class="sequence-body">
-                            <div class="title">1. Heel Slides</div>
-                            <div class="sequence-meta">10 reps • Tempo 3-1-3</div>
-                            <div class="sequence-note">Glide in, glide out; keep hips heavy and breath soft.</div>
-                        </div>
-                        <span class="sequence-status">Now</span>
-                    </div>
-                    <div class="sequence-step" data-exercise="2">
-                        <div class="sequence-progress-dot">2</div>
-                        <div class="sequence-icon">💪</div>
-                        <div class="sequence-body">
-                            <div class="title">2. Quad Sets</div>
-                            <div class="sequence-meta">15 reps • Hold 3–5s</div>
-                            <div class="sequence-note">Press the back of the knee down, then let it melt fully.</div>
-                        </div>
-                        <span class="sequence-status">Queued</span>
-                    </div>
-                    <div class="sequence-step" data-exercise="3">
-                        <div class="sequence-progress-dot">3</div>
-                        <div class="sequence-icon">🏋️</div>
-                        <div class="sequence-body">
-                            <div class="title">3. Leg Raises</div>
-                            <div class="sequence-meta">10 reps • Tempo 2-1-3</div>
-                            <div class="sequence-note">Lift with control, pause, lower slower than you lifted.</div>
-                            </div>
-                            <span class="sequence-status">Queued</span>
-                        </div>
-                    </div>
-                    <div class="sequence-guide">
-                        <span class="guide-chip">✅ Mark reps as you go—+ after each smooth rep.</span>
-                        <span class="guide-chip">👆 Tap any tile to review cues or jump to that block.</span>
-                        <span class="guide-chip">🌬️ Pause for breath: start the rest timer between blocks.</span>
-                    </div>
-                    <div class="sequence-actions">
-                        <div class="sequence-hint">
-                            <strong>Keep the flow clear.</strong> Jump back if you missed a cue, or skip ahead to the next open block—the summary and coach will update automatically.
-                        </div>
-                        <div class="sequence-controls">
-                            <button class="chip-btn" id="sequencePrev" aria-label="Go to previous exercise">⬅️ Previous</button>
-                            <button class="chip-btn primary" id="sequenceNext" aria-label="Skip to next exercise">Next ➡️</button>
-                            <button class="chip-btn ghost" id="sequenceRestart" aria-label="Restart sequence at the first incomplete exercise">Restart at first open block</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="next-up-banner glass" id="nextUpBanner" role="status" aria-live="polite">
-                    <span>✨</span>
-                    <div>
-                        <div class="coach-small">Next up</div>
-                        <div class="coach-name" id="nextUpLabel">Quad Sets are queued.</div>
-                    </div>
-                </div>
+                <p class="section-subtitle">One exercise at a time—clear instructions so you can move with confidence.</p>
 
                 <!-- Session Timer -->
-                <div class="session-timer glass">
+                <div class="session-timer">
                     <div class="timer-display" id="sessionTimer" aria-live="polite">00:00</div>
                     <div class="timer-label">Session Duration</div>
-                </div>
-
-                <div class="rest-card glass">
-                    <div class="rest-info">
-                        <h3>Rest & Breathing</h3>
-                        <p id="restStatus">Ready for a gentle 30-second reset between exercises.</p>
-                        <p id="restBreath" class="coach-small">Inhale for 3 · Hold for 1 · Exhale for 4</p>
-                    </div>
-                    <div class="rest-display">
-                        <div class="rest-time" id="restTimer" aria-live="polite">00:30</div>
-                        <div class="rest-controls">
-                            <button class="chip-btn primary" onclick="toggleRestTimer()" id="restToggle">Start Rest</button>
-                            <button class="chip-btn" onclick="resetRestTimer()">Reset</button>
-                        </div>
-                        <div class="breath-circle" aria-hidden="true"></div>
-                    </div>
-                </div>
-
-                <div class="exercise-coach glass" id="exerciseCoach">
-                    <div class="coach-top">
-                        <div>
-                            <div class="coach-label">Now focusing on</div>
-                            <div class="coach-name" id="coachExerciseName">Heel Slides</div>
-                            <p class="coach-note" id="coachExerciseCue">Smooth glide in and out. Keep tension soft and steady.</p>
-                            <div class="coach-tags">
-                                <span class="coach-tag" id="coachTempo">Tempo: 3-1-3</span>
-                                <span class="coach-tag" id="coachBreath">Exhale on the effort</span>
-                            </div>
-                            <div class="coach-small" id="coachSuccess">You should feel: light front-of-thigh work, no knee pinch.</div>
-                        </div>
-                        <div class="coach-progress">
-                            <div class="coach-stat" id="coachRepsLeft">Reps logged: 0 / 10</div>
-                            <div class="micro-progress">
-                                <div class="micro-progress-fill" id="coachProgressFill"></div>
-                            </div>
-                            <div class="coach-small" id="coachNextLabel">Up next: Quad Sets</div>
-                        </div>
-                    </div>
-                    <div class="coach-list">
-                        <div class="coach-item">
-                            <strong>Feel:</strong>
-                            <span id="coachFeel">Gentle front-of-thigh stretch without knee pain.</span>
-                        </div>
-                        <div class="coach-item">
-                            <strong>Form check:</strong>
-                            <span id="coachForm">Relax shoulders, let the heel glide without lifting your hips.</span>
-                        </div>
-                        <div class="coach-item">
-                            <strong>Reminder:</strong>
-                            <span id="coachReminder">If discomfort rises above a 4/10, pause and take 2 deep breaths.</span>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Exercises Grid -->
                 <div class="exercise-grid">
                     <!-- Exercise 1 -->
                     <div class="exercise-card active" data-exercise="1">
-                    <div class="exercise-header">
-                        <div class="exercise-icon">🦵</div>
-                        <div class="exercise-title">Heel Slides</div>
-                        <span class="exercise-status">Current</span>
-                    </div>
-                    <div class="exercise-description">
-                        Gently slide your heel toward your buttocks while keeping contact with the surface. 
-                        Hold briefly, then slowly return.
-                    </div>
-                    <div class="exercise-visual" aria-hidden="true">
-                        <div class="visual-figure">
-                            <div class="visual-marker">🦵</div>
+                        <div class="exercise-header">
+                            <div class="exercise-icon">🦵</div>
+                            <div class="exercise-title">Heel Slides</div>
+                            <span class="exercise-status">Current</span>
                         </div>
-                        <div class="visual-details">
-                            <div class="visual-row">
-                                <span class="visual-label">Start</span>
-                                <span class="visual-text">Lie on your back with your heel resting and toes pointing to the ceiling.</span>
-                            </div>
-                            <div class="visual-row">
-                                <span class="visual-label">Move</span>
-                                <span class="visual-text">Slide heel toward your hip without lifting the thigh; pause, then glide back.</span>
-                            </div>
-                            <div class="visual-row">
-                                <span class="visual-label">Breathe</span>
-                                <span class="visual-text">Exhale while sliding in; inhale on the return. Pace: 3s in, 3s out.</span>
-                            </div>
+                        <div class="exercise-description">
+                            Gently slide your heel toward your buttocks while keeping contact with the surface. 
+                            Hold briefly, then slowly return. Move slow and steady—comfort is key.
                         </div>
-                    </div>
-                    <button class="chip-btn ghost cues-toggle" data-target="cues1" aria-expanded="false" aria-controls="cues1">Show cues</button>
-                    <ul class="cues-list collapsible" id="cues1">
-                        <li><span class="cue-icon">🌬️</span><span>Exhale as you slide in, inhale as you return to the start.</span></li>
-                        <li><span class="cue-icon">🪑</span><span>Keep your hips and lower back relaxed against the surface.</span></li>
-                        <li><span class="cue-icon">🐢</span><span>Move slow enough to count to three on the way back.</span></li>
-                    </ul>
-                    <div class="rep-counter">
-                        <button class="rep-btn" onclick="adjustReps(1, -1)">−</button>
-                        <span class="rep-count" id="reps1">0</span>
-                        <button class="rep-btn" onclick="adjustReps(1, 1)">+</button>
-                        <span class="rep-goal">Goal: 10 reps each leg</span>
+                        <div class="rep-counter">
+                            <button class="rep-btn" onclick="adjustReps(1, -1)" aria-label="Decrease reps">−</button>
+                            <span class="rep-count" id="reps1">0</span>
+                            <button class="rep-btn" onclick="adjustReps(1, 1)" aria-label="Increase reps">+</button>
+                            <span class="rep-goal">Goal: 10 reps</span>
                         </div>
                     </div>
                     
                     <!-- Exercise 2 -->
                     <div class="exercise-card" data-exercise="2">
-                    <div class="exercise-header">
-                        <div class="exercise-icon">💪</div>
-                        <div class="exercise-title">Quad Sets</div>
-                        <span class="exercise-status">Up Next</span>
-                    </div>
-                    <div class="exercise-description">
-                        Tighten your thigh muscle as if trying to straighten your knee. 
-                        Hold the contraction, then relax completely.
-                    </div>
-                    <div class="exercise-visual" aria-hidden="true">
-                        <div class="visual-figure">
-                            <div class="visual-marker">💪</div>
+                        <div class="exercise-header">
+                            <div class="exercise-icon">💪</div>
+                            <div class="exercise-title">Quad Sets</div>
+                            <span class="exercise-status">Up Next</span>
                         </div>
-                        <div class="visual-details">
-                            <div class="visual-row">
-                                <span class="visual-label">Start</span>
-                                <span class="visual-text">Leg long and relaxed, heel resting on the floor or bed.</span>
-                            </div>
-                            <div class="visual-row">
-                                <span class="visual-label">Move</span>
-                                <span class="visual-text">Press the back of the knee gently down until the quad firms; hold for 3–5s.</span>
-                            </div>
-                            <div class="visual-row">
-                                <span class="visual-label">Breathe</span>
-                                <span class="visual-text">Exhale as you press; inhale as you fully soften the leg.</span>
-                            </div>
+                        <div class="exercise-description">
+                            Tighten your thigh muscle as if trying to straighten your knee. 
+                            Hold the contraction for 3-5 seconds, then relax completely. Breathe naturally throughout.
                         </div>
-                    </div>
-                    <button class="chip-btn ghost cues-toggle" data-target="cues2" aria-expanded="false" aria-controls="cues2">Show cues</button>
-                    <ul class="cues-list collapsible" id="cues2">
-                        <li><span class="cue-icon">🎯</span><span>Imagine pressing the back of your knee gently toward the bed or floor.</span></li>
-                        <li><span class="cue-icon">⏱️</span><span>Hold for 3–5 seconds, then release fully before the next rep.</span></li>
-                        <li><span class="cue-icon">✅</span><span>Stop if you feel any sharp pain—slow tension only.</span></li>
-                    </ul>
-                    <div class="rep-counter">
-                        <button class="rep-btn" onclick="adjustReps(2, -1)">−</button>
-                        <span class="rep-count" id="reps2">0</span>
-                        <button class="rep-btn" onclick="adjustReps(2, 1)">+</button>
-                        <span class="rep-goal">Goal: 15 reps</span>
+                        <div class="rep-counter">
+                            <button class="rep-btn" onclick="adjustReps(2, -1)" aria-label="Decrease reps">−</button>
+                            <span class="rep-count" id="reps2">0</span>
+                            <button class="rep-btn" onclick="adjustReps(2, 1)" aria-label="Increase reps">+</button>
+                            <span class="rep-goal">Goal: 15 reps</span>
                         </div>
                     </div>
                     
                     <!-- Exercise 3 -->
                     <div class="exercise-card" data-exercise="3">
-                    <div class="exercise-header">
-                        <div class="exercise-icon">🏋️</div>
-                        <div class="exercise-title">Leg Raises</div>
-                        <span class="exercise-status">Up Next</span>
-                    </div>
-                    <div class="exercise-description">
-                        With knee straight, lift your leg 6-12 inches. Hold briefly, 
-                        then lower with control. Maintain steady breathing.
-                    </div>
-                    <div class="exercise-visual" aria-hidden="true">
-                        <div class="visual-figure">
-                            <div class="visual-marker">🏋️</div>
+                        <div class="exercise-header">
+                            <div class="exercise-icon">🏋️</div>
+                            <div class="exercise-title">Leg Raises</div>
+                            <span class="exercise-status">Up Next</span>
                         </div>
-                        <div class="visual-details">
-                            <div class="visual-row">
-                                <span class="visual-label">Start</span>
-                                <span class="visual-text">Lie back with one knee bent for support; working leg stays straight.</span>
-                            </div>
-                            <div class="visual-row">
-                                <span class="visual-label">Move</span>
-                                <span class="visual-text">Lift 6–12 inches keeping the knee locked, pause, then lower for a slow 3-count.</span>
-                            </div>
-                            <div class="visual-row">
-                                <span class="visual-label">Breathe</span>
-                                <span class="visual-text">Exhale during the lift; inhale as you ease the leg back down.</span>
-                            </div>
+                        <div class="exercise-description">
+                            With knee straight, lift your leg 6-12 inches. Hold briefly, 
+                            then lower with control. Keep breathing steady and stop if you feel any sharp pain.
                         </div>
-                    </div>
-                    <button class="chip-btn ghost cues-toggle" data-target="cues3" aria-expanded="false" aria-controls="cues3">Show cues</button>
-                    <ul class="cues-list collapsible" id="cues3">
-                        <li><span class="cue-icon">📏</span><span>Lift only as high as you can keep the knee straight and core braced.</span></li>
-                        <li><span class="cue-icon">🧘</span><span>Keep shoulders relaxed; let your breath stay calm and even.</span></li>
-                        <li><span class="cue-icon">🧭</span><span>Lower slower than you lifted—aim for a 3-second descent.</span></li>
-                    </ul>
-                    <div class="rep-counter">
-                        <button class="rep-btn" onclick="adjustReps(3, -1)">−</button>
-                        <span class="rep-count" id="reps3">0</span>
-                        <button class="rep-btn" onclick="adjustReps(3, 1)">+</button>
-                        <span class="rep-goal">Goal: 10 reps each leg</span>
+                        <div class="rep-counter">
+                            <button class="rep-btn" onclick="adjustReps(3, -1)" aria-label="Decrease reps">−</button>
+                            <span class="rep-count" id="reps3">0</span>
+                            <button class="rep-btn" onclick="adjustReps(3, 1)" aria-label="Increase reps">+</button>
+                            <span class="rep-goal">Goal: 10 reps</span>
                         </div>
                     </div>
                 </div>
@@ -2251,72 +928,26 @@
                     <div class="results-grid">
                         <div class="result-card glass">
                             <div class="result-value" id="totalReps">0</div>
-                            <div class="result-label">Total Reps Completed</div>
+                            <div class="result-label">Total Reps</div>
                         </div>
                         <div class="result-card glass">
                             <div class="result-value" id="exercisesDone">0/3</div>
-                            <div class="result-label">Exercises Completed</div>
+                            <div class="result-label">Exercises Done</div>
                         </div>
                         <div class="result-card glass">
                             <div class="result-value" id="sessionDuration">00:00</div>
-                            <div class="result-label">Session Duration</div>
+                            <div class="result-label">Time Spent</div>
                         </div>
                         <div class="result-card glass">
                             <div class="result-value" id="painChange">2.5</div>
                             <div class="result-label">Pain Level</div>
                         </div>
                     </div>
-
-                    <!-- Reports & Stats -->
-                    <div class="reports-section">
-                        <div class="reports-header">
-                            <div>
-                                <h3>Reports &amp; Stats</h3>
-                                <p>See how today's effort fits into your weekly rhythm.</p>
-                            </div>
-                            <span class="badge info">Live updated</span>
-                        </div>
-                        <div class="reports-grid">
-                            <div class="report-card glass">
-                                <div class="report-title">Weekly activity</div>
-                                <p class="report-subtitle" id="weeklySubtitle">Logging gentle reps keeps your momentum steady.</p>
-                                <div class="bar-chart" id="weeklyBars"></div>
-                            </div>
-                            <div class="report-card glass">
-                                <div class="report-title">Pain trend</div>
-                                <p class="report-subtitle">How your reported pain has shifted across the week.</p>
-                                <svg class="sparkline" id="painSparkline" aria-hidden="true"></svg>
-                                <div class="pain-legend" id="painLegend"></div>
-                            </div>
-                            <div class="report-card glass">
-                                <div class="report-title">Session stats</div>
-                                <p class="report-subtitle">Quick snapshot of today's effort.</p>
-                                <div class="report-metrics">
-                                    <div class="report-metric">
-                                        <strong id="reportTotalReps">0 reps</strong>
-                                        <span>Total reps today</span>
-                                    </div>
-                                    <div class="report-metric">
-                                        <strong id="durationStat">0 min</strong>
-                                        <span>Active time</span>
-                                    </div>
-                                    <div class="report-metric">
-                                        <strong id="consistencyScore">0%</strong>
-                                        <span>Consistency score</span>
-                                    </div>
-                                    <div class="report-metric">
-                                        <strong id="streakCount">0 days</strong>
-                                        <span>Recovery streak</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     
                     <!-- Post-Session Notes -->
                     <div class="input-group">
                         <label class="input-label">Session Notes (Optional)</label>
-                        <textarea class="input-field" rows="3" placeholder="How did you feel during the session? Any observations or notes for next time..." id="sessionNotes"></textarea>
+                        <textarea class="input-field" rows="4" placeholder="How did you feel during the session? Any observations..." id="sessionNotes"></textarea>
                     </div>
                     
                     <div class="action-buttons">
@@ -2333,10 +964,6 @@
         </div>
     </main>
 
-    <div class="mobile-footer" id="mobileFooter" aria-live="polite">
-        <button class="btn btn-primary" id="mobileCta" onclick="handleMobileCta()">Start Session</button>
-    </div>
-
     <script>
         // State Management
         const AppState = {
@@ -2347,42 +974,9 @@
                 sessionStart: null
             },
             exercises: {
-                1: { 
-                    name: 'Heel Slides', 
-                    reps: 0, 
-                    goal: 10, 
-                    completed: false,
-                    cue: 'Smooth glide in and out. Keep tension soft and steady.',
-                    feel: 'Gentle front-of-thigh stretch without knee pain.',
-                    form: 'Relax your hips and keep the knee aligned with your toes.',
-                    tempo: 'Tempo: 3-1-3',
-                    breath: 'Exhale as you slide inward, inhale as you extend.',
-                    reminder: 'If discomfort rises above a 4/10, pause for two slow breaths.'
-                },
-                2: { 
-                    name: 'Quad Sets', 
-                    reps: 0, 
-                    goal: 15, 
-                    completed: false,
-                    cue: 'Press the back of your knee down gently; hold, then fully relax.',
-                    feel: 'A firm squeeze at the front of the thigh, not sharp in the knee.',
-                    form: 'Keep the ankle relaxed and avoid holding your breath.',
-                    tempo: 'Hold 3–5s, release fully',
-                    breath: 'Exhale as you press down, inhale as you soften.',
-                    reminder: 'Notice if the hip lifts—keep it grounded and easy.'
-                },
-                3: { 
-                    name: 'Leg Raises', 
-                    reps: 0, 
-                    goal: 10, 
-                    completed: false,
-                    cue: 'Lift with control, pause briefly, lower slower than you lifted.',
-                    feel: 'Work in the front of the hip and thigh with steady breathing.',
-                    form: 'Brace lightly through the core and keep the knee straight.',
-                    tempo: 'Tempo: 2-1-3',
-                    breath: 'Exhale on the lift, inhale on the descent.',
-                    reminder: 'Stop short of any pinching in the hip—range over height.'
-                }
+                1: { name: 'Heel Slides', reps: 0, goal: 10, completed: false },
+                2: { name: 'Quad Sets', reps: 0, goal: 15, completed: false },
+                3: { name: 'Leg Raises', reps: 0, goal: 10, completed: false }
             },
             session: {
                 active: false,
@@ -2393,30 +987,8 @@
             results: {
                 totalReps: 0,
                 exercisesCompleted: 0
-            },
-            rest: {
-                duration: 30,
-                remaining: 30,
-                active: false,
-                timer: null
             }
         };
-
-        const ReportsData = {
-            weekly: [
-                { day: 'Sun', reps: 20, pain: 3.6 },
-                { day: 'Mon', reps: 28, pain: 3.4 },
-                { day: 'Tue', reps: 24, pain: 3.5 },
-                { day: 'Wed', reps: 18, pain: 3.8 },
-                { day: 'Thu', reps: 26, pain: 3.3 },
-                { day: 'Fri', reps: 32, pain: 3.1 },
-                { day: 'Sat', reps: 22, pain: 3.2 }
-            ],
-            streak: 4,
-            consistency: 86
-        };
-
-        const DAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
@@ -2424,22 +996,8 @@
             setupPainSlider();
             setupPainSliderKeyboard();
             setupExerciseCardClicks();
-            setupSequenceClicks();
-            setupSequenceActions();
-            setupHeroToggle();
-            setupCuesToggles();
-            setupRepButtons();
             updateStepDisplay();
             updateTotalReps();
-            updateProgressUI();
-            updatePainBadge();
-            resetRestTimer();
-            updateCoachPanel();
-            updateSequenceRail();
-            updateReportsUI();
-            startBreathCoach();
-            updateMobileFooter();
-            updateNextUpBanner();
         });
         
         // Live Clock
@@ -2473,14 +1031,10 @@
                 handle.textContent = painValue;
                 handle.setAttribute('aria-valuenow', painValue);
                 AppState.user.painLevel = parseFloat(painValue);
-                updatePainBadge();
-                updateProgressUI();
                 
-                // Visual feedback
                 handle.style.transform = `translateX(-50%) scale(${dragging ? 1.1 : 1})`;
             }
             
-            // Mouse Events
             track.addEventListener('mousedown', (e) => {
                 dragging = true;
                 updatePainValue(e.clientX);
@@ -2495,7 +1049,6 @@
                 handle.style.transform = 'translateX(-50%) scale(1)';
             });
             
-            // Touch Events
             track.addEventListener('touchstart', (e) => {
                 e.preventDefault();
                 dragging = true;
@@ -2516,9 +1069,8 @@
         }
 
         function setupPainSliderKeyboard() {
-            const track = document.getElementById('painTrack');
             const handle = document.getElementById('painHandle');
-            if (!track || !handle) return;
+            if (!handle) return;
 
             const step = 0.5;
             const setFromValue = (value) => {
@@ -2528,8 +1080,6 @@
                 handle.textContent = bounded.toFixed(1);
                 handle.setAttribute('aria-valuenow', bounded.toFixed(1));
                 AppState.user.painLevel = bounded;
-                updatePainBadge();
-                updateProgressUI();
             };
 
             handle.addEventListener('keydown', (e) => {
@@ -2549,47 +1099,19 @@
             });
         }
 
-        function setupHeroToggle() {
-            const toggle = document.getElementById('heroToggle');
-            const details = document.getElementById('heroDetails');
-            if (!toggle || !details) return;
-
-            toggle.addEventListener('click', () => {
-                const isOpen = details.classList.toggle('open');
-                toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-            });
-        }
-
-        function setupCuesToggles() {
-            document.querySelectorAll('.cues-toggle').forEach(button => {
-                const targetId = button.dataset.target;
-                const target = document.getElementById(targetId);
-                if (!target) return;
-
-                button.addEventListener('click', (event) => {
-                    event.stopPropagation();
-                    const isOpen = target.classList.toggle('open');
-                    button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                    button.textContent = isOpen ? 'Hide cues' : 'Show cues';
+        function setupExerciseCardClicks() {
+            const cards = document.querySelectorAll('.exercise-card');
+            cards.forEach(card => {
+                card.addEventListener('click', (event) => {
+                    if (event.target.closest('.rep-btn')) return;
+                    const exerciseNum = parseInt(card.dataset.exercise);
+                    setActiveExercise(exerciseNum, { scroll: true });
                 });
-            });
-        }
-
-        function setupRepButtons() {
-            const setPressed = (btn, pressed) => btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
-            document.querySelectorAll('.rep-btn').forEach(btn => {
-                setPressed(btn, false);
-                btn.addEventListener('mousedown', () => setPressed(btn, true));
-                btn.addEventListener('mouseup', () => setPressed(btn, false));
-                btn.addEventListener('mouseleave', () => setPressed(btn, false));
-                btn.addEventListener('touchstart', () => setPressed(btn, true), { passive: true });
-                btn.addEventListener('touchend', () => setPressed(btn, false));
             });
         }
         
         // Step Navigation
         function updateStepDisplay() {
-            // Update step indicators
             document.querySelectorAll('.step').forEach(step => {
                 const stepNum = parseInt(step.dataset.step);
                 step.classList.remove('active', 'completed');
@@ -2601,14 +1123,12 @@
                 }
             });
             
-            // Show/hide sections
             document.querySelectorAll('[id^="step"]').forEach(section => {
                 section.classList.add('hidden');
             });
             const current = document.getElementById('step' + AppState.currentStep);
             if (current) current.classList.remove('hidden');
             updateStepBanner();
-            updateMobileFooter();
         }
 
         function updateStepBanner() {
@@ -2631,122 +1151,13 @@
             AppState.user.sessionStart = new Date();
             AppState.session.duration = 0;
             AppState.session.paused = false;
-            resetRestTimer();
 
             updateStepDisplay();
             setActiveExercise(1);
             startSessionTimer();
-            updateProgressUI();
-            
-            // Animate cards in
-            animateExerciseCards();
+            showNotification('Session started! Take your time with each exercise.');
         }
         
-        // Animate exercise cards
-        function animateExerciseCards() {
-            const cards = document.querySelectorAll('.exercise-card');
-            cards.forEach((card, index) => {
-                card.style.animationDelay = `${index * 0.1}s`;
-            });
-        }
-
-        function setupExerciseCardClicks() {
-            const cards = document.querySelectorAll('.exercise-card');
-            cards.forEach(card => {
-                card.addEventListener('click', (event) => {
-                    // Prevent clicks from rep buttons resetting status
-                    if (event.target.closest('.rep-btn') || event.target.closest('.cues-toggle')) return;
-                    const exerciseNum = parseInt(card.dataset.exercise);
-                    setActiveExercise(exerciseNum, { scroll: true });
-                });
-            });
-        }
-
-        function setupSequenceClicks() {
-            const steps = document.querySelectorAll('.sequence-step');
-            steps.forEach(step => {
-                step.addEventListener('click', () => {
-                    const exerciseNum = parseInt(step.dataset.exercise);
-                    setActiveExercise(exerciseNum, { scroll: true });
-                    document.getElementById('step2')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                });
-            });
-        }
-
-        function setupSequenceActions() {
-            const prev = document.getElementById('sequencePrev');
-            const next = document.getElementById('sequenceNext');
-            const restart = document.getElementById('sequenceRestart');
-
-            prev?.addEventListener('click', () => {
-                const activeKey = getActiveExerciseKey() || 1;
-                const prevKey = getPreviousExerciseKey(activeKey);
-                if (prevKey) setActiveExercise(prevKey, { scroll: true });
-            });
-
-            next?.addEventListener('click', () => {
-                const activeKey = getActiveExerciseKey() || 1;
-                const nextKey = getNextIncompleteExercise(activeKey) ?? getExerciseKeys().find(key => key > activeKey);
-                if (nextKey) setActiveExercise(nextKey, { scroll: true });
-            });
-
-            restart?.addEventListener('click', () => {
-                const firstOpen = getFirstIncompleteExercise();
-                setActiveExercise(firstOpen, { scroll: true });
-                showNotification('Back to the first open block—take a breath and restart.', 'info');
-            });
-
-            updateSequenceControls();
-        }
-
-        function updateSequenceControls() {
-            const prev = document.getElementById('sequencePrev');
-            const next = document.getElementById('sequenceNext');
-            const activeKey = getActiveExerciseKey() || 1;
-            const prevKey = getPreviousExerciseKey(activeKey);
-            const nextKey = getNextIncompleteExercise(activeKey) ?? getExerciseKeys().find(key => key > activeKey);
-
-            if (prev) prev.disabled = !prevKey;
-            if (next) next.disabled = !nextKey;
-        }
-
-        function getActiveExerciseKey() {
-            const activeCard = document.querySelector('.exercise-card.active');
-            return activeCard ? parseInt(activeCard.dataset.exercise) : null;
-        }
-
-        function getActiveExercise() {
-            const activeKey = getActiveExerciseKey();
-            return activeKey ? AppState.exercises[activeKey] : null;
-        }
-
-        function getExerciseKeys() {
-            return Object.keys(AppState.exercises)
-                .map(Number)
-                .sort((a, b) => a - b);
-        }
-
-        function getNextIncompleteExercise(startKey = 0) {
-            const keys = getExerciseKeys();
-            for (const key of keys) {
-                if (key > startKey && !AppState.exercises[key].completed) return key;
-            }
-            return null;
-        }
-
-        function getFirstIncompleteExercise() {
-            const keys = getExerciseKeys();
-            for (const key of keys) {
-                if (!AppState.exercises[key].completed) return key;
-            }
-            return keys[0];
-        }
-
-        function getPreviousExerciseKey(currentKey) {
-            const keys = getExerciseKeys().filter(key => key < currentKey);
-            return keys.length ? keys[keys.length - 1] : null;
-        }
-
         function setActiveExercise(exerciseNum, options = { scroll: false }) {
             document.querySelectorAll('.exercise-card').forEach(card => {
                 const cardNum = parseInt(card.dataset.exercise);
@@ -2763,13 +1174,6 @@
                     else status.textContent = 'Completed ✓';
                 }
             });
-
-            updateProgressUI();
-            updateCoachPanel();
-            updateSequenceRail();
-            updateNextUpBanner();
-            updateMobileFooter();
-            updateSequenceControls();
         }
         
         // Session Timer
@@ -2790,7 +1194,6 @@
             const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             document.getElementById('sessionTimer').textContent = timeStr;
             document.getElementById('sessionDuration').textContent = timeStr;
-            updateReportMetrics();
         }
         
         // Adjust Reps
@@ -2798,11 +1201,10 @@
             const exercise = AppState.exercises[exerciseNum];
             const newReps = exercise.reps + change;
             
-            if (newReps >= 0 && newReps <= exercise.goal + 5) { // Allow slight overflow
+            if (newReps >= 0 && newReps <= exercise.goal + 5) {
                 exercise.reps = newReps;
                 document.getElementById('reps' + exerciseNum).textContent = newReps;
                 
-                // Update completion status
                 const wasCompleted = exercise.completed;
                 exercise.completed = newReps >= exercise.goal;
                 
@@ -2811,9 +1213,7 @@
                 if (exercise.completed && !wasCompleted) {
                     card.classList.add('completed');
                     card.querySelector('.exercise-status').textContent = 'Completed ✓';
-                    card.querySelector('.exercise-icon').style.animation = 'pulse 1s';
                     
-                    // Auto-advance to next exercise
                     setTimeout(() => advanceToNextExercise(exerciseNum), 500);
                 } else if (!exercise.completed && wasCompleted) {
                     card.classList.remove('completed');
@@ -2822,11 +1222,9 @@
                 
                 updateTotalReps();
                 updateExercisesCompleted();
-                updateCoachPanel();
             }
         }
         
-        // Update total reps
         function updateTotalReps() {
             let total = 0;
             for (const key in AppState.exercises) {
@@ -2834,11 +1232,8 @@
             }
             AppState.results.totalReps = total;
             document.getElementById('totalReps').textContent = total;
-            updateProgressUI();
-            updateReportsUI();
         }
         
-        // Update exercises completed
         function updateExercisesCompleted() {
             let completed = 0;
             for (const key in AppState.exercises) {
@@ -2846,319 +1241,19 @@
             }
             AppState.results.exercisesCompleted = completed;
             document.getElementById('exercisesDone').textContent = `${completed}/${Object.keys(AppState.exercises).length}`;
-            updateProgressUI();
         }
         
-        // Auto-advance to next exercise
         function advanceToNextExercise(currentExercise) {
-            const nextKey = getNextIncompleteExercise(currentExercise) ?? getExerciseKeys().find(key => key > currentExercise);
-
-            if (nextKey && AppState.exercises[nextKey]) {
-                setActiveExercise(nextKey, { scroll: true });
-                // Show subtle notification
-                showNotification(`Great! Moving to ${AppState.exercises[nextKey].name}`);
+            const nextExercise = currentExercise + 1;
+            if (AppState.exercises[nextExercise]) {
+                setActiveExercise(nextExercise, { scroll: true });
+                showNotification(`Great job! Moving to ${AppState.exercises[nextExercise].name}`, 'success');
             } else {
-                // All exercises complete
                 showNotification('All exercises completed! Ready to finish.', 'success');
             }
-            updateMobileFooter();
         }
 
-        // Update progress UI
-        function updateProgressUI() {
-            const totalExercises = Object.keys(AppState.exercises).length;
-            const completed = AppState.results.exercisesCompleted;
-            const progress = Math.round((completed / totalExercises) * 100);
-            const fill = document.getElementById('progressFill');
-            const exercisesLabel = document.getElementById('progressExercises');
-            const repsLabel = document.getElementById('progressReps');
-            const focusLabel = document.getElementById('progressFocus');
-            const subtitle = document.getElementById('progressSubtitle');
-
-            if (fill) fill.style.width = `${progress}%`;
-            if (exercisesLabel) exercisesLabel.textContent = `${completed}/${totalExercises}`;
-            if (repsLabel) repsLabel.textContent = `${AppState.results.totalReps} reps`;
-
-            const activeExercise = getActiveExercise();
-            if (focusLabel) {
-                focusLabel.textContent = activeExercise ? `${activeExercise.name} • ${activeExercise.cue}` : 'Check your posture';
-            }
-
-            if (subtitle) {
-                if (completed === 0) subtitle.textContent = "You're ready to begin. Slow and steady wins.";
-                else if (completed < totalExercises) subtitle.textContent = 'Keep breathing and moving with intention.';
-                else subtitle.textContent = 'All exercises ticked off—finish when you feel ready.';
-            }
-
-            updateSequenceRail();
-            updateMobileFooter();
-        }
-
-        function updateSequenceRail() {
-            const steps = document.querySelectorAll('.sequence-step');
-            const activeKey = getActiveExerciseKey() || 1;
-            const totalExercises = Object.keys(AppState.exercises).length;
-            const completed = AppState.results.exercisesCompleted;
-            const activeExercise = AppState.exercises[activeKey];
-            const nextKey = getNextIncompleteExercise(activeKey);
-            const nextExercise = nextKey ? AppState.exercises[nextKey] : null;
-            const meterFill = document.getElementById('sequenceMeterFill');
-            const summary = document.getElementById('sequenceSummary');
-
-            steps.forEach(step => {
-                const num = parseInt(step.dataset.exercise);
-                const status = step.querySelector('.sequence-status');
-                step.classList.remove('active', 'completed', 'up-next');
-
-                if (AppState.exercises[num]?.completed) {
-                    step.classList.add('completed');
-                    if (status) status.textContent = 'Done';
-                } else if (num === activeKey) {
-                    step.classList.add('active');
-                    if (status) status.textContent = 'Now';
-                } else if (num === nextKey) {
-                    step.classList.add('up-next');
-                    if (status) status.textContent = 'Next';
-                } else if (status) {
-                    status.textContent = 'Queued';
-                }
-            });
-
-            if (meterFill) {
-                meterFill.style.width = `${Math.round((completed / totalExercises) * 100)}%`;
-            }
-
-            if (summary && activeExercise) {
-                if (nextExercise) {
-                    const repsLeft = Math.max(activeExercise.goal - activeExercise.reps, 0);
-                    summary.textContent = `Finish ${activeExercise.name} (${repsLeft} left), then ${nextExercise.name}.`;
-                } else {
-                    summary.textContent = `${activeExercise.name} is your final block—cool down when it feels right.`;
-                }
-            }
-            updateSequenceControls();
-        }
-
-        function updateNextUpBanner() {
-            const banner = document.getElementById('nextUpBanner');
-            const label = document.getElementById('nextUpLabel');
-            if (!banner || !label) return;
-
-            const activeKey = getActiveExerciseKey() || 1;
-            const nextKey = getNextIncompleteExercise(activeKey);
-            const nextExercise = nextKey ? AppState.exercises[nextKey] : null;
-            if (nextExercise) {
-                label.textContent = `${nextExercise.name} is queued. Start when breathing feels steady.`;
-                banner.classList.add('show');
-            } else {
-                label.textContent = 'This is your final block—cool down after you finish.';
-                banner.classList.add('show');
-            }
-        }
-
-        function updateCoachPanel() {
-            const activeKey = getActiveExerciseKey() || 1;
-            const exercise = AppState.exercises[activeKey];
-            if (!exercise) return;
-
-            const nextKey = getNextIncompleteExercise(activeKey);
-            const nextExercise = nextKey ? AppState.exercises[nextKey] : null;
-            const repsFill = Math.min((exercise.reps / exercise.goal) * 100, 100);
-
-            const name = document.getElementById('coachExerciseName');
-            const cue = document.getElementById('coachExerciseCue');
-            const tempo = document.getElementById('coachTempo');
-            const breath = document.getElementById('coachBreath');
-            const repsLeft = document.getElementById('coachRepsLeft');
-            const progressFill = document.getElementById('coachProgressFill');
-            const nextLabel = document.getElementById('coachNextLabel');
-            const feel = document.getElementById('coachFeel');
-            const form = document.getElementById('coachForm');
-            const reminder = document.getElementById('coachReminder');
-            const success = document.getElementById('coachSuccess');
-
-            if (name) name.textContent = exercise.name;
-            if (cue) cue.textContent = exercise.cue;
-            if (tempo) tempo.textContent = exercise.tempo;
-            if (breath) breath.textContent = exercise.breath;
-            if (repsLeft) repsLeft.textContent = `Reps logged: ${exercise.reps} / ${exercise.goal}`;
-            if (progressFill) progressFill.style.width = `${repsFill}%`;
-            if (nextLabel) nextLabel.textContent = nextExercise ? `Up next: ${nextExercise.name}` : 'This is your final exercise—cool down after this one.';
-            if (feel) feel.textContent = exercise.feel;
-            if (form) form.textContent = exercise.form;
-            if (reminder) reminder.textContent = exercise.reminder;
-            if (success) success.textContent = `You should feel: ${exercise.feel}`;
-        }
-
-        function updateReportsUI() {
-            const todayLabel = DAY_LABELS[new Date().getDay()];
-            const totalReps = AppState.results.totalReps;
-            const pain = AppState.user.painLevel;
-
-            const existing = ReportsData.weekly.find(entry => entry.day === todayLabel);
-            if (existing) {
-                existing.reps = Math.max(existing.reps, totalReps);
-                existing.pain = pain;
-            } else {
-                ReportsData.weekly.push({ day: todayLabel, reps: totalReps, pain });
-            }
-
-            renderWeeklyBars(todayLabel);
-            renderPainSparkline(todayLabel);
-            updateReportMetrics();
-        }
-
-        function renderWeeklyBars(todayLabel) {
-            const barsContainer = document.getElementById('weeklyBars');
-            if (!barsContainer) return;
-
-            barsContainer.innerHTML = '';
-            const maxReps = Math.max(...ReportsData.weekly.map(item => item.reps), 1);
-
-            ReportsData.weekly.forEach(entry => {
-                const column = document.createElement('div');
-                column.className = 'bar-column';
-
-                const bar = document.createElement('div');
-                bar.className = 'bar' + (entry.day === todayLabel ? ' bar-today' : '');
-                bar.setAttribute('role', 'img');
-                bar.setAttribute('aria-label', `${entry.day}: ${entry.reps} reps`);
-
-                const fill = document.createElement('div');
-                fill.className = 'bar-fill';
-                fill.style.height = `${Math.max(8, (entry.reps / maxReps) * 100)}%`;
-
-                const value = document.createElement('div');
-                value.className = 'bar-value';
-                value.textContent = entry.reps;
-
-                const label = document.createElement('span');
-                label.className = 'bar-label';
-                label.textContent = entry.day;
-
-                bar.appendChild(fill);
-                column.appendChild(bar);
-                column.appendChild(value);
-                column.appendChild(label);
-                barsContainer.appendChild(column);
-            });
-        }
-
-        function renderPainSparkline(todayLabel) {
-            const svg = document.getElementById('painSparkline');
-            const legend = document.getElementById('painLegend');
-            if (!svg || !legend) return;
-
-            const width = 320;
-            const height = 110;
-            const padding = 12;
-
-            svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
-            svg.innerHTML = '';
-
-            const points = ReportsData.weekly.map((entry, index) => {
-                const x = padding + (index / Math.max(ReportsData.weekly.length - 1, 1)) * (width - padding * 2);
-                const y = height - padding - (entry.pain / 10) * (height - padding * 2);
-                return { ...entry, x, y };
-            });
-            const minPain = Math.min(...ReportsData.weekly.map(entry => entry.pain));
-            const maxPain = Math.max(...ReportsData.weekly.map(entry => entry.pain));
-
-            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-            const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
-            gradient.setAttribute('id', 'painGradient');
-            gradient.setAttribute('x1', '0%');
-            gradient.setAttribute('y1', '0%');
-            gradient.setAttribute('x2', '100%');
-            gradient.setAttribute('y2', '0%');
-
-            const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-            stop1.setAttribute('offset', '0%');
-            stop1.setAttribute('stop-color', '#6366f1');
-            const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-            stop2.setAttribute('offset', '100%');
-            stop2.setAttribute('stop-color', '#8b5cf6');
-
-            gradient.appendChild(stop1);
-            gradient.appendChild(stop2);
-            defs.appendChild(gradient);
-            svg.appendChild(defs);
-
-            const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-            polyline.setAttribute('fill', 'none');
-            polyline.setAttribute('stroke', 'url(#painGradient)');
-            polyline.setAttribute('stroke-width', '3');
-            polyline.setAttribute('points', points.map(point => `${point.x},${point.y}`).join(' '));
-            polyline.setAttribute('stroke-linecap', 'round');
-            polyline.setAttribute('stroke-linejoin', 'round');
-            svg.appendChild(polyline);
-
-            points.forEach(point => {
-                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                circle.setAttribute('cx', point.x);
-                circle.setAttribute('cy', point.y);
-                circle.setAttribute('r', point.day === todayLabel ? 5 : 4);
-                circle.setAttribute('fill', point.day === todayLabel ? '#10b981' : '#6366f1');
-                circle.setAttribute('stroke', '#fff');
-                circle.setAttribute('stroke-width', '2');
-                circle.setAttribute('aria-label', `${point.day}: ${point.pain.toFixed(1)}/10`);
-                circle.setAttribute('tabindex', '0');
-                svg.appendChild(circle);
-            });
-
-            legend.innerHTML = '';
-            points.forEach(point => {
-                const item = document.createElement('div');
-                item.className = 'legend-item';
-
-                const dot = document.createElement('span');
-                dot.className = 'legend-dot' + (point.day === todayLabel ? ' legend-today' : '');
-
-                const text = document.createElement('span');
-                let descriptor = '';
-                if (point.pain === minPain) descriptor = ' · lowest';
-                if (point.pain === maxPain) descriptor = ' · highest';
-                if (point.day === todayLabel) descriptor = ' · today';
-                text.textContent = `${point.day}: ${point.pain.toFixed(1)}/10${descriptor}`;
-
-                item.appendChild(dot);
-                item.appendChild(text);
-                legend.appendChild(item);
-            });
-        }
-
-        function updateReportMetrics() {
-            const totalReps = AppState.results.totalReps;
-            const durationMinutes = Math.max(0, Math.round(AppState.session.duration / 60));
-            const weeklyPainAverage = ReportsData.weekly.length
-                ? (ReportsData.weekly.reduce((sum, entry) => sum + entry.pain, 0) / ReportsData.weekly.length).toFixed(1)
-                : AppState.user.painLevel.toFixed(1);
-
-            const weeklySubtitle = document.getElementById('weeklySubtitle');
-            const totalRepsLabel = document.getElementById('reportTotalReps');
-            const durationLabel = document.getElementById('durationStat');
-            const consistencyLabel = document.getElementById('consistencyScore');
-            const streakLabel = document.getElementById('streakCount');
-
-            if (weeklySubtitle) weeklySubtitle.textContent = `You logged ${totalReps} reps today; weekly pain average is ${weeklyPainAverage}/10.`;
-            if (totalRepsLabel) totalRepsLabel.textContent = `${totalReps} reps`;
-            if (durationLabel) durationLabel.textContent = `${durationMinutes} min`;
-            if (consistencyLabel) consistencyLabel.textContent = `${ReportsData.consistency}%`;
-            if (streakLabel) streakLabel.textContent = `${ReportsData.streak} days`;
-        }
-
-        // Pain badge updates
-        function updatePainBadge() {
-            const badge = document.getElementById('painBadge');
-            if (badge) {
-                badge.textContent = `Pain ${AppState.user.painLevel.toFixed(1)} / 10`;
-            }
-            updateReportsUI();
-        }
-
-        // Show notification
         function showNotification(message, type = 'info') {
-            // Create notification element
             const notification = document.createElement('div');
             notification.textContent = message;
             notification.style.cssText = `
@@ -3166,43 +1261,40 @@
                 top: 100px;
                 left: 50%;
                 transform: translateX(-50%);
-                background: ${type === 'success' ? '#10b981' : '#6366f1'};
+                background: ${type === 'success' ? '#10b981' : '#0ea5e9'};
                 color: white;
-                padding: 1rem 1.5rem;
-                border-radius: 12px;
-                box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+                padding: 1.25rem 2rem;
+                border-radius: 16px;
+                box-shadow: 0 12px 32px rgba(0,0,0,0.2);
                 z-index: 1000;
-                animation: slideDown 0.3s ease;
+                font-size: 1.125rem;
+                font-weight: 600;
+                max-width: 90%;
             `;
 
             document.body.appendChild(notification);
 
             setTimeout(() => {
-                notification.style.animation = 'slideOut 0.3s ease';
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.3s ease';
                 setTimeout(() => notification.remove(), 300);
-            }, 2000);
+            }, 3000);
         }
         
-        // Pause/Resume Session
         function pauseSession() {
             AppState.session.paused = !AppState.session.paused;
             const btn = document.getElementById('pauseBtn');
             
             if (AppState.session.paused) {
                 btn.innerHTML = '<span>▶️ Resume Session</span>';
-                showNotification('Session paused', 'info');
+                showNotification('Session paused - take your time', 'info');
             } else {
                 btn.innerHTML = '<span>⏸️ Pause Session</span>';
                 showNotification('Session resumed', 'success');
             }
-
-            updateProgressUI();
-            updateMobileFooter();
         }
 
-        // Complete Session
         function completeSession() {
-            // Validate some progress was made
             if (AppState.results.totalReps === 0) {
                 if (!confirm("You haven't started any exercises. Complete session anyway?")) {
                     return;
@@ -3212,141 +1304,34 @@
             AppState.currentStep = 3;
             AppState.session.active = false;
             clearInterval(AppState.session.timer);
-            clearInterval(AppState.rest.timer);
-            AppState.rest.active = false;
 
             updateStepDisplay();
-            updateReportsUI();
-            showNotification('Session completed! Review your results.', 'success');
+            showNotification('Session completed! Great work today!', 'success');
             
-            // Update pain change
             document.getElementById('painChange').textContent = AppState.user.painLevel.toFixed(1);
-            updateMobileFooter();
         }
         
-        // Return to Exercises
         function returnToExercises() {
             AppState.currentStep = 2;
             updateStepDisplay();
         }
         
-        // Save and Finish
         function saveAndFinish() {
-            const notes = document.getElementById('sessionNotes').value;
-            void notes;
-            
-            // Show saving animation
             const saveBtn = document.querySelector('#step3 .btn-primary');
             const originalText = saveBtn.innerHTML;
             saveBtn.innerHTML = '<span>Saving...</span>';
             saveBtn.disabled = true;
             
-            // Simulate API call
             setTimeout(() => {
                 showNotification('Session saved successfully!', 'success');
                 
-                // Reset button
                 setTimeout(() => {
                     saveBtn.innerHTML = originalText;
                     saveBtn.disabled = false;
                     
-                    // Show completion message
                     alert('Great work today! Your progress has been recorded. See you next time!');
                 }, 500);
             }, 1500);
-        }
-
-        // Rest timer controls
-        function toggleRestTimer() {
-            AppState.rest.active = !AppState.rest.active;
-            const toggleBtn = document.getElementById('restToggle');
-            const status = document.getElementById('restStatus');
-
-            if (AppState.rest.active) {
-                startRestInterval();
-                if (toggleBtn) toggleBtn.textContent = 'Pause Rest';
-                if (status) status.textContent = 'Slow breaths while you reset—feel your shoulders drop.';
-            } else {
-                clearInterval(AppState.rest.timer);
-                if (toggleBtn) toggleBtn.textContent = 'Resume Rest';
-                if (status) status.textContent = 'Paused—start again when you are ready.';
-            }
-        }
-
-        function startRestInterval() {
-            clearInterval(AppState.rest.timer);
-            AppState.rest.timer = setInterval(() => {
-                if (AppState.rest.remaining > 0) {
-                    AppState.rest.remaining--;
-                    updateRestTimer();
-                } else {
-                    clearInterval(AppState.rest.timer);
-                    AppState.rest.active = false;
-                    showNotification('Rest complete. Ease into the next exercise.', 'success');
-                    const toggleBtn = document.getElementById('restToggle');
-                    const status = document.getElementById('restStatus');
-                    if (toggleBtn) toggleBtn.textContent = 'Start Rest';
-                    if (status) status.textContent = 'Ready for the next gentle block.';
-                }
-            }, 1000);
-        }
-
-        function updateRestTimer() {
-            const minutes = Math.floor(AppState.rest.remaining / 60).toString().padStart(2, '0');
-            const seconds = (AppState.rest.remaining % 60).toString().padStart(2, '0');
-            const display = document.getElementById('restTimer');
-            if (display) display.textContent = `${minutes}:${seconds}`;
-        }
-
-        function resetRestTimer() {
-            clearInterval(AppState.rest.timer);
-            AppState.rest.remaining = AppState.rest.duration;
-            AppState.rest.active = false;
-            updateRestTimer();
-
-            const toggleBtn = document.getElementById('restToggle');
-            const status = document.getElementById('restStatus');
-            if (toggleBtn) toggleBtn.textContent = 'Start Rest';
-            if (status) status.textContent = 'Ready for a gentle 30-second reset between exercises.';
-        }
-
-        function updateMobileFooter() {
-            const footer = document.getElementById('mobileFooter');
-            const cta = document.getElementById('mobileCta');
-            if (!footer || !cta) return;
-
-            if (AppState.currentStep === 1) {
-                cta.textContent = "Start Session";
-                cta.dataset.action = "start";
-            } else if (AppState.currentStep === 2) {
-                const completedAll = AppState.results.exercisesCompleted === Object.keys(AppState.exercises).length;
-                cta.textContent = completedAll ? "Finish Session" : "Next exercise";
-                cta.dataset.action = completedAll ? "finish" : "next";
-            } else {
-                cta.textContent = "Save & Complete";
-                cta.dataset.action = "save";
-            }
-        }
-
-        function handleMobileCta() {
-            const cta = document.getElementById('mobileCta');
-            if (!cta) return;
-            const action = cta.dataset.action;
-            if (action === 'start') startSession();
-            else if (action === 'next') advanceToNextExercise(getActiveExerciseKey() || 1);
-            else if (action === 'finish') completeSession();
-            else if (action === 'save') saveAndFinish();
-        }
-
-        function startBreathCoach() {
-            const breathText = document.getElementById('restBreath');
-            if (!breathText) return;
-            const cues = ['Inhale for 3', 'Hold for 1', 'Exhale for 4'];
-            let index = 0;
-            setInterval(() => {
-                breathText.textContent = cues[index % cues.length];
-                index++;
-            }, 3000);
         }
     </script>
 </body>
