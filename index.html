@@ -85,6 +85,18 @@
 
         .utility-actions {
             justify-content: flex-start;
+            overflow-x: auto;
+            padding-bottom: 0.35rem;
+            scroll-snap-type: x mandatory;
+        }
+
+        .utility-actions::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .utility-actions::-webkit-scrollbar-thumb {
+            background: var(--slate-200);
+            border-radius: 999px;
         }
 
         .utility-chip {
@@ -549,6 +561,53 @@
             margin-bottom: 2.5rem;
             font-weight: 500;
         }
+
+        .section-card.collapsible {
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .section-card.collapsible .section-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.5rem 1.75rem 1.25rem;
+            flex-wrap: wrap;
+        }
+
+        .section-card.collapsible .section-body {
+            padding: 0 1.75rem 1.75rem;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .section-card.collapsed .section-body {
+            display: none;
+        }
+
+        .section-toggle {
+            border: 2px solid var(--slate-200);
+            background: white;
+            color: var(--slate-700);
+            border-radius: 12px;
+            padding: 0.65rem 0.9rem;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+        }
+
+        .section-toggle .chevron {
+            transition: transform 0.25s ease;
+            font-size: 1.05rem;
+        }
+
+        .section-card.collapsed .section-toggle .chevron {
+            transform: rotate(-90deg);
+        }
         
         /* FORM ELEMENTS */
         .input-group {
@@ -894,12 +953,33 @@
             z-index: 999;
         }
 
+        .dock-body {
+            display: grid;
+            gap: 0.75rem;
+        }
+
         .dock-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             font-weight: 800;
             color: var(--slate-800);
+        }
+
+        .dock-header > div {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dock-toggle {
+            border: 2px solid var(--slate-200);
+            background: var(--slate-50);
+            border-radius: 10px;
+            padding: 0.45rem 0.7rem;
+            font-weight: 800;
+            cursor: pointer;
+            color: var(--slate-700);
         }
 
         .dock-controls {
@@ -935,6 +1015,14 @@
             justify-content: space-between;
             font-weight: 700;
             color: var(--slate-600);
+        }
+
+        .control-dock.collapsed .dock-body {
+            display: none;
+        }
+        
+        .control-dock.collapsed .dock-toggle {
+            background: white;
         }
         
         /* ACTION BUTTONS */
@@ -1151,9 +1239,26 @@
             }
 
             .control-dock {
-                position: static;
+                position: sticky;
+                bottom: 0;
                 margin: 1rem auto 0;
                 max-width: 420px;
+                inset-inline: 0;
+                transform: none;
+                box-shadow: 0 14px 32px rgba(15, 23, 42, 0.12);
+            }
+
+            .control-dock .dock-controls {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .section-card.collapsible .section-header {
+                padding: 1.25rem 1.25rem 1rem;
+            }
+
+            .section-card.collapsible .section-body {
+                padding: 0 1.25rem 1.25rem;
+                gap: 1.25rem;
             }
         }
 
@@ -1309,10 +1414,18 @@
     <main class="main-content">
         <div class="container">
             <!-- Voice Control -->
-            <section class="section-card glass voice-card" aria-labelledby="voiceControlHeading">
-                <div>
-                    <h2 class="section-title" id="voiceControlHeading">Voice Coach</h2>
-                    <p class="section-subtitle">Control your session hands-free with simple, gentle commands.</p>
+            <section class="section-card glass voice-card collapsible" aria-labelledby="voiceControlHeading" data-collapsible data-default-collapsed="true">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title" id="voiceControlHeading">Voice Coach</h2>
+                        <p class="section-subtitle">Control your session hands-free with simple, gentle commands.</p>
+                    </div>
+                    <button class="section-toggle" type="button" aria-expanded="false">
+                        <span class="chevron">▸</span>
+                        <span class="toggle-label">Expand</span>
+                    </button>
+                </div>
+                <div class="section-body">
                     <ul class="voice-commands">
                         <li class="voice-command">🎙️ <span>"Start session"</span> to begin</li>
                         <li class="voice-command">🎙️ <span>"Pause session"</span> or <span>"Resume session"</span></li>
@@ -1320,205 +1433,237 @@
                         <li class="voice-command">🎙️ <span>"Increase reps"</span> / <span>"Decrease reps"</span> (say a number too!)</li>
                         <li class="voice-command">🎙️ <span>"Finish session"</span> when you're done</li>
                     </ul>
-                </div>
-                <div class="voice-controls">
-                    <button class="voice-toggle" id="voiceToggle" type="button" aria-pressed="false">
-                        <span>🎤 Start Voice Coach</span>
-                    </button>
-                    <div class="voice-status" id="voiceStatus" aria-live="polite">Voice ready when you are.</div>
-                </div>
-                <div class="voice-response" id="voiceResponse" aria-live="polite">
-                    Voice responses will appear here so you always know what was heard.
+                    <div class="voice-controls">
+                        <button class="voice-toggle" id="voiceToggle" type="button" aria-pressed="false">
+                            <span>🎤 Start Voice Coach</span>
+                        </button>
+                        <div class="voice-status" id="voiceStatus" aria-live="polite">Voice ready when you are.</div>
+                    </div>
+                    <div class="voice-response" id="voiceResponse" aria-live="polite">
+                        Voice responses will appear here so you always know what was heard.
+                    </div>
                 </div>
             </section>
 
             <!-- Step 1: Check In -->
-            <section id="step1" class="section-card glass">
-                <h2 class="section-title">How are you feeling today?</h2>
-                <p class="section-subtitle">A quick check-in helps us tailor your session</p>
-                
-                <div class="input-group">
-                    <label class="input-label">Your Name</label>
-                    <input type="text" class="input-field" value="Marvin" id="userName" placeholder="Enter your name">
+            <section id="step1" class="section-card glass collapsible" data-collapsible>
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">How are you feeling today?</h2>
+                        <p class="section-subtitle">A quick check-in helps us tailor your session</p>
+                    </div>
+                    <button class="section-toggle" type="button" aria-expanded="true">
+                        <span class="chevron">▾</span>
+                        <span class="toggle-label">Hide</span>
+                    </button>
                 </div>
-                
-                <div class="pain-slider-container">
-                    <label class="input-label">Current Pain Level</label>
-                    <div class="pain-visual">
-                        <div class="pain-track" id="painTrack">
-                            <div class="pain-handle" id="painHandle" style="left: 25%;" role="slider" aria-valuemin="0" aria-valuemax="10" aria-valuenow="2.5" aria-label="Pain level" tabindex="0">2.5</div>
+                <div class="section-body">
+                    <div class="input-group">
+                        <label class="input-label">Your Name</label>
+                        <input type="text" class="input-field" value="Marvin" id="userName" placeholder="Enter your name">
+                    </div>
+                    
+                    <div class="pain-slider-container">
+                        <label class="input-label">Current Pain Level</label>
+                        <div class="pain-visual">
+                            <div class="pain-track" id="painTrack">
+                                <div class="pain-handle" id="painHandle" style="left: 25%;" role="slider" aria-valuemin="0" aria-valuemax="10" aria-valuenow="2.5" aria-label="Pain level" tabindex="0">2.5</div>
+                            </div>
+                        </div>
+                        <div class="pain-labels">
+                            <span>No Pain</span>
+                            <span>Moderate</span>
+                            <span>Severe</span>
                         </div>
                     </div>
-                    <div class="pain-labels">
-                        <span>No Pain</span>
-                        <span>Moderate</span>
-                        <span>Severe</span>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="startSession()">
+                            <span>Start Today's Session</span>
+                            <span>→</span>
+                        </button>
                     </div>
-                </div>
-                
-                <div class="action-buttons">
-                    <button class="btn btn-primary" onclick="startSession()">
-                        <span>Start Today's Session</span>
-                        <span>→</span>
-                    </button>
                 </div>
             </section>
             
             <!-- Step 2: Exercises -->
-            <section id="step2" class="section-card glass hidden">
-                <h2 class="section-title">Today's Gentle Exercises</h2>
-                <p class="section-subtitle">One exercise at a time—clear instructions so you can move with confidence.</p>
-
-                <div class="exercise-nav">
-                    <span class="mini-badge" id="navCurrent">Exercise 1 of 3</span>
-                    <span class="mini-badge">Mode: <span id="navMode">Guided walkthrough</span></span>
-                    <div class="nav-buttons">
-                        <button class="ghost-btn" onclick="goToAdjacentExercise(-1)">← Previous</button>
-                        <button class="ghost-btn" onclick="goToAdjacentExercise(1)">Next →</button>
-                        <button class="ghost-btn" onclick="completeCurrentExercise()">Mark complete</button>
+            <section id="step2" class="section-card glass hidden collapsible" data-collapsible data-default-collapsed="false">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Today's Gentle Exercises</h2>
+                        <p class="section-subtitle">One exercise at a time—clear instructions so you can move with confidence.</p>
                     </div>
+                    <button class="section-toggle" type="button" aria-expanded="true">
+                        <span class="chevron">▾</span>
+                        <span class="toggle-label">Hide</span>
+                    </button>
                 </div>
-
-                <!-- Session Timer -->
-                <div class="session-timer">
-                    <div class="timer-display" id="sessionTimer" aria-live="polite">00:00</div>
-                    <div class="timer-label">Session Duration</div>
-                </div>
-
-                <!-- Exercises Grid -->
-                <div class="exercise-grid">
-                    <!-- Exercise 1 -->
-                    <div class="exercise-card active" data-exercise="1">
-                        <div class="exercise-header">
-                            <div class="exercise-icon">🦵</div>
-                            <div class="exercise-title">Heel Slides</div>
-                            <span class="exercise-status">Current</span>
+                <div class="section-body">
+                    <div class="exercise-nav">
+                        <span class="mini-badge" id="navCurrent">Exercise 1 of 3</span>
+                        <span class="mini-badge">Mode: <span id="navMode">Guided walkthrough</span></span>
+                        <div class="nav-buttons">
+                            <button class="ghost-btn" onclick="goToAdjacentExercise(-1)">← Previous</button>
+                            <button class="ghost-btn" onclick="goToAdjacentExercise(1)">Next →</button>
+                            <button class="ghost-btn" onclick="completeCurrentExercise()">Mark complete</button>
                         </div>
-                        <div class="exercise-description">
-                            Gently slide your heel toward your buttocks while keeping contact with the surface. 
-                            Hold briefly, then slowly return. Move slow and steady—comfort is key.
+                    </div>
+
+                    <!-- Session Timer -->
+                    <div class="session-timer">
+                        <div class="timer-display" id="sessionTimer" aria-live="polite">00:00</div>
+                        <div class="timer-label">Session Duration</div>
+                    </div>
+
+                    <!-- Exercises Grid -->
+                    <div class="exercise-grid">
+                        <!-- Exercise 1 -->
+                        <div class="exercise-card active" data-exercise="1">
+                            <div class="exercise-header">
+                                <div class="exercise-icon">🦵</div>
+                                <div class="exercise-title">Heel Slides</div>
+                                <span class="exercise-status">Current</span>
+                            </div>
+                            <div class="exercise-description">
+                                Gently slide your heel toward your buttocks while keeping contact with the surface. 
+                                Hold briefly, then slowly return. Move slow and steady—comfort is key.
+                            </div>
+                            <div class="rep-counter">
+                                <button class="rep-btn" onclick="adjustReps(1, -1)" aria-label="Decrease reps">−</button>
+                                <span class="rep-count" id="reps1">0</span>
+                                <button class="rep-btn" onclick="adjustReps(1, 1)" aria-label="Increase reps">+</button>
+                                <span class="rep-goal">Goal: 10 reps</span>
+                            </div>
                         </div>
-                        <div class="rep-counter">
-                            <button class="rep-btn" onclick="adjustReps(1, -1)" aria-label="Decrease reps">−</button>
-                            <span class="rep-count" id="reps1">0</span>
-                            <button class="rep-btn" onclick="adjustReps(1, 1)" aria-label="Increase reps">+</button>
-                            <span class="rep-goal">Goal: 10 reps</span>
+                        
+                        <!-- Exercise 2 -->
+                        <div class="exercise-card" data-exercise="2">
+                            <div class="exercise-header">
+                                <div class="exercise-icon">💪</div>
+                                <div class="exercise-title">Quad Sets</div>
+                                <span class="exercise-status">Up Next</span>
+                            </div>
+                            <div class="exercise-description">
+                                Tighten your thigh muscle as if trying to straighten your knee. 
+                                Hold the contraction for 3-5 seconds, then relax completely. Breathe naturally throughout.
+                            </div>
+                            <div class="rep-counter">
+                                <button class="rep-btn" onclick="adjustReps(2, -1)" aria-label="Decrease reps">−</button>
+                                <span class="rep-count" id="reps2">0</span>
+                                <button class="rep-btn" onclick="adjustReps(2, 1)" aria-label="Increase reps">+</button>
+                                <span class="rep-goal">Goal: 15 reps</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Exercise 3 -->
+                        <div class="exercise-card" data-exercise="3">
+                            <div class="exercise-header">
+                                <div class="exercise-icon">🏋️</div>
+                                <div class="exercise-title">Leg Raises</div>
+                                <span class="exercise-status">Up Next</span>
+                            </div>
+                            <div class="exercise-description">
+                                With knee straight, lift your leg 6-12 inches. Hold briefly, 
+                                then lower with control. Keep breathing steady and stop if you feel any sharp pain.
+                            </div>
+                            <div class="rep-counter">
+                                <button class="rep-btn" onclick="adjustReps(3, -1)" aria-label="Decrease reps">−</button>
+                                <span class="rep-count" id="reps3">0</span>
+                                <button class="rep-btn" onclick="adjustReps(3, 1)" aria-label="Increase reps">+</button>
+                                <span class="rep-goal">Goal: 10 reps</span>
+                            </div>
                         </div>
                     </div>
                     
-                    <!-- Exercise 2 -->
-                    <div class="exercise-card" data-exercise="2">
-                        <div class="exercise-header">
-                            <div class="exercise-icon">💪</div>
-                            <div class="exercise-title">Quad Sets</div>
-                            <span class="exercise-status">Up Next</span>
-                        </div>
-                        <div class="exercise-description">
-                            Tighten your thigh muscle as if trying to straighten your knee. 
-                            Hold the contraction for 3-5 seconds, then relax completely. Breathe naturally throughout.
-                        </div>
-                        <div class="rep-counter">
-                            <button class="rep-btn" onclick="adjustReps(2, -1)" aria-label="Decrease reps">−</button>
-                            <span class="rep-count" id="reps2">0</span>
-                            <button class="rep-btn" onclick="adjustReps(2, 1)" aria-label="Increase reps">+</button>
-                            <span class="rep-goal">Goal: 15 reps</span>
-                        </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="pauseSession()" id="pauseBtn">
+                            <span>⏸️ Pause Session</span>
+                        </button>
+                        <button class="btn btn-primary" onclick="completeSession()">
+                            <span>Finish Session</span>
+                            <span>✓</span>
+                        </button>
                     </div>
-                    
-                    <!-- Exercise 3 -->
-                    <div class="exercise-card" data-exercise="3">
-                        <div class="exercise-header">
-                            <div class="exercise-icon">🏋️</div>
-                            <div class="exercise-title">Leg Raises</div>
-                            <span class="exercise-status">Up Next</span>
-                        </div>
-                        <div class="exercise-description">
-                            With knee straight, lift your leg 6-12 inches. Hold briefly, 
-                            then lower with control. Keep breathing steady and stop if you feel any sharp pain.
-                        </div>
-                        <div class="rep-counter">
-                            <button class="rep-btn" onclick="adjustReps(3, -1)" aria-label="Decrease reps">−</button>
-                            <span class="rep-count" id="reps3">0</span>
-                            <button class="rep-btn" onclick="adjustReps(3, 1)" aria-label="Increase reps">+</button>
-                            <span class="rep-goal">Goal: 10 reps</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="action-buttons">
-                    <button class="btn btn-secondary" onclick="pauseSession()" id="pauseBtn">
-                        <span>⏸️ Pause Session</span>
-                    </button>
-                    <button class="btn btn-primary" onclick="completeSession()">
-                        <span>Finish Session</span>
-                        <span>✓</span>
-                    </button>
                 </div>
             </section>
             
             <!-- Step 3: Completion -->
-            <section id="step3" class="section-card glass hidden">
-                <div class="completion-screen">
-                    <div class="celebration-icon">🎉</div>
-                    <h2 class="section-title">Excellent Work Today!</h2>
-                    <p class="section-subtitle">You're making great progress in your recovery journey</p>
-                    
-                    <!-- Results Summary -->
-                    <div class="results-grid">
-                        <div class="result-card glass">
-                            <div class="result-value" id="totalReps">0</div>
-                            <div class="result-label">Total Reps</div>
-                        </div>
-                        <div class="result-card glass">
-                            <div class="result-value" id="exercisesDone">0/3</div>
-                            <div class="result-label">Exercises Done</div>
-                        </div>
-                        <div class="result-card glass">
-                            <div class="result-value" id="sessionDuration">00:00</div>
-                            <div class="result-label">Time Spent</div>
-                        </div>
-                        <div class="result-card glass">
-                            <div class="result-value" id="painChange">2.5</div>
-                            <div class="result-label">Pain Level</div>
-                        </div>
+            <section id="step3" class="section-card glass hidden collapsible" data-collapsible data-default-collapsed="true">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Excellent Work Today!</h2>
+                        <p class="section-subtitle">You're making great progress in your recovery journey</p>
                     </div>
-                    
-                    <!-- Post-Session Notes -->
-                    <div class="input-group">
-                        <label class="input-label">Session Notes (Optional)</label>
-                        <textarea class="input-field" rows="4" placeholder="How did you feel during the session? Any observations..." id="sessionNotes"></textarea>
-                    </div>
-                    
-                    <div class="action-buttons">
-                        <button class="btn btn-secondary" onclick="returnToExercises()">
-                            <span>↶ Return to Exercises</span>
-                        </button>
-                        <button class="btn btn-primary" onclick="saveAndFinish()">
-                            <span>Save & Complete</span>
-                            <span>✓</span>
-                        </button>
+                    <button class="section-toggle" type="button" aria-expanded="false">
+                        <span class="chevron">▸</span>
+                        <span class="toggle-label">Expand</span>
+                    </button>
+                </div>
+                <div class="section-body">
+                    <div class="completion-screen">
+                        <div class="celebration-icon">🎉</div>
+                        <!-- Results Summary -->
+                        <div class="results-grid">
+                            <div class="result-card glass">
+                                <div class="result-value" id="totalReps">0</div>
+                                <div class="result-label">Total Reps</div>
+                            </div>
+                            <div class="result-card glass">
+                                <div class="result-value" id="exercisesDone">0/3</div>
+                                <div class="result-label">Exercises Done</div>
+                            </div>
+                            <div class="result-card glass">
+                                <div class="result-value" id="sessionDuration">00:00</div>
+                                <div class="result-label">Time Spent</div>
+                            </div>
+                            <div class="result-card glass">
+                                <div class="result-value" id="painChange">2.5</div>
+                                <div class="result-label">Pain Level</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Post-Session Notes -->
+                        <div class="input-group">
+                            <label class="input-label">Session Notes (Optional)</label>
+                            <textarea class="input-field" rows="4" placeholder="How did you feel during the session? Any observations..." id="sessionNotes"></textarea>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button class="btn btn-secondary" onclick="returnToExercises()">
+                                <span>↶ Return to Exercises</span>
+                            </button>
+                            <button class="btn btn-primary" onclick="saveAndFinish()">
+                                <span>Save & Complete</span>
+                                <span>✓</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </section>
         </div>
     </main>
 
-    <div class="control-dock" aria-label="Quick session controls">
+    <div class="control-dock" aria-label="Quick session controls" data-dock>
         <div class="dock-header">
             <span>Quick Controls</span>
-            <span id="dockStatus">Idle</span>
+            <div>
+                <span id="dockStatus">Idle</span>
+                <button class="dock-toggle" type="button" aria-expanded="true">Hide</button>
+            </div>
         </div>
-        <div class="dock-controls">
-            <button class="dock-btn primary" onclick="toggleStartOrResume()">Start / Resume</button>
-            <button class="dock-btn secondary" onclick="pauseSession()">Pause / Play</button>
-            <button class="dock-btn" onclick="goToAdjacentExercise(-1)">← Previous</button>
-            <button class="dock-btn" onclick="goToAdjacentExercise(1)">Next →</button>
-            <button class="dock-btn" onclick="completeSession()">Finish</button>
-            <button class="dock-btn" onclick="completeCurrentExercise()">Mark Exercise Done</button>
-        </div>
-        <div class="dock-meta">
-            <span id="dockExercise">Exercise 1/3</span>
-            <span id="dockTimer">00:00</span>
+        <div class="dock-body">
+            <div class="dock-controls">
+                <button class="dock-btn primary" onclick="toggleStartOrResume()">Start / Resume</button>
+                <button class="dock-btn secondary" onclick="pauseSession()">Pause / Play</button>
+                <button class="dock-btn" onclick="goToAdjacentExercise(-1)">← Previous</button>
+                <button class="dock-btn" onclick="goToAdjacentExercise(1)">Next →</button>
+                <button class="dock-btn" onclick="completeSession()">Finish</button>
+                <button class="dock-btn" onclick="completeCurrentExercise()">Mark Exercise Done</button>
+            </div>
+            <div class="dock-meta">
+                <span id="dockExercise">Exercise 1/3</span>
+                <span id="dockTimer">00:00</span>
+            </div>
         </div>
     </div>
 
@@ -1566,6 +1711,8 @@
             setupPainSlider();
             setupPainSliderKeyboard();
             setupExerciseCardClicks();
+            initCollapsibles();
+            initDockToggle();
             initVoiceControl();
             bindVoiceToggle();
             initUtilityBar();
@@ -1684,6 +1831,61 @@
                     setActiveExercise(exerciseNum, { scroll: true });
                 });
             });
+        }
+
+        function initCollapsibles() {
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+            document.querySelectorAll('[data-collapsible]').forEach(section => {
+                const toggle = section.querySelector('.section-toggle');
+                if (!toggle) return;
+                const defaultCollapsed = section.dataset.defaultCollapsed === 'true' && isMobile;
+                setCollapsed(section, defaultCollapsed);
+                toggle.addEventListener('click', () => toggleSection(section));
+            });
+        }
+
+        function toggleSection(section) {
+            const collapsed = section.classList.contains('collapsed');
+            setCollapsed(section, !collapsed);
+        }
+
+        function setCollapsed(section, collapsed) {
+            const body = section.querySelector('.section-body');
+            const toggle = section.querySelector('.section-toggle');
+            section.classList.toggle('collapsed', collapsed);
+            if (body) body.hidden = collapsed;
+            if (toggle) {
+                toggle.setAttribute('aria-expanded', (!collapsed).toString());
+                const label = toggle.querySelector('.toggle-label');
+                const chevron = toggle.querySelector('.chevron');
+                if (label) label.textContent = collapsed ? 'Expand' : 'Hide';
+                if (chevron) chevron.textContent = collapsed ? '▸' : '▾';
+            }
+        }
+
+        function initDockToggle() {
+            const dock = document.querySelector('[data-dock]');
+            if (!dock) return;
+            const toggle = dock.querySelector('.dock-toggle');
+            const body = dock.querySelector('.dock-body');
+            if (!toggle || !body) return;
+            const shouldCollapse = window.matchMedia('(max-width: 768px)').matches;
+            setDockCollapsed(dock, shouldCollapse);
+            toggle.addEventListener('click', () => {
+                const collapsed = dock.classList.contains('collapsed');
+                setDockCollapsed(dock, !collapsed);
+            });
+        }
+
+        function setDockCollapsed(dock, collapsed) {
+            const toggle = dock.querySelector('.dock-toggle');
+            const body = dock.querySelector('.dock-body');
+            dock.classList.toggle('collapsed', collapsed);
+            if (body) body.hidden = collapsed;
+            if (toggle) {
+                toggle.textContent = collapsed ? 'Show' : 'Hide';
+                toggle.setAttribute('aria-expanded', (!collapsed).toString());
+            }
         }
 
         // Utility Bar + Menus
@@ -1986,8 +2188,16 @@
             });
             const current = document.getElementById('step' + AppState.currentStep);
             if (current) current.classList.remove('hidden');
+            expandActiveStepSection();
             updateStepBanner();
             refreshStepChips();
+        }
+
+        function expandActiveStepSection() {
+            const current = document.getElementById('step' + AppState.currentStep);
+            if (current && current.dataset.collapsible !== undefined) {
+                setCollapsed(current, false);
+            }
         }
 
         function updateStepBanner() {
