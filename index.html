@@ -207,6 +207,66 @@
             margin-bottom: 1.5rem;
         }
 
+        .quickstart {
+            margin: 1.25rem auto 0;
+            padding: 1.5rem;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(16, 185, 129, 0.06));
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        .quickstart h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .quickstart p {
+            color: #475569;
+        }
+
+        .quickstart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        .quickstart-step {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0.75rem;
+            padding: 0.9rem 1rem;
+            border-radius: 12px;
+            background: white;
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            align-items: center;
+        }
+
+        .quickstart-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            font-weight: 800;
+            box-shadow: 0 10px 24px rgba(99, 102, 241, 0.18);
+        }
+
+        .quickstart-title {
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 0.15rem;
+        }
+
+        .quickstart-text {
+            color: #475569;
+            font-size: 0.95rem;
+        }
+
         .collapsible {
             transition: max-height 0.35s ease, opacity 0.35s ease;
             overflow: hidden;
@@ -1726,6 +1786,33 @@
                     <span class="pill">✨ Therapist-guided cues</span>
                     <span class="pill">🧘 Slow, mindful pacing</span>
                     <span class="pill">📈 Progress that feels kind</span>
+                </div>
+            </div>
+            <div class="quickstart" aria-label="Quickstart guide">
+                <h3>How to use this page in under a minute</h3>
+                <p>Each step is already set up—just move left to right. You can tap the bottom bar on mobile at any time.</p>
+                <div class="quickstart-grid">
+                    <div class="quickstart-step">
+                        <div class="quickstart-number">1</div>
+                        <div>
+                            <div class="quickstart-title">Check in</div>
+                            <div class="quickstart-text">Add your name and slide the pain dial so the rest of the session matches how you feel.</div>
+                        </div>
+                    </div>
+                    <div class="quickstart-step">
+                        <div class="quickstart-number">2</div>
+                        <div>
+                            <div class="quickstart-title">Press “Start Session”</div>
+                            <div class="quickstart-text">We’ll jump you to the first card. Follow the cues, log reps with +/−, and tap Next when you’re ready.</div>
+                        </div>
+                    </div>
+                    <div class="quickstart-step">
+                        <div class="quickstart-number">3</div>
+                        <div>
+                            <div class="quickstart-title">Finish & save</div>
+                            <div class="quickstart-text">When the cards turn green, tap Finish to see your totals. Add notes and save—it’s all in one place.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
